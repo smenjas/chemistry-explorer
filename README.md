@@ -10,4 +10,5 @@ CSS, & client-side JS.
 - No dev tools except Git, an editor, and a web browser
 
 ## Goals
-- [ ] Show the periodic table of the elements
+- [x] Show the periodic table of the elements
+- [ ] Show details about each element
