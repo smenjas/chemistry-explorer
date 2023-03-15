@@ -1,0 +1,93 @@
+body {
+    font-family: sans-serif;
+    background: white;
+    color: black;
+}
+
+h1 {
+    text-align: center;
+}
+
+table {
+    border: none;
+    border-collapse: collapse;
+    margin: auto;
+}
+th, td {
+    padding: 0.2rem;
+}
+th {
+    border: none;
+}
+td {
+    border: 1px solid black;
+}
+
+td .atomic {
+    font-size: 1.4rem;
+}
+td .symbol {
+    font-size: 2rem;
+}
+td .name,
+td .weight {
+    font-size: 0.9rem;
+}
+
+td.empty {
+    border: none;
+}
+td.other-nonmetal {
+    background: palevioletred;
+    color: black;
+}
+td.noble-gas {
+    background: orange;
+    color: black;
+}
+td.alkali-metal {
+    background: darkseagreen;
+    color: black;
+}
+td.alkaline-earth-metal {
+    background: gold;
+    color: black;
+}
+td.metalloid {
+    background: forestgreen;
+    color: white;
+}
+td.halogen-nonmetal {
+    background: forestgreen;
+    color: white;
+}
+td.transition-metal {
+    background: rebeccapurple;
+    color: white;
+}
+td.post-transition-metal {
+    background: lightskyblue;
+    color: black;
+}
+td.lanthanide {
+    background: red;
+    color: white;
+}
+td.actinide {
+    background: royalblue;
+    color: white;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    body {
+        background: black;
+        color: white;
+    }
+
+    th {
+        border: none;
+    }
+    td {
+        border: 1px solid white;
+    }
+}
