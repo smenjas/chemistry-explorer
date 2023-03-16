@@ -11,6 +11,8 @@ CSS, & client-side JS.
 
 ## Goals
 - [x] Show the periodic table of the elements
-- [ ] Show details about each element
+- [x] Show details about each element
+- [ ] Show info about simple chemicals (e.g. H<sub>2</sub>, H<sub>2</sub>O, NH<sub>3</sub>)
 
-![Periodic Table of the Elements](periodic-table.png)
+![Periodic Table of the Elements](screenshots/periodic-table.png)
+![Silicon element details](screenshots/silicon.png)
