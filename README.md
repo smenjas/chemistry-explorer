@@ -1,5 +1,7 @@
 # Chemistry Explorer
 
+![Periodic Table of the Elements](periodic-table.png)
+
 This is a chemistry app built with vanilla JavaScript. It's an exercise to learn
 web development fundamentals, using the simplest technology stack: plain HTML,
 CSS, & client-side JS.
