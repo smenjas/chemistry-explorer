@@ -59,7 +59,7 @@ td.metalloid {
     color: white;
 }
 td.halogen-nonmetal {
-    background: forestgreen;
+    background: saddlebrown;
     color: white;
 }
 td.transition-metal {
@@ -71,7 +71,7 @@ td.post-transition-metal {
     color: black;
 }
 td.lanthanide {
-    background: red;
+    background: #b00;
     color: white;
 }
 td.actinide {
