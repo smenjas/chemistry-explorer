@@ -84,10 +84,6 @@ td.actinide {
         background: black;
         color: white;
     }
-
-    th {
-        border: none;
-    }
     td {
         border: 1px solid white;
     }
