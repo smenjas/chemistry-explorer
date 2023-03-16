@@ -8,73 +8,80 @@ h1 {
     text-align: center;
 }
 
+article {
+    margin: -1px;
+}
+
 table {
     border: none;
     border-collapse: collapse;
     margin: auto;
 }
-th, td {
-    padding: 0.2rem;
-}
 th {
     border: none;
+    padding: 0.2rem;
 }
 td {
     border: 1px solid black;
 }
+td article {
+    border: none;
+    padding: 0.2rem;
+}
 
-td .atomic {
+article .atomic {
     font-size: 1.4rem;
 }
-td .symbol {
+article .symbol {
     font-size: 2rem;
     font-weight: bold;
 }
-td .name,
-td .mass {
+article .name,
+article .mass {
     font-size: 0.9rem;
 }
 
 td.empty {
     border: none;
 }
-td.other-nonmetal {
+
+.other-nonmetal {
     background: palevioletred;
     color: black;
 }
-td.noble-gas {
+.noble-gas {
     background: orange;
     color: black;
 }
-td.alkali-metal {
+.alkali-metal {
     background: darkseagreen;
     color: black;
 }
-td.alkaline-earth-metal {
+.alkaline-earth-metal {
     background: gold;
     color: black;
 }
-td.metalloid {
+.metalloid {
     background: forestgreen;
     color: white;
 }
-td.halogen-nonmetal {
+.halogen-nonmetal {
     background: saddlebrown;
     color: white;
 }
-td.transition-metal {
+.transition-metal {
     background: rebeccapurple;
     color: white;
 }
-td.post-transition-metal {
+.post-transition-metal {
     background: lightskyblue;
     color: black;
 }
-td.lanthanide {
+.lanthanide {
     background: #b00;
     color: white;
 }
-td.actinide {
+.actinide {
     background: royalblue;
     color: white;
 }
