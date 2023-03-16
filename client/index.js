@@ -122,28 +122,31 @@ class Elements {
         118: { symbol: 'Og', name: 'Oganesson', weight: null, period: 7, group: 18, density: null, melts: null, boils: null, type: 'Noble Gas' },
     };
 
-    static groups = {
+    static groups = Elements.#getGroups();
+    static #getGroups() {
         // The key is the group number.
         // The value is the former group designation.
-        1: 'IA',
-        2: 'IIA',
-        3: 'IIIB',
-        4: 'IVB',
-        5: 'VB',
-        6: 'VIB',
-        7: 'VIIB',
-        8: 'VIIIB',
-        9: 'VIIIB',
-        10: 'VIIIB',
-        11: 'IB',
-        12: 'IIB',
-        13: 'IIIA',
-        14: 'IVA',
-        15: 'VA',
-        16: 'VIA',
-        17: 'VIIA',
-        18: 'VIIIA',
-    };
+        const groups = new Map();
+        groups.set(1, 'IA');
+        groups.set(2, 'IIA');
+        groups.set(3, 'IIIB');
+        groups.set(4, 'IVB');
+        groups.set(5, 'VB');
+        groups.set(6, 'VIB');
+        groups.set(7, 'VIIB');
+        groups.set(8, 'VIIIB');
+        groups.set(9, 'VIIIB');
+        groups.set(10, 'VIIIB');
+        groups.set(11, 'IB');
+        groups.set(12, 'IIB');
+        groups.set(13, 'IIIA');
+        groups.set(14, 'IVA');
+        groups.set(15, 'VA');
+        groups.set(16, 'VIA');
+        groups.set(17, 'VIIA');
+        groups.set(18, 'VIIIA');
+        return groups;
+    }
 
     static periods = Elements.#getPeriods();
     static #getPeriods() {
@@ -183,8 +186,9 @@ class Elements {
         };
         let html = `<table class="elements"><thead><tr>`;
 
-        for (const group in Elements.groups) {
-            html += `<th class="group-${group}">${group}</th>`;
+        for (const [group, oldgroup] of Elements.groups) {
+            const thTitle = `Group ${group} (formerly ${oldgroup})`;
+            html += `<th class="group-${group}" title="${thTitle}">${group}<br>${oldgroup}</th>`;
         }
 
         html += '</tr></thead><tbody>';
@@ -195,7 +199,6 @@ class Elements {
             let tr = '';
             let protons = min; // The atomic number of the element.
             let gapCount = 1;
-            console.log("period:", period, "min:", min, "max:", max, "protons:", protons);
 
             for (protons = min; protons <= max;) {
                 let td = '';
@@ -216,7 +219,6 @@ class Elements {
                 if (protons in gaps && gapCount <= gaps[protons]) {
                     // Skip gaps in the first 3 rows/periods.
                     gapCount++;
-                    //console.log(protons, gaps[protons], gapCount);
                     tdClass = 'empty';
                 }
                 else {
