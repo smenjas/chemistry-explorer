@@ -163,18 +163,48 @@ class Elements {
         return periods;
     }
 
-    static render() {
-        document.title = "Periodic Table of the Elements";
+    static typeURLs = {
+        'Actinide': 'https://en.wikipedia.org/wiki/Actinide',
+        'Alkali Metal': 'https://en.wikipedia.org/wiki/Alkali_metal',
+        'Alkaline Earth Metal': 'https://en.wikipedia.org/wiki/Alkaline_earth_metal',
+        'Halogen Nonmetal': 'https://en.wikipedia.org/wiki/Halogen',
+        'Lanthanide': 'https://en.wikipedia.org/wiki/Lanthanide',
+        'Metalloid': 'https://en.wikipedia.org/wiki/Metalloid',
+        'Noble Gas': 'https://en.wikipedia.org/wiki/Noble_gas',
+        'Other Nonmetal': 'https://en.wikipedia.org/wiki/Nonmetal#Unclassified_nonmetal',
+        'Post Transition Metal': 'https://en.wikipedia.org/wiki/Post_transition_metal',
+        'Transition Metal': 'https://en.wikipedia.org/wiki/Transition_metal',
+    };
 
-        let html = '<main>';
-        html += `<h1>${document.title}</h1>`;
-        html += Elements.renderElements();
-        html += '</main>';
+    static render() {
+        const params = new URLSearchParams(window.location.search);
+        const protons = params.get('protons');
+        const element = Elements.data[protons];
+        let html = '';
+
+        if (protons && !element) {
+            console.log("Unknown element:", protons);
+        }
+
+        if (element) {
+            document.title = element.name;
+            html += '<main>';
+            html += `<h1>${document.title}</h1>`;
+            html += Elements.renderElement(protons);
+            html += '</main>';
+        }
+        else {
+            document.title = "Periodic Table of the Elements";
+            html += '<main>';
+            html += `<h1>${document.title}</h1>`;
+            html += Elements.renderElements();
+            html += '</main>';
+        }
 
         document.body.insertAdjacentHTML('beforeend', html);
     }
 
-    static formatElement(protons) {
+    static formatElement(protons, link = false) {
         const element = Elements.data[protons];
 
         let html = `<span class="atomic">${protons}</span><br>`;
@@ -183,9 +213,13 @@ class Elements {
         const mass = (element.mass.toString().indexOf('.') === -1) ? `(${element.mass})` : element.mass;
         html += `<span class="mass">${mass}</span>`;
 
+        if (link) {
+            html = `<a href="?protons=${protons}">${html}<span class="link"></span></a>`;
+        }
+
         const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
         const title = element.type;
-        html = `<article class="${typeClass}" title="${title}">${html}</article>`;
+        html = `<article class="${typeClass} element" title="${title}">${html}</article>`;
 
         return html;
     }
@@ -200,7 +234,8 @@ class Elements {
             58: 3,
             90: 3,
         };
-        let html = `<table class="elements"><thead><tr>`;
+        let html = '<section>';
+        html += `<table class="elements"><thead><tr>`;
 
         for (const [group, oldgroup] of Elements.groups) {
             const thTitle = `Group ${group} (formerly ${oldgroup})`;
@@ -237,7 +272,7 @@ class Elements {
                     tdClass = 'empty';
                 }
                 else {
-                    td = Elements.formatElement(protons);
+                    td = Elements.formatElement(protons, true);
                     protons++;
                 }
 
@@ -248,6 +283,38 @@ class Elements {
         }
 
         html += '</tbody></table>';
+        html += '</section>';
+
+        return html;
+    }
+
+    static renderElement(protons) {
+        const wikiURL = 'https://en.wikipedia.org/wiki/';
+        const element = Elements.data[protons];
+
+        let html = '<section class="element">';
+        html += Elements.formatElement(protons, false);
+
+        html += '<aside>';
+        html += '<ul>';
+        html += `<li><a href="${wikiURL}Atomic_number" target="_blank">Atomic Number</a>: ${protons}</li>`;
+        html += `<li><a href="${wikiURL}Chemical_symbol" target="_blank">Symbol</a>: ${element.symbol}</li>`;
+        html += `<li><a href="${wikiURL}${element.name}#History" target="_blank">Name</a>: ${element.name}</li>`;
+        html += `<li><a href="${wikiURL}Atomic_mass" target="_blank">Mass</a>: ${element.mass}</li>`;
+        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${element.density}</li>`;
+        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${element.group}</li>`;
+        html += `<li><a href="${wikiURL}Period_%28periodic_table%29" target="_blank">Period</a>: ${element.period}</li>`;
+        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${element.melts}</li>`;
+        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${element.boils}</li>`;
+        html += `<li>Type: <a href="${Elements.typeURLs[element.type]}" target="_blank">${element.type}</a></li>`;
+        html += '</ul>';
+
+        html += '<ul>';
+        html += `<li><a href="${wikiURL}${element.name}" target="_blank">More info on Wikipedia</a></li>`;
+        html += '<li><a href="./index.html">Go back to the periodic table</a></li>';
+        html += '</ul>';
+        html += '</aside>';
+        html += '</section>';
 
         return html;
     }
