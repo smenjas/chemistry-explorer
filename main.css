@@ -28,6 +28,7 @@ td .atomic {
 }
 td .symbol {
     font-size: 2rem;
+    font-weight: bold;
 }
 td .name,
 td .weight {
