@@ -248,10 +248,9 @@ class Elements {
             const min = bounds['min'];
             const max = bounds['max'];
             let tr = '';
-            let protons = min; // The atomic number of the element.
             let gapCount = 1;
 
-            for (protons = min; protons <= max;) {
+            for (let protons = min; protons <= max;) {
                 let td = '';
                 let tdClass = '';
 
@@ -281,9 +280,35 @@ class Elements {
             }
 
             html += `<tr>${tr}</tr>`;
+
+            if (period === 7) {
+                break;
+            }
         }
 
         html += '</tbody></table>';
+
+        html += '<table class="rare-earth elements"><tbody>';
+
+        for (const [period, bounds] of Elements.periods) {
+            if (period !== 'lanthanides' && period !== 'actinides') {
+                continue;
+            }
+
+            const min = bounds['min'];
+            const max = bounds['max'];
+            let tr = '';
+
+            for (let protons = min; protons <= max;) {
+                const td = Elements.formatElement(protons, true);
+                protons++;
+
+                tr += `<td>${td}</td>`;
+            }
+
+            html += `<tr>${tr}</tr>`;
+        }
+
         html += '</section>';
 
         return html;
