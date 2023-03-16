@@ -3,9 +3,33 @@ body {
     background: white;
     color: black;
 }
+a {
+    color: #005;
+}
+a:visited {
+    color: #505;
+}
 
 h1 {
     text-align: center;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+section.element article {
+    display: inline-block;
+    font-size: 5rem;
+    border: 10px outset black;
+    margin: -1px;
+    padding: 2rem 4rem;
+    min-width: 28.5rem;
+}
+section.element aside {
+    font-size: 2rem;
 }
 
 table {
@@ -13,70 +37,102 @@ table {
     border-collapse: collapse;
     margin: auto;
 }
-th, td {
-    padding: 0.2rem;
-}
 th {
     border: none;
+    padding: 0.2rem;
 }
 td {
     border: 1px solid black;
 }
 
-td .atomic {
-    font-size: 1.4rem;
+td article.element {
+    display: block;
+    font-size: 1rem;
+    border: none;
+    margin: -1px;
+    padding: 0.2rem;
 }
-td .symbol {
-    font-size: 2rem;
+
+article .atomic {
+    font-size: 1.4em;
+}
+article .symbol {
+    font-size: 2em;
     font-weight: bold;
 }
-td .name,
-td .weight {
-    font-size: 0.9rem;
+article .name,
+article .mass {
+    font-size: 0.9em;
 }
 
 td.empty {
     border: none;
 }
-td.other-nonmetal {
+
+.other-nonmetal {
     background: palevioletred;
     color: black;
 }
-td.noble-gas {
+.noble-gas {
     background: orange;
     color: black;
 }
-td.alkali-metal {
+.alkali-metal {
     background: darkseagreen;
     color: black;
 }
-td.alkaline-earth-metal {
+.alkaline-earth-metal {
     background: gold;
     color: black;
 }
-td.metalloid {
+.metalloid {
     background: forestgreen;
     color: white;
 }
-td.halogen-nonmetal {
+.halogen-nonmetal {
     background: saddlebrown;
     color: white;
 }
-td.transition-metal {
+.transition-metal {
     background: rebeccapurple;
     color: white;
 }
-td.post-transition-metal {
+.post-transition-metal {
     background: lightskyblue;
     color: black;
 }
-td.lanthanide {
+.lanthanide {
     background: #b00;
     color: white;
 }
-td.actinide {
+.actinide {
     background: royalblue;
     color: white;
+}
+
+td a,
+td a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+/*
+Make the whole element clickable in the periodic table.
+https://stackoverflow.com/a/3494108/12841859
+*/
+.elements td {
+    position: relative;
+}
+.elements td a span.link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.elements td a span.link:hover {
+    outline: 5px outset black;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -84,7 +140,19 @@ td.actinide {
         background: black;
         color: white;
     }
+    a {
+        color: #aaf;
+    }
+    a:visited {
+        color: #faf;
+    }
     td {
         border: 1px solid white;
+    }
+    section.element article {
+        border: 10px outset white;
+    }
+    .elements td a span.link:hover {
+        outline: 5px outset white;
     }
 }
