@@ -174,6 +174,22 @@ class Elements {
         document.body.insertAdjacentHTML('beforeend', html);
     }
 
+    static formatElement(protons) {
+        const element = Elements.data[protons];
+
+        let html = `<span class="atomic">${protons}</span><br>`;
+        html += `<span class="symbol">${element.symbol}</span><br>`;
+        html += `<span class="name">${element.name}</span><br>`;
+        const mass = (element.mass.toString().indexOf('.') === -1) ? `(${element.mass})` : element.mass;
+        html += `<span class="mass">${mass}</span>`;
+
+        const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
+        const title = element.type;
+        html = `<article class="${typeClass}" title="${title}">${html}</article>`;
+
+        return html;
+    }
+
     static renderElements() {
         const gaps = {
             // The key is the atomic number of the element after the gap.
@@ -203,7 +219,6 @@ class Elements {
             for (protons = min; protons <= max;) {
                 let td = '';
                 let tdClass = '';
-                let tdTitle = '';
 
                 if (period === 6 && protons === 58) {
                     // Skip the lanthanides.
@@ -222,17 +237,11 @@ class Elements {
                     tdClass = 'empty';
                 }
                 else {
-                    td = `<span class="atomic">${protons}</span><br>`;
-                    td += `<span class="symbol">${element.symbol}</span><br>`;
-                    td += `<span class="name">${element.name}</span><br>`;
-                    const mass = (element.mass.toString().indexOf('.') === -1) ? `(${element.mass})` : element.mass;
-                    td += `<span class="mass">${mass}</span>`;
-                    tdClass = element.type.toLowerCase().replaceAll(' ', '-');
-                    tdTitle = element.type;
+                    td = Elements.formatElement(protons);
                     protons++;
                 }
 
-                tr += `<td class="${tdClass}" title="${tdTitle}">${td}</td>`;
+                tr += `<td class="${tdClass}">${td}</td>`;
             }
 
             html += `<tr>${tr}</tr>`;
