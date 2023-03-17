@@ -1,5 +1,12 @@
 'use strict';
 
+class Link {
+    static create(url, content, newTab = false) {
+        const target = (newTab) ? ' target="_blank"' : '';
+        return `<a href="${url}"${target}>${content}</a>`;
+    }
+}
+
 class Elements {
     static data = {
         1:   { symbol: 'H',  name: 'Hydrogen',      weight:   1.00794, period: 1, group:  1,   block: 's', density:  0.071, melts: -259.3,  boils: -252.9,  type: 'Other Nonmetal' },
@@ -276,7 +283,7 @@ class Elements {
             return "None";
         }
         const groupURL = Elements.groupURLs[group];
-        return`<a href="${groupURL}" target="_blank">${group}</a>`;
+        return Link.create(groupURL, group, true);
     }
 
     static linkPeriod(period) {
@@ -398,7 +405,7 @@ class Elements {
         html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
         html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${Elements.formatCelsius(element.melts)}</li>`;
         html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${Elements.formatCelsius(element.boils)}</li>`;
-        html += `<li>Type: <a href="${Elements.typeURLs[element.type]}" target="_blank">${element.type}</a></li>`;
+        html += `<li>Type: ${Link.create(Elements.typeURLs[element.type], element.type, true)}</li>`;
         html += '</ul>';
 
         html += '<ul>';
