@@ -276,7 +276,6 @@ class Elements {
                 let td = '';
                 let tdClass = '';
 
-                console.log(Elements.periods.get('lanthanides').min);
                 if (period === 6 && protons === Elements.periods.get('lanthanides').min) {
                     // Skip the lanthanides.
                     protons = Elements.periods.get('lanthanides').max + 1;
