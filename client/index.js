@@ -62,7 +62,7 @@ class Elements {
         58:  { symbol: 'Ce', name: 'Cerium',        mass: 140.12,    period: 6, group: null, block: 'f', density:  6.67,  melts:  798,    boils: 3443,    type: 'Lanthanide' },
         59:  { symbol: 'Pr', name: 'Praseodymium',  mass: 140.907,   period: 6, group: null, block: 'f', density:  6.77,  melts:  931,    boils: 3520,    type: 'Lanthanide' },
         60:  { symbol: 'Nd', name: 'Neodymium',     mass: 144.24,    period: 6, group: null, block: 'f', density:  7.00,  melts: 1021,    boils: 3074,    type: 'Lanthanide' },
-        61:  { symbol: 'Pm', name: 'Prometheum',    mass: 145,       period: 6, group: null, block: 'f', density: null, block: 'f',   melts: 1042,    boils: 3000,    type: 'Lanthanide' },
+        61:  { symbol: 'Pm', name: 'Prometheum',    mass: 145,       period: 6, group: null, block: 'f', density: null,   melts: 1042,    boils: 3000,    type: 'Lanthanide' },
         62:  { symbol: 'Sm', name: 'Samarium',      mass: 150.36,    period: 6, group: null, block: 'f', density:  7.54,  melts: 1074,    boils: 1794,    type: 'Lanthanide' },
         63:  { symbol: 'Eu', name: 'Europium',      mass: 151.964,   period: 6, group: null, block: 'f', density:  5.26,  melts:  822,    boils: 1527,    type: 'Lanthanide' },
         64:  { symbol: 'Gd', name: 'Gadolinium',    mass: 157.25,    period: 6, group: null, block: 'f', density:  7.89,  melts: 1313,    boils: 3273,    type: 'Lanthanide' },
