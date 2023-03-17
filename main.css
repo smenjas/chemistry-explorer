@@ -159,6 +159,80 @@ https://stackoverflow.com/a/3494108/12841859
     outline: 5px outset black;
 }
 
+@media only screen and (max-width: 522px) {
+    nav a {
+        font-size: 1rem;
+    }
+    section.element {
+        gap: 0.125rem;
+    }
+    section.element article {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        min-width: 6rem;
+    }
+    section.element aside {
+        font-size: 0.5rem;
+    }
+}
+
+@media only screen and (max-width: 880px) {
+    td article .atomic {
+        font-size: 0.5em;
+    }
+    td article .symbol {
+        font-size: 1em;
+    }
+    td article.element {
+        padding: 0.25rem;
+    }
+}
+
+@media only screen and (min-width: 522px) and (max-width: 828px) {
+    section.element {
+        gap: 0.25rem;
+    }
+    section.element article {
+        font-size: 2rem;
+        padding: 1rem 2rem;
+        min-width: 11rem;
+    }
+    section.element aside {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+    td article .name,
+    td article .weight {
+        display: none;
+    }
+    td article.element {
+        padding: 0.5rem;
+    }
+}
+
+@media only screen and (min-width: 1125px) {
+    section.element article {
+        font-size: 5rem;
+        padding: 2rem 4rem;
+        min-width: 30rem;
+    }
+    section.element aside {
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (min-width: 1530px) {
+    td article .symbol {
+        font-size: 2em;
+    }
+    td article .name,
+    td article .weight {
+        font-size: 0.9em;
+    }
+}
+
 @media screen and (prefers-color-scheme: dark) {
     body {
         background: black;
