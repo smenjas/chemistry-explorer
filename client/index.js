@@ -365,7 +365,9 @@ class Elements {
         }
         html += `</li>`;
 
-        html += `<li><a href="${wikiURL}Period_%28periodic_table%29" target="_blank">Period</a>: ${element.period}</li>`;
+        const periodURL = `${wikiURL}Period_%28periodic_table%29`;
+        html += `<li><a href="${periodURL}" target="_blank">Period</a>: `;
+        html += `<a href="${periodURL}#Period_${element.period}" target="_blank">${element.period}</a></li>`;
 
         const melts = (element.melts) ? `${element.melts} °C` : "Unknown";
         html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${melts}</li>`;
