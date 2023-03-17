@@ -5,6 +5,12 @@ class Link {
         const target = (newTab) ? ' target="_blank"' : '';
         return `<a href="${url}"${target}>${content}</a>`;
     }
+
+    static toWikipedia(path, content) {
+        const wikiURL = 'https://en.wikipedia.org/wiki/';
+        const url = `${wikiURL}${path}`;
+        return Link.create(url, content, true);
+    }
 }
 
 class Elements {
@@ -269,12 +275,11 @@ class Elements {
     static linkBlock(block = null) {
         // All elements have a block, so if block is null, link to the Block
         // page instead of a specific block.
-        const wikiURL = 'https://en.wikipedia.org/wiki/';
-        const blockURL = `${wikiURL}Block_%28periodic_table%29`;
+        const blockPath = 'Block_%28periodic_table%29';
         if (!block) {
-            return Link.create(blockURL, "Block", true);
+            return Link.toWikipedia(blockPath, "Block");
         }
-        return Link.create(`${blockURL}#${block}-block`, `${block}-block`, true);
+        return Link.toWikipedia(`${blockPath}#${block}-block`, `${block}-block`);
     }
 
     static linkGroup(group) {
@@ -289,12 +294,11 @@ class Elements {
     static linkPeriod(period) {
         // All elements have a period, so if period is null, link to the Period
         // page instead of a specific period.
-        const wikiURL = 'https://en.wikipedia.org/wiki/';
-        const periodURL = `${wikiURL}Period_%28periodic_table%29`;
+        const periodPath = 'Period_%28periodic_table%29';
         if (!period) {
-            return Link.create(periodURL, "Period", true);
+            return Link.toWikipedia(periodPath, "Period");
         }
-        return Link.create(`${periodURL}#Period_${period}`, period, true);
+        return Link.toWikipedia(`${periodPath}#Period_${period}`, period);
     }
 
     static renderElements() {
@@ -387,7 +391,6 @@ class Elements {
     }
 
     static renderElement(protons) {
-        const wikiURL = 'https://en.wikipedia.org/wiki/';
         const element = Elements.data[protons];
 
         let html = '<section class="element">';
@@ -395,21 +398,21 @@ class Elements {
 
         html += '<aside>';
         html += '<ul>';
-        html += `<li>${Link.create(`${wikiURL}Atomic_number`, "Atomic Number", true)}: ${protons}</li>`;
-        html += `<li>${Link.create(`${wikiURL}Chemical_symbol`, "Symbol", true)}: ${element.symbol}</li>`;
-        html += `<li>${Link.create(`${wikiURL}${element.name}#History`, "Name", true)}: ${element.name}</li>`;
-        html += `<li>${Link.create(`${wikiURL}Standard_atomic_weight`, "Weight", true)}: ${element.weight}</li>`;
-        html += `<li>${Link.create(`${wikiURL}Density`, "Density", true)}: ${Elements.formatDensity(element.density)}</li>`;
+        html += `<li>${Link.toWikipedia('Atomic_number', "Atomic Number")}: ${protons}</li>`;
+        html += `<li>${Link.toWikipedia('Chemical_symbol', "Symbol")}: ${element.symbol}</li>`;
+        html += `<li>${Link.toWikipedia(`${element.name}#History`, "Name")}: ${element.name}</li>`;
+        html += `<li>${Link.toWikipedia('Standard_atomic_weight', "Weight")}: ${element.weight}</li>`;
+        html += `<li>${Link.toWikipedia('Density', "Density")}: ${Elements.formatDensity(element.density)}</li>`;
         html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
-        html += `<li>${Link.create(`${wikiURL}Group_%28periodic_table%29`, "Group", true)}: ${Elements.linkGroup(element.group)}</li>`;
+        html += `<li>${Link.toWikipedia('Group_%28periodic_table%29', "Group")}: ${Elements.linkGroup(element.group)}</li>`;
         html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
-        html += `<li>${Link.create(`${wikiURL}Melting_point`, "Melting Point", true)}: ${Elements.formatCelsius(element.melts)}</li>`;
-        html += `<li>${Link.create(`${wikiURL}Boiling_point`, "Boiling Point", true)}: ${Elements.formatCelsius(element.boils)}</li>`;
+        html += `<li>${Link.toWikipedia('Melting_point', "Melting Point")}: ${Elements.formatCelsius(element.melts)}</li>`;
+        html += `<li>${Link.toWikipedia('Boiling_point', "Boiling Point")}: ${Elements.formatCelsius(element.boils)}</li>`;
         html += `<li>Type: ${Link.create(Elements.typeURLs[element.type], element.type, true)}</li>`;
         html += '</ul>';
 
         html += '<ul>';
-        html += `<li>${Link.create(`${wikiURL}${element.name}`, "More info on Wikipedia", true)}</li>`;
+        html += `<li>${Link.toWikipedia(element.name, "More info on Wikipedia")}</a></li>`;
         html += '<li><a href="./index.html">Go back to the periodic table</a></li>';
         html += '</ul>';
         html += '</aside>';
