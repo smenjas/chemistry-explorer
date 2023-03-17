@@ -226,6 +226,10 @@ class Elements {
         document.body.insertAdjacentHTML('beforeend', html);
     }
 
+    static formatCelsius(temperature) {
+        return (temperature) ? `${temperature} °C` : "Unknown";
+    }
+
     static formatDensity(density) {
         // The element data use grams per cubic centimeter for density.
         // See: https://en.wikipedia.org/wiki/Density#Unit
@@ -376,12 +380,8 @@ class Elements {
         html += `<li><a href="${periodURL}" target="_blank">Period</a>: `;
         html += `<a href="${periodURL}#Period_${element.period}" target="_blank">${element.period}</a></li>`;
 
-        const melts = (element.melts) ? `${element.melts} °C` : "Unknown";
-        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${melts}</li>`;
-
-        const boils = (element.boils) ? `${element.boils} °C` : "Unknown";
-        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${boils}</li>`;
-
+        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${Elements.formatCelsius(element.melts)}</li>`;
+        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${Elements.formatCelsius(element.boils)}</li>`;
         html += `<li>Type: <a href="${Elements.typeURLs[element.type]}" target="_blank">${element.type}</a></li>`;
         html += '</ul>';
 
