@@ -34,14 +34,14 @@ section.element {
 }
 section.element article {
     display: inline-block;
-    font-size: 5rem;
+    font-size: 4rem;
     border: 10px outset black;
     margin: -1px;
-    padding: 2rem 4rem;
-    min-width: 30rem;
+    padding: 2rem;
+    min-width: 22rem;
 }
 section.element aside {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 table {
@@ -66,15 +66,15 @@ td article.element {
 }
 
 article .atomic {
-    font-size: 1.4em;
+    font-size: 1.0em;
 }
 article .symbol {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bold;
 }
 article .name,
 article .weight {
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 td.empty {
