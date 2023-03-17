@@ -211,6 +211,7 @@ class Elements {
             document.title = element.name;
             html += '<main>';
             html += `<h1>${document.title}</h1>`;
+            html += Elements.renderElementNav(protons);
             html += Elements.renderElement(protons);
             html += '</main>';
         }
@@ -384,6 +385,23 @@ class Elements {
         html += '</ul>';
         html += '</aside>';
         html += '</section>';
+
+        return html;
+    }
+
+    static renderElementNav(protons) {
+        protons = parseInt(protons);
+        const prev = Elements.data[protons - 1];
+        const next = Elements.data[protons + 1];
+
+        let html = '<nav>';
+        if (prev) {
+            html += `<a href="?protons=${protons - 1}">&larr; ${prev.name}</a> `;
+        }
+        if (next) {
+            html += `<a href="?protons=${protons + 1}">${next.name} &rarr;</a>`;
+        }
+        html += '</nav>';
 
         return html;
     }
