@@ -148,6 +148,27 @@ class Elements {
         return groups;
     }
 
+    static groupURLs = {
+        1: 'https://en.wikipedia.org/wiki/Group_1_element',
+        2: 'https://en.wikipedia.org/wiki/Alkaline_earth_metal',
+        3: 'https://en.wikipedia.org/wiki/Group_3_element',
+        4: 'https://en.wikipedia.org/wiki/Group_4_element',
+        5: 'https://en.wikipedia.org/wiki/Group_5_element',
+        6: 'https://en.wikipedia.org/wiki/Group_6_element',
+        7: 'https://en.wikipedia.org/wiki/Group_7_element',
+        8: 'https://en.wikipedia.org/wiki/Group_8_element',
+        9: 'https://en.wikipedia.org/wiki/Group_9_element',
+        10: 'https://en.wikipedia.org/wiki/Group_10_element',
+        11: 'https://en.wikipedia.org/wiki/Group_11_element',
+        12: 'https://en.wikipedia.org/wiki/Group_12_element',
+        13: 'https://en.wikipedia.org/wiki/Boron_group',
+        14: 'https://en.wikipedia.org/wiki/Carbon_group',
+        15: 'https://en.wikipedia.org/wiki/Pnictogen',
+        16: 'https://en.wikipedia.org/wiki/Chalcogen',
+        17: 'https://en.wikipedia.org/wiki/Halogen',
+        18: 'https://en.wikipedia.org/wiki/Noble_gas',
+    };
+
     static periods = Elements.#getPeriods();
     static #getPeriods() {
         const periods = new Map();
@@ -335,8 +356,14 @@ class Elements {
         html += `<li><a href="${blockURL}" target="_blank">Block</a>: `;
         html += `<a href="${blockURL}#${element.block}-block" target="_blank">${element.block}-block</a></li>`;
 
-        const group = element.group ?? "None";
-        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${group}</li>`;
+        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: `;
+        if (element.group) {
+            html += `<a href="${Elements.groupURLs[element.group]}" target="_blank">${element.group}</a>`;
+        }
+        else {
+            html += "None";
+        }
+        html += `</li>`;
 
         html += `<li><a href="${wikiURL}Period_%28periodic_table%29" target="_blank">Period</a>: ${element.period}</li>`;
 
