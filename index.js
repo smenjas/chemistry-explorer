@@ -259,6 +259,17 @@ class Elements {
         return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
     }
 
+    static linkBlock(block = null) {
+        // All elements have a block, so if block is null, link to the Block
+        // page instead of a specific block.
+        const wikiURL = 'https://en.wikipedia.org/wiki/';
+        const blockURL = `${wikiURL}Block_%28periodic_table%29`;
+        if (!block) {
+            return `<a href="${blockURL}" target="_blank">Block</a>`;
+        }
+        return `<a href="${blockURL}#${block}-block" target="_blank">${block}-block</a>`;
+    }
+
     static linkGroup(group) {
         // Lanthanides & actinides don't belong to a group, so don't link those.
         if (!group) {
@@ -371,11 +382,7 @@ class Elements {
         html += `<li><a href="${wikiURL}${element.name}#History" target="_blank">Name</a>: ${element.name}</li>`;
         html += `<li><a href="${wikiURL}Standard_atomic_weight" target="_blank">Weight</a>: ${element.weight}</li>`;
         html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${Elements.formatDensity(element.density)}</li>`;
-
-        const blockURL = `${wikiURL}Block_%28periodic_table%29`;
-        html += `<li><a href="${blockURL}" target="_blank">Block</a>: `;
-        html += `<a href="${blockURL}#${element.block}-block" target="_blank">${element.block}-block</a></li>`;
-
+        html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
         html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${Elements.linkGroup(element.group)}</li>`;
 
         const periodURL = `${wikiURL}Period_%28periodic_table%29`;
