@@ -259,6 +259,15 @@ class Elements {
         return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
     }
 
+    static linkGroup(group) {
+        // Lanthanides & actinides don't belong to a group, so don't link those.
+        if (!group) {
+            return "None";
+        }
+        const groupURL = Elements.groupURLs[group];
+        return`<a href="${groupURL}" target="_blank">${group}</a>`;
+    }
+
     static renderElements() {
         const gaps = {
             // The key is the atomic number of the element after the gap.
@@ -367,14 +376,7 @@ class Elements {
         html += `<li><a href="${blockURL}" target="_blank">Block</a>: `;
         html += `<a href="${blockURL}#${element.block}-block" target="_blank">${element.block}-block</a></li>`;
 
-        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: `;
-        if (element.group) {
-            html += `<a href="${Elements.groupURLs[element.group]}" target="_blank">${element.group}</a>`;
-        }
-        else {
-            html += "None";
-        }
-        html += `</li>`;
+        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${Elements.linkGroup(element.group)}</li>`;
 
         const periodURL = `${wikiURL}Period_%28periodic_table%29`;
         html += `<li><a href="${periodURL}" target="_blank">Period</a>: `;
