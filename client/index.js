@@ -226,14 +226,23 @@ class Elements {
         document.body.insertAdjacentHTML('beforeend', html);
     }
 
+    static formatCelsius(temperature) {
+        return (temperature) ? `${temperature} °C` : "Unknown";
+    }
+
+    static formatDensity(density) {
+        // The element data use grams per cubic centimeter for density.
+        // See: https://en.wikipedia.org/wiki/Density#Unit
+        return (density) ? `${density} g/cm<sup>3</sup>` : "Unknown";
+    }
+
     static formatElement(protons, link = false) {
         const element = Elements.data[protons];
 
         let html = `<span class="atomic">${protons}</span><br>`;
         html += `<span class="symbol">${element.symbol}</span><br>`;
         html += `<span class="name">${element.name}</span><br>`;
-        const weight = (element.weight.toString().indexOf('.') === -1) ? `(${element.weight})` : element.weight;
-        html += `<span class="weight">${weight}</span>`;
+        html += `<span class="weight">${Elements.formatWeight(element.weight)}</span>`;
 
         if (link) {
             html = `<a href="?protons=${protons}">${html}<span class="link"></span></a>`;
@@ -244,6 +253,41 @@ class Elements {
         html = `<article class="${typeClass} element" title="${title}">${html}</article>`;
 
         return html;
+    }
+
+    static formatWeight(weight) {
+        return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
+    }
+
+    static linkBlock(block = null) {
+        // All elements have a block, so if block is null, link to the Block
+        // page instead of a specific block.
+        const wikiURL = 'https://en.wikipedia.org/wiki/';
+        const blockURL = `${wikiURL}Block_%28periodic_table%29`;
+        if (!block) {
+            return `<a href="${blockURL}" target="_blank">Block</a>`;
+        }
+        return `<a href="${blockURL}#${block}-block" target="_blank">${block}-block</a>`;
+    }
+
+    static linkGroup(group) {
+        // Lanthanides & actinides don't belong to a group, so don't link those.
+        if (!group) {
+            return "None";
+        }
+        const groupURL = Elements.groupURLs[group];
+        return`<a href="${groupURL}" target="_blank">${group}</a>`;
+    }
+
+    static linkPeriod(period) {
+        // All elements have a period, so if period is null, link to the Period
+        // page instead of a specific period.
+        const wikiURL = 'https://en.wikipedia.org/wiki/';
+        const periodURL = `${wikiURL}Period_%28periodic_table%29`;
+        if (!period) {
+            return `<a href="${periodURL}" target="_blank">Period</a>`;
+        }
+        return `<a href="${periodURL}#Period_${period}" target="_blank">${period}</a>`;
     }
 
     static renderElements() {
@@ -348,33 +392,12 @@ class Elements {
         html += `<li><a href="${wikiURL}Chemical_symbol" target="_blank">Symbol</a>: ${element.symbol}</li>`;
         html += `<li><a href="${wikiURL}${element.name}#History" target="_blank">Name</a>: ${element.name}</li>`;
         html += `<li><a href="${wikiURL}Standard_atomic_weight" target="_blank">Weight</a>: ${element.weight}</li>`;
-
-        const density = (element.density) ? `${element.density} g/cm<sup>3</sup>` : "Unknown";
-        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${density}</li>`;
-
-        const blockURL = `${wikiURL}Block_%28periodic_table%29`;
-        html += `<li><a href="${blockURL}" target="_blank">Block</a>: `;
-        html += `<a href="${blockURL}#${element.block}-block" target="_blank">${element.block}-block</a></li>`;
-
-        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: `;
-        if (element.group) {
-            html += `<a href="${Elements.groupURLs[element.group]}" target="_blank">${element.group}</a>`;
-        }
-        else {
-            html += "None";
-        }
-        html += `</li>`;
-
-        const periodURL = `${wikiURL}Period_%28periodic_table%29`;
-        html += `<li><a href="${periodURL}" target="_blank">Period</a>: `;
-        html += `<a href="${periodURL}#Period_${element.period}" target="_blank">${element.period}</a></li>`;
-
-        const melts = (element.melts) ? `${element.melts} °C` : "Unknown";
-        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${melts}</li>`;
-
-        const boils = (element.boils) ? `${element.boils} °C` : "Unknown";
-        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${boils}</li>`;
-
+        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${Elements.formatDensity(element.density)}</li>`;
+        html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
+        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${Elements.linkGroup(element.group)}</li>`;
+        html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
+        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${Elements.formatCelsius(element.melts)}</li>`;
+        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${Elements.formatCelsius(element.boils)}</li>`;
         html += `<li>Type: <a href="${Elements.typeURLs[element.type]}" target="_blank">${element.type}</a></li>`;
         html += '</ul>';
 
