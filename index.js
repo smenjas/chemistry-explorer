@@ -272,9 +272,9 @@ class Elements {
         const wikiURL = 'https://en.wikipedia.org/wiki/';
         const blockURL = `${wikiURL}Block_%28periodic_table%29`;
         if (!block) {
-            return `<a href="${blockURL}" target="_blank">Block</a>`;
+            return Link.create(blockURL, "Block", true);
         }
-        return `<a href="${blockURL}#${block}-block" target="_blank">${block}-block</a>`;
+        return Link.create(`${blockURL}#${block}-block`, `${block}-block`, true);
     }
 
     static linkGroup(group) {
@@ -292,9 +292,9 @@ class Elements {
         const wikiURL = 'https://en.wikipedia.org/wiki/';
         const periodURL = `${wikiURL}Period_%28periodic_table%29`;
         if (!period) {
-            return `<a href="${periodURL}" target="_blank">Period</a>`;
+            return Link.create(periodURL, "Period", true);
         }
-        return `<a href="${periodURL}#Period_${period}" target="_blank">${period}</a>`;
+        return Link.create(`${periodURL}#Period_${period}`, period, true);
     }
 
     static renderElements() {
@@ -395,21 +395,21 @@ class Elements {
 
         html += '<aside>';
         html += '<ul>';
-        html += `<li><a href="${wikiURL}Atomic_number" target="_blank">Atomic Number</a>: ${protons}</li>`;
-        html += `<li><a href="${wikiURL}Chemical_symbol" target="_blank">Symbol</a>: ${element.symbol}</li>`;
-        html += `<li><a href="${wikiURL}${element.name}#History" target="_blank">Name</a>: ${element.name}</li>`;
-        html += `<li><a href="${wikiURL}Standard_atomic_weight" target="_blank">Weight</a>: ${element.weight}</li>`;
-        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${Elements.formatDensity(element.density)}</li>`;
+        html += `<li>${Link.create(`${wikiURL}Atomic_number`, "Atomic Number", true)}: ${protons}</li>`;
+        html += `<li>${Link.create(`${wikiURL}Chemical_symbol`, "Symbol", true)}: ${element.symbol}</li>`;
+        html += `<li>${Link.create(`${wikiURL}${element.name}#History`, "Name", true)}: ${element.name}</li>`;
+        html += `<li>${Link.create(`${wikiURL}Standard_atomic_weight`, "Weight", true)}: ${element.weight}</li>`;
+        html += `<li>${Link.create(`${wikiURL}Density`, "Density", true)}: ${Elements.formatDensity(element.density)}</li>`;
         html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
-        html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${Elements.linkGroup(element.group)}</li>`;
+        html += `<li>${Link.create(`${wikiURL}Group_%28periodic_table%29`, "Group", true)}: ${Elements.linkGroup(element.group)}</li>`;
         html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
-        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${Elements.formatCelsius(element.melts)}</li>`;
-        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${Elements.formatCelsius(element.boils)}</li>`;
+        html += `<li>${Link.create(`${wikiURL}Melting_point`, "Melting Point", true)}: ${Elements.formatCelsius(element.melts)}</li>`;
+        html += `<li>${Link.create(`${wikiURL}Boiling_point`, "Boiling Point", true)}: ${Elements.formatCelsius(element.boils)}</li>`;
         html += `<li>Type: ${Link.create(Elements.typeURLs[element.type], element.type, true)}</li>`;
         html += '</ul>';
 
         html += '<ul>';
-        html += `<li><a href="${wikiURL}${element.name}" target="_blank">More info on Wikipedia</a></li>`;
+        html += `<li>${Link.create(`${wikiURL}${element.name}`, "More info on Wikipedia", true)}</li>`;
         html += '<li><a href="./index.html">Go back to the periodic table</a></li>';
         html += '</ul>';
         html += '</aside>';
