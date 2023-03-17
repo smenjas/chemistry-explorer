@@ -327,7 +327,9 @@ class Elements {
         html += `<li><a href="${wikiURL}Chemical_symbol" target="_blank">Symbol</a>: ${element.symbol}</li>`;
         html += `<li><a href="${wikiURL}${element.name}#History" target="_blank">Name</a>: ${element.name}</li>`;
         html += `<li><a href="${wikiURL}Standard_atomic_weight" target="_blank">Weight</a>: ${element.weight}</li>`;
-        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${element.density} g/cm<sup>3</sup></li>`;
+
+        const density = (element.density) ? `${element.density} g/cm<sup>3</sup>` : "Unknown";
+        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${density}</li>`;
 
         const blockURL = `${wikiURL}Block_%28periodic_table%29`;
         html += `<li><a href="${blockURL}" target="_blank">Block</a>: `;
@@ -337,8 +339,13 @@ class Elements {
         html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${group}</li>`;
 
         html += `<li><a href="${wikiURL}Period_%28periodic_table%29" target="_blank">Period</a>: ${element.period}</li>`;
-        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${element.melts} °C</li>`;
-        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${element.boils} °C</li>`;
+
+        const melts = (element.melts) ? `${element.melts} °C` : "Unknown";
+        html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${melts}</li>`;
+
+        const boils = (element.boils) ? `${element.boils} °C` : "Unknown";
+        html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${boils}</li>`;
+
         html += `<li>Type: <a href="${Elements.typeURLs[element.type]}" target="_blank">${element.type}</a></li>`;
         html += '</ul>';
 
