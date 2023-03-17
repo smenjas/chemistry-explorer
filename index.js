@@ -232,8 +232,7 @@ class Elements {
         let html = `<span class="atomic">${protons}</span><br>`;
         html += `<span class="symbol">${element.symbol}</span><br>`;
         html += `<span class="name">${element.name}</span><br>`;
-        const weight = (element.weight.toString().indexOf('.') === -1) ? `(${element.weight})` : element.weight;
-        html += `<span class="weight">${weight}</span>`;
+        html += `<span class="weight">${Elements.formatWeight(element.weight)}</span>`;
 
         if (link) {
             html = `<a href="?protons=${protons}">${html}<span class="link"></span></a>`;
@@ -244,6 +243,10 @@ class Elements {
         html = `<article class="${typeClass} element" title="${title}">${html}</article>`;
 
         return html;
+    }
+
+    static formatWeight(weight) {
+        return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
     }
 
     static renderElements() {
