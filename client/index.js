@@ -226,6 +226,12 @@ class Elements {
         document.body.insertAdjacentHTML('beforeend', html);
     }
 
+    static formatDensity(density) {
+        // The element data use grams per cubic centimeter for density.
+        // See: https://en.wikipedia.org/wiki/Density#Unit
+        return (density) ? `${density} g/cm<sup>3</sup>` : "Unknown";
+    }
+
     static formatElement(protons, link = false) {
         const element = Elements.data[protons];
 
@@ -351,9 +357,7 @@ class Elements {
         html += `<li><a href="${wikiURL}Chemical_symbol" target="_blank">Symbol</a>: ${element.symbol}</li>`;
         html += `<li><a href="${wikiURL}${element.name}#History" target="_blank">Name</a>: ${element.name}</li>`;
         html += `<li><a href="${wikiURL}Standard_atomic_weight" target="_blank">Weight</a>: ${element.weight}</li>`;
-
-        const density = (element.density) ? `${element.density} g/cm<sup>3</sup>` : "Unknown";
-        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${density}</li>`;
+        html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${Elements.formatDensity(element.density)}</li>`;
 
         const blockURL = `${wikiURL}Block_%28periodic_table%29`;
         html += `<li><a href="${blockURL}" target="_blank">Block</a>: `;
