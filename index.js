@@ -279,6 +279,17 @@ class Elements {
         return`<a href="${groupURL}" target="_blank">${group}</a>`;
     }
 
+    static linkPeriod(period) {
+        // All elements have a period, so if period is null, link to the Period
+        // page instead of a specific period.
+        const wikiURL = 'https://en.wikipedia.org/wiki/';
+        const periodURL = `${wikiURL}Period_%28periodic_table%29`;
+        if (!period) {
+            return `<a href="${periodURL}" target="_blank">Period</a>`;
+        }
+        return `<a href="${periodURL}#Period_${period}" target="_blank">${period}</a>`;
+    }
+
     static renderElements() {
         const gaps = {
             // The key is the atomic number of the element after the gap.
@@ -384,11 +395,7 @@ class Elements {
         html += `<li><a href="${wikiURL}Density" target="_blank">Density</a>: ${Elements.formatDensity(element.density)}</li>`;
         html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
         html += `<li><a href="${wikiURL}Group_%28periodic_table%29" target="_blank">Group</a>: ${Elements.linkGroup(element.group)}</li>`;
-
-        const periodURL = `${wikiURL}Period_%28periodic_table%29`;
-        html += `<li><a href="${periodURL}" target="_blank">Period</a>: `;
-        html += `<a href="${periodURL}#Period_${element.period}" target="_blank">${element.period}</a></li>`;
-
+        html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
         html += `<li><a href="${wikiURL}Melting_point" target="_blank">Melting Point</a>: ${Elements.formatCelsius(element.melts)}</li>`;
         html += `<li><a href="${wikiURL}Boiling_point" target="_blank">Boiling Point</a>: ${Elements.formatCelsius(element.boils)}</li>`;
         html += `<li>Type: <a href="${Elements.typeURLs[element.type]}" target="_blank">${element.type}</a></li>`;
