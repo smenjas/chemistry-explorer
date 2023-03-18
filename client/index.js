@@ -347,6 +347,24 @@ class Elements {
         return Link.toWikipedia(`${periodPath}#Period_${period}`, period);
     }
 
+    static renderCompounds(symbol) {
+        const compounds = Compounds.find(symbol);
+
+        let html = '';
+        if (compounds.length > 0) {
+            html += '<h2>Compounds</h2>';
+            html += '<section class="compounds">';
+            html += '<ul>';
+            for (const formula of compounds) {
+                html += `<li><a href="?formula=${formula}">${Compounds.format(formula)}</a></li>`;
+            }
+            html += '</ul>';
+            html += '</section>';
+        }
+
+        return html;
+    }
+
     static renderElements() {
         const gaps = {
             // The key is the atomic number of the element after the gap.
@@ -464,6 +482,16 @@ class Elements {
         html += '</aside>';
         html += '</section>';
 
+        if (element.type === 'Noble Gas') {
+            html += '<h2>Compounds</h2>';
+            html += `<p>${element.name}, being a noble gas, does not form
+            compounds easily. Although not impossible, it usually requires very
+            low temperatures, high pressures, or both.</p>`;
+        }
+        else {
+            html += Elements.renderCompounds(element.symbol);
+        }
+
         return html;
     }
 
@@ -503,6 +531,49 @@ class Elements {
         html += '</nav>';
 
         return html;
+    }
+}
+
+class Compounds {
+    static list = [
+        'H2', 'H2O', 'H2SO4',
+        'CO2', 'CH4',
+        'O2',
+        'N2', 'NH3',
+        'SiO2',
+    ];
+
+    static find(symbol) {
+        const compounds = [];
+        for (const formula of Compounds.list) {
+            const elements = Compounds.parse(formula);
+            if (symbol in elements) {
+                compounds.push(formula);
+            }
+        }
+        return compounds;
+    }
+
+    static format(formula) {
+        return formula.replaceAll(/\d+/g, '<sub>$&</sub>');
+    }
+
+    static parse(formula) {
+        formula = formula.toString();
+        const re = /([A-Z][a-z]?)(\d*)/g
+        const matches = formula.matchAll(re);
+        const elements = {};
+        for (const components of matches) {
+            const element = components[1];
+            const count = (components[2] === '') ? 1 : parseInt(components[2]);
+            if (Object.hasOwn(elements, element)) {
+                elements[element] += count;
+            }
+            else {
+                elements[element] = count;
+            }
+        }
+        return elements;
     }
 }
 
