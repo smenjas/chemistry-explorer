@@ -68,6 +68,7 @@ td article.element {
     border: none;
     margin: -1px;
     padding: 0.2rem;
+    min-width: 5.3rem;
 }
 
 article .atomic {
