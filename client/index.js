@@ -1,5 +1,16 @@
 'use strict';
 
+class Site {
+    static render() {
+        const params = new URLSearchParams(window.location.search);
+        const protons = params.get('protons');
+
+        let html = Elements.render(protons);
+
+        document.body.insertAdjacentHTML('beforeend', html);
+    }
+}
+
 class Link {
     static create(url, content, newTab = false) {
         const target = (newTab) ? ' target="_blank"' : '';
@@ -210,9 +221,7 @@ class Elements {
         'Transition Metal': 'https://en.wikipedia.org/wiki/Transition_metal',
     };
 
-    static render() {
-        const params = new URLSearchParams(window.location.search);
-        const protons = params.get('protons');
+    static render(protons = null) {
         const element = Elements.data[protons];
         let html = '';
 
@@ -236,7 +245,7 @@ class Elements {
             html += '</main>';
         }
 
-        document.body.insertAdjacentHTML('beforeend', html);
+        return html;
     }
 
     static findNextInGroup(protons) {
@@ -497,4 +506,4 @@ class Elements {
     }
 }
 
-Elements.render();
+Site.render();
