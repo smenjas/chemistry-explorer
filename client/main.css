@@ -72,7 +72,8 @@ td article.element {
 
 article .atomic {
     font-size: 1.0em;
-    float: right;
+    text-align: right;
+    display: block;
 }
 article .symbol {
     font-size: 1.5em;
