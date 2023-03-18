@@ -252,10 +252,10 @@ class Elements {
     static formatElement(protons, link = false) {
         const element = Elements.data[protons];
 
-        let html = `<span class="atomic">${protons}</span><br>`;
-        html += `<span class="symbol">${element.symbol}</span><br>`;
-        html += `<span class="name">${element.name}</span><br>`;
-        html += `<span class="weight">${Elements.formatWeight(element.weight)}</span>`;
+        let html = `<span class="atomic">${protons}<br></span>`;
+        html += `<span class="symbol">${element.symbol}</span>`;
+        html += `<span class="name"><br>${element.name}</span>`;
+        html += `<span class="weight"><br>${Elements.formatWeight(element.weight)}</span>`;
 
         if (link) {
             html = `<a href="?protons=${protons}">${html}<span class="link"></span></a>`;
@@ -398,9 +398,9 @@ class Elements {
 
         html += '<aside>';
         html += '<ul>';
-        html += `<li>${Link.toWikipedia('Atomic_number', "Atomic Number")}: ${protons}</li>`;
-        html += `<li>${Link.toWikipedia('Chemical_symbol', "Symbol")}: ${element.symbol}</li>`;
         html += `<li>${Link.toWikipedia(`${element.name}#History`, "Name")}: ${element.name}</li>`;
+        html += `<li>${Link.toWikipedia('Chemical_symbol', "Symbol")}: ${element.symbol}</li>`;
+        html += `<li>${Link.toWikipedia('Atomic_number', "Atomic Number")}: ${protons}</li>`;
         html += `<li>${Link.toWikipedia('Standard_atomic_weight', "Weight")}: ${element.weight}</li>`;
         html += `<li>${Link.toWikipedia('Density', "Density")}: ${Elements.formatDensity(element.density)}</li>`;
         html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
