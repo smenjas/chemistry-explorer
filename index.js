@@ -252,10 +252,10 @@ class Elements {
     static formatElement(protons, link = false) {
         const element = Elements.data[protons];
 
-        let html = `<span class="atomic">${protons}</span><br>`;
-        html += `<span class="symbol">${element.symbol}</span><br>`;
-        html += `<span class="name">${element.name}</span><br>`;
-        html += `<span class="weight">${Elements.formatWeight(element.weight)}</span>`;
+        let html = `<span class="atomic">${protons}<br></span>`;
+        html += `<span class="symbol">${element.symbol}</span>`;
+        html += `<span class="name"><br>${element.name}</span>`;
+        html += `<span class="weight"><br>${Elements.formatWeight(element.weight)}</span>`;
 
         if (link) {
             html = `<a href="?protons=${protons}">${html}<span class="link"></span></a>`;
