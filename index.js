@@ -375,7 +375,9 @@ class Elements {
             html += '<section class="compounds">';
             html += '<ul>';
             for (const formula of compounds) {
-                html += `<li><a href="?formula=${formula}">${Compounds.format(formula)}</a></li>`;
+                const names = Compounds.data[formula];
+                const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
+                html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
             }
             html += '</ul>';
             html += '</section>';
@@ -554,17 +556,242 @@ class Elements {
 }
 
 class Compounds {
-    static list = [
-        'H2', 'H2O', 'H2SO4',
-        'CO2', 'CH4',
-        'O2',
-        'N2', 'NH3',
-        'SiO2',
-    ];
+    static data = {
+        HNO3: ["Nitric acid"],
+        HF: ["Hydrogen fluoride"],
+        HClO: ["Hypochlorous acid"],
+        H2: ["Dihydrogen"],
+        H2O: ["Water"],
+        H2O2: ["Hydrogen peroxide"],
+        H2S: ["Hydrogen sulfide"],
+        H2SO3: ["Sulfurous acid"],
+        H2SO4: ["Sulfuric acid"],
+        H3PO2: ["Hypophosphorous acid"],
+        H3PO3: ["Phosphorous acid"],
+        H3PO4: ["Phosphoric acid"],
+
+        LiOH: ["Lithium hydroxide"],
+        LiPF6: ["Lithium hexafluorophosphate"],
+        LiCl: ["Lithium chloride"],
+        Li2CO3: ["Lithium carbonate"],
+        Li2SO4: ["Lithium sulfate"],
+        Li3N: ["Lithium nitride"],
+        Li2SO4: ["Lithium sulfate"],
+
+        BH2N: ["Iminoborane"],
+        BH3: ["Borane"],
+        BH3O3: ["Boric acid"],
+        BN: ["Boron nitride"],
+        BF3: ["Boron trifluoride"],
+        BCl3: ["Boron trichloride"],
+        B2H6: ["Diborane"],
+        B2O3: ["Boron trioxide"],
+        B2F4: ["Diboron tetrafluoride"],
+        B3H3O3: ["Boroxine"],
+        B3H3O6: ["Metaboric acid"],
+        B3H6N3: ["Borazine"],
+        B4H2O7: ["Tetraboric acid"],
+        B4H8N4: ["Borazocine"],
+        B4H10: ["Tetraborane"],
+        B4C: ["Boron carbide"],
+        B5H9: ["Pentaborane(9)"],
+        B5H11: ["Pentaborane(11)"],
+        B6O: ["Boron suboxide"],
+        B10H14: ["Decaborane"],
+
+        CH2O: ["Formaldehyde"],
+        CH2O2: ["Formic acid"],
+        CH2F2: ["Difluoromethane"],
+        CH3Li: ["Methyllithium"],
+        CH4: ["Methane"],
+        CBe2: ["Beryllium carbide"],
+        CO: ["Carbon monoxide"],
+        CO2: ["Carbon dioxide"],
+        CSi: ["Silicon carbide"],
+        CCl2F2: ["Dichlorodifluoromethane"],
+
+        C2HF5: ["Pentafluoroethane"],
+        C2H2F4: ["Norflurane"],
+        C2H3F: ["Vinyl fluoride"],
+        C2H3Cl: ["Vinyl chloride"],
+        C2H4: ["Ethylene"],
+        C2H4O2: ["Acetic acid"],
+        C2F4: ["Tetrafluoroethylene"],
+
+        C3H3N: ["Acrylonitrile"],
+        C3H4N2: ["Imidazole"],
+        C3H4O2: ["Acrylic acid"],
+        C3H6: ["Propylene"],
+        C3H6O: ["Acetone"],
+        C3H8: ["Propane"],
+        C3H8O3: ["Glycerol"],
+
+        C4H4N2: ["Pyrimidine"],
+        C4H4N2O2: ["Uracil"],
+        C4H5N3O: ["Cytosine"],
+        C4H6: ["Butadiene"],
+        C4H6O2: ["Vinyl acetate"],
+        C4H8: ["Butene", "Isobutylene"],
+        C4H10: ["Butane"],
+
+        C5H4N4: ["Purine"],
+        C5H5Li: ["Lithium cyclopentadienide"],
+        C5H5N5: ["Adenine"],
+        C5H5N5O: ["Guanine"],
+        C5H6N2O2: ["Thymine"],
+        C5H7N3O: ["5-Methylcytosine"],
+        C5H7N3O2: ["5-Hydroxymethylcytosine"],
+        C5H10O4: ["Deoxyribose"],
+        C5H10O5: ["Ribose"],
+
+        C6H6O: ["Phenol"],
+        C6H6MgO7: ["Magnesium citrate"],
+        C6H8O7: ["Citric acid"],
+        C6H10O5: ["Starch"],
+        C6H11NO: ["Caprolactam"],
+        C6H12O6: ["Glucose", "Fructose"],
+        C6H14N2O2: ["Lysine"],
+        C6H14N4O2: ["Arginine"],
+
+        C7H16NO2: ["Acetylcholine"],
+
+        C8H8: ["Styrene"],
+
+        C9H10O2: ["Paracoumaryl alcohol"],
+        C9H11NO2: ["Phenylalanine"],
+        C9H12: ["Cumene", "n-Propylbenzene"],
+
+        C10H8: ["Naphthalene"],
+        C10H8O4: ["Ethylene terephthalate"],
+        C10H12O3: ["Coniferyl alcohol"],
+        C10H14NO5PS: ["Parathion"],
+        C10H14N5O7P: ["Adenosine monophosphate"],
+        C10H15N5O10P2: ["Adenosine diphosphate"],
+        C10H16N5O13P3: ["Adenosine triphosphate"],
+        C10H19O6PS2: ["Malathion"],
+
+        C11H13NO4: ["Bendiocarb"],
+        C11H14O4: ["Sinapyl alcohol"],
+
+        C12H20O10: ["Cellulose"],
+        C12H22O11: ["Sucrose", "Lactose"],
+        C12H26: ["Dodecane"],
+
+        C16H30O2: ["Palmitoleic acid"],
+        C16H32O2: ["Palmitic acid"],
+
+        C18H15O3P: ["Triphenyl phosphite"],
+        C18H15O4P: ["Triphenyl phosphate"],
+        C18H30O2: ["alpha-Linolenic acid", "gamma-Linolenic acid"],
+        C18H34O2: ["Oleic acid"],
+        C18H36O2: ["Stearic acid"],
+
+        C20H16N4: ["Chlorin"],
+        C21H21O4P: ["Tricresyl phosphate"],
+        C22H19Br2NO3: ["Deltamethrin"],
+        C23H38N7O17P3S: ["Acetyl-CoA"],
+        C24H38O4: ["Diethylhexyl phthalate"],
+
+        C51H98O6: ["Tripalmitin"],
+        C57H110O6: ["Stearin"],
+
+        NH3: ["Ammonia"],
+        NH4ClO3: ["Ammonium chlorate"],
+        NO: ["Nitric oxide"],
+        N2: ["Dinitrogen"],
+        N2H4: ["Hydrazine"],
+
+        O2: ["Dioxygen"],
+        O3: ["Ozone"],
+
+        F2: ["Difluorine"],
+        F6H2Si: ["Hexafluorosilicic acid"],
+
+        NaHCO3: ["Sodium bicarbonate"],
+        NaHSO3: ["Sodium bisulfite"],
+        NaN3: ["Sodium azide"],
+        NaNO3: ["Sodium nitrate"],
+        NaOH: ["Sodium hydroxide"],
+        NaOCl: ["Sodium hypochlorite"],
+        NaF: ["Sodium fluoride"],
+        NaCl: ["Sodium chloride"],
+        NaClO3: ["Sodium chlorate"],
+        NaClO4: ["Sodium perchlorate"],
+        Na2HPO4: ["Disodium phosphate"],
+        Na2B4O7: ["Borax"],
+        Na2CO3: ["Sodium carbonate"],
+        Na2SiO3: ["Sodium metasilicate"],
+        Na2SO3: ["Sodium sulfite"],
+        Na2S2O5: ["Sodium metabisulfite"],
+        Na2S2O8: ["Sodium persulfate"],
+        Na2Se: ["Sodium selenide"],
+        Na3AlF6: ["Sodium aluminum hexafluoride"],
+        NaH2PO4: ["Monosodium phosphate"],
+        Na2HPO4: ["Disodium phosphate"],
+        Na3PO4: ["Trisodium phosphate"],
+        Na4O4Si: ["Sodium orthosilicate"],
+        Na5P3O10: ["Sodium triphosphate"],
+        Na6O7Si2: ["Sodium pyrosilicate"],
+
+        MgCO3: ["Magnesium carbonate"],
+        MgO: ["Magnesium oxide"],
+        "Mg(OH)2": ["Magnesium hydroxide"],
+        MgSO3: ["Magnesium sulfite"],
+        MgSO4: ["Magnesium sulfate"],
+        MgCl2: ["Magnesium chloride"],
+
+        AlHO2: ["Aluminum hydroxide oxide"],
+        AlF: ["Aluminum monofluoride"],
+        AlF3: ["Aluminum fluoride"],
+        AlP: ["Aluminum phosphide"],
+        AlCl: ["Aluminum monochloride"],
+        AlCl3: ["Aluminum chloride"],
+        AlBr: ["Aluminum monobromide"],
+        AlI: ["Aluminum monoiodide"],
+        Al2O3: ["Aluminum oxide"],
+
+        SiH4: ["Silane"],
+        SiO2: ["Silicon dioxide"],
+        SiS2: ["Silicon disulfide"],
+        SiCl4: ["Silicon tetrachloride"],
+        Si3N4: ["Silicon nitride"],
+
+        PH3: ["Phosphine"],
+        POCl3: ["Phosphoryl chloride"],
+        PF5: ["Phosphorus pentafluoride"],
+        PCl3: ["Phosphorus trichloride"],
+        PCl5: ["Phosphorus pentachloride"],
+        PBr3: ["Phosphorus tribromide"],
+        PI3: ["Phosphorus triiodide"],
+        P2H4: ["Diphosphane"],
+        P2S5: ["Phosphorus pentasulfide"],
+        P2I4: ["Diphosphorus tetraiodide"],
+        P3N5: ["Triphosphorus pentanitride"],
+        P4O6: ["Phosphorus trioxide"],
+        P4O10: ["Phosphorus pentoxide"],
+        P4S3: ["Phosphorus sesquisulfide"],
+        P4S10: ["Phosphorus pentasulfide"],
+
+        SOCl2: ["Thionyl chloride"],
+        SO2: ["Sulfur dioxide"],
+        SO2F2: ["Sulfuryl fluoride"],
+        S4N4: ["Tetrasulfur tetranitride"],
+
+        ClH4N: ["Ammonium chloride"],
+        ClF3: ["Chlorine trifluoride"],
+        Cl2: ["Dichlorine"],
+        Cl2O: ["Dichlorine monoxide"],
+
+        K2O5S2: ["Potassium metabisulfite"],
+        TiO2: ["Titanium dioxide"],
+        Fe2O3: ["Ferric oxide"],
+        Fe7MoS9C: ["FeMoco"],
+        Br2: ["Dibromine"],
+    };
 
     static find(symbol) {
         const compounds = [];
-        for (const formula of Compounds.list) {
+        for (const formula in Compounds.data) {
             const elements = Compounds.parse(formula);
             if (symbol in elements) {
                 compounds.push(formula);
@@ -616,7 +843,7 @@ class Compounds {
 
         html += '<h2>Links</h2>';
         html += '<ul>';
-        for (const chemical of Compounds.list) {
+        for (const chemical of Compounds.data[formula]) {
             html += `<li>${Link.toWikipedia(chemical, `Wikipedia: ${chemical}`)}</li>`;
         }
         html += '</ul>';
