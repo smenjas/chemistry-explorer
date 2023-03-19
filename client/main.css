@@ -67,7 +67,18 @@ td {
 td article {
     border: none;
     margin: -1px;
+}
+
+.elements article {
     padding: 0.2rem;
+}
+section.elements {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+section.elements article {
+    border: 1px solid black;
     min-width: 5.3rem;
 }
 
@@ -155,6 +166,7 @@ td.empty {
 Make the whole element clickable in the periodic table.
 https://stackoverflow.com/a/3494108/12841859
 */
+section.elements article,
 .elements td {
     position: relative;
 }
@@ -469,6 +481,7 @@ a span.link:hover {
         color: #faf;
     }
     section.element article,
+    section.elements article,
     td {
         border-color: white;
     }
@@ -478,7 +491,8 @@ a span.link:hover {
 }
 
 @media print {
-    body, td article {
+    td article,
+    body {
         background: white !important;
         color: black !important;
     }
