@@ -25,6 +25,9 @@ class Link {
     }
 
     static toWikipedia(path, content) {
+        path = path.replaceAll(' ', '_');
+        path = encodeURIComponent(path);
+        path = path.replace('%23', '#'); // Allow fragments.
         const wikiURL = 'https://en.wikipedia.org/wiki/';
         const url = `${wikiURL}${path}`;
         return Link.create(url, content, true);
@@ -337,7 +340,7 @@ class Elements {
     static linkBlock(block = null) {
         // All elements have a block, so if block is null, link to the Block
         // page instead of a specific block.
-        const blockPath = 'Block_%28periodic_table%29';
+        const blockPath = 'Block_(periodic_table)';
         if (!block) {
             return Link.toWikipedia(blockPath, "Block");
         }
@@ -356,7 +359,7 @@ class Elements {
     static linkPeriod(period) {
         // All elements have a period, so if period is null, link to the Period
         // page instead of a specific period.
-        const periodPath = 'Period_%28periodic_table%29';
+        const periodPath = 'Period_(periodic_table)';
         if (!period) {
             return Link.toWikipedia(periodPath, "Period");
         }
@@ -484,7 +487,7 @@ class Elements {
         html += `<li>${Link.toWikipedia('Standard_atomic_weight', "Weight")}: ${element.weight}</li>`;
         html += `<li>${Link.toWikipedia('Density', "Density")}: ${Elements.formatDensity(element.density)}</li>`;
         html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
-        html += `<li>${Link.toWikipedia('Group_%28periodic_table%29', "Group")}: ${Elements.linkGroup(element.group)}</li>`;
+        html += `<li>${Link.toWikipedia('Group_(periodic_table)', "Group")}: ${Elements.linkGroup(element.group)}</li>`;
         html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
         html += `<li>${Link.toWikipedia('Melting_point', "Melting Point")}: ${Elements.formatCelsius(element.melts)}</li>`;
         html += `<li>${Link.toWikipedia('Boiling_point', "Boiling Point")}: ${Elements.formatCelsius(element.boils)}</li>`;
