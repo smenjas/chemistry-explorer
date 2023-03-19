@@ -3,9 +3,16 @@
 class Site {
     static render() {
         const params = new URLSearchParams(window.location.search);
+        const formula = params.get('formula');
         const protons = params.get('protons');
+        let html = '';
 
-        let html = Elements.render(protons);
+        if (formula) {
+            html += Compounds.render(formula);
+        }
+        else {
+            html += Elements.render(protons);
+        }
 
         document.body.insertAdjacentHTML('beforeend', html);
     }
@@ -285,6 +292,15 @@ class Elements {
         return 0;
     }
 
+    static findProtons(symbol) {
+        for (const protons in Elements.data) {
+             const element = Elements.data[protons];
+             if (element.symbol === symbol) {
+                 return protons;
+             }
+        }
+    }
+
     static formatCelsius(temperature) {
         return (temperature) ? `${temperature} °C` : "Unknown";
     }
@@ -558,6 +574,18 @@ class Compounds {
         return formula.replaceAll(/\d+/g, '<sub>$&</sub>');
     }
 
+    static getChemSpiderURL(formula) {
+        return `https://www.chemspider.com/Search.aspx?q=${formula}`;
+    }
+
+    static getPubChemURL(formula) {
+        return `https://pubchem.ncbi.nlm.nih.gov/#query=${formula}`;
+    }
+
+    static getWebBookURL(formula) {
+        return `https://webbook.nist.gov/cgi/cbook.cgi?Formula=${formula}&NoIon=on&Units=SI`;
+    }
+
     static parse(formula) {
         formula = formula.toString();
         const re = /([A-Z][a-z]?)(\d*)/g
@@ -574,6 +602,39 @@ class Compounds {
             }
         }
         return elements;
+    }
+
+    static render(formula) {
+        const pretty = Compounds.format(formula);
+
+        document.title = formula;
+
+        let html = `<h1>${pretty}</h1>`;
+
+        html += '<h2>Links</h2>';
+        html += '<ul>';
+        for (const chemical of Compounds.list) {
+            html += `<li>${Link.toWikipedia(chemical, `Wikipedia: ${chemical}`)}</li>`;
+        }
+        html += '</ul>';
+
+        html += '<ul>';
+        html += `<li>${Link.create(Compounds.getWebBookURL(formula), "NIST WebBook", true)}</li>`;
+        html += `<li>${Link.create(Compounds.getChemSpiderURL(formula), "ChemSpider", true)}</li>`;
+        html += `<li>${Link.create(Compounds.getPubChemURL(formula), "PubChem", true)}</li>`;
+        html += '</ul>';
+
+        const elements = Compounds.parse(formula);
+
+        html += '<h2>Contains</h2>';
+        html += '<section class="elements">';
+        for (const symbol in elements) {
+            const protons = Elements.findProtons(symbol);
+            html += Elements.formatElement(protons, true);
+        }
+        html += '</section>';
+
+        return html;
     }
 }
 
