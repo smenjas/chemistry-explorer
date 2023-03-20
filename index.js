@@ -366,22 +366,20 @@ class Elements {
         return Link.toWikipedia(`${periodPath}#Period_${period}`, period);
     }
 
-    static renderCompounds(symbol) {
+    static renderCompoundsList(symbol) {
         const compounds = Compounds.find(symbol);
 
-        let html = '';
-        if (compounds.length > 0) {
-            html += '<h2>Compounds</h2>';
-            html += '<section class="compounds">';
-            html += '<ul>';
-            for (const formula of compounds) {
-                const names = Compounds.data[formula];
-                const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
-                html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
-            }
-            html += '</ul>';
-            html += '</section>';
+        if (compounds.length < 1) {
+            return '';
         }
+
+        let html = '<ul>';
+        for (const formula of compounds) {
+            const names = Compounds.data[formula];
+            const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
+            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
+        }
+        html += '</ul>';
 
         return html;
     }
@@ -503,15 +501,35 @@ class Elements {
         html += '</aside>';
         html += '</section>';
 
+        html += '<section class="compounds">';
+        html += '<h2>Compounds</h2>';
+
+        const wikiPath = (protons < 103) ? `${element.name}_compounds` : `${element.name}#Chemical`;
+        html += '<ul>';
+        html += `<li>${Link.toWikipedia(`${wikiPath}`, `Wikipedia: ${element.name} compounds`)}</li>`;
+        if (protons < 100) {
+            html += `<li>${Link.toWikipedia(`Category:${wikiPath}`, `Wikipedia: Category: ${element.name} compounds`)}</li>`;
+        }
+        html += '</ul>';
+
         if (element.type === 'Noble Gas') {
-            html += '<h2>Compounds</h2>';
             html += `<p>${element.name}, being a noble gas, does not form
             compounds easily. Although not impossible, it usually requires very
             low temperatures, high pressures, or both.</p>`;
         }
-        else {
-            html += Elements.renderCompounds(element.symbol);
+        else if (protons >= 102) {
+            html += `<p>${element.name}, having no isotopes with a half-life
+            longer than a day, is difficult to work with. Therefore compounds
+            of ${element.name.toLowerCase()} are mostly hypothetical.</p>`;
         }
+        else if (protons >= 100) {
+            html += `<p>${element.name}, having no isotopes with a half-life
+            longer than a year, is difficult to work with. Therefore compounds
+            of ${element.name.toLowerCase()} are mostly hypothetical.</p>`;
+        }
+
+        html += Elements.renderCompoundsList(element.symbol);
+        html += '</section>';
 
         return html;
     }
