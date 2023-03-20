@@ -1033,6 +1033,17 @@ class Compounds {
         Fe2O3: ["Ferric oxide"],
         Fe7MoS9C: ["FeMoco"],
         Br2: ["Dibromine"],
+
+        XeOF4: ["Xenon oxytetrafluoride"],
+        XeO2: ["Xenon dioxide"],
+        XeO2F2: ["Xenon dioxydifluoride"],
+        XeO3: ["Xenon trioxide"],
+        XeO4: ["Xenon tetroxide"],
+        XeF2: ["Xenon difluoride"],
+        XeF4: ["Xenon tetrafluoride"],
+        XeF6: ["Xenon hexafluoride"],
+        XeCl2: ["Xenon dichloride"],
+        XeCl4: ["Xenon tetrachloride"],
     };
 
     static find(symbol) {
