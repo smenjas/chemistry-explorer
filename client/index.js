@@ -2248,6 +2248,9 @@ class Compounds {
 
         RnO3: ["Radon trioxide"],
         RnF2: ["Radon difluoride"],
+
+        FrOH: ["Francium hydroxide"],
+        FrCl: ["Francium chloride"],
     };
 
     static find(symbol) {
