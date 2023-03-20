@@ -705,6 +705,7 @@ class Compounds {
         C6H14N2O3: ["Hydroxylysine"],
         C6H14N4O2: ["Arginine"],
 
+        C7H11N3O6S: ["Avibactam"],
         C7H14N2O3: ["Theanine"],
         C7H14N2O4: ["Diaminopimelic acid"],
         C7H14N2O4S: ["Cystathionine"],
@@ -713,6 +714,8 @@ class Compounds {
 
         C8H8: ["Styrene"],
         C8H9NO2: ["Phenylglycine"],
+        C8H9NO5: ["Clavulanic acid"],
+        C8H11NO5S: ["Sulbactam"],
 
         C9H10O2: ["Paracoumaryl alcohol"],
         C9H11NO2: ["Phenylalanine"],
@@ -721,6 +724,7 @@ class Compounds {
 
         C10H8: ["Naphthalene"],
         C10H8O4: ["Ethylene terephthalate"],
+        C10H12N4O5S: ["Tazobactam"],
         C10H12O3: ["Coniferyl alcohol"],
         C10H14NO5PS: ["Parathion"],
         C10H14N5O7P: ["Adenosine monophosphate"],
@@ -733,8 +737,10 @@ class Compounds {
         C11H13NO4: ["Bendiocarb"],
         C11H14O4: ["Sinapyl alcohol"],
 
+        C12H16BNO5S: ["Vaborbactam"],
         C12H17N3O4S: ["Imipenem"],
         C12H18Be4O13: ["Basic beryllium acetate"],
+        C12H20N4O6S: ["Relebactam"],
         C12H20O10: ["Cellulose"],
         C12H21N3O3: ["Pyrrolysine"],
         C12H22O11: ["Sucrose", "Lactose"],
