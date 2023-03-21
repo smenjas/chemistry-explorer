@@ -767,6 +767,7 @@ class Compounds {
         C6H14N2O2: ["Lysine"],
         C6H14N2O3: ["Hydroxylysine"],
         C6H14N4O2: ["Arginine"],
+        C6O6V: ["Vanadium hexacarbonyl"],
 
         C7H6O5: ["Gallic acid"],
         C7H7K: ["Benzyl potassium"],
@@ -805,6 +806,7 @@ class Compounds {
         C10H8: ["Naphthalene"],
         C10H8O4: ["Ethylene terephthalate"],
         C10H10Cl2Ti: ["Titanocene dichloride"],
+        C10H10Cl2V: ["Vanadocene dichloride"],
         C10H12N2: ["Tryptamine"],
         C10H12N2O: ["Serotonin"],
         C10H12N4O5S: ["Tazobactam"],
@@ -813,6 +815,7 @@ class Compounds {
         C10H13N5O4: ["Adenosine"],
         C10H14NO5PS: ["Parathion"],
         C10H14N5O7P: ["Adenosine monophosphate"],
+        C10H14O5V: ["Vanadyl acetylacetonate"],
         C10H15N5O10P2: ["Adenosine diphosphate"],
         C10H16N5O13P3: ["Adenosine triphosphate"],
         C10H19O6PS2: ["Malathion"],
@@ -924,6 +927,7 @@ class Compounds {
 
         NH3: ["Ammonia"],
         NH4ClO3: ["Ammonium chlorate"],
+        NH4VO3: ["Ammonium metavanadate"],
         NO: ["Nitric oxide"],
         N2: ["Dinitrogen"],
         N2H4: ["Hydrazine"],
@@ -1076,6 +1080,12 @@ class Compounds {
         TiCl3: ["Titanium(III) chloride"],
         TiCl4: ["Titanium tetrachloride"],
         Ti2O3: ["Titanium(III) oxide"],
+
+        VOF3: ["Vanadium(V) oxytrifluoride"],
+        VOCl3: ["Vanadium oxytrichloride"],
+        VCl4: ["Vanadium tetrachloride"],
+        VBr3: ["Vanadium(III) bromide"],
+        V2O5: ["Vanadium(V) oxide"],
 
         FeCO3: ["Iron(II) carbonate"],
         "Fe(CO)5": ["Iron pentacarbonyl"],
