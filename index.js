@@ -589,6 +589,8 @@ class Compounds {
         H2S: ["Hydrogen sulfide"],
         H2SO3: ["Sulfurous acid"],
         H2SO4: ["Sulfuric acid"],
+        H2CrO4: ["Chromic acid"],
+        H2Cr2O7: ["Chromic acid"],
         H3PO2: ["Hypophosphorous acid"],
         H3PO3: ["Phosphorous acid"],
         H3PO4: ["Phosphoric acid"],
@@ -956,6 +958,7 @@ class Compounds {
         Na2SO3: ["Sodium sulfite"],
         Na2S2O5: ["Sodium metabisulfite"],
         Na2S2O8: ["Sodium persulfate"],
+        Na2CrO4: ["Sodium chromate"],
         Na2Se: ["Sodium selenide"],
         Na3AlF6: ["Sodium aluminum hexafluoride"],
         Na3PO4: ["Trisodium phosphate"],
@@ -1039,6 +1042,7 @@ class Compounds {
         "K2[TaF7]": ["Potassium heptafluorotantalate"],
         K2PtCl6: ["Potassium hexachloroplatinate"],
         K3C6H5O7: ["Potassium citrate"],
+        K3CrO8: ["Potassium tetraperoxochromate(V)"],
         "K3[Fe(C2O4)3]": ["Potassium ferrioxalate"],
 
         CaH2: ["Calcium hydride"],
@@ -1086,6 +1090,12 @@ class Compounds {
         VCl4: ["Vanadium tetrachloride"],
         VBr3: ["Vanadium(III) bromide"],
         V2O5: ["Vanadium(V) oxide"],
+
+        CrO: ["Chromium(II) oxide"],
+        CrO2: ["Chromium(IV) oxide"],
+        CrO3: ["Chromium trioxide"],
+        CrF3: ["Chromium(III) fluoride"],
+        CrCl3: ["Chromium(III) chloride"],
 
         FeCO3: ["Iron(II) carbonate"],
         "Fe(CO)5": ["Iron pentacarbonyl"],
