@@ -803,6 +803,7 @@ class Compounds {
 
         C10H8: ["Naphthalene"],
         C10H8O4: ["Ethylene terephthalate"],
+        C10H10Cl2Ti: ["Titanocene dichloride"],
         C10H12N2: ["Tryptamine"],
         C10H12N2O: ["Serotonin"],
         C10H12N4O5S: ["Tazobactam"],
@@ -831,6 +832,7 @@ class Compounds {
         C12H22O11: ["Sucrose", "Lactose"],
         C12H24O2: ["Lauric acid"],
         C12H26: ["Dodecane"],
+        C12H28O4Ti: ["Titanium isopropoxide"],
 
         C13H16N2O2: ["Melatonin"],
         C13H16N2O4S2: ["Almecillin"],
@@ -1064,7 +1066,13 @@ class Compounds {
         ScBr3: ["Scandium bromide"],
         ScI3: ["Scandium triiodide"],
 
+        TiC: ["Titanium carbide"],
+        TiN: ["Titanium nitride"],
         TiO2: ["Titanium dioxide"],
+        TiCl3: ["Titanium(III) chloride"],
+        TiCl4: ["Titanium tetrachloride"],
+        Ti2O3: ["Titanium(III) oxide"],
+
         Fe2O3: ["Ferric oxide"],
         Fe7MoS9C: ["FeMoco"],
         Br2: ["Dibromine"],
