@@ -701,6 +701,7 @@ class Compounds {
         C3H7O6P: ["Glyceraldehyde 3-phosphate"],
         C3H8: ["Propane"],
         C3H8O3: ["Glycerol"],
+        C3F9O9S3Sc: ["Scandium(III) trifluoromethanesulfonate"],
 
         C4H4N2: ["Pyrimidine"],
         C4H4N2O2: ["Uracil"],
@@ -1055,6 +1056,13 @@ class Compounds {
         Ca3SiO5: ["Alite"],
         Ca3P2: ["Calcium phosphide"],
         "Ca5(PO4)3OH": ["Hydroxyapatite"],
+
+        ScH3: ["Scandium(III) hydride"],
+        Sc2O3: ["Scandium oxide"],
+        ScF3: ["Scandium fluoride"],
+        ScCl3: ["Scandium chloride"],
+        ScBr3: ["Scandium bromide"],
+        ScI3: ["Scandium triiodide"],
 
         TiO2: ["Titanium dioxide"],
         Fe2O3: ["Ferric oxide"],
