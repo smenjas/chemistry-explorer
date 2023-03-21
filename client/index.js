@@ -721,6 +721,7 @@ class Compounds {
         C4H10: ["Butane"],
         C4H10N2O3: ["Canaline"],
         C4H12FN: ["Tetramethylammonium fluoride"],
+        C4FeNa2O4: ["Disodium tetracarbonylferrate"],
 
         C5H4N4: ["Purine"],
         C5H5Li: ["Lithium cyclopentadienide"],
@@ -868,6 +869,7 @@ class Compounds {
         C18H34O2: ["Oleic acid"],
         C18H34O3: ["Ricinoleic acid"],
         C18H36O2: ["Stearic acid"],
+        C18Fe7N18: ["Prussian blue"],
 
         C19H17ClFN3O5S: ["Flucloxacillin"],
         C19H17Cl2N3O5S: ["Dicloxacillin"],
@@ -1029,9 +1031,11 @@ class Compounds {
         K2O2: ["Potassium peroxide"],
         K2O5S2: ["Potassium metabisulfite"],
         K2SO4: ["Potassium sulfate"],
+        K2FeO4: ["Potassium ferrate"],
         "K2[TaF7]": ["Potassium heptafluorotantalate"],
         K2PtCl6: ["Potassium hexachloroplatinate"],
         K3C6H5O7: ["Potassium citrate"],
+        "K3[Fe(C2O4)3]": ["Potassium ferrioxalate"],
 
         CaH2: ["Calcium hydride"],
         CaCN2: ["Calcium cyanamide"],
@@ -1073,8 +1077,17 @@ class Compounds {
         TiCl4: ["Titanium tetrachloride"],
         Ti2O3: ["Titanium(III) oxide"],
 
+        FeCO3: ["Iron(II) carbonate"],
+        "Fe(CO)5": ["Iron pentacarbonyl"],
+        FeSO4: ["Iron(II) sulfate"],
+        FeS2: ["Pyrite"],
+        "Fe(ClO4)2": ["Iron(II) perchlorate"],
+        FeCl2: ["Iron(II) chloride"],
+        FeCl3: ["Iron(III) chloride"],
         Fe2O3: ["Ferric oxide"],
+        "Fe2(SO4)3": ["Iron(III) sulfate"],
         Fe7MoS9C: ["FeMoco"],
+
         Br2: ["Dibromine"],
 
         AgBF4: ["Silver tetrafluoroborate"],
