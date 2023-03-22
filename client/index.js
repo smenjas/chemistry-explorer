@@ -1403,6 +1403,8 @@ class Compounds {
         Bi2Ge3O9: ["Bismuth germanate"],
         Bi4Ge3O12: ["Bismuth germanate"],
         Bi12GeO20: ["Bismuth germanate"],
+        RnO3: ["Radon trioxide"],
+        RnF2: ["Radon difluoride"],
     };
 
     static find(symbol) {
