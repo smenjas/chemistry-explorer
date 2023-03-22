@@ -607,6 +607,7 @@ class Compounds {
         HArF: ["Argon fluorohydride"],
         HBr: ["Hydrogen bromide"],
         HBrO2: ["Bromous acid"],
+        HTcO4: ["Pertechnetic acid"],
         HI: ["Hydrogen iodide"],
         HAt: ["Hydrogen astatide"],
         H2: ["Dihydrogen"],
@@ -1040,6 +1041,7 @@ class Compounds {
         NaAsO2: ["Sodium arsenite"],
         NaBr: ["Sodium bromide"],
         NaBrO3: ["Sodium bromate"],
+        NaTcO4: ["Sodium pertechnetate"],
         Na2HPO4: ["Disodium phosphate"],
         Na2He: ["Disodium helide"],
         Na2B4O7: ["Borax"],
@@ -1465,6 +1467,12 @@ class Compounds {
         MoCl6: ["Molybdenum(VI) chloride"],
         MoBr3: ["Molybdenum(III) bromide"],
         MoBr4: ["Molybdenum(IV) bromide"],
+
+        TcF6: ["Technetium hexafluoride"],
+        TcCl3: ["Technetium trichloride"],
+        TcCl4: ["Technetium(IV) chloride"],
+        TiI3: ["Titanium(III) iodide"],
+        Tc2O7: ["Technetium(VII) oxide"],
 
         AgBF4: ["Silver tetrafluoroborate"],
         AgCNO: ["Silver fulminate"],
