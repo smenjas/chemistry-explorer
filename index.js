@@ -239,6 +239,43 @@ class Elements {
         document.body.insertAdjacentHTML('beforeend', html);
     }
 
+    static findNextInGroup(protons) {
+        protons = parseInt(protons);
+        if (protons === 1) {
+            return 3;
+        }
+        if (protons < 19) {
+            return protons + 8;
+        }
+        if (protons < 39) {
+            return protons + 18;
+        }
+        if (protons < 119) {
+            return protons + 32;
+        }
+        return 0;
+    }
+
+    static findPreviousInGroup(protons) {
+        const element = Elements.data[protons];
+        if (protons === 3) {
+            return 1;
+        }
+        if (protons > 70) {
+            return protons - 32;
+        }
+        if (protons > 30 && protons < 57) {
+            return protons - 18;
+        }
+        if (protons > 20) {
+            return 0;
+        }
+        if (protons > 9) {
+            return protons - 8;
+        }
+        return 0;
+    }
+
     static formatCelsius(temperature) {
         return (temperature) ? `${temperature} °C` : "Unknown";
     }
@@ -426,12 +463,25 @@ class Elements {
         const prev = Elements.data[protons - 1];
         const next = Elements.data[protons + 1];
 
+        const up = Elements.findPreviousInGroup(protons);
+        const down = Elements.findNextInGroup(protons);
+
+        const groupPrev = Elements.data[up];
+        const groupNext = Elements.data[down];
+
         let html = '<nav>';
         if (prev) {
             html += `<a href="?protons=${protons - 1}">&larr; ${prev.name}</a> `;
         }
         if (next) {
             html += `<a href="?protons=${protons + 1}">${next.name} &rarr;</a>`;
+        }
+        html += '<br>';
+        if (groupPrev) {
+            html += `<a href="?protons=${up}">&uarr; ${groupPrev.name}</a> `;
+        }
+        if (groupNext) {
+            html += `<a href="?protons=${down}">${groupNext.name} &darr;</a>`;
         }
         html += '</nav>';
 
