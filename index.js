@@ -221,7 +221,7 @@ class Elements {
         }
 
         if (element) {
-            document.title = element.name;
+            document.title = `${element.symbol}: ${element.name}`;
             html += '<main>';
             html += `<h1>${document.title}</h1>`;
             html += Elements.renderElementNav(protons);
@@ -472,23 +472,23 @@ class Elements {
         let html = '<nav>';
         html += '<span class="previous">';
         if (prev) {
-            html += `<a href="?protons=${protons - 1}">&larr; ${prev.name}</a>`;
+            html += `<a href="?protons=${protons - 1}">&larr; ${prev.symbol}: ${prev.name}</a>`;
         }
         html += '</span> ';
         html += '<span class="next">';
         if (next) {
-            html += `<a href="?protons=${protons + 1}">${next.name} &rarr;</a>`;
+            html += `<a href="?protons=${protons + 1}">${next.symbol}: ${next.name} &rarr;</a>`;
         }
         html += '</span>';
         html += '<br>';
         html += '<span class="previous">';
         if (groupPrev) {
-            html += `<a href="?protons=${up}">&uarr; ${groupPrev.name}</a>`;
+            html += `<a href="?protons=${up}">&uarr; ${groupPrev.symbol}: ${groupPrev.name}</a>`;
         }
         html += '</span> ';
         html += '<span class="next">';
         if (groupNext) {
-            html += `<a href="?protons=${down}">${groupNext.name} &darr;</a>`;
+            html += `<a href="?protons=${down}">${groupNext.symbol}: ${groupNext.name} &darr;</a>`;
         }
         html += '</span>';
         html += '</nav>';
