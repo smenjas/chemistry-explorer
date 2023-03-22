@@ -517,14 +517,37 @@ class Elements {
             compounds easily. Although not impossible, it usually requires very
             low temperatures, high pressures, or both.</p>`;
         }
-        else if (protons >= 102) {
-            html += `<p>${element.name}, having no isotopes with a half-life
-            longer than a day, is difficult to work with. Therefore compounds
-            of ${element.name.toLowerCase()} are mostly hypothetical.</p>`;
+
+        // These elements longest-lived isotopes have a half-life less than a day.
+        // https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
+        const shortLivedElements = {
+            85: 'a day',
+            86: 'a week',
+            87: 'an hour',
+            100: 'a year',
+            101: '2 months',
+            102: 'an hour',
+            103: 'a day',
+            104: 'an hour',
+            105: 'a day',
+            106: 'an hour',
+            107: 'an hour',
+            108: 'a minute',
+            109: 'a minute',
+            110: 'a minute',
+            111: 'an hour',
+            112: 'a minute',
+            113: 'a minute',
+            114: 'a minute',
+            115: 'a second',
+            116: 'a second',
+            117: 'a second',
+            118: 'a second',
         }
-        else if (protons >= 100) {
+        if (protons in shortLivedElements) {
+            const time = shortLivedElements[protons];
             html += `<p>${element.name}, having no isotopes with a half-life
-            longer than a year, is difficult to work with. Therefore compounds
+            longer than ${time}, is difficult to work with. Therefore compounds
             of ${element.name.toLowerCase()} are mostly hypothetical.</p>`;
         }
 
