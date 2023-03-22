@@ -470,19 +470,27 @@ class Elements {
         const groupNext = Elements.data[down];
 
         let html = '<nav>';
+        html += '<span class="previous">';
         if (prev) {
-            html += `<a href="?protons=${protons - 1}">&larr; ${prev.name}</a> `;
+            html += `<a href="?protons=${protons - 1}">&larr; ${prev.name}</a>`;
         }
+        html += '</span> ';
+        html += '<span class="next">';
         if (next) {
             html += `<a href="?protons=${protons + 1}">${next.name} &rarr;</a>`;
         }
+        html += '</span>';
         html += '<br>';
+        html += '<span class="previous">';
         if (groupPrev) {
-            html += `<a href="?protons=${up}">&uarr; ${groupPrev.name}</a> `;
+            html += `<a href="?protons=${up}">&uarr; ${groupPrev.name}</a>`;
         }
+        html += '</span> ';
+        html += '<span class="next">';
         if (groupNext) {
             html += `<a href="?protons=${down}">${groupNext.name} &darr;</a>`;
         }
+        html += '</span>';
         html += '</nav>';
 
         return html;
