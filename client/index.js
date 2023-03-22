@@ -221,7 +221,7 @@ class Elements {
         }
 
         if (element) {
-            document.title = element.name;
+            document.title = `${element.symbol}: ${element.name}`;
             html += '<main>';
             html += `<h1>${document.title}</h1>`;
             html += Elements.renderElementNav(protons);
@@ -237,6 +237,43 @@ class Elements {
         }
 
         document.body.insertAdjacentHTML('beforeend', html);
+    }
+
+    static findNextInGroup(protons) {
+        protons = parseInt(protons);
+        if (protons === 1) {
+            return 3;
+        }
+        if (protons < 19) {
+            return protons + 8;
+        }
+        if (protons < 39) {
+            return protons + 18;
+        }
+        if (protons < 119) {
+            return protons + 32;
+        }
+        return 0;
+    }
+
+    static findPreviousInGroup(protons) {
+        const element = Elements.data[protons];
+        if (protons === 3) {
+            return 1;
+        }
+        if (protons > 70) {
+            return protons - 32;
+        }
+        if (protons > 30 && protons < 57) {
+            return protons - 18;
+        }
+        if (protons > 20) {
+            return 0;
+        }
+        if (protons > 9) {
+            return protons - 8;
+        }
+        return 0;
     }
 
     static formatCelsius(temperature) {
@@ -426,13 +463,34 @@ class Elements {
         const prev = Elements.data[protons - 1];
         const next = Elements.data[protons + 1];
 
+        const up = Elements.findPreviousInGroup(protons);
+        const down = Elements.findNextInGroup(protons);
+
+        const groupPrev = Elements.data[up];
+        const groupNext = Elements.data[down];
+
         let html = '<nav>';
+        html += '<span class="previous">';
         if (prev) {
-            html += `<a href="?protons=${protons - 1}">&larr; ${prev.name}</a> `;
+            html += `<a href="?protons=${protons - 1}">&larr; ${prev.symbol}: ${prev.name}</a>`;
         }
+        html += '</span> ';
+        html += '<span class="next">';
         if (next) {
-            html += `<a href="?protons=${protons + 1}">${next.name} &rarr;</a>`;
+            html += `<a href="?protons=${protons + 1}">${next.symbol}: ${next.name} &rarr;</a>`;
         }
+        html += '</span>';
+        html += '<br>';
+        html += '<span class="previous">';
+        if (groupPrev) {
+            html += `<a href="?protons=${up}">&uarr; ${groupPrev.symbol}: ${groupPrev.name}</a>`;
+        }
+        html += '</span> ';
+        html += '<span class="next">';
+        if (groupNext) {
+            html += `<a href="?protons=${down}">${groupNext.symbol}: ${groupNext.name} &darr;</a>`;
+        }
+        html += '</span>';
         html += '</nav>';
 
         return html;
