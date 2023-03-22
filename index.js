@@ -630,6 +630,7 @@ class Compounds {
         LiOH: ["Lithium hydroxide"],
         LiPF6: ["Lithium hexafluorophosphate"],
         LiCl: ["Lithium chloride"],
+        LiNbO3: ["Lithium niobate"],
         Li2BeF4: ["FLiBe"],
         Li2CO3: ["Lithium carbonate"],
         Li2SO4: ["Lithium sulfate"],
@@ -868,6 +869,7 @@ class Compounds {
         C10H10Cl2Ti: ["Titanocene dichloride"],
         C10H10Cl2V: ["Vanadocene dichloride"],
         C10H10Cl2Zr: ["Zirconocene dichloride"],
+        C10H10Cl2Nb: ["Niobocene dichloride"],
         C10H10Ni: ["Nickelocene"],
         C10H12N2: ["Tryptamine"],
         C10H12N2O: ["Serotonin"],
@@ -882,6 +884,7 @@ class Compounds {
         C10H16N5O13P3: ["Adenosine triphosphate"],
         C10H19O6PS2: ["Malathion"],
         C10H23N3O3: ["Hypusine"],
+        C10H25NbO5: ["Niobium(V) ethoxide"],
 
         C11H8O2: ["Menadione"],
         C11H12N2O2: ["Tryptophan"],
@@ -1435,7 +1438,13 @@ class Compounds {
         ZrI4: ["Zirconium(IV) iodide"],
         "Zr(WO4)2": ["Zirconium tungstate"],
 
+        NbC: ["Niobium carbide"],
+        NbN: ["Niobium nitride"],
+        NbO: ["Niobium monoxide"],
+        NbO2: ["Niobium dioxide"],
+        NbCl5: ["Niobium(V) chloride"],
         NbBr5: ["Niobium(V) bromide"],
+        Nb2O5: ["Niobium pentoxide"],
 
         AgBF4: ["Silver tetrafluoroborate"],
         AgCNO: ["Silver fulminate"],
