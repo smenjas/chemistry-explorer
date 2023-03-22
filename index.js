@@ -720,6 +720,7 @@ class Compounds {
         C4H8N2O3: ["Asparagine"],
         C4H8O: ["Tetrahydrofuran"],
         C4H8O2: ["1,4-Dioxane"],
+        C4H8Cl2GeO2: ["Germanium dichloride dioxane"],
         C4H9NO2: ["2-Aminoisobutyric acid", "GABA"],
         C4H9NO2S: ["Homocysteine"],
         C4H9NO3: ["Threonine", "Homoserine"],
@@ -727,6 +728,7 @@ class Compounds {
         C4H10N2O3: ["Canaline"],
         C4H10Zn: ["Diethylzinc"],
         C4H12FN: ["Tetramethylammonium fluoride"],
+        C4H12Ge: ["Isobutylgermane"],
         C4FeNa2O4: ["Disodium tetracarbonylferrate"],
 
         C5H4N4: ["Purine"],
@@ -763,6 +765,7 @@ class Compounds {
         C6H9MnO6: ["Manganese(III) acetate"],
         C6H10O5: ["Starch"],
         C6H10O6Cu: ["Copper(II) lactate"],
+        C6H10O7Ge2: ["Propagermanium"],
         C6H11NO: ["Caprolactam"],
         C6H11NO2: ["Pipecolic acid"],
         C6H11NO3S: ["N-Formylmethionine"],
@@ -801,6 +804,7 @@ class Compounds {
         C8H11NO5S: ["Sulbactam"],
         C8H12N2O3S: ["6-APA"],
         C8H14N4NiO4: ["Nickel bis(dimethylglyoximate)"],
+        C8H20Ge: ["Tetraethylgermanium"],
 
         C9H8O4: ["Aspirin"],
         C9H10O2: ["Paracoumaryl alcohol"],
@@ -1259,6 +1263,16 @@ class Compounds {
         Ga2S3: ["Gallium(III) sulfide"],
         Ga4I4: ["Gallium monoiodide"],
 
+        GeH4: ["Germane"],
+        GeO: ["Germanium monoxide"],
+        GeO2: ["Germanium dioxide"],
+        GeS: ["Germanium monosulfide"],
+        GeS2: ["Germanium disulfide"],
+        GeCl2: ["Germanium dichloride"],
+        GeCl4: ["Germanium tetrachloride"],
+        GeSe2: ["Germanium diselenide"],
+        Ge2H2: ["Digermyne"],
+
         Br2: ["Dibromine"],
 
         AgBF4: ["Silver tetrafluoroborate"],
@@ -1291,6 +1305,10 @@ class Compounds {
         XeF6: ["Xenon hexafluoride"],
         XeCl2: ["Xenon dichloride"],
         XeCl4: ["Xenon tetrachloride"],
+
+        Bi2Ge3O9: ["Bismuth germanate"],
+        Bi4Ge3O12: ["Bismuth germanate"],
+        Bi12GeO20: ["Bismuth germanate"],
     };
 
     static find(symbol) {
