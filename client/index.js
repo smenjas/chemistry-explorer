@@ -1006,6 +1006,7 @@ class Compounds {
         NaBr: ["Sodium bromide"],
         NaBrO3: ["Sodium bromate"],
         Na2HPO4: ["Disodium phosphate"],
+        Na2He: ["Disodium helide"],
         Na2B4O7: ["Borax"],
         Na2CO3: ["Sodium carbonate"],
         Na2O3Se: ["Sodium selenite"],
