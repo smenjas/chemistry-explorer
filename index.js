@@ -986,6 +986,7 @@ class Compounds {
         O3: ["Ozone"],
 
         F2: ["Difluorine"],
+        F2Kr: ["Krypton difluoride"],
         F6H2Si: ["Hexafluorosilicic acid"],
 
         NaHCO3: ["Sodium bicarbonate"],
@@ -1348,6 +1349,8 @@ class Compounds {
         Br2O: ["Dibromine monoxide"],
         Br2O3: ["Dibromine trioxide"],
         Br2O5: ["Dibromine pentoxide"],
+
+        KrF: ["Krypton fluoride"],
 
         NbBr5: ["Niobium(V) bromide"],
 
