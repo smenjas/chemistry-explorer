@@ -513,9 +513,10 @@ class Elements {
         html += '</ul>';
 
         if (element.type === 'Noble Gas') {
-            html += `<p>${element.name}, being a noble gas, does not form
-            compounds easily. Although not impossible, it usually requires very
-            low temperatures, high pressures, or both.</p>`;
+            const nobleGasCompoundsLink = Link.toWikipedia('Noble_gas_compound', "Noble gas compounds");
+            html += `<p>${nobleGasCompoundsLink} do not form easily. Although
+            not impossible, it usually requires very low temperatures, high
+            pressures, or both.</p>`;
         }
 
         // These elements longest-lived isotopes have a half-life less than a day.
