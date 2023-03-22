@@ -581,6 +581,7 @@ class Compounds {
         HF: ["Hydrogen fluoride"],
         HCl: ["Hydrogen chloride"],
         HClO: ["Hypochlorous acid"],
+        HArF: ["Argon fluorohydride"],
         HBr: ["Hydrogen bromide"],
         HBrO2: ["Bromous acid"],
         HI: ["Hydrogen iodide"],
@@ -1074,6 +1075,9 @@ class Compounds {
         Cl2: ["Dichlorine"],
         Cl2H18N6Ni: ["Hexaamminenickel chloride"],
         Cl2O: ["Dichlorine monoxide"],
+
+        ArH: ["Argon monohydride"],
+        Ar1C60: ["Argon buckminsterfullerene"],
 
         KHCO3: ["Potassium bicarbonate"],
         "K[HF2]": ["Potassium bifluoride"],
