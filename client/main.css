@@ -455,3 +455,10 @@ https://stackoverflow.com/a/3494108/12841859
         outline: 5px outset white;
     }
 }
+
+@media print {
+    body, td article {
+        background: white !important;
+        color: black !important;
+    }
+}
