@@ -1391,6 +1391,19 @@ class Compounds {
         Rb2CO3: ["Rubidium carbonate"],
         Rb2O2: ["Rubidium peroxide"],
 
+        SrCO3: ["Strontium carbonate"],
+        "Sr(NO3)2": ["Strontium nitrate"],
+        SrO: ["Strontium oxide"],
+        SrO2: ["Strontium peroxide"],
+        "Sr(OH)2": ["Strontium hydroxide"],
+        SrF2: ["Strontium fluoride"],
+        SrAl2O4: ["Strontium aluminate"],
+        SrS: ["Strontium sulfide"],
+        SrSO4: ["Strontium sulfate"],
+        SrCl2: ["Strontium chloride"],
+        SrCrO4: ["Strontium chromate"],
+        Sr3N2: ["Strontium nitride"],
+
         NbBr5: ["Niobium(V) bromide"],
 
         AgBF4: ["Silver tetrafluoroborate"],
