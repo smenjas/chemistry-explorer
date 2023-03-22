@@ -1380,6 +1380,17 @@ class Compounds {
 
         KrF: ["Krypton fluoride"],
 
+        RbOH: ["Rubidium hydroxide"],
+        RbO2: ["Rubidium superoxide"],
+        RbO3: ["Rubidium ozonide"],
+        RbF: ["Rubidium fluoride"],
+        RbCl: ["Rubidium chloride"],
+        RbBr: ["Rubidium bromide"],
+        RbAg4I5: ["Rubidium silver iodide"],
+        RbI: ["Rubidium iodide"],
+        Rb2CO3: ["Rubidium carbonate"],
+        Rb2O2: ["Rubidium peroxide"],
+
         NbBr5: ["Niobium(V) bromide"],
 
         AgBF4: ["Silver tetrafluoroborate"],
