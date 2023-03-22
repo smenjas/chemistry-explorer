@@ -1404,6 +1404,20 @@ class Compounds {
         SrCrO4: ["Strontium chromate"],
         Sr3N2: ["Strontium nitride"],
 
+        YH2: ["Yttrium hydride"],
+        YH3: ["Yttrium hydride"],
+        YB6: ["Yttrium boride"],
+        YN: ["Yttrium nitride"],
+        "Y(NO3)3": ["Yttrium(III) nitrate"],
+        YO: ["Yttrium(II) oxide"],
+        "Y(OH)3": ["Yttrium hydroxide"],
+        YP: ["Yttrium phosphide"],
+        YCl3: ["Yttrium(III) chloride"],
+        YBa2Cu3O7: ["Yttrium barium copper oxide"],
+        "Y2(C2O4)3": ["Yttrium oxalate"],
+        Y2O3: ["Yttrium(III) oxide"],
+        Y3Al5O12: ["Yttrium aluminium garnet"],
+
         NbBr5: ["Niobium(V) bromide"],
 
         AgBF4: ["Silver tetrafluoroborate"],
