@@ -172,8 +172,12 @@ https://stackoverflow.com/a/3494108/12841859
 }
 
 @media only screen and (max-width: 390px) {
-    nav a {
-        font-size: 1.2rem;
+    nav {
+        font-size: 0.8rem;
+    }
+    nav span {
+        min-width: 9.5rem;
+        padding: 0.125rem 0;
     }
     ol, ul {
         padding: 0 0 0 0.75rem;
@@ -194,8 +198,12 @@ https://stackoverflow.com/a/3494108/12841859
 }
 
 @media only screen and (min-width: 391px) {
-    nav a {
-        font-size: 1.4rem;
+    nav {
+        font-size: 0.9rem;
+    }
+    nav span {
+        min-width: 10.6rem;
+        padding: 0.125rem 0;
     }
     ol, ul {
         padding: 0 0 0 0.75rem;
@@ -217,7 +225,11 @@ https://stackoverflow.com/a/3494108/12841859
 
 @media only screen and (min-width: 522px) {
     nav {
+        font-size: 1.1rem;
         margin: 0.3rem;
+    }
+    nav span {
+        min-width: 12.4rem;
     }
     ol, ul {
         padding: 0 0 0 0.8rem;
@@ -238,6 +250,13 @@ https://stackoverflow.com/a/3494108/12841859
 }
 
 @media only screen and (min-width: 768px) {
+    nav {
+        font-size: 1.2rem;
+    }
+    nav span {
+        min-width: 13.4rem;
+        padding: 0.25rem 0;
+    }
     ol, ul {
         padding: 0 0 0 0.9rem;
         margin: 0 0 0.9rem 0.9rem;
@@ -262,8 +281,8 @@ https://stackoverflow.com/a/3494108/12841859
         font-size: 1.5rem;
         margin: 1rem;
     }
-    nav a {
-        padding: 0 1rem;
+    nav span {
+        min-width: 16.2rem;
     }
     ol, ul {
         padding: 0 0 0 1rem;
