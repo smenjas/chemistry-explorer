@@ -54,7 +54,6 @@ section.element article {
     display: inline-block;
     font-size: 4rem;
     border: 10px outset black;
-    margin: -1px;
     padding: 2rem;
     min-width: 22rem;
 }
@@ -75,8 +74,7 @@ td {
     border: 1px solid black;
 }
 
-td article.element {
-    font-size: 1rem;
+td article {
     border: none;
     margin: -1px;
     padding: 0.2rem;
@@ -146,8 +144,8 @@ td.empty {
     margin-top: 1rem;
 }
 
-td a,
-td a:visited {
+article a,
+article a:visited {
     color: inherit;
     text-decoration: none;
 }
@@ -159,7 +157,7 @@ https://stackoverflow.com/a/3494108/12841859
 .elements td {
     position: relative;
 }
-.elements td a span.link {
+a span.link {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -167,7 +165,7 @@ https://stackoverflow.com/a/3494108/12841859
     left: 0;
     z-index: 1;
 }
-.elements td a span.link:hover {
+a span.link:hover {
     outline: 5px outset black;
 }
 
@@ -324,7 +322,7 @@ https://stackoverflow.com/a/3494108/12841859
     th {
         font-size: 0.6rem;
     }
-    td article.element {
+    td article {
         min-width: auto;
         padding: 0.1rem;
     }
@@ -344,7 +342,7 @@ https://stackoverflow.com/a/3494108/12841859
     th {
         font-size: 0.6rem;
     }
-    td article.element {
+    td article {
         min-width: auto;
         padding: 0.1rem;
     }
@@ -371,19 +369,11 @@ https://stackoverflow.com/a/3494108/12841859
     td article .symbol {
         font-size: 1.3em;
     }
-    td article .name,
-    td article .weight {
-        display: none;
-    }
 }
 
 @media only screen and (min-width: 630px) {
     th {
         font-size: 0.7rem;
-    }
-    td article.element {
-        min-width: auto;
-        padding: 0.1rem;
     }
     td article .atomic {
         font-size: 0.75em;
@@ -398,7 +388,7 @@ https://stackoverflow.com/a/3494108/12841859
     th {
         font-size: 0.8rem;
     }
-    td article.element {
+    td article {
         padding: 0.2rem;
     }
     td article .atomic {
@@ -413,7 +403,7 @@ https://stackoverflow.com/a/3494108/12841859
     th {
         font-size: 0.9rem;
     }
-    td article.element {
+    td article {
         padding: 0.1rem;
     }
     td article .name {
@@ -423,7 +413,7 @@ https://stackoverflow.com/a/3494108/12841859
 }
 
 @media only screen and (min-width: 1230px) {
-    td article.element {
+    td article {
         padding: 0.2rem;
     }
     td article .atomic {
@@ -437,7 +427,7 @@ https://stackoverflow.com/a/3494108/12841859
 }
 
 @media only screen and (min-width: 1300px) {
-    td article.element {
+    td article {
         padding: 0.2rem;
     }
     td article .atomic {
@@ -450,14 +440,14 @@ https://stackoverflow.com/a/3494108/12841859
 }
 
 @media only screen and (min-width: 1600px) {
-    td article.element {
+    td article {
         min-width: 5.0rem;
         padding: 0.2rem;
     }
 }
 
 @media only screen and (min-width: 1700px) {
-    td article.element {
+    td article {
         min-width: 5.3rem;
     }
     td article .name,
@@ -477,14 +467,12 @@ https://stackoverflow.com/a/3494108/12841859
     a:visited {
         color: #faf;
     }
+    section.element article,
     td {
-        border: 1px solid white;
+        border-color: white;
     }
-    section.element article {
-        border: 10px outset white;
-    }
-    .elements td a span.link:hover {
-        outline: 5px outset white;
+    a span.link:hover {
+        outline-color: white;
     }
 }
 
