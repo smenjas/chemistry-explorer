@@ -1762,6 +1762,13 @@ class Compounds {
         BaWO4: ["Barium tungstate"],
         Ba2TiO4: ["Barium orthotitanate"],
 
+        "La2(C2O4)3": ["Lanthanum oxalate"],
+        "La(NO3)3": ["Lanthanum(III) nitrate"],
+        "La(OH)3": ["Lanthanum hydroxide"],
+        LaF3: ["Lanthanum trifluoride"],
+        LaCl3: ["Lanthanum(III) chloride"],
+        La2O3: ["Lanthanum oxide"],
+
         Ta2Br10: ["Tantalum(V) bromide"],
         TaTe2: ["Tantalum telluride"],
         Ta2I10: ["Tantalum(V) iodide"],
