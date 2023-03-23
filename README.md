@@ -18,3 +18,5 @@ CSS, & client-side JS.
 ![Periodic Table of the Elements (small)](screenshots/periodic-table-541px.png)
 ![Periodic Table of the Elements (medium)](screenshots/periodic-table-720px.png)
 ![Periodic Table of the Elements (large)](screenshots/periodic-table-1600px.png)
+
+[Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)
