@@ -88,17 +88,17 @@ section.element aside {
 }
 
 article .atomic {
-    font-size: 1.0rem;
+    font-size: 100%;
     text-align: right;
     display: block;
 }
 article .symbol {
-    font-size: 1.5rem;
+    font-size: 150%;
     font-weight: bold;
 }
 article .name,
 article .weight {
-    font-size: 0.8rem;
+    font-size: 80%;
 }
 
 td.empty {
