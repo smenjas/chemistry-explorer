@@ -862,6 +862,7 @@ class Compounds {
         C6H14N4O2: ["Arginine"],
         C6H15In: ["Triethylindium"],
         C6O6V: ["Vanadium hexacarbonyl"],
+        C6O12Pr2: ["Praseodymium(III) oxalate"],
 
         C7H5IO4: ["2-Iodoxybenzoic acid"],
         C7H6O5: ["Gallic acid"],
@@ -1798,6 +1799,17 @@ class Compounds {
         Ce2S3: ["Cerium(III) sulfide"],
         "Ce2(SO4)3": ["Cerium(III) sulfate"],
         Ce3O4: ["Cerium(III, IV) oxide"],
+
+        PrN: ["Praseodymium(III) nitride"],
+        "Pr(NO3)3": ["Praseodymium(III) nitrate"],
+        PrO2: ["Praseodymium(IV) oxide"],
+        PrF3: ["Praseodymium(III) fluoride"],
+        PrF4: ["Praseodymium(IV) fluoride"],
+        PrCl3: ["Praseodymium(III) chloride"],
+        PrBr3: ["Praseodymium(III) bromide"],
+        PrI3: ["Praseodymium(III) iodide"],
+        Pr2O3: ["Praseodymium(III) oxide"],
+        Pr6O11: ["Praseodymium(III,IV) oxide"],
 
         Ta2Br10: ["Tantalum(V) bromide"],
         TaTe2: ["Tantalum telluride"],
