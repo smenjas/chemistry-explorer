@@ -863,6 +863,7 @@ class Compounds {
         C6H15In: ["Triethylindium"],
         C6O6V: ["Vanadium hexacarbonyl"],
         C6O12Pr2: ["Praseodymium(III) oxalate"],
+        C6O12Sm2: ["Samarium(III) oxalate"],
 
         C7H5IO4: ["2-Iodoxybenzoic acid"],
         C7H6O5: ["Gallic acid"],
@@ -1834,6 +1835,20 @@ class Compounds {
         PmBr3: ["Promethium(III) bromide"],
         PmI3: ["Promethium(III) iodide"],
         Pm2O3: ["Promethium(III) oxide"],
+
+        SmB6: ["Samarium hexaboride"],
+        "Sm(NO3)3": ["Samarium(III) nitrate"],
+        "Sm(OH)3": ["Samarium(III) hydroxide"],
+        SmF3: ["Samarium(III) fluoride"],
+        SmCl3: ["Samarium(III) chloride"],
+        SmAs: ["Samarium arsenide"],
+        SmSe: ["Selenium(II) selenide"],
+        SmBr2: ["Samarium(II) bromide"],
+        SmBr3: ["Samarium(III) bromide"],
+        SmTe: ["Samarium(II) telluride"],
+        SmI2: ["Samarium(II) iodide"],
+        Sm2O3: ["Samarium(III) oxide"],
+        Sm2S3: ["Samarium(III) sulfide"],
 
         Ta2Br10: ["Tantalum(V) bromide"],
         TaTe2: ["Tantalum telluride"],
