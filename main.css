@@ -43,7 +43,7 @@ nav .previous {
 }
 
 sub, sup {
-    font-size: 0.6em;
+    font-size: 0.6rem;
 }
 
 ol, ul {
@@ -88,17 +88,17 @@ section.element aside {
 }
 
 article .atomic {
-    font-size: 1.0em;
+    font-size: 1.0rem;
     text-align: right;
     display: block;
 }
 article .symbol {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 article .name,
 article .weight {
-    font-size: 0.8em;
+    font-size: 0.8rem;
 }
 
 td.empty {
@@ -330,7 +330,7 @@ a span.link:hover {
         display: none;
     }
     td article .symbol {
-        font-size: 1.0em;
+        font-size: 1.0rem;
     }
     td article .name,
     td article .weight {
@@ -350,7 +350,7 @@ a span.link:hover {
         display: none;
     }
     td article .symbol {
-        font-size: 1.2em;
+        font-size: 1.2rem;
     }
     td article .name,
     td article .weight {
@@ -363,11 +363,11 @@ a span.link:hover {
         font-size: 0.65rem;
     }
     td article .atomic {
-        font-size: 0.75em;
+        font-size: 0.75rem;
         display: block;
     }
     td article .symbol {
-        font-size: 1.3em;
+        font-size: 1.3rem;
     }
 }
 
@@ -376,7 +376,7 @@ a span.link:hover {
         font-size: 0.7rem;
     }
     td article .atomic {
-        font-size: 0.75em;
+        font-size: 0.75rem;
         display: block;
     }
     td article .symbol {
@@ -392,10 +392,10 @@ a span.link:hover {
         padding: 0.2rem;
     }
     td article .atomic {
-        font-size: 0.8em;
+        font-size: 0.8rem;
     }
     td article .symbol {
-        font-size: 1.5em;
+        font-size: 1.5rem;
     }
 }
 
@@ -408,7 +408,7 @@ a span.link:hover {
     }
     td article .name {
         display: inline;
-        font-size: 0.6em;
+        font-size: 0.6rem;
     }
 }
 
@@ -417,12 +417,12 @@ a span.link:hover {
         padding: 0.2rem;
     }
     td article .atomic {
-        font-size: 0.9em;
+        font-size: 0.9rem;
     }
     td article .name,
     td article .weight {
         display: inline;
-        font-size: 0.7em;
+        font-size: 0.7rem;
     }
 }
 
@@ -431,11 +431,11 @@ a span.link:hover {
         padding: 0.2rem;
     }
     td article .atomic {
-        font-size: 1.0em;
+        font-size: 1.0rem;
     }
     td article .name,
     td article .weight {
-        font-size: 0.75em;
+        font-size: 0.75rem;
     }
 }
 
@@ -452,7 +452,7 @@ a span.link:hover {
     }
     td article .name,
     td article .weight {
-        font-size: 0.8em;
+        font-size: 0.8rem;
     }
 }
 
