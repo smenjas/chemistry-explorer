@@ -73,6 +73,7 @@ td article {
 
 section.element {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 0.375rem;
 }
@@ -171,10 +172,10 @@ a span.link:hover {
 
 @media only screen and (max-width: 390px) {
     nav {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
     nav span {
-        min-width: 9.5rem;
+        min-width: 7.7rem;
         padding: 0.125rem 0;
     }
     ol, ul {
@@ -188,7 +189,7 @@ a span.link:hover {
         font-size: 1.6rem;
         border: 5px outset black;
         padding: 0.5rem 1rem;
-        min-width: 6rem;
+        min-width: 7.5rem;
     }
     section.element aside {
         font-size: 0.6rem;
@@ -197,10 +198,10 @@ a span.link:hover {
 
 @media only screen and (min-width: 391px) {
     nav {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
     nav span {
-        min-width: 10.6rem;
+        min-width: 9.3rem;
         padding: 0.125rem 0;
     }
     ol, ul {
@@ -214,7 +215,7 @@ a span.link:hover {
         font-size: 1.8rem;
         border: 6px outset black;
         padding: 0.5rem 1rem;
-        min-width: 6rem;
+        min-width: 9rem;
     }
     section.element aside {
         font-size: 0.6rem;
@@ -237,7 +238,7 @@ a span.link:hover {
         gap: 0.25rem;
     }
     section.element article {
-        font-size: 2rem;
+        font-size: 2.5rem;
         border: 8px outset black;
         padding: 1rem 2rem;
         min-width: 11rem;
