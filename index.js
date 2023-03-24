@@ -1826,6 +1826,15 @@ class Compounds {
         "Nd2(SO4)3": ["Neodymium(III) sulfate"],
         Nd2O3: ["Neodymium(III) oxide"],
 
+        "Pm(NO3)3": ["Promethium(III) nitrate"],
+        "Pm(OH)3": ["Promethium(III) hydroxide"],
+        PmF3: ["Promethium(III) fluoride"],
+        PmPO4: ["Promethium(III) phosphate"],
+        PmCl3: ["Promethium(III) chloride"],
+        PmBr3: ["Promethium(III) bromide"],
+        PmI3: ["Promethium(III) iodide"],
+        Pm2O3: ["Promethium(III) oxide"],
+
         Ta2Br10: ["Tantalum(V) bromide"],
         TaTe2: ["Tantalum telluride"],
         Ta2I10: ["Tantalum(V) iodide"],
