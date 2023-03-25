@@ -2209,11 +2209,17 @@ class Compounds {
         let html = `<h1>${pretty}</h1>`;
 
         html += '<h2>Links</h2>';
-        html += '<ul>';
-        for (const chemical of Compounds.data[formula]) {
-            html += `<li>${Link.toWikipedia(chemical, `Wikipedia: ${chemical}`)}</li>`;
+
+        if (formula in Compounds.data) {
+            html += '<ul>';
+            for (const chemical of Compounds.data[formula]) {
+                html += `<li>${Link.toWikipedia(chemical, `Wikipedia: ${chemical}`)}</li>`;
+            }
+            html += '</ul>';
         }
-        html += '</ul>';
+        else {
+            html += '<p>Chemical formula not found.</p>';
+        }
 
         html += '<ul>';
         html += `<li>${Link.create(Compounds.getWebBookURL(formula), "NIST WebBook", true)}</li>`;
