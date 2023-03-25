@@ -847,6 +847,7 @@ class Compounds {
         C6H9O6Gd: ["Gadolinium acetate"],
         C6H9O6Tb: ["Terbium acetate"],
         C6H9O6Dy: ["Dysprosium(III) acetate"],
+        C6H9O6Ho: ["Holmium acetate"],
         C6H9N3O2: ["Histidine"],
         C6H9MnO6: ["Manganese(III) acetate"],
         C6H10O5: ["Starch"],
@@ -979,6 +980,7 @@ class Compounds {
         C15H16O2: ["Bisphenol A"],
         C15H21O6Ce: ["Cerium(III) acetylacetonate"],
         C15H21O6Dy: ["Dysprosium acetylacetonate"],
+        C15H21O6Ho: ["Holmium acetylacetonate"],
         C15H23N3O3S: ["Mecillinam"],
 
         C16H16N2O6S2: ["Cefalotin"],
@@ -1911,6 +1913,16 @@ class Compounds {
         Dy2O5Ti: ["Dysprosium titanate"],
         Dy2O7Ti2: ["Dysprosium titanate"],
         Dy2O7Sn2: ["Dysprosium stannate"],
+
+        HoF3: ["Holmium(III) fluoride"],
+        "Ho(NO3)3": ["Holmium(III) nitrate"],
+        HoP: ["Holmium phosphide"],
+        HoCl3: ["Holmium(III) chloride"],
+        HoBr3: ["Holmium(III) bromide"],
+        HoI3: ["Holmium(III) iodide"],
+        Ho2O3: ["Holmium(III) oxide"],
+        Ho2S3: ["Holmium(III) sulfide"],
+        Ho2O7Ti2: ["Holmium titanate"],
 
         Ta2Br10: ["Tantalum(V) bromide"],
         TaTe2: ["Tantalum telluride"],
