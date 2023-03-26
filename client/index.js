@@ -2376,6 +2376,10 @@ class Compounds {
         CmCl3: ["Curium(III) chloride"],
         CmBr3: ["Curium(III) bromide"],
         Cm2O3: ["Curium(III) oxide"],
+
+        "Bk(NO3)3": ["Berkelium(III) nitrate"],
+        BkO2: ["Berkelium(IV) oxide"],
+        BkCl3: ["Berkelium(III) chloride"],
     };
 
     static find(symbol) {
