@@ -2323,6 +2323,20 @@ class Compounds {
         U2N3: ["Uranium nitrides"],
         U2O5: ["Diuranium pentoxide"],
         U3O8: ["Triuranium octoxide"],
+
+        "Np(C2O4)2": ["Neptunium(IV) oxalate"],
+        "Np(C8H8)2": ["Neptunocene"],
+        "Np(NO3)4": ["Neptunium(IV) nitrate"],
+        NpO2: ["Neptunium(IV) oxide"],
+        "NpO2(OH)3": ["Neptunium(VII) oxide-hydroxide"],
+        NpF3: ["Neptunium(III) fluoride"],
+        NpF4: ["Neptunium(IV) fluoride"],
+        NpF5: ["Neptunium(V) fluoride"],
+        NpF6: ["Neptunium(VI) fluoride"],
+        NpSi2: ["Neptunium silicide"],
+        NpCl3: ["Neptunium(III) chloride"],
+        NpAs: ["Neptunium arsenide"],
+        NpAs2: ["Neptunium diarsenide"],
     };
 
     static find(symbol) {
