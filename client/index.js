@@ -2356,6 +2356,19 @@ class Compounds {
         PuSe: ["Plutonium selenide"],
         PuBr3: ["Plutonium(III) bromide"],
         Pu2C3: ["Plutonium carbide"],
+
+        "Am(NO3)3": ["Americium(III) nitrate"],
+        AmO2: ["Americium dioxide"],
+        "Am(OH)3": ["Americium(III) hydroxide"],
+        AmF3: ["Americium(III) fluoride"],
+        AmF4: ["Americium(IV) fluoride"],
+        AmCl2: ["Americium(II) chloride"],
+        AmCl3: ["Americium(III) chloride"],
+        AmBr2: ["Americium(II) bromide"],
+        AmBr3: ["Americium(III) bromide"],
+        AmI2: ["Americium(II) iodide"],
+        AmI3: ["Americium(III) iodide"],
+        Am2O3: ["Americium(III) oxide"],
     };
 
     static find(symbol) {
