@@ -2267,6 +2267,20 @@ class Compounds {
         AcI3: ["Actinium(III) iodide"],
         Ac2O3: ["Actinium(III) oxide"],
         Ac2S3: ["Actinium(III) sulfide"],
+
+        ThC: ["Thorium(IV) carbide"],
+        "Th(C2O4)2": ["Thorium oxalate"],
+        "Th(C8H8)2": ["Thorocene"],
+        "Th(NO3)4": ["Thorium(IV) nitrate"],
+        ThO: ["Thorium monoxide"],
+        ThOF2: ["Thorium oxyfluoride"],
+        ThO2: ["Thorium dioxide"],
+        "Th(OH)4": ["Thorium(IV) hydroxide"],
+        ThF4: ["Thorium tetrafluoride"],
+        ThSiO4: ["Thorium(IV) orthosilicate"],
+        ThS2: ["Thorium(IV) sulfide"],
+        ThCl4: ["Thorium(IV) chloride"],
+        ThI4: ["Thorium(IV) iodide"],
     };
 
     static find(symbol) {
