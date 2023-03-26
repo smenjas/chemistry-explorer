@@ -2281,6 +2281,16 @@ class Compounds {
         ThS2: ["Thorium(IV) sulfide"],
         ThCl4: ["Thorium(IV) chloride"],
         ThI4: ["Thorium(IV) iodide"],
+
+        "Pa(C8H8)2": ["Protactinocene"],
+        PaO2: ["Protactinium(IV) oxide"],
+        PaF5: ["Protactinium(V) fluoride"],
+        PaCl4: ["Protactinium(IV) chloride"],
+        PaCl5: ["Protactinium(V) chloride"],
+        PaBr4: ["Protactinium(IV) bromide"],
+        PaBr5: ["Protactinium(V) bromide"],
+        PaI5: ["Protactinium(V) iodide"],
+        Pa2O5: ["Protactinium(V) oxide"],
     };
 
     static find(symbol) {
