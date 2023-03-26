@@ -2251,6 +2251,13 @@ class Compounds {
 
         FrOH: ["Francium hydroxide"],
         FrCl: ["Francium chloride"],
+
+        RaCO3: ["Radium carbonate"],
+        "Ra(NO3)2": ["Radium nitrate"],
+        RaF2: ["Radium fluoride"],
+        RaSO4: ["Radium sulfate"],
+        RaCl2: ["Radium chloride"],
+        RaBr2: ["Radium bromide"],
     };
 
     static find(symbol) {
