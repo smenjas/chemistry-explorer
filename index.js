@@ -2380,6 +2380,12 @@ class Compounds {
         "Bk(NO3)3": ["Berkelium(III) nitrate"],
         BkO2: ["Berkelium(IV) oxide"],
         BkCl3: ["Berkelium(III) chloride"],
+
+        "Cf[B6O8(OH)5]": ["Californium(III) polyborate"],
+        CfFO: ["Californium(III) oxyfluoride"],
+        CfClO: ["Californium(III) oxychloride"],
+        CfCl3: ["Californium(III) chloride"],
+        CfBr3: ["Californium(III) bromide"],
     };
 
     static find(symbol) {
