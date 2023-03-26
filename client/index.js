@@ -2386,6 +2386,11 @@ class Compounds {
         CfClO: ["Californium(III) oxychloride"],
         CfCl3: ["Californium(III) chloride"],
         CfBr3: ["Californium(III) bromide"],
+
+        EsCl3: ["Einsteinium(III) chloride"],
+        EsBr3: ["Einsteinium(III) bromide"],
+        EsI3: ["Einsteinium(III) iodide"],
+        Es2O3: ["Einsteinium(III) oxide"],
     };
 
     static find(symbol) {
