@@ -2258,6 +2258,15 @@ class Compounds {
         RaSO4: ["Radium sulfate"],
         RaCl2: ["Radium chloride"],
         RaBr2: ["Radium bromide"],
+
+        "Ac(NO3)3": ["Actinium(III) nitrate"],
+        AcF3: ["Actinium(III) fluoride"],
+        AcPO4: ["Actinium(III) phosphate"],
+        AcCl3: ["Actinium(III) chloride"],
+        AcBr3: ["Actinium(III) bromide"],
+        AcI3: ["Actinium(III) iodide"],
+        Ac2O3: ["Actinium(III) oxide"],
+        Ac2S3: ["Actinium(III) sulfide"],
     };
 
     static find(symbol) {
