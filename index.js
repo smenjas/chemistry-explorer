@@ -2337,6 +2337,25 @@ class Compounds {
         NpCl3: ["Neptunium(III) chloride"],
         NpAs: ["Neptunium arsenide"],
         NpAs2: ["Neptunium diarsenide"],
+
+        PuH2: ["Plutonium hydride"],
+        PuB2: ["Plutonium diboride"],
+        PuB4: ["Plutonium tetraboride"],
+        PuB6: ["Plutonium hexaboride"],
+        PuC: ["Plutonium carbide"],
+        "Pu(C8H8)2": ["Plutonocene"],
+        "Pu(NO3)4": ["Plutonium(IV) nitrate"],
+        PuO2: ["Plutonium(IV) oxide"],
+        PuF3: ["Plutonium(III) fluoride"],
+        PuF4: ["Plutonium tetrafluoride"],
+        PuF6: ["Plutonium hexafluoride"],
+        PuSi: ["Plutonium silicide"],
+        PuP: ["Plutonium(III) phosphide"],
+        PuCl3: ["Plutonium(III) chloride"],
+        PuAs: ["Plutonium(III) arsenide"],
+        PuSe: ["Plutonium selenide"],
+        PuBr3: ["Plutonium(III) bromide"],
+        Pu2C3: ["Plutonium carbide"],
     };
 
     static find(symbol) {
