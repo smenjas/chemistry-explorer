@@ -2243,6 +2243,9 @@ class Compounds {
         PoBr2: ["Polonium dibromide"],
         PoI4: ["Polonium tetraiodide"],
 
+        AtBr: ["Astatine bromide"],
+        AtI: ["Astatine iodide"],
+
         RnO3: ["Radon trioxide"],
         RnF2: ["Radon difluoride"],
     };
