@@ -2369,6 +2369,13 @@ class Compounds {
         AmI2: ["Americium(II) iodide"],
         AmI3: ["Americium(III) iodide"],
         Am2O3: ["Americium(III) oxide"],
+
+        CmH3O3: ["Curium hydroxide"],
+        "Cm(NO3)3": ["Curium(III) nitrate"],
+        CmF3: ["Curium(III) fluoride"],
+        CmCl3: ["Curium(III) chloride"],
+        CmBr3: ["Curium(III) bromide"],
+        Cm2O3: ["Curium(III) oxide"],
     };
 
     static find(symbol) {
