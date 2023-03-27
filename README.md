@@ -12,10 +12,10 @@ CSS, & client-side JS.
 ## Goals
 - [x] Show the periodic table of the elements
 - [x] Show details about each element
-- [ ] Show info about simple chemicals (e.g. H<sub>2</sub>, H<sub>2</sub>O, NH<sub>3</sub>)
+- [x] Show info about simple chemicals (e.g. H<sub>2</sub>, H<sub>2</sub>O, NH<sub>3</sub>)
 
-![Silicon element details](screenshots/silicon.png)
-![Periodic Table of the Elements (medium)](screenshots/periodic-table-medium.png)
 ![Periodic Table of the Elements (large)](screenshots/periodic-table-large.png)
+![Silicon element details](screenshots/silicon.png)
+![SiO2 compound details](screenshots/SiO2.png)
 
 [Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)
