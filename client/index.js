@@ -263,7 +263,7 @@ class Elements {
         if (protons === 1) {
             return 3;
         }
-        if (protons < 19) {
+        if (protons < 13) {
             return protons + 8;
         }
         if (protons < 39) {
