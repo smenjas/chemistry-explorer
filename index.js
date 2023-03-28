@@ -4,11 +4,20 @@ class Site {
     static render() {
         const params = new URLSearchParams(window.location.search);
         const formula = params.get('formula');
+        const group = params.get('group');
         const protons = params.get('protons');
         let html = '';
 
         if (formula) {
             html += Compounds.render(formula);
+        }
+        else if (group) {
+            document.title = `Group ${group}`;
+            html += '<main>';
+            html += `<h1>${document.title}</h1>`;
+            html += Elements.renderGroupNav(group);
+            html += Elements.renderGroup(group);
+            html += '</main>';
         }
         else {
             html += Elements.render(protons);
@@ -180,6 +189,27 @@ class Elements {
         groups.set(17, 'VIIA');
         groups.set(18, 'VIIIA');
         return groups;
+    }
+
+    static groupElements = {
+        1: [1, 3, 11, 19, 37, 55, 87],
+        2: [4, 12, 20, 38, 56, 88],
+        3: [21, 39, 71, 103],
+        4: [22, 40, 72, 104],
+        5: [23, 41, 73, 105],
+        6: [24, 42, 74, 106],
+        7: [25, 43, 75, 107],
+        8: [26, 44, 76, 108],
+        9: [27, 45, 77, 109],
+        10: [28, 46, 78, 110],
+        11: [29, 47, 79, 111],
+        12: [30, 48, 80, 112],
+        13: [5, 13, 31, 49, 81, 113],
+        14: [6, 14, 32, 50, 82, 114],
+        15: [7, 15, 33, 51, 83, 115],
+        16: [8, 16, 34, 52, 84, 116],
+        17: [9, 17, 35, 53, 85, 117],
+        18: [2, 10, 18, 36, 54, 86, 118],
     }
 
     static groupURLs = {
@@ -395,11 +425,12 @@ class Elements {
             89: 2,
         };
         let html = '<section>';
-        html += `<table class="elements"><thead><tr>`;
+        html += '<table class="elements"><thead><tr>';
 
         for (const [group, oldgroup] of Elements.groups) {
-            const thTitle = `Group ${group} (formerly ${oldgroup})`;
-            html += `<th class="group-${group}" title="${thTitle}">${group}<br>${oldgroup}</th>`;
+            const title = `Group ${group} (formerly ${oldgroup})`;
+            const link = `<a href="?group=${group}">${group}<br>${oldgroup}<span class="link"></span></a>`;
+            html += `<th class="group group-${group}" title="${title}">${link}</th>`;
         }
 
         html += '</tr></thead><tbody>';
@@ -468,6 +499,7 @@ class Elements {
             html += `<tr>${tr}</tr>`;
         }
 
+        html += '</tbody></table>';
         html += '</section>';
 
         return html;
@@ -589,6 +621,51 @@ class Elements {
         html += '<span class="next">';
         if (groupNext) {
             html += `<a href="?protons=${down}">${groupNext.symbol}: ${groupNext.name} &darr;</a>`;
+        }
+        html += '</span>';
+        html += '</nav>';
+
+        return html;
+    }
+
+    static renderGroup(group) {
+        if (!(group in Elements.groupElements)) {
+            return '';
+        }
+
+        let html = '<table class="elements group"><tbody>';
+        const elements = Elements.groupElements[group];
+        for (const protons of elements) {
+            const element = Elements.data[protons];
+            html += '<tr>';
+            html += `<td>${Elements.formatElement(protons, true)}</td>`;
+            html += `<td class="element-data">Density: ${Elements.formatDensity(element.density, true)}<br>`;
+            html += `Melting Point: ${Elements.formatCelsius(element.melts)}<br>`;
+            html += `Boiling Point: ${Elements.formatCelsius(element.boils)}</td>`;
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+
+        return html;
+    }
+
+    static renderGroupNav(group) {
+        group = parseInt(group);
+        if (group < 1 || group > 18) {
+            return '';
+        }
+
+        let html = '<nav>';
+        html += '<span class="previous">';
+        if (group > 1) {
+            const prev = group - 1;
+            html += `<a href="?group=${group - 1}">&larr; Group ${prev}</a>`;
+        }
+        html += '</span> ';
+        html += '<span class="next">';
+        if (group < 18) {
+            const next = group + 1;
+            html += `<a href="?group=${group + 1}">Group ${next} &rarr;</a>`;
         }
         html += '</span>';
         html += '</nav>';
