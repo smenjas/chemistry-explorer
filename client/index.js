@@ -1387,6 +1387,7 @@ class Compounds {
         Fe2O3: ["Ferric oxide"],
         "Fe2(SO4)3": ["Iron(III) sulfate"],
         Fe7MoS9C: ["FeMoco"],
+        Fe16N2: ["Iron nitride"],
 
         CoCO3: ["Cobalt(II) carbonate"],
         "Co(C5H5)2": ["Cobaltocene"],
