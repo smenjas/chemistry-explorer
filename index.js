@@ -5,6 +5,7 @@ class Site {
         const params = new URLSearchParams(window.location.search);
         const formula = params.get('formula');
         const group = params.get('group');
+        const period = params.get('period');
         const protons = params.get('protons');
         let html = '';
 
@@ -17,6 +18,14 @@ class Site {
             html += `<h1>${document.title}</h1>`;
             html += Elements.renderGroupNav(group);
             html += Elements.renderGroup(group);
+            html += '</main>';
+        }
+        else if (period) {
+            document.title = `Period ${period}`;
+            html += '<main>';
+            html += `<h1>${document.title}</h1>`;
+            html += Elements.renderPeriodNav(period);
+            html += Elements.renderPeriod(period);
             html += '</main>';
         }
         else {
@@ -426,6 +435,7 @@ class Elements {
         };
         let html = '<section>';
         html += '<table class="elements"><thead><tr>';
+        html += '<th class="empty"></th>';
 
         for (const [group, oldgroup] of Elements.groups) {
             const title = `Group ${group} (formerly ${oldgroup})`;
@@ -433,6 +443,7 @@ class Elements {
             html += `<th class="group group-${group}" title="${title}">${link}</th>`;
         }
 
+        html += '<td class="empty"></td>';
         html += '</tr></thead><tbody>';
 
         for (const [period, bounds] of Elements.periods) {
@@ -469,7 +480,9 @@ class Elements {
                 tr += `<td class="${tdClass}">${td}</td>`;
             }
 
-            html += `<tr>${tr}</tr>`;
+            const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
+            const th = `<th title="Period ${period}">${thLink}</th>`;
+            html += `<tr>${th}${tr}${th}</tr>`;
 
             if (period === 7) {
                 break;
@@ -480,8 +493,8 @@ class Elements {
 
         html += '<table class="rare-earth elements"><tbody>';
 
-        for (const [period, bounds] of Elements.periods) {
-            if (period !== 'lanthanides' && period !== 'actinides') {
+        for (const [category, bounds] of Elements.periods) {
+            if (category !== 'lanthanides' && category !== 'actinides') {
                 continue;
             }
 
@@ -496,7 +509,10 @@ class Elements {
                 tr += `<td>${td}</td>`;
             }
 
-            html += `<tr>${tr}</tr>`;
+            const period = (category === 'lanthanides') ? 6 : 7;
+            const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
+            const th = `<th title="Period ${period}">${thLink}</th>`;
+            html += `<tr>${th}${tr}${th}</tr>`;
         }
 
         html += '</tbody></table>';
@@ -630,6 +646,7 @@ class Elements {
 
     static renderGroup(group) {
         if (!(group in Elements.groupElements)) {
+            console.log('hello');
             return '';
         }
 
@@ -666,6 +683,53 @@ class Elements {
         if (group < 18) {
             const next = group + 1;
             html += `<a href="?group=${group + 1}">Group ${next} &rarr;</a>`;
+        }
+        html += '</span>';
+        html += '</nav>';
+
+        return html;
+    }
+
+    static renderPeriod(period) {
+        period = parseInt(period);
+        if (!Elements.periods.has(period)) {
+            return '';
+        }
+
+        let html = '<table class="elements period"><tbody>';
+        const { min, max } = Elements.periods.get(period);
+        console.log(min, max);
+        for (let protons = min; protons <= max; protons++) {
+            const element = Elements.data[protons];
+            html += '<tr>';
+            html += `<td>${Elements.formatElement(protons, true)}</td>`;
+            html += `<td class="element-data">Density: ${Elements.formatDensity(element.density)}<br>`;
+            html += `Melting Point: ${Elements.formatCelsius(element.melts)}<br>`;
+            html += `Boiling Point: ${Elements.formatCelsius(element.boils)}</td>`;
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+
+        return html;
+    }
+
+    static renderPeriodNav(period) {
+        period = parseInt(period);
+        if (period < 1 || period > 7) {
+            return '';
+        }
+
+        let html = '<nav>';
+        html += '<span class="previous">';
+        if (period > 1) {
+            const prev = period - 1;
+            html += `<a href="?period=${period - 1}">&larr; Period ${prev}</a>`;
+        }
+        html += '</span> ';
+        html += '<span class="next">';
+        if (period < 7) {
+            const next = period + 1;
+            html += `<a href="?period=${period + 1}">Period ${next} &rarr;</a>`;
         }
         html += '</span>';
         html += '</nav>';
