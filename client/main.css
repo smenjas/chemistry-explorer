@@ -81,6 +81,11 @@ section.elements {
 }
 section.elements article {
     border: 1px solid black;
+}
+
+.group article,
+.period article,
+section.elements article {
     min-width: 5.3rem;
 }
 
@@ -342,18 +347,18 @@ a span.link:hover {
     th {
         font-size: 0.6rem;
     }
-    td article {
+    .all article {
         min-width: auto;
         padding: 0.1rem;
     }
-    td article .atomic {
+    .all article .atomic {
         display: none;
     }
-    td article .symbol {
+    .all article .symbol {
         font-size: 1.0rem;
     }
-    td article .name,
-    td article .weight {
+    .all article .name,
+    .all article .weight {
         display: none;
     }
 }
@@ -362,18 +367,18 @@ a span.link:hover {
     th {
         font-size: 0.6rem;
     }
-    td article {
+    .all article {
         min-width: auto;
         padding: 0.1rem;
     }
-    td article .atomic {
+    .all article .atomic {
         display: none;
     }
-    td article .symbol {
+    .all article .symbol {
         font-size: 1.2rem;
     }
-    td article .name,
-    td article .weight {
+    .all article .name,
+    .all article .weight {
         display: none;
     }
 }
@@ -382,11 +387,11 @@ a span.link:hover {
     th {
         font-size: 0.65rem;
     }
-    td article .atomic {
+    .all article .atomic {
         font-size: 0.75rem;
         display: block;
     }
-    td article .symbol {
+    .all article .symbol {
         font-size: 1.3rem;
     }
 }
@@ -395,11 +400,11 @@ a span.link:hover {
     th {
         font-size: 0.7rem;
     }
-    td article .atomic {
+    .all article .atomic {
         font-size: 0.75rem;
         display: block;
     }
-    td article .symbol {
+    .all article .symbol {
         font-size: 1.4rem;
     }
 }
@@ -408,13 +413,13 @@ a span.link:hover {
     th {
         font-size: 0.8rem;
     }
-    td article {
+    .all article {
         padding: 0.2rem;
     }
-    td article .atomic {
+    .all article .atomic {
         font-size: 0.8rem;
     }
-    td article .symbol {
+    .all article .symbol {
         font-size: 1.5rem;
     }
 }
@@ -423,55 +428,55 @@ a span.link:hover {
     th {
         font-size: 0.9rem;
     }
-    td article {
+    .all article {
         padding: 0.1rem;
     }
-    td article .name {
+    .all article .name {
         display: inline;
         font-size: 0.6rem;
     }
 }
 
 @media only screen and (min-width: 1230px) {
-    td article {
+    .all article {
         padding: 0.2rem;
     }
-    td article .atomic {
+    .all article .atomic {
         font-size: 0.9rem;
     }
-    td article .name,
-    td article .weight {
+    .all article .name,
+    .all article .weight {
         display: inline;
         font-size: 0.7rem;
     }
 }
 
 @media only screen and (min-width: 1300px) {
-    td article {
+    .all article {
         padding: 0.2rem;
     }
-    td article .atomic {
+    .all article .atomic {
         font-size: 1.0rem;
     }
-    td article .name,
-    td article .weight {
+    .all article .name,
+    .all article .weight {
         font-size: 0.75rem;
     }
 }
 
 @media only screen and (min-width: 1600px) {
-    td article {
+    .all article {
         min-width: 5.0rem;
         padding: 0.2rem;
     }
 }
 
 @media only screen and (min-width: 1700px) {
-    td article {
+    .all article {
         min-width: 5.3rem;
     }
-    td article .name,
-    td article .weight {
+    .all article .name,
+    .all article .weight {
         font-size: 0.8rem;
     }
 }
@@ -487,6 +492,8 @@ a span.link:hover {
     a:visited {
         color: #faf;
     }
+    .group article,
+    .period article,
     section.element article,
     section.elements article,
     td {
@@ -498,7 +505,7 @@ a span.link:hover {
 }
 
 @media print {
-    td article,
+    .all article,
     body {
         background: white !important;
         color: black !important;
