@@ -10,6 +10,8 @@ a:visited {
     color: #505;
 }
 
+th a,
+th a:visited,
 article a,
 article a:visited {
     color: inherit;
@@ -113,6 +115,10 @@ article .weight {
     font-size: 80%;
 }
 
+td.element-data {
+    border: none;
+    padding-left: 1rem;
+}
 td.empty {
     border: none;
 }
@@ -167,6 +173,7 @@ Make the whole element clickable in the periodic table.
 https://stackoverflow.com/a/3494108/12841859
 */
 section.elements article,
+.elements th,
 .elements td {
     position: relative;
 }
