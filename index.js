@@ -434,7 +434,7 @@ class Elements {
             89: 2,
         };
         let html = '<section>';
-        html += '<table class="elements"><thead><tr>';
+        html += '<table class="all elements"><thead><tr>';
         html += '<th class="empty"></th>';
 
         for (const [group, oldgroup] of Elements.groups) {
@@ -491,7 +491,7 @@ class Elements {
 
         html += '</tbody></table>';
 
-        html += '<table class="rare-earth elements"><tbody>';
+        html += '<table class="all rare-earth elements"><tbody>';
 
         for (const [category, bounds] of Elements.periods) {
             if (category !== 'lanthanides' && category !== 'actinides') {
