@@ -372,6 +372,14 @@ class Elements {
         return html;
     }
 
+    static formatIsotope(protons, mass) {
+        const element = Elements.data[protons];
+        if (!element) {
+            return '';
+        }
+        return `${element.symbol}-${mass}`;
+    }
+
     static formatWeight(weight) {
         return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
     }
@@ -549,14 +557,39 @@ class Elements {
         html += '</aside>';
         html += '</section>';
 
+        html += '<section class="isotopes">';
+        html += '<h2>Isotopes</h2>';
+        const isotopesPath = `Isotopes of ${element.name.toLowerCase()}`;
+        html += `<p>${Link.toWikipedia(isotopesPath, `Wikipedia: ${isotopesPath}`)}</p>`;
+
+        if (protons in Isotopes.primordial) {
+            const isotopes = Isotopes.primordial[protons];
+            html += '<ul>';
+            for (const mass of isotopes) {
+                const isotopeName = Elements.formatIsotope(protons, mass);
+                const isotopeLink = Link.toWikipedia(`${element.name}-${mass}`, `${isotopeName}`);
+                html += `<li>${isotopeLink}</li>`;
+            }
+            html += '</ul>';
+        }
+        else if (protons in Isotopes.synthetic) {
+            const isotopes = Isotopes.synthetic[protons];
+            const mass = Object.keys(isotopes)[0];
+            const time = isotopes[mass];
+            const isotopeName = Elements.formatIsotope(protons, mass);
+            const syntheticElement = Link.toWikipedia('Synthetic_element', "synthetic element");
+            html += `<p>${element.name} is a ${syntheticElement}. Its longest
+            lived isotope, ${isotopeName}, has a half-life of ${time}.</p>`;
+        }
+
         html += '<section class="compounds">';
         html += '<h2>Compounds</h2>';
 
-        const wikiPath = (protons < 103) ? `${element.name}_compounds` : `${element.name}#Chemical`;
+        const compoundsPath = (protons < 103) ? `${element.name}_compounds` : `${element.name}#Chemical`;
         html += '<ul>';
-        html += `<li>${Link.toWikipedia(`${wikiPath}`, `Wikipedia: ${element.name} compounds`)}</li>`;
+        html += `<li>${Link.toWikipedia(`${compoundsPath}`, `Wikipedia: ${element.name} compounds`)}</li>`;
         if (protons < 100) {
-            html += `<li>${Link.toWikipedia(`Category:${wikiPath}`, `Wikipedia: Category: ${element.name} compounds`)}</li>`;
+            html += `<li>${Link.toWikipedia(`Category:${compoundsPath}`, `Wikipedia: Category: ${element.name} compounds`)}</li>`;
         }
         html += '</ul>';
 
@@ -565,39 +598,6 @@ class Elements {
             html += `<p>${nobleGasCompoundsLink} do not form easily. Although
             not impossible, it usually requires very low temperatures, high
             pressures, or both.</p>`;
-        }
-
-        // These elements longest-lived isotopes have a half-life less than a day.
-        // https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
-        const shortLivedElements = {
-            85: 'a day',
-            86: 'a week',
-            87: 'an hour',
-            100: 'a year',
-            101: '2 months',
-            102: 'an hour',
-            103: 'a day',
-            104: 'an hour',
-            105: 'a day',
-            106: 'an hour',
-            107: 'an hour',
-            108: 'a minute',
-            109: 'a minute',
-            110: 'a minute',
-            111: 'an hour',
-            112: 'a minute',
-            113: 'a minute',
-            114: 'a minute',
-            115: 'a second',
-            116: 'a second',
-            117: 'a second',
-            118: 'a second',
-        }
-        if (protons in shortLivedElements) {
-            const time = shortLivedElements[protons];
-            html += `<p>${element.name}, having no isotopes with a half-life
-            longer than ${time}, is difficult to work with. Therefore compounds
-            of ${element.name.toLowerCase()} are mostly hypothetical.</p>`;
         }
 
         html += Elements.renderCompoundsList(element.symbol);
@@ -2621,6 +2621,8 @@ class Compounds {
 }
 
 class Isotopes {
+    // Source: https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
+
     static primordial = {
         1: [1, 2],
         2: [4, 3],
