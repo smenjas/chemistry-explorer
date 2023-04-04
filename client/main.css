@@ -173,11 +173,69 @@ td.empty {
     margin-top: 1rem;
 }
 
+.isotopes {
+    height: 81vh;
+    width: 96vw;
+}
+.isotopes th,
+.isotopes td {
+    padding: 0;
+}
+.isotopes td {
+    height: calc((81vh - 10rem) / 118);
+    width: calc((96vw - 6rem) / 294);
+}
+.isotopes th {
+    font-size: 1.2rem;
+}
+.isotopes th.x-axis {
+    padding-top: 0.5rem;
+}
+.isotopes th.x-axis.max {
+    text-align: right;
+}
+.isotopes th.x-axis.min {
+    text-align: left;
+}
+.isotopes th.y-axis.label {
+    transform: rotate(-90deg);
+}
+.isotopes th.y-axis.max,
+.isotopes th.y-axis.min {
+    padding-right: 0.5rem;
+    text-align: right;
+}
+.isotopes th.y-axis.max {
+    vertical-align: top;
+}
+.isotopes th.y-axis.min {
+    vertical-align: bottom;
+}
+.isotopes tr:hover td.empty {
+    background-color: #808080;
+}
+.isotopes td.primordial {
+    background-color: limegreen;
+}
+.isotopes td.synthetic {
+    background-color: gold;
+}
+.isotopes td.primordial a span.link:hover {
+    border: 1px solid black;
+    outline: 0.75rem solid limegreen;
+}
+.isotopes td.synthetic a span.link:hover {
+    border: 1px solid black;
+    outline: 0.75rem solid gold;
+}
+
 /*
 Make the whole element clickable in the periodic table.
 https://stackoverflow.com/a/3494108/12841859
 */
 section.elements article,
+.isotopes th,
+.isotopes td,
 .elements th,
 .elements td {
     position: relative;
@@ -501,6 +559,12 @@ a span.link:hover {
     }
     a span.link:hover {
         outline-color: white;
+    }
+    .isotopes td.primordial {
+        border-color: limegreen;
+    }
+    .isotopes td.synthetic {
+        border-color: gold;
     }
 }
 

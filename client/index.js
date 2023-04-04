@@ -7,6 +7,7 @@ class Site {
         const group = params.get('group');
         const period = params.get('period');
         const protons = params.get('protons');
+        const view = params.get('view');
         let html = '';
 
         if (formula) {
@@ -27,6 +28,9 @@ class Site {
             html += Elements.renderPeriodNav(period);
             html += Elements.renderPeriod(period);
             html += '</main>';
+        }
+        else if (view === 'isotopes') {
+            html += Isotopes.render();
         }
         else {
             html += Elements.render(protons);
@@ -529,6 +533,8 @@ class Elements {
 
         html += '</tbody></table>';
         html += '</section>';
+
+        html += '<nav><a href="?view=isotopes">Isotopes</a></nav>';
 
         return html;
     }
@@ -2750,6 +2756,89 @@ class Isotopes {
         117: {294: '51 ms'},
         118: {294: '690 μs'},
     };
+
+    static getAll() {
+        const all = {};
+
+        for (let protons in Isotopes.primordial) {
+            protons = parseInt(protons);
+            for (const isotope of Isotopes.primordial[protons]) {
+                if (isotope in all) {
+                    all[isotope].push(protons);
+                }
+                else {
+                    all[isotope] = [protons];
+                }
+            }
+        }
+
+        for (let protons in Isotopes.synthetic) {
+            protons = parseInt(protons);
+            for (const isotope in Isotopes.synthetic[protons]) {
+                if (isotope in all) {
+                    all[isotope].push(protons);
+                }
+                else {
+                    all[isotope] = [protons];
+                }
+            }
+        }
+
+        return all;
+    }
+
+    static render() {
+        const all = Isotopes.getAll();
+
+        document.title = "Isotopes";
+
+        let html = `<h1>${document.title}</h1>`;
+        html += '<table class="isotopes">';
+
+        for (let protons = 118; protons >= 0; protons--) {
+            const element = Elements.data[protons];
+            html += '<tr>';
+
+            if (protons === 118) {
+                html += '<th class="y-axis max" rowspan="39">118</th>';
+            }
+            else if (protons === 79) {
+                html += '<th class="y-axis label" rowspan="40">Protons</th>';
+            }
+            else if (protons === 39) {
+                html += '<th class="y-axis min" rowspan="39">1</th>';
+            }
+            else if (protons === 0) {
+                html += `<th class="empty"></th>`;
+                html += '<th class="x-axis min" colspan="18">1</th>';
+                html += '<th class="x-axis label" colspan="258">Nucleons (Protons + Neutrons) in the Most Stable Isotopes</th>';
+                html += '<th class="x-axis max" colspan="18">294</th>';
+                continue;
+            }
+
+            for (let isotope = 1; isotope < 295; isotope++) {
+                isotope = parseInt(isotope);
+                let title = `${element.symbol}: ${element.name}\nProtons: ${protons}`;
+                const elements = all[isotope];
+                if (!(isotope in all) || elements.indexOf(protons) === -1) {
+                    html += `<td class="empty" title="${title}"></td>`;
+                }
+                else {
+                    const tdClass = (protons in Isotopes.synthetic) ? 'synthetic' : 'primordial';
+                    const neutrons = isotope - protons;
+                    title += `\nNeutrons: ${neutrons}\nNucleons: ${isotope}`;
+                    const link = `<a href="?protons=${protons}"><span class="link"></span></a>`;
+                    html += `<td class="${tdClass}" title="${title}">${link}</td>`;
+                }
+            }
+
+            html += '</tr>';
+        }
+
+        html += '</table>';
+
+        return html;
+    }
 }
 
 Site.render();
