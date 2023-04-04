@@ -380,6 +380,10 @@ class Elements {
         return `${element.symbol}-${mass}`;
     }
 
+    static formatScientificNotation(value) {
+        return value.replace(/\^(\d+)/g, "<sup>$1</sup>");
+    }
+
     static formatWeight(weight) {
         return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
     }
@@ -575,7 +579,7 @@ class Elements {
         else if (protons in Isotopes.synthetic) {
             const isotopes = Isotopes.synthetic[protons];
             const mass = Object.keys(isotopes)[0];
-            const time = isotopes[mass];
+            const time = Elements.formatScientificNotation(isotopes[mass]);
             const isotopeName = Elements.formatIsotope(protons, mass);
             const syntheticElement = Link.toWikipedia('Synthetic_element', "synthetic element");
             html += `<p>${element.name} is a ${syntheticElement}. Its longest
