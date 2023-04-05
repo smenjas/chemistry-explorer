@@ -467,10 +467,13 @@ class Elements {
             let gapCount = 1;
 
             for (let protons = min; protons <= max;) {
-                let td = '';
-                let tdClass = '';
-
-                if (period === 6 && protons === Elements.periods.get('lanthanides').min) {
+                if (protons in gaps && gapCount <= gaps[protons]) {
+                    // Skip gaps in the first 3 rows/periods.
+                    gapCount++;
+                    tr += `<td class="empty"></td>`;
+                    continue;
+                }
+                else if (period === 6 && protons === Elements.periods.get('lanthanides').min) {
                     // Skip the lanthanides.
                     protons = Elements.periods.get('lanthanides').max + 1;
                 }
@@ -479,17 +482,8 @@ class Elements {
                     protons = Elements.periods.get('actinides').max + 1;
                 }
 
-                if (protons in gaps && gapCount <= gaps[protons]) {
-                    // Skip gaps in the first 3 rows/periods.
-                    gapCount++;
-                    tdClass = 'empty';
-                }
-                else {
-                    td = Elements.formatElement(protons, true);
-                    protons++;
-                }
-
-                tr += `<td class="${tdClass}">${td}</td>`;
+                tr += `<td>${Elements.formatElement(protons, true)}</td>`;
+                protons++;
             }
 
             const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
@@ -515,10 +509,8 @@ class Elements {
             let tr = '';
 
             for (let protons = min; protons <= max;) {
-                const td = Elements.formatElement(protons, true);
+                tr += `<td>${Elements.formatElement(protons, true)}</td>`;
                 protons++;
-
-                tr += `<td>${td}</td>`;
             }
 
             const period = (category === 'lanthanides') ? 6 : 7;
