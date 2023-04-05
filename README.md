@@ -19,5 +19,6 @@ CSS, & client-side JS.
 ![SiO2 compound details](screenshots/SiO2.png)
 ![Group 14](screenshots/group-14.png)
 ![Period 3](screenshots/period-3.png)
+![Isotopes](screenshots/isotopes.png)
 
 [Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)

@@ -7,6 +7,7 @@ class Site {
         const group = params.get('group');
         const period = params.get('period');
         const protons = params.get('protons');
+        const view = params.get('view');
         let html = '';
 
         if (formula) {
@@ -27,6 +28,9 @@ class Site {
             html += Elements.renderPeriodNav(period);
             html += Elements.renderPeriod(period);
             html += '</main>';
+        }
+        else if (view === 'isotopes') {
+            html += Isotopes.render();
         }
         else {
             html += Elements.render(protons);
@@ -372,6 +376,18 @@ class Elements {
         return html;
     }
 
+    static formatIsotope(protons, mass) {
+        const element = Elements.data[protons];
+        if (!element) {
+            return '';
+        }
+        return `${element.symbol}-${mass}`;
+    }
+
+    static formatScientificNotation(value) {
+        return value.replace(/\^(\d+)/g, "<sup>$1</sup>");
+    }
+
     static formatWeight(weight) {
         return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
     }
@@ -518,6 +534,8 @@ class Elements {
         html += '</tbody></table>';
         html += '</section>';
 
+        html += '<nav><a href="?view=isotopes">Isotopes</a></nav>';
+
         return html;
     }
 
@@ -549,14 +567,39 @@ class Elements {
         html += '</aside>';
         html += '</section>';
 
+        html += '<section class="isotopes">';
+        html += '<h2>Isotopes</h2>';
+        const isotopesPath = `Isotopes of ${element.name.toLowerCase()}`;
+        html += `<p>${Link.toWikipedia(isotopesPath, `Wikipedia: ${isotopesPath}`)}</p>`;
+
+        if (protons in Isotopes.primordial) {
+            const isotopes = Isotopes.primordial[protons];
+            html += '<ul>';
+            for (const mass of isotopes) {
+                const isotopeName = Elements.formatIsotope(protons, mass);
+                const isotopeLink = Link.toWikipedia(`${element.name}-${mass}`, `${isotopeName}`);
+                html += `<li>${isotopeLink}</li>`;
+            }
+            html += '</ul>';
+        }
+        else if (protons in Isotopes.synthetic) {
+            const isotopes = Isotopes.synthetic[protons];
+            const mass = Object.keys(isotopes)[0];
+            const time = Elements.formatScientificNotation(isotopes[mass]);
+            const isotopeName = Elements.formatIsotope(protons, mass);
+            const syntheticElement = Link.toWikipedia('Synthetic_element', "synthetic element");
+            html += `<p>${element.name} is a ${syntheticElement}. Its longest
+            lived isotope, ${isotopeName}, has a half-life of ${time}.</p>`;
+        }
+
         html += '<section class="compounds">';
         html += '<h2>Compounds</h2>';
 
-        const wikiPath = (protons < 103) ? `${element.name}_compounds` : `${element.name}#Chemical`;
+        const compoundsPath = (protons < 103) ? `${element.name}_compounds` : `${element.name}#Chemical`;
         html += '<ul>';
-        html += `<li>${Link.toWikipedia(`${wikiPath}`, `Wikipedia: ${element.name} compounds`)}</li>`;
+        html += `<li>${Link.toWikipedia(`${compoundsPath}`, `Wikipedia: ${element.name} compounds`)}</li>`;
         if (protons < 100) {
-            html += `<li>${Link.toWikipedia(`Category:${wikiPath}`, `Wikipedia: Category: ${element.name} compounds`)}</li>`;
+            html += `<li>${Link.toWikipedia(`Category:${compoundsPath}`, `Wikipedia: Category: ${element.name} compounds`)}</li>`;
         }
         html += '</ul>';
 
@@ -565,39 +608,6 @@ class Elements {
             html += `<p>${nobleGasCompoundsLink} do not form easily. Although
             not impossible, it usually requires very low temperatures, high
             pressures, or both.</p>`;
-        }
-
-        // These elements longest-lived isotopes have a half-life less than a day.
-        // https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
-        const shortLivedElements = {
-            85: 'a day',
-            86: 'a week',
-            87: 'an hour',
-            100: 'a year',
-            101: '2 months',
-            102: 'an hour',
-            103: 'a day',
-            104: 'an hour',
-            105: 'a day',
-            106: 'an hour',
-            107: 'an hour',
-            108: 'a minute',
-            109: 'a minute',
-            110: 'a minute',
-            111: 'an hour',
-            112: 'a minute',
-            113: 'a minute',
-            114: 'a minute',
-            115: 'a second',
-            116: 'a second',
-            117: 'a second',
-            118: 'a second',
-        }
-        if (protons in shortLivedElements) {
-            const time = shortLivedElements[protons];
-            html += `<p>${element.name}, having no isotopes with a half-life
-            longer than ${time}, is difficult to work with. Therefore compounds
-            of ${element.name.toLowerCase()} are mostly hypothetical.</p>`;
         }
 
         html += Elements.renderCompoundsList(element.symbol);
@@ -2615,6 +2625,219 @@ class Compounds {
             html += Elements.formatElement(protons, true);
         }
         html += '</section>';
+
+        return html;
+    }
+}
+
+class Isotopes {
+    // Source: https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
+
+    static primordial = {
+        1: [1, 2],
+        2: [4, 3],
+        3: [7, 6],
+        4: [9],
+        5: [11, 10],
+        6: [12, 13],
+        7: [14, 15],
+        8: [16, 18, 17],
+        9: [19],
+        10: [20, 22, 21],
+        11: [23],
+        12: [24, 26, 25],
+        13: [27],
+        14: [28, 29, 30],
+        15: [31],
+        16: [32, 34, 33, 36],
+        17: [35, 37],
+        18: [40, 36, 38],
+        19: [39, 41, 40],
+        20: [40, 44, 42, 48, 43, 46],
+        21: [45],
+        22: [48, 46, 47, 49, 50],
+        23: [51, 50],
+        24: [52, 53, 50, 54],
+        25: [55],
+        26: [56, 54, 57, 58],
+        27: [59],
+        28: [58, 60, 62, 61, 64],
+        29: [63, 65],
+        30: [64, 66, 68, 67, 70],
+        31: [69, 71],
+        32: [74, 72, 70, 73, 76],
+        33: [75],
+        34: [80, 78, 76, 82, 77, 74],
+        35: [79, 81],
+        36: [84, 86, 82, 83, 80, 78],
+        37: [85, 87],
+        38: [88, 86, 87, 84],
+        39: [89],
+        40: [90, 94, 92, 91, 96],
+        41: [93],
+        42: [98, 96, 95, 92, 100, 97, 94],
+        44: [102, 104, 101, 99, 100, 96, 98],
+        45: [103],
+        46: [106, 108, 105, 110, 104, 102],
+        47: [107, 109],
+        48: [114, 112, 111, 110, 113, 116, 106, 108],
+        49: [115, 113],
+        50: [120, 118, 116, 119, 117, 124, 122, 112, 114, 115],
+        51: [121, 123],
+        52: [130, 128, 126, 125, 124, 122, 123, 120],
+        53: [127],
+        54: [132, 129, 131, 134, 136, 130, 128, 124, 126],
+        55: [133],
+        56: [138, 137, 136, 135, 134, 132, 130],
+        57: [139, 138],
+        58: [140, 142, 138, 136],
+        59: [141],
+        60: [142, 144, 146, 143, 145, 148, 150],
+        62: [152, 154, 147, 149, 148, 150, 144],
+        63: [153, 151],
+        64: [158, 160, 156, 157, 155, 154, 152],
+        65: [159],
+        66: [164, 162, 163, 161, 160, 158, 156],
+        67: [165],
+        68: [166, 168, 167, 170, 164, 162],
+        69: [169],
+        70: [174, 172, 173, 171, 176, 170, 168],
+        71: [175, 176],
+        72: [180, 178, 177, 179, 176, 174],
+        73: [181, 180],
+        74: [184, 186, 182, 183, 180],
+        75: [187, 185],
+        76: [192, 190, 189, 188, 187, 186, 184],
+        77: [193, 191],
+        78: [195, 194, 196, 198, 192, 190],
+        79: [197],
+        80: [202, 200, 199, 201, 198, 204, 196],
+        81: [205, 203],
+        82: [208, 206, 207, 204],
+        83: [209],
+        90: [232],
+        92: [235, 238],
+    };
+
+    static synthetic = {
+        43: {97: '4.21×10^6 years'},
+        61: {145: '17.7 years'},
+        84: {209: '125 years'},
+        85: {210: '8.1 hours'},
+        86: {222: '3.823 days'},
+        87: {223: '22 minutes'},
+        88: {226: '1,600 years'},
+        89: {227: '21.772 years'},
+        91: {231: '32,760 years'},
+        93: {237: '2.14×10^6 years'},
+        94: {244: '8.08×10^7 years'},
+        95: {243: '7,370 years'},
+        96: {247: '1.56×10^7 years'},
+        97: {247: '1,380 years'},
+        98: {251: '900 years'},
+        99: {252: '1.293 years'},
+        100: {257: '100.5 days'},
+        101: {258: '51.3 days'},
+        102: {259: '58 minutes'},
+        103: {266: '11 hours'},
+        104: {267: '48 minutes'},
+        105: {268: '16 hours'},
+        106: {269: '14 minutes'},
+        107: {270: '2.4 minutes'},
+        108: {269: '16 seconds'},
+        109: {278: '4.5 seconds'},
+        110: {281: '12.7 seconds'},
+        111: {282: '1.7 minutes'},
+        112: {285: '28 seconds'},
+        113: {286: '9.5 seconds'},
+        114: {289: '1.9 seconds'},
+        115: {290: '650 ms'},
+        116: {293: '57 ms'},
+        117: {294: '51 ms'},
+        118: {294: '690 μs'},
+    };
+
+    static getAll() {
+        const all = {};
+
+        for (let protons in Isotopes.primordial) {
+            protons = parseInt(protons);
+            for (const isotope of Isotopes.primordial[protons]) {
+                const neutrons = isotope - protons;
+                if (neutrons in all) {
+                    all[neutrons].push(protons);
+                }
+                else {
+                    all[neutrons] = [protons];
+                }
+            }
+        }
+
+        for (let protons in Isotopes.synthetic) {
+            protons = parseInt(protons);
+            for (const isotope in Isotopes.synthetic[protons]) {
+                const neutrons = isotope - protons;
+                if (neutrons in all) {
+                    all[neutrons].push(protons);
+                }
+                else {
+                    all[neutrons] = [protons];
+                }
+            }
+        }
+
+        return all;
+    }
+
+    static render() {
+        const all = Isotopes.getAll();
+
+        document.title = "Isotopes";
+
+        let html = `<h1>Most Stable Isotopes of Each Element</h1>`;
+        html += '<table class="isotopes">';
+
+        for (let neutrons = 177; neutrons >= 0; neutrons--) {
+            neutrons = parseInt(neutrons);
+            html += '<tr>';
+
+            if (neutrons === 177) {
+                html += '<th class="y-axis max" rowspan="19">177</th>';
+            }
+            else if (neutrons === 158) {
+                html += '<th class="y-axis label" rowspan="139">Neutrons</th>';
+            }
+            else if (neutrons === 19) {
+                html += '<th class="y-axis min" rowspan="19">1</th>';
+            }
+            else if (neutrons === 0) {
+                html += `<th class="empty"></th>`;
+                html += '<th class="x-axis min" colspan="19">1</th>';
+                html += '<th class="x-axis label" colspan="80">Protons</th>';
+                html += '<th class="x-axis max" colspan="19">118</th>';
+                continue;
+            }
+
+            for (let protons = 1; protons < 119; protons++) {
+                const elements = all[neutrons];
+                const element = Elements.data[protons];
+                let title = `${element.symbol}: ${element.name}\nProtons: ${protons}`;
+                if (!(neutrons in all) || elements.indexOf(protons) === -1) {
+                    html += `<td class="empty" title="${title}"></td>`;
+                }
+                else {
+                    const tdClass = (protons in Isotopes.synthetic) ? 'synthetic' : 'primordial';
+                    const nucleons = neutrons + protons;
+                    title += `\nNeutrons: ${neutrons}\nNucleons: ${nucleons}`;
+                    const link = `<a href="?protons=${protons}"><span class="link"></span></a>`;
+                    html += `<td class="${tdClass}" title="${title}">${link}</td>`;
+                }
+            }
+
+            html += '</tr>';
+        }
+
+        html += '</table>';
 
         return html;
     }
