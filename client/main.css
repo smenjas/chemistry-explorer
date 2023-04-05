@@ -183,7 +183,7 @@ td.empty {
 }
 .isotopes td {
     height: calc((81vh - 10rem) / 118);
-    width: calc((96vw - 6rem) / 294);
+    width: calc((96vw - 6rem) / 177);
 }
 .isotopes th {
     font-size: 1.2rem;
