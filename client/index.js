@@ -446,13 +446,6 @@ class Elements {
     }
 
     static renderElements() {
-        const gaps = {
-            // The key is the atomic number of the element after the gap.
-            // The value is the size of the gap.
-            2: 16,
-            5: 10,
-            13: 10,
-        };
         let html = '<section>';
         html += '<table class="all elements"><thead><tr>';
         html += '<th class="empty"></th>';
@@ -472,9 +465,17 @@ class Elements {
             let cells = '';
 
             for (let protons = min; protons <= max;) {
-                if (protons in gaps) {
-                    // Skip gaps in the first 3 rows/periods.
-                    cells += `<td class="empty" colspan="${gaps[protons]}"></td>`;
+                if (protons === 2) {
+                    // Skip gaps in period 1.
+                    // Work around a colspan border rendering bug in Safari.
+                    // See: https://bugs.webkit.org/show_bug.cgi?id=20840
+                    cells += '<td class="empty"></td>';
+                    cells += '<td class="empty" colspan="10"></td>';
+                    cells += '<td class="empty" colspan="5"></td>';
+                }
+                else if (protons === 5 || protons === 13) {
+                    // Skip gaps in periods 2 & 3.
+                    cells += '<td class="empty" colspan="10"></td>';
                 }
                 else if (period === 6 && protons === Elements.periods.get('lanthanides').min) {
                     // Skip the lanthanides.
@@ -2796,8 +2797,11 @@ class Isotopes {
                 html += '<th class="y-axis min" rowspan="19">0</th>';
             }
             else if (neutrons === -1) {
+                // Work around a colspan border rendering bug in Safari.
+                // See: https://bugs.webkit.org/show_bug.cgi?id=20840
                 html += `<th class="empty"></th>`;
-                html += '<th class="x-axis min" colspan="19">1</th>';
+                html += `<th class="empty"></th>`;
+                html += '<th class="x-axis min" colspan="18">1</th>';
                 html += '<th class="x-axis label" colspan="80">Protons</th>';
                 html += '<th class="x-axis max" colspan="19">118</th>';
                 continue;
