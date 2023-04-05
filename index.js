@@ -446,8 +446,6 @@ class Elements {
             2: 16,
             5: 10,
             13: 10,
-            57: 2,
-            89: 2,
         };
         let html = '<section>';
         html += '<table class="all elements"><thead><tr>';
@@ -480,8 +478,6 @@ class Elements {
                     // Skip the actinides.
                     protons = Elements.periods.get('actinides').max + 1;
                 }
-
-                const element = Elements.data[protons];
 
                 if (protons in gaps && gapCount <= gaps[protons]) {
                     // Skip gaps in the first 3 rows/periods.
