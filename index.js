@@ -2821,14 +2821,14 @@ class Isotopes {
             for (let protons = 1; protons < 119; protons++) {
                 const elements = all[neutrons];
                 const element = Elements.data[protons];
-                let title = `${element.symbol}: ${element.name}\nProtons: ${protons}`;
                 if (!(neutrons in all) || elements.indexOf(protons) === -1) {
+                    const title = `\n\nNeutrons: ${neutrons}`;
                     html += `<td class="empty" title="${title}"></td>`;
                 }
                 else {
                     const tdClass = (protons in Isotopes.synthetic) ? 'synthetic' : 'primordial';
                     const nucleons = neutrons + protons;
-                    title += `\nNeutrons: ${neutrons}\nNucleons: ${nucleons}`;
+                    const title = `${element.symbol}: ${element.name}\nProtons: ${protons}\nNeutrons: ${neutrons}\nNucleons: ${nucleons}`;
                     const link = `<a href="?protons=${protons}"><span class="link"></span></a>`;
                     html += `<td class="${tdClass}" title="${title}">${link}</td>`;
                 }
