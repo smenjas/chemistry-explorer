@@ -182,8 +182,8 @@ td.empty {
     padding: 0;
 }
 .isotopes td {
-    height: calc((81vh - 10rem) / 118);
-    width: calc((96vw - 6rem) / 177);
+    height: calc((81vh - 12rem) / 177);
+    width: calc((96vw - 6rem) / 118);
 }
 .isotopes th {
     font-size: 1.2rem;
