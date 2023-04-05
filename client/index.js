@@ -2794,33 +2794,33 @@ class Isotopes {
 
         document.title = "Isotopes";
 
-        let html = `<h1>${document.title}</h1>`;
+        let html = `<h1>Most Stable Isotopes of Each Element</h1>`;
         html += '<table class="isotopes">';
 
-        for (let protons = 118; protons >= 0; protons--) {
-            const element = Elements.data[protons];
+        for (let neutrons = 177; neutrons >= 0; neutrons--) {
+            neutrons = parseInt(neutrons);
             html += '<tr>';
 
-            if (protons === 118) {
-                html += '<th class="y-axis max" rowspan="39">118</th>';
+            if (neutrons === 177) {
+                html += '<th class="y-axis max" rowspan="19">177</th>';
             }
-            else if (protons === 79) {
-                html += '<th class="y-axis label" rowspan="40">Protons</th>';
+            else if (neutrons === 158) {
+                html += '<th class="y-axis label" rowspan="139">Neutrons</th>';
             }
-            else if (protons === 39) {
-                html += '<th class="y-axis min" rowspan="39">1</th>';
+            else if (neutrons === 19) {
+                html += '<th class="y-axis min" rowspan="19">1</th>';
             }
-            else if (protons === 0) {
+            else if (neutrons === 0) {
                 html += `<th class="empty"></th>`;
                 html += '<th class="x-axis min" colspan="19">1</th>';
-                html += '<th class="x-axis label" colspan="139">Neutrons in the Most Stable Isotopes</th>';
-                html += '<th class="x-axis max" colspan="19">177</th>';
+                html += '<th class="x-axis label" colspan="80">Protons</th>';
+                html += '<th class="x-axis max" colspan="19">118</th>';
                 continue;
             }
 
-            for (let neutrons = 1; neutrons < 177; neutrons++) {
+            for (let protons = 1; protons < 119; protons++) {
                 const elements = all[neutrons];
-                neutrons = parseInt(neutrons);
+                const element = Elements.data[protons];
                 let title = `${element.symbol}: ${element.name}\nProtons: ${protons}`;
                 if (!(neutrons in all) || elements.indexOf(protons) === -1) {
                     html += `<td class="empty" title="${title}"></td>`;
