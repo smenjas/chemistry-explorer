@@ -439,6 +439,12 @@ class Elements {
         return html;
     }
 
+    static renderPeriodRow(cells, period) {
+        const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
+        const th = `<th title="Period ${period}">${thLink}</th>`;
+        return `<tr>${th}${cells}${th}</tr>`;
+    }
+
     static renderElements() {
         const gaps = {
             // The key is the atomic number of the element after the gap.
@@ -463,12 +469,12 @@ class Elements {
         for (const [period, bounds] of Elements.periods) {
             const min = bounds['min'];
             const max = bounds['max'];
-            let tr = '';
+            let cells = '';
 
             for (let protons = min; protons <= max;) {
                 if (protons in gaps) {
                     // Skip gaps in the first 3 rows/periods.
-                    tr += `<td class="empty" colspan="${gaps[protons]}"></td>`;
+                    cells += `<td class="empty" colspan="${gaps[protons]}"></td>`;
                 }
                 else if (period === 6 && protons === Elements.periods.get('lanthanides').min) {
                     // Skip the lanthanides.
@@ -479,13 +485,11 @@ class Elements {
                     protons = Elements.periods.get('actinides').max + 1;
                 }
 
-                tr += `<td>${Elements.formatElement(protons, true)}</td>`;
+                cells += `<td>${Elements.formatElement(protons, true)}</td>`;
                 protons++;
             }
 
-            const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
-            const th = `<th title="Period ${period}">${thLink}</th>`;
-            html += `<tr>${th}${tr}${th}</tr>`;
+            html += Elements.renderPeriodRow(cells, period);
 
             if (period === 7) {
                 break;
@@ -503,17 +507,15 @@ class Elements {
 
             const min = bounds['min'];
             const max = bounds['max'];
-            let tr = '';
+            let cells = '';
 
             for (let protons = min; protons <= max;) {
-                tr += `<td>${Elements.formatElement(protons, true)}</td>`;
+                cells += `<td>${Elements.formatElement(protons, true)}</td>`;
                 protons++;
             }
 
             const period = (category === 'lanthanides') ? 6 : 7;
-            const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
-            const th = `<th title="Period ${period}">${thLink}</th>`;
-            html += `<tr>${th}${tr}${th}</tr>`;
+            html += Elements.renderPeriodRow(cells, period);
         }
 
         html += '</tbody></table>';
