@@ -643,7 +643,6 @@ class Elements {
 
     static renderGroup(group) {
         if (!(group in Elements.groupElements)) {
-            console.log('hello');
             return '';
         }
 
@@ -695,7 +694,6 @@ class Elements {
 
         let html = '<table class="elements period"><tbody>';
         const { min, max } = Elements.periods.get(period);
-        console.log(min, max);
         for (let protons = min; protons <= max; protons++) {
             const element = Elements.data[protons];
             html += '<tr>';
@@ -2784,7 +2782,7 @@ class Isotopes {
         let html = `<h1>Most Stable Isotopes of Each Element</h1>`;
         html += '<table class="isotopes">';
 
-        for (let neutrons = 177; neutrons >= 0; neutrons--) {
+        for (let neutrons = 177; neutrons >= -1; neutrons--) {
             neutrons = parseInt(neutrons);
             html += '<tr>';
 
@@ -2792,12 +2790,12 @@ class Isotopes {
                 html += '<th class="y-axis max" rowspan="19">177</th>';
             }
             else if (neutrons === 158) {
-                html += '<th class="y-axis label" rowspan="139">Neutrons</th>';
+                html += '<th class="y-axis label" rowspan="140">Neutrons</th>';
             }
-            else if (neutrons === 19) {
-                html += '<th class="y-axis min" rowspan="19">1</th>';
+            else if (neutrons === 18) {
+                html += '<th class="y-axis min" rowspan="19">0</th>';
             }
-            else if (neutrons === 0) {
+            else if (neutrons === -1) {
                 html += `<th class="empty"></th>`;
                 html += '<th class="x-axis min" colspan="19">1</th>';
                 html += '<th class="x-axis label" colspan="80">Protons</th>';
