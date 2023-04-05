@@ -2763,11 +2763,12 @@ class Isotopes {
         for (let protons in Isotopes.primordial) {
             protons = parseInt(protons);
             for (const isotope of Isotopes.primordial[protons]) {
-                if (isotope in all) {
-                    all[isotope].push(protons);
+                const neutrons = isotope - protons;
+                if (neutrons in all) {
+                    all[neutrons].push(protons);
                 }
                 else {
-                    all[isotope] = [protons];
+                    all[neutrons] = [protons];
                 }
             }
         }
@@ -2775,11 +2776,12 @@ class Isotopes {
         for (let protons in Isotopes.synthetic) {
             protons = parseInt(protons);
             for (const isotope in Isotopes.synthetic[protons]) {
-                if (isotope in all) {
-                    all[isotope].push(protons);
+                const neutrons = isotope - protons;
+                if (neutrons in all) {
+                    all[neutrons].push(protons);
                 }
                 else {
-                    all[isotope] = [protons];
+                    all[neutrons] = [protons];
                 }
             }
         }
@@ -2810,23 +2812,23 @@ class Isotopes {
             }
             else if (protons === 0) {
                 html += `<th class="empty"></th>`;
-                html += '<th class="x-axis min" colspan="18">1</th>';
-                html += '<th class="x-axis label" colspan="258">Nucleons (Protons + Neutrons) in the Most Stable Isotopes</th>';
-                html += '<th class="x-axis max" colspan="18">294</th>';
+                html += '<th class="x-axis min" colspan="19">1</th>';
+                html += '<th class="x-axis label" colspan="139">Neutrons in the Most Stable Isotopes</th>';
+                html += '<th class="x-axis max" colspan="19">177</th>';
                 continue;
             }
 
-            for (let isotope = 1; isotope < 295; isotope++) {
-                isotope = parseInt(isotope);
+            for (let neutrons = 1; neutrons < 177; neutrons++) {
+                const elements = all[neutrons];
+                neutrons = parseInt(neutrons);
                 let title = `${element.symbol}: ${element.name}\nProtons: ${protons}`;
-                const elements = all[isotope];
-                if (!(isotope in all) || elements.indexOf(protons) === -1) {
+                if (!(neutrons in all) || elements.indexOf(protons) === -1) {
                     html += `<td class="empty" title="${title}"></td>`;
                 }
                 else {
                     const tdClass = (protons in Isotopes.synthetic) ? 'synthetic' : 'primordial';
-                    const neutrons = isotope - protons;
-                    title += `\nNeutrons: ${neutrons}\nNucleons: ${isotope}`;
+                    const nucleons = neutrons + protons;
+                    title += `\nNeutrons: ${neutrons}\nNucleons: ${nucleons}`;
                     const link = `<a href="?protons=${protons}"><span class="link"></span></a>`;
                     html += `<td class="${tdClass}" title="${title}">${link}</td>`;
                 }
