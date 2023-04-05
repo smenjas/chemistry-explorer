@@ -464,14 +464,11 @@ class Elements {
             const min = bounds['min'];
             const max = bounds['max'];
             let tr = '';
-            let gapCount = 1;
 
             for (let protons = min; protons <= max;) {
-                if (protons in gaps && gapCount <= gaps[protons]) {
+                if (protons in gaps) {
                     // Skip gaps in the first 3 rows/periods.
-                    gapCount++;
-                    tr += `<td class="empty"></td>`;
-                    continue;
+                    tr += `<td class="empty" colspan="${gaps[protons]}"></td>`;
                 }
                 else if (period === 6 && protons === Elements.periods.get('lanthanides').min) {
                     // Skip the lanthanides.
