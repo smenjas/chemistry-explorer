@@ -457,7 +457,7 @@ class Elements {
             html += `<th class="group group-${group}" title="${title}">${link}</th>`;
         }
 
-        html += '<td class="empty"></td>';
+        html += '<th class="empty"></th>';
         html += '</tr></thead><tbody>';
 
         for (const [period, bounds] of Elements.periods) {
