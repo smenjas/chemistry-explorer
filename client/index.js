@@ -13,7 +13,7 @@ class Site {
         if (formula) {
             html += Compounds.render(formula);
         }
-        else if (group) {
+        else if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
             html += '<main>';
             html += `<h1>${document.title}</h1>`;
@@ -21,7 +21,7 @@ class Site {
             html += Elements.renderGroup(group);
             html += '</main>';
         }
-        else if (period) {
+        else if (period && Elements.periods.has(parseInt(period))) {
             document.title = `Period ${period}`;
             html += '<main>';
             html += `<h1>${document.title}</h1>`;
