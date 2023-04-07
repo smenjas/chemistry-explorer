@@ -11,7 +11,7 @@ class Site {
         let html = '';
 
         if (formula) {
-            html += Compounds.render(formula);
+            html += Compounds.renderFormula(formula);
         }
         else if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
@@ -28,6 +28,9 @@ class Site {
             html += Elements.renderPeriodNav(period);
             html += Elements.renderPeriod(period);
             html += '</main>';
+        }
+        else if (view === 'compounds') {
+            html += Compounds.render();
         }
         else if (view === 'isotopes') {
             html += Isotopes.render();
@@ -421,24 +424,6 @@ class Elements {
         return Link.toWikipedia(`${periodPath}#Period_${period}`, period);
     }
 
-    static renderCompoundsList(symbol) {
-        const compounds = Compounds.find(symbol);
-
-        if (compounds.length < 1) {
-            return '';
-        }
-
-        let html = '<ul>';
-        for (const formula of compounds) {
-            const names = Compounds.data[formula];
-            const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
-            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
-        }
-        html += '</ul>';
-
-        return html;
-    }
-
     static renderPeriodRow(cells, period) {
         const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
         const th = `<th title="Period ${period}">${thLink}</th>`;
@@ -522,7 +507,10 @@ class Elements {
         html += '</tbody></table>';
         html += '</section>';
 
-        html += '<nav><a href="?view=isotopes">Isotopes</a></nav>';
+        html += '<nav>';
+        html += '<a href="?view=compounds">Compounds</a> ';
+        html += '<a href="?view=isotopes">Isotopes</a>';
+        html += '</nav>';
 
         return html;
     }
@@ -598,7 +586,7 @@ class Elements {
             pressures, or both.</p>`;
         }
 
-        html += Elements.renderCompoundsList(element.symbol);
+        html += Compounds.renderList(element.symbol);
         html += '</section>';
 
         return html;
@@ -2576,7 +2564,16 @@ class Compounds {
         return elements;
     }
 
-    static render(formula) {
+    static render() {
+        document.title = "Compounds";
+
+        let html = `<h1>${document.title}</h1>`;
+        html += Compounds.renderList();
+
+        return html;
+    }
+
+    static renderFormula(formula) {
         const pretty = Compounds.format(formula);
 
         document.title = formula;
@@ -2611,6 +2608,30 @@ class Compounds {
             html += Elements.formatElement(protons, true);
         }
         html += '</section>';
+
+        return html;
+    }
+
+    static renderList(symbol = null) {
+        let compounds = [];
+        if (symbol) {
+            compounds = Compounds.find(symbol);
+
+            if (compounds.length < 1) {
+                return '';
+            }
+        }
+        else {
+            compounds = Object.keys(Compounds.data);
+        }
+
+        let html = '<ul>';
+        for (const formula of compounds) {
+            const names = Compounds.data[formula];
+            const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
+            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
+        }
+        html += '</ul>';
 
         return html;
     }
