@@ -11,7 +11,7 @@ class Site {
         let html = '';
 
         if (formula) {
-            html += Compounds.render(formula);
+            html += Compounds.renderFormula(formula);
         }
         else if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
@@ -28,6 +28,9 @@ class Site {
             html += Elements.renderPeriodNav(period);
             html += Elements.renderPeriod(period);
             html += '</main>';
+        }
+        else if (view === 'compounds') {
+            html += Compounds.render();
         }
         else if (view === 'isotopes') {
             html += Isotopes.render();
@@ -421,24 +424,6 @@ class Elements {
         return Link.toWikipedia(`${periodPath}#Period_${period}`, period);
     }
 
-    static renderCompoundsList(symbol) {
-        const compounds = Compounds.find(symbol);
-
-        if (compounds.length < 1) {
-            return '';
-        }
-
-        let html = '<ul>';
-        for (const formula of compounds) {
-            const names = Compounds.data[formula];
-            const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
-            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
-        }
-        html += '</ul>';
-
-        return html;
-    }
-
     static renderPeriodRow(cells, period) {
         const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
         const th = `<th title="Period ${period}">${thLink}</th>`;
@@ -522,7 +507,10 @@ class Elements {
         html += '</tbody></table>';
         html += '</section>';
 
-        html += '<nav><a href="?view=isotopes">Isotopes</a></nav>';
+        html += '<nav>';
+        html += '<a href="?view=compounds">Compounds</a> ';
+        html += '<a href="?view=isotopes">Isotopes</a>';
+        html += '</nav>';
 
         return html;
     }
@@ -598,7 +586,7 @@ class Elements {
             pressures, or both.</p>`;
         }
 
-        html += Elements.renderCompoundsList(element.symbol);
+        html += Compounds.renderList(element.symbol);
         html += '</section>';
 
         return html;
@@ -885,6 +873,7 @@ class Compounds {
         C2H4INO: ["Iodoacetamide"],
         C2H5NO2: ["Glycine"],
         C2H6O: ["Ethanol", "Dimethyl ether"],
+        C2H6O2S: ["Methylsulfonylmethane"],
         C2H6Cl3KOPt: ["Zeise's salt"],
         C2H6Cd: ["Dimethylcadmium"],
         C2H6Te: ["Dimethyl telluride"],
@@ -1014,6 +1003,7 @@ class Compounds {
         C6H9MnO6: ["Manganese(III) acetate"],
         C6H10O5: ["Starch"],
         C6H10O6Cu: ["Copper(II) lactate"],
+        C6H10O7: ["Glucuronic acid"],
         C6H10O7Ge2: ["Propagermanium"],
         C6H11NO: ["Caprolactam"],
         C6H11NO2: ["Pipecolic acid"],
@@ -1021,13 +1011,15 @@ class Compounds {
         C6H12N2O4S: ["Lanthionine"],
         C6H12N2O4S2: ["Cystine"],
         C6H12N2O4Pt: ["Carboplatin"],
-        C6H12O6: ["Glucose", "Fructose"],
+        C6H12O6: ["Glucose", "Fructose", "Mannose"],
         C6H13NO2: ["Leucine", "Isoleucine", "Norleucine", "Β-Leucine"],
         C6H13NO2S: ["Ethionine"],
+        C6H13NO5: ["Glucosamine"],
         C6H13N3O3: ["Citrulline"],
         C6H14N2O2: ["Lysine"],
         C6H14N2O3: ["Hydroxylysine"],
         C6H14N4O2: ["Arginine"],
+        C6H14O6: ["Mannitol", "Sorbitol"],
         C6H15In: ["Triethylindium"],
         C6H18W: ["Hexamethyltungsten"],
         C6O6V: ["Vanadium hexacarbonyl"],
@@ -1036,9 +1028,11 @@ class Compounds {
         C6O12Sm2: ["Samarium(III) oxalate"],
 
         C7H5IO4: ["2-Iodoxybenzoic acid"],
+        C7H6O3: ["Salicylic acid"],
         C7H6O5: ["Gallic acid"],
         C7H7K: ["Benzyl potassium"],
         C7H11N3O6S: ["Avibactam"],
+        C7H12O6: ["Quinic acid"],
         C7H14N2O3: ["Theanine"],
         C7H14N2O4: ["Diaminopimelic acid"],
         C7H14N2O4S: ["Cystathionine"],
@@ -1124,6 +1118,8 @@ class Compounds {
         C12H16BNO5S: ["Vaborbactam"],
         C12H17N3O4S: ["Imipenem"],
         C12H18Be4O13: ["Basic beryllium acetate"],
+        C12H19NO20S3: ["Heparin"],
+        C12H19Cl3O8: ["Sucralose"],
         C12H20N4O6S: ["Relebactam"],
         C12H20O10: ["Cellulose"],
         C12H21N3O3: ["Pyrrolysine"],
@@ -1142,11 +1138,19 @@ class Compounds {
         C13H16N2O2: ["Melatonin"],
         C13H16N2O4S2: ["Almecillin"],
         C13H18O2: ["Ibuprofen"],
+        C13H18O7: ["Salicin"],
 
+        C14H8O2: ["Anthraquinone"],
+        C14H8O8: ["Rufigallol"],
         C14H14INO: ["o-Phenyl-3-iodotyramine"],
         C14H14INO2: ["3-Iodothyronamine"],
+        C14H18N2O5: ["Aspartame"],
+        C14H21NO15S: ["Dermatan sulfate"],
         C14H28O2: ["Myristic acid"],
 
+        C15H8O6: ["Rhein"],
+        C15H10O4: ["Chrysophanol"],
+        C15H10O5: ["Emodin", "Aloe emodin"],
         C15H11I3NNaO4: ["Liothyronine"],
         C15H12Br4O2: ["Tetrabromobisphenol A"],
         C15H12I3NO4: ["Triiodothyronine"],
@@ -1156,8 +1160,10 @@ class Compounds {
         C15H21O6Dy: ["Dysprosium acetylacetonate"],
         C15H21O6Ho: ["Holmium acetylacetonate"],
         C15H21O6Ir: ["Iridium acetylacetonate"],
+        C15H22O5: ["Artemisinin"],
         C15H23N3O3S: ["Mecillinam"],
 
+        C16H12O5: ["Parietin"],
         C16H16N2O6S2: ["Cefalotin"],
         C16H17N3O4S: ["Cefalexin"],
         C16H18N2O4S: ["Benzylpenicillin"],
@@ -1176,6 +1182,7 @@ class Compounds {
 
         C17H14O: ["Dibenzylideneacetone"],
         C17H18N2O6S: ["Carbenicillin"],
+        C17H19N5O2: ["Pixantrone"],
         C17H20N2O6S: ["Methicillin"],
         C17H25N3O5S: ["Meropenem"],
 
@@ -1191,6 +1198,8 @@ class Compounds {
         C18H36O2: ["Stearic acid"],
         C18Fe7N18: ["Prussian blue"],
 
+        C19H12O8: ["Diacerein"],
+        C19H16O4: ["Warfarin"],
         C19H17ClFN3O5S: ["Flucloxacillin"],
         C19H17Cl2N3O5S: ["Dicloxacillin"],
         C19H18ClN3O5S: ["Cloxacillin"],
@@ -1204,6 +1213,7 @@ class Compounds {
         C20H20Cl3N4Rh: ["Dichlorotetrakis(pyridine)rhodium(III) chloride"],
         C20H20U: ["Tetrakis(cyclopentadienyl)uranium(IV)"],
         C20H23N5O6S: ["Azlocillin"],
+        C20H24N2O2: ["Quinine"],
         C20H28O8Hf: ["Hafnium acetylacetonate"],
         C20H30O: ["Vitamin A"],
         C20H30O2: ["Eicosapentaenoic acid"],
@@ -1214,9 +1224,12 @@ class Compounds {
         C21H21O4P: ["Tricresyl phosphate"],
         C21H22N2O5S: ["Nafcillin"],
         C21H25N5O8S2: ["Mezlocillin"],
+        C21H26O5: ["Prednisone"],
         C21H28N7O14P2: ["Nicotinamide adenine dinucleotide"],
+        C21H28O5: ["Prednisolone"],
         C21H36N7O16P3S: ["Coenzyme A"],
         C22H19Br2NO3: ["Deltamethrin"],
+        C22H30O5: ["Methylprednisolone"],
         C22H32O2: ["Docosahexaenoic acid"],
         C22H37NO2: ["Anandamide", "Virodhamine"],
         C23H27N5O7S: ["Piperacillin"],
@@ -1236,6 +1249,7 @@ class Compounds {
         C28H44O: ["Ergocalciferol"],
         C28H44Co: ["Tetrakis(1-norbornyl)cobalt(IV)"],
 
+        C30H16O8: ["Hypericin"],
         C30H24N6Cl2Ru: ["Tris(bipyridine)ruthenium(II) chloride"],
         C30H25Sb: ["Pentaphenylantimony"],
         C30H42Ni3O12: ["Nickel(II) bis(acetylacetonate)"],
@@ -1245,13 +1259,19 @@ class Compounds {
         C33H24IrN3: ["Tris(2-phenylpyridine)iridium"],
         C34H32O4N4Fe: ["Heme B"],
         C34H36O4N4S2Fe: ["Heme C"],
+        C35H52O4: ["Hyperforin"],
         C35H54GdN7O15: ["Gadopiclenol"],
         C36H30Cl2P2Pd: ["Bis(triphenylphosphine)palladium chloride"],
         C36H66O6Zn: ["Zinc ricinoleate"],
         C36H70O4Cu: ["Copper(II) stearate"],
         C36H70O4Zn: ["Zinc stearate"],
         C37H30OPClIr: ["Vaska's complex"],
+        C38H60O18: ["Stevioside"],
+        C40H34N2O8: ["Fagopyrin"],
         C41H64O14: ["Digoxin"],
+        C42H38O20: ["Senna glycoside"],
+        C44H70O23: ["Rebaudioside A"],
+        C44H43AlCa2O30: ["Carmine"],
         C49H56O6N4Fe: ["Heme A"],
         C49H58O5N4Fe: ["Heme O"],
         C51H98O6: ["Tripalmitin"],
@@ -1325,6 +1345,7 @@ class Compounds {
         Na2O3Se: ["Sodium selenite"],
         Na2SiO3: ["Sodium metasilicate"],
         Na2SO3: ["Sodium sulfite"],
+        Na2SO4: ["Sodium sulfate"],
         Na2S2O5: ["Sodium metabisulfite"],
         Na2S2O8: ["Sodium persulfate"],
         Na2CrO4: ["Sodium chromate"],
@@ -2576,7 +2597,16 @@ class Compounds {
         return elements;
     }
 
-    static render(formula) {
+    static render() {
+        document.title = "Compounds";
+
+        let html = `<h1>${document.title}</h1>`;
+        html += Compounds.renderList();
+
+        return html;
+    }
+
+    static renderFormula(formula) {
         const pretty = Compounds.format(formula);
 
         document.title = formula;
@@ -2611,6 +2641,30 @@ class Compounds {
             html += Elements.formatElement(protons, true);
         }
         html += '</section>';
+
+        return html;
+    }
+
+    static renderList(symbol = null) {
+        let compounds = [];
+        if (symbol) {
+            compounds = Compounds.find(symbol);
+
+            if (compounds.length < 1) {
+                return '';
+            }
+        }
+        else {
+            compounds = Object.keys(Compounds.data);
+        }
+
+        let html = '<ul>';
+        for (const formula of compounds) {
+            const names = Compounds.data[formula];
+            const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
+            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
+        }
+        html += '</ul>';
 
         return html;
     }
