@@ -198,7 +198,8 @@ td.empty {
     text-align: left;
 }
 .isotopes th.y-axis.label {
-    transform: rotate(-90deg);
+    transform: rotate(180deg);
+    writing-mode: vertical-rl;
 }
 .isotopes th.y-axis.max,
 .isotopes th.y-axis.min {
