@@ -1,12 +1,11 @@
 # Chemistry Explorer
 
-This is a chemistry app built with vanilla JavaScript. It's an exercise to learn
-web development fundamentals, using the simplest technology stack: plain HTML,
-CSS, & client-side JS.
+This is a chemistry app built with vanilla JavaScript. It's an exercise to
+learn web development fundamentals, using the simplest technology stack: HTML,
+CSS, & JS.
 
 ## Exercise Constraints
-- No libraries, frameworks, templates, or preprocessors
-- No server side processing (e.g. Node or Deno)
+- No libraries, frameworks, templates, or preprocessors outside Node.js
 - No dev tools except Git, an editor, and a web browser
 
 ## Goals
