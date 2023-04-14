@@ -1,0 +1,25 @@
+{
+  "name": "chemistry-explorer",
+  "version": "0.4.3",
+  "type": "module",
+  "description": "A chemistry app built with vanilla JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smenjas/chemistry-explorer.git"
+  },
+  "keywords": [
+    "chemistry",
+    "periodic-table",
+    "isotopes"
+  ],
+  "author": "Benjamin Thornton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smenjas/chemistry-explorer/issues"
+  },
+  "homepage": "https://github.com/smenjas/chemistry-explorer#readme"
+}
