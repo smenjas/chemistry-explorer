@@ -1,13 +1,14 @@
 # Chemistry Explorer
 
-This is a chemistry app built with vanilla JavaScript. It's an exercise to learn
-web development fundamentals, using the simplest technology stack: plain HTML,
-CSS, & client-side JS.
+This is a chemistry app built with vanilla JavaScript. It's an exercise to
+learn web development fundamentals, using the simplest technology stack: HTML,
+CSS, & JS.
 
 ## Exercise Constraints
-- No libraries, frameworks, templates, or preprocessors
-- No server side processing (e.g. Node or Deno)
-- No dev tools except Git, an editor, and a web browser
+- No libraries, frameworks, templates, or preprocessors outside Node.js
+- Limited dev tools:
+  - [ESLint](https://www.npmjs.com/package/eslint)
+  - [nodemon](https://www.npmjs.com/package/nodemon)
 
 ## Goals
 - [x] Show the periodic table of the elements
@@ -20,5 +21,19 @@ CSS, & client-side JS.
 ![Group 14](screenshots/group-14.png)
 ![Period 3](screenshots/period-3.png)
 ![Isotopes](screenshots/isotopes.png)
+
+## Development
+Install the dependencies by running:
+```sh
+npm install
+```
+Start the node server with:
+```sh
+npm run dev
+```
+Identify syntax and style issues with:
+```sh
+npm run lint
+```
 
 [Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)
