@@ -226,7 +226,7 @@ class Elements {
         16: [8, 16, 34, 52, 84, 116],
         17: [9, 17, 35, 53, 85, 117],
         18: [2, 10, 18, 36, 54, 86, 118],
-    }
+    };
 
     static groupURLs = {
         1: 'https://en.wikipedia.org/wiki/Group_1_element',
@@ -2581,7 +2581,7 @@ class Compounds {
 
     static parse(formula) {
         formula = formula.toString();
-        const re = /([A-Z][a-z]?)(\d*)/g
+        const re = /([A-Z][a-z]?)(\d*)/g;
         const matches = formula.matchAll(re);
         const elements = {};
         for (const components of matches) {
