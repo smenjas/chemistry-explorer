@@ -5,6 +5,7 @@
   "description": "A chemistry app built with vanilla JavaScript",
   "main": "index.js",
   "scripts": {
+    "dev": "cd src && ../node_modules/nodemon/bin/nodemon.js .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
