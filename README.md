@@ -31,5 +31,9 @@ Start the node server with:
 ```sh
 npm run dev
 ```
+Identify syntax and style issues with:
+```sh
+npm run lint
+```
 
 [Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)
