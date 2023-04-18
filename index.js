@@ -322,7 +322,6 @@ class Elements {
     }
 
     static findPreviousInGroup(protons) {
-        const element = Elements.data[protons];
         if (protons === 3) {
             return 1;
         }
