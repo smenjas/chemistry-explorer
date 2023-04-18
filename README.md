@@ -7,6 +7,7 @@ CSS, & JS.
 ## Exercise Constraints
 - No libraries, frameworks, templates, or preprocessors outside Node.js
 - Limited dev tools:
+  - [ESLint](https://www.npmjs.com/package/eslint)
   - [nodemon](https://www.npmjs.com/package/nodemon)
 
 ## Goals
