@@ -6,7 +6,8 @@ CSS, & JS.
 
 ## Exercise Constraints
 - No libraries, frameworks, templates, or preprocessors outside Node.js
-- No dev tools except Git, an editor, and a web browser
+- Limited dev tools:
+  - [nodemon](https://www.npmjs.com/package/nodemon)
 
 ## Goals
 - [x] Show the periodic table of the elements
