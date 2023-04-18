@@ -343,10 +343,10 @@ class Elements {
 
     static findProtons(symbol) {
         for (const protons in Elements.data) {
-             const element = Elements.data[protons];
-             if (element.symbol === symbol) {
-                 return protons;
-             }
+            const element = Elements.data[protons];
+            if (element.symbol === symbol) {
+                return protons;
+            }
         }
     }
 
