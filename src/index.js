@@ -31,12 +31,12 @@ const server = http.createServer((request, response) => {
         response.setHeader('Content-Type', 'image/jpeg');
         content = fs.readFileSync(`../client/img${path}`);
         break;
-    case '/icons8-molecule-icongeek26-linear-colour-16.png':
-    case '/icons8-molecule-icongeek26-linear-colour-32.png':
-    case '/icons8-molecule-icongeek26-linear-colour-96.png':
+    case '/img/icons8-molecule-icongeek26-linear-colour-16.png':
+    case '/img/icons8-molecule-icongeek26-linear-colour-32.png':
+    case '/img/icons8-molecule-icongeek26-linear-colour-96.png':
         response.statusCode = 200;
         response.setHeader('Content-Type', 'image/png');
-        content = fs.readFileSync(`../client/img${path}`);
+        content = fs.readFileSync(`../client${path}`);
         break;
     default:
         response.statusCode = 404;
