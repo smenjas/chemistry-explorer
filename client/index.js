@@ -1010,7 +1010,6 @@ class Compounds {
         C5H11NO4S: ['Acamprosate'],
         C5H11O8P: ['Ribose 5-phosphate', 'Ribulose 5-phosphate'],
         C5H12NO7P: ['Phosphoribosylamine'],
-        C5H12NO7P: ['Phosphoribosylamine'],
         C5H12N2O2: ['Ornithine'],
         C5H12N2O2S: ['Thialysine'],
         C5H12N2O4: ['Monoammonium glutamate'],
