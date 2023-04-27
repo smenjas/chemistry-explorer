@@ -567,6 +567,7 @@ class Elements {
             lived isotope, ${isotopeName}, has a half-life of ${time}.</p>`;
         }
 
+        html += '</section>';
         html += '<section class="compounds">';
         html += '<h2>Compounds</h2>';
 
