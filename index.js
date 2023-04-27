@@ -3041,6 +3041,10 @@ class Compounds {
         return `https://webbook.nist.gov/cgi/cbook.cgi?Formula=${formula}&NoIon=on&Units=SI`;
     }
 
+    static list(symbol = null) {
+        return symbol ? Compounds.find(symbol) : Object.keys(Compounds.data);
+    }
+
     static parse(formula) {
         formula = formula.toString();
         const re = /([A-Z][a-z]?)(\d*)/g;
@@ -3108,16 +3112,9 @@ class Compounds {
     }
 
     static renderList(symbol = null) {
-        let compounds = [];
-        if (symbol) {
-            compounds = Compounds.find(symbol);
-
-            if (compounds.length < 1) {
-                return '';
-            }
-        }
-        else {
-            compounds = Object.keys(Compounds.data);
+        const compounds = Compounds.list(symbol);
+        if (compounds.length < 1) {
+            return '';
         }
 
         let html = '<ul>';
