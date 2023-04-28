@@ -3250,7 +3250,8 @@ class Compounds {
             return '';
         }
 
-        let html = '<ul>';
+        let html = `<h3>${compounds.length} Compound${(compounds.length === 1) ? '' : 's'}</h3>`;
+        html += '<ul>';
         for (const formula of compounds) {
             const names = Compounds.data[formula];
             const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
