@@ -3068,7 +3068,35 @@ class Compounds {
         document.title = 'Compounds';
 
         let html = `<h1>${document.title}</h1>`;
+        html += Compounds.renderChart();
         html += Compounds.renderList();
+
+        return html;
+    }
+
+    static renderChart() {
+        const numbers = {};
+        let max = 0;
+        for (const protons in Elements.data) {
+            const element = Elements.data[protons];
+            const compounds = Compounds.list(element.symbol);
+            if (compounds.length > max) {
+                max = compounds.length;
+            }
+            numbers[protons] = compounds.length;
+        }
+
+        let html = '<section class="compounds-chart">';
+        for (const [protons, compounds] of Object.entries(numbers)) {
+            const element = Elements.data[protons];
+            const percent = Math.round((compounds / max) * 100);
+            const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
+            html += `<div class="${typeClass}" style="width: calc(${percent}% + 3rem)">`;
+            html += `<a href="?protons=${protons}" title="${element.name}">`;
+            html += `${element.symbol}: ${compounds}`;
+            html += '<span class="link"></span></a></div>';
+        }
+        html += '</section>';
 
         return html;
     }

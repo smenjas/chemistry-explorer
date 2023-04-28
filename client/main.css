@@ -173,6 +173,19 @@ td.empty {
     margin-top: 1rem;
 }
 
+.compounds-chart {
+    width: calc(100vw - 5rem);
+    margin-bottom: 1rem;
+}
+.compounds-chart a,
+.compounds-chart a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+.compounds-chart a span.link:hover {
+    outline-width: 2px;
+}
+
 table.isotopes {
     height: 81vh;
     width: 96vw;
@@ -234,6 +247,7 @@ table.isotopes td.synthetic a span.link:hover {
 Make the whole element clickable in the periodic table.
 https://stackoverflow.com/a/3494108/12841859
 */
+.compounds-chart div,
 section.elements article,
 table.isotopes th,
 table.isotopes td,
