@@ -1299,6 +1299,7 @@ class Compounds {
         C11H16N2O8: ['N-Acetylaspartylglutamic acid'],
         C11H16N4O4: ['Acetylcarnosine'],
         C11H19NO8: ['N-Acetylmuramic acid'],
+        C11H19N3O6: ['Ophthalmic acid'],
         C11H22N2O4S: ['Pantetheine'],
 
         C12H10Se2: ['Diphenyl diselenide'],
@@ -1347,6 +1348,7 @@ class Compounds {
         C13H20N6O4: ['Valaciclovir'],
         C13H21NO3: ['Salbutamol'],
         C13H22N4O3S: ['Ranitidine'],
+        C13H24N4O3: ['Melanocyte-inhibiting factor'],
         C13H24N4O3S: ['Timolol'],
 
         C14H8O2: ['Anthraquinone'],
@@ -1368,6 +1370,8 @@ class Compounds {
         C14H21NO15S: ['Dermatan sulfate'],
         C14H21N3O2S: ['Sumatriptan'],
         C14H22N2O3: ['Atenolol'],
+        C14H22CuN6O4: ['Copper peptide GHK-Cu'],
+        C14H24N6O4: ['Glycyl-L-histidyl-L-lysine'],
         C14H28O2: ['Myristic acid'],
 
         C15H8O6: ['Rhein'],
@@ -1552,6 +1556,7 @@ class Compounds {
         C20H34O: ['Geranylgeraniol'],
         C20H36O7P2: ['Geranylgeranyl pyrophosphate'],
         C20H37O7S: ['Docusate'],
+        C20H38N6O4: ['Leupeptin'],
 
         C21H21O4P: ['Tricresyl phosphate'],
         C21H21F2N3O7: ['Posizolid'],
