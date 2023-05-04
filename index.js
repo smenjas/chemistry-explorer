@@ -3513,6 +3513,17 @@ class Compounds {
         return elements;
     }
 
+    static weigh(formula) {
+        const elements = Compounds.parse(formula);
+        let weight = 0;
+        for (const symbol in elements) {
+            const protons = Elements.findProtons(symbol);
+            const element = Elements.data[protons];
+            weight += Math.round(element.weight) * elements[symbol];
+        }
+        return weight;
+    }
+
     static render() {
         document.title = 'Compounds';
 
@@ -3556,7 +3567,7 @@ class Compounds {
         document.title = formula;
 
         let html = `<h1>${pretty}</h1>`;
-
+        html += `<p>Molecular weight: ${Compounds.weigh(formula)}</p>`;
         html += '<h2>Links</h2>';
 
         if (formula in Compounds.data) {
