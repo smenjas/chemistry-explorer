@@ -473,22 +473,16 @@ a span.link:hover {
     th {
         font-size: 0.7rem;
     }
-    .all article .atomic {
-        font-size: 0.75rem;
-        display: block;
-    }
     .all article .symbol {
         font-size: 1.4rem;
     }
 }
 
 @media only screen and (min-width: 720px) {
-    th {
-        font-size: 0.8rem;
-    }
     .all article {
         padding: 0.2rem;
     }
+    th,
     .all article .atomic {
         font-size: 0.8rem;
     }
@@ -540,7 +534,6 @@ a span.link:hover {
 @media only screen and (min-width: 1600px) {
     .all article {
         min-width: 5.0rem;
-        padding: 0.2rem;
     }
 }
 
