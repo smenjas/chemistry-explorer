@@ -416,13 +416,13 @@ a span.link:hover {
     }
 }
 
-@media only screen and (max-width: 540px) {
+@media only screen and (max-width: 525px) {
     th {
         font-size: 0.6rem;
     }
     .all article {
         min-width: auto;
-        padding: 0.1rem;
+        padding: 0.05rem;
     }
     .all article .atomic {
         display: none;
@@ -436,9 +436,9 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 541px) {
+@media only screen and (min-width: 526px) {
     th {
-        font-size: 0.6rem;
+        font-size: 0.5rem;
     }
     .all article {
         min-width: auto;
@@ -448,7 +448,7 @@ a span.link:hover {
         display: none;
     }
     .all article .symbol {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     .all article .name,
     .all article .weight {
@@ -456,7 +456,19 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 590px) {
+@media only screen and (min-width: 560px) {
+    th {
+        font-size: 0.6rem;
+    }
+    .all article {
+        min-width: auto;
+    }
+    .all article .symbol {
+        font-size: 1.2rem;
+    }
+}
+
+@media only screen and (min-width: 600px) {
     th {
         font-size: 0.65rem;
     }
@@ -469,7 +481,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 630px) {
+@media only screen and (min-width: 640px) {
     th {
         font-size: 0.7rem;
     }
@@ -478,10 +490,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 720px) {
-    .all article {
-        padding: 0.2rem;
-    }
+@media only screen and (min-width: 680px) {
     th,
     .all article .atomic {
         font-size: 0.8rem;
@@ -491,26 +500,40 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 1010px) {
-    th {
+@media only screen and (min-width: 700px) {
+    th,
+    .all article .atomic {
         font-size: 0.9rem;
     }
-    .all article {
-        padding: 0.1rem;
+}
+
+@media only screen and (min-width: 740) {
+    th,
+    .all article .atomic {
+        font-size: 1.0rem;
     }
+}
+
+@media only screen and (min-width: 880px) {
     .all article .name {
         display: inline;
+        font-size: 0.5rem;
+    }
+}
+
+@media only screen and (min-width: 950px) {
+    .all article .name {
+        font-size: 0.55rem;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .all article .name {
         font-size: 0.6rem;
     }
 }
 
-@media only screen and (min-width: 1230px) {
-    .all article {
-        padding: 0.2rem;
-    }
-    .all article .atomic {
-        font-size: 0.9rem;
-    }
+@media only screen and (min-width: 1180px) {
     .all article .name,
     .all article .weight {
         display: inline;
@@ -518,20 +541,20 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 1300px) {
+@media only screen and (min-width: 1250px) {
     .all article {
         padding: 0.2rem;
     }
-    .all article .atomic {
-        font-size: 1.0rem;
-    }
+}
+
+@media only screen and (min-width: 1330px) {
     .all article .name,
     .all article .weight {
         font-size: 0.75rem;
     }
 }
 
-@media only screen and (min-width: 1600px) {
+@media only screen and (min-width: 1630px) {
     .all article {
         min-width: 5.0rem;
     }
