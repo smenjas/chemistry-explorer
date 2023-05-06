@@ -1208,6 +1208,8 @@ class Compounds {
         C6H14O6: ['Mannitol', 'Sorbitol'],
         C6H15B: ['Triethylborane'],
         C6H15In: ['Triethylindium'],
+        C6H18LiNSi2: ['Lithium bis(trimethylsilyl)amide'],
+        C6H18N3OP: ['Hexamethylphosphoramide'],
         C6H18Al2: ['Trimethylaluminium'],
         C6H18W: ['Hexamethyltungsten'],
         C6N12H6O12: ['Hexanitrohexaazaisowurtzitane'],
