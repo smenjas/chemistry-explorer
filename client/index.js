@@ -3606,7 +3606,15 @@ class Compounds {
             return '';
         }
 
-        let html = `<h3>${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}</h3>`;
+        let compoundsCount = 0;
+        for (const formula of formulas) {
+            const names = Compounds.data[formula];
+            compoundsCount += names.length;
+        }
+
+        const formulasTally = `${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}`;
+        const compoundsTally = `${compoundsCount} Compound${(compoundsCount === 1) ? '' : 's'}`;
+        let html = `<h3>${formulasTally}, ${compoundsTally}</h3>`;
         html += '<ul>';
         for (const formula of formulas) {
             const names = Compounds.data[formula];
