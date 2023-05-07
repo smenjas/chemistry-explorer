@@ -3465,14 +3465,14 @@ class Compounds {
     };
 
     static find(symbol) {
-        const compounds = [];
+        const formulas = [];
         for (const formula in Compounds.data) {
             const elements = Compounds.parse(formula);
             if (symbol in elements) {
-                compounds.push(formula);
+                formulas.push(formula);
             }
         }
-        return compounds;
+        return formulas;
     }
 
     static format(formula) {
@@ -3539,21 +3539,21 @@ class Compounds {
         let max = 0;
         for (const protons in Elements.data) {
             const element = Elements.data[protons];
-            const compounds = Compounds.list(element.symbol);
-            if (compounds.length > max) {
-                max = compounds.length;
+            const formulas = Compounds.list(element.symbol);
+            if (formulas.length > max) {
+                max = formulas.length;
             }
-            numbers[protons] = compounds.length;
+            numbers[protons] = formulas.length;
         }
 
         let html = '<section class="compounds-chart">';
-        for (const [protons, compounds] of Object.entries(numbers)) {
+        for (const [protons, formulas] of Object.entries(numbers)) {
             const element = Elements.data[protons];
-            const percent = Math.round((compounds / max) * 100);
+            const percent = Math.round((formulas / max) * 100);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             html += `<div class="${typeClass}" style="width: calc(${percent}% + 3rem)">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
-            html += `${element.symbol}: ${compounds}`;
+            html += `${element.symbol}: ${formulas}`;
             html += '<span class="link"></span></a></div>';
         }
         html += '</section>';
@@ -3601,14 +3601,14 @@ class Compounds {
     }
 
     static renderList(symbol = null) {
-        const compounds = Compounds.list(symbol);
-        if (compounds.length < 1) {
+        const formulas = Compounds.list(symbol);
+        if (formulas.length < 1) {
             return '';
         }
 
-        let html = `<h3>${compounds.length} Compound${(compounds.length === 1) ? '' : 's'}</h3>`;
+        let html = `<h3>${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}</h3>`;
         html += '<ul>';
-        for (const formula of compounds) {
+        for (const formula of formulas) {
             const names = Compounds.data[formula];
             const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
