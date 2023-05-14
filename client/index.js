@@ -4357,7 +4357,7 @@ class Compounds {
         let html = '<section class="compounds-chart">';
         for (const [protons, formulas] of Object.entries(numbers)) {
             const element = Elements.data[protons];
-            const percent = Math.round((formulas / max) * 100);
+            const percent = ((formulas / max) * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             html += `<div class="${typeClass}" style="width: calc(${percent}% + 3rem)">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
