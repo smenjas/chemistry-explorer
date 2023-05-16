@@ -839,6 +839,7 @@ class Compounds {
         BeS: ['Beryllium sulfide'],
         BeSO4: ['Beryllium sulfate'],
         BeCl2: ['Beryllium chloride'],
+        BeCrO4: ['Beryllium chromate'],
         BeBr2: ['Beryllium bromide'],
         BeTe: ['Beryllium telluride'],
         BeI2: ['Beryllium iodide'],
