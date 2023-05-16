@@ -4500,25 +4500,30 @@ class Compounds {
     }
 
     static renderChart() {
-        const numbers = {};
+        const counts = {};
         let max = 0;
         for (const protons in Elements.data) {
             const element = Elements.data[protons];
             const formulas = Compounds.list(element.symbol);
-            if (formulas.length > max) {
-                max = formulas.length;
+            let count = 0;
+            for (const formula of formulas) {
+                const compounds = Compounds.data[formula];
+                count += compounds.length;
             }
-            numbers[protons] = formulas.length;
+            if (count > max) {
+                max = count;
+            }
+            counts[protons] = count;
         }
 
         let html = '<section class="compounds-chart">';
-        for (const [protons, formulas] of Object.entries(numbers)) {
+        for (const [protons, count] of Object.entries(counts)) {
             const element = Elements.data[protons];
-            const percent = ((formulas / max) * 100).toFixed(1);
+            const percent = ((count / max) * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             html += `<div class="${typeClass}" style="width: calc(${percent}% + 3rem)">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
-            html += `${element.symbol}: ${formulas}`;
+            html += `${element.symbol}: ${count}`;
             html += '<span class="link"></span></a></div>';
         }
         html += '</section>';
