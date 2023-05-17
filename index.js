@@ -3252,6 +3252,8 @@ class Compounds {
 
         AlHO2: ['Aluminum hydroxide oxide'],
         AlLiO2: ['Lithium aluminate'],
+        AlB2: ['Aluminum diboride'],
+        AlB12: ['Aluminum dodecaboride'],
         AlF: ['Aluminum monofluoride'],
         AlF3: ['Aluminum fluoride'],
         AlMg2O7H7: ['Magaldrate'],
@@ -3268,6 +3270,9 @@ class Compounds {
         Al2I6: ['Aluminum iodide'],
 
         SiH4: ['Silane'],
+        SiB3: ['Silicon triboride'],
+        SiB4: ['Silicon tetraboride'],
+        SiB6: ['Silicon hexaboride'],
         SiN12: ['Silicon tetraazide'],
         SiO2: ['Silicon dioxide'],
         SiF4: ['Silicon tetrafluoride'],
@@ -3370,6 +3375,7 @@ class Compounds {
         K3CuF6: ['Potassium hexafluorocuprate(III)'],
 
         CaH2: ['Calcium hydride'],
+        CaB6: ['Calcium hexaboride'],
         CaCN2: ['Calcium cyanamide'],
         CaCO3: ['Calcium carbonate'],
         CaC2: ['Calcium carbide'],
@@ -3406,12 +3412,14 @@ class Compounds {
         'Ca5(PO4)3OH': ['Hydroxyapatite'],
 
         ScH3: ['Scandium(III) hydride'],
-        Sc2O3: ['Scandium oxide'],
+        ScB12: ['Scandium dodecaboride'],
         ScF3: ['Scandium fluoride'],
         ScCl3: ['Scandium chloride'],
         ScBr3: ['Scandium bromide'],
         ScI3: ['Scandium triiodide'],
+        Sc2O3: ['Scandium oxide'],
 
+        TiB2: ['Titanium diboride'],
         TiC: ['Titanium carbide'],
         TiN: ['Titanium nitride'],
         TiO2: ['Titanium dioxide'],
@@ -3425,6 +3433,7 @@ class Compounds {
         VBr3: ['Vanadium(III) bromide'],
         V2O5: ['Vanadium(V) oxide'],
 
+        CrB: ['Chromium(III) boride'],
         CrO: ['Chromium(II) oxide'],
         CrO2: ['Chromium(IV) oxide'],
         CrO3: ['Chromium trioxide'],
@@ -3439,22 +3448,26 @@ class Compounds {
         MnCl2: ['Manganese(II) chloride'],
         MnTe: ['Manganese(II) telluride'],
 
+        FeH6Mg2: ['Magnesium iron hexahydride'],
+        FeB: ['Iron monoboride'],
+        FeB4: ['Iron tetraboride'],
         FeCO3: ['Iron(II) carbonate'],
         'Fe(CO)5': ['Iron pentacarbonyl'],
         'Fe(NO3)3': ['Iron(III) nitrate'],
-        FeH6Mg2: ['Magnesium iron hexahydride'],
         FeSO4: ['Iron(II) sulfate'],
         FeS2: ['Pyrite'],
         'Fe(ClO4)2': ['Iron(II) perchlorate'],
         FeCl2: ['Iron(II) chloride'],
         FeCl3: ['Iron(III) chloride'],
         FeKS2: ['Potassium dithioferrate'],
+        Fe2B: ['Iron boride'],
         Fe2C9O9: ['Diiron nonacarbonyl'],
         Fe2O3: ['Ferric oxide'],
         'Fe2(SO4)3': ['Iron(III) sulfate'],
         Fe7MoS9C: ['FeMoco'],
         Fe16N2: ['Iron nitride'],
 
+        CoB: ['Cobalt boride'],
         CoCO3: ['Cobalt(II) carbonate'],
         'Co(C5H5)2': ['Cobaltocene'],
         'Co(NO3)2': ['Cobalt(II) nitrate'],
@@ -3653,6 +3666,7 @@ class Compounds {
         Rb2O2: ['Rubidium peroxide'],
         Rb2Te: ['Rubidium telluride'],
 
+        SrB6: ['Strontium hexaboride'],
         SrCO3: ['Strontium carbonate'],
         'Sr(NO3)2': ['Strontium nitrate'],
         SrO: ['Strontium oxide'],
@@ -3694,6 +3708,7 @@ class Compounds {
         ZrI4: ['Zirconium(IV) iodide'],
         'Zr(WO4)2': ['Zirconium tungstate'],
 
+        NbB2: ['Niobium diboride'],
         NbC: ['Niobium carbide'],
         NbN: ['Niobium nitride'],
         NbO: ['Niobium monoxide'],
@@ -3723,6 +3738,7 @@ class Compounds {
         TiI3: ['Titanium(III) iodide'],
         Tc2O7: ['Technetium(VII) oxide'],
 
+        RuB2: ['Ruthenium boride'],
         'Ru(CO)5': ['Ruthenium pentacarbonyl'],
         RuO2: ['Ruthenium(IV) oxide'],
         RuO4: ['Ruthenium tetroxide'],
@@ -3731,6 +3747,7 @@ class Compounds {
         RuF6: ['Ruthenium hexafluoride'],
         RuS2: ['Laurite'],
         RuCl3: ['Ruthenium(III) chloride'],
+        Ru2B3: ['Ruthenium boride'],
 
         RhO2: ['Rhodium(IV) oxide'],
         RhF3: ['Rhodium trifluoride'],
@@ -3924,13 +3941,14 @@ class Compounds {
         BaWO4: ['Barium tungstate'],
         Ba2TiO4: ['Barium orthotitanate'],
 
-        'La2(C2O4)3': ['Lanthanum oxalate'],
+        LaB6: ['Lanthanum hexaboride'],
         'La(NO3)3': ['Lanthanum(III) nitrate'],
         'La(OH)3': ['Lanthanum hydroxide'],
         LaF3: ['Lanthanum trifluoride'],
         LaCl3: ['Lanthanum(III) chloride'],
         LaYbO3: ['Lanthanum ytterbium oxide'],
         La2Hf2O7: ['Lanthanum hafnate'],
+        'La2(C2O4)3': ['Lanthanum oxalate'],
         La2O3: ['Lanthanum oxide'],
 
         CeB6: ['Cerium hexaboride'],
@@ -4074,6 +4092,7 @@ class Compounds {
         Ho2O7Ti2: ['Holmium titanate'],
 
         ErB4: ['Erbium tetraboride'],
+        ErB6: ['Erbium hexaboride'],
         'Er(NO3)3': ['Erbium(III) nitrate'],
         'Er(OH)3': ['Erbium(III) hydroxide'],
         ErF3: ['Erbium(III) fluoride'],
