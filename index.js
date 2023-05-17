@@ -781,6 +781,7 @@ class Compounds {
         HeLi: ['Lithium helium'],
 
         LiH: ['Lithium hydride'],
+        LiBH4: ['Lithium borohydride'],
         LiBO2: ['Lithium metaborate'],
         LiC9H18N: ['Lithium tetramethylpiperidide'],
         LiNH2: ['Lithium amide'],
@@ -1325,6 +1326,7 @@ class Compounds {
         C6H15LiBH: ['Lithium triethylborohydride'],
         C6H15B: ['Triethylborane'],
         C6H15In: ['Triethylindium'],
+        C6H16BNa: ['Sodium triethylborohydride'],
         C6H18LiNSi2: ['Lithium bis(trimethylsilyl)amide'],
         C6H18N3OP: ['Hexamethylphosphoramide'],
         C6H18O24P6: ['Phytic acid'],
@@ -3155,6 +3157,8 @@ class Compounds {
         F2Kr: ['Krypton difluoride'],
         F6H2Si: ['Hexafluorosilicic acid'],
 
+        NaBHC6H9O6: ['Sodium triacetoxyborohydride'],
+        NaBH3CN: ['Sodium cyanoborohydride'],
         NaH: ['Sodium hydride'],
         NaHCO3: ['Sodium bicarbonate'],
         NaHSO3: ['Sodium bisulfite'],
@@ -3253,6 +3257,7 @@ class Compounds {
         AlHO2: ['Aluminum hydroxide oxide'],
         AlLiO2: ['Lithium aluminate'],
         AlB2: ['Aluminum diboride'],
+        AlB3H12: ['Aluminum borohydride'],
         AlB12: ['Aluminum dodecaboride'],
         AlF: ['Aluminum monofluoride'],
         AlF3: ['Aluminum fluoride'],
@@ -4393,6 +4398,7 @@ class Compounds {
         Pa2O5: ['Protactinium(V) oxide'],
 
         UB2: ['Uranium diboride'],
+        UB4H16: ['Uranium borohydride'],
         UC: ['Uranium carbide'],
         'U(C8H8)2': ['Uranocene'],
         UO2: ['Uranium dioxide'],
