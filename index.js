@@ -506,7 +506,13 @@ class Elements {
         html += '</tbody></table>';
         html += '</section>';
 
-        html += '<nav>';
+        html += Elements.renderElementsNav();
+
+        return html;
+    }
+
+    static renderElementsNav() {
+        let html = '<nav>';
         html += '<a href="?view=compounds">Compounds</a> ';
         html += '<a href="?view=isotopes">Isotopes</a>';
         html += '</nav>';
