@@ -282,7 +282,7 @@ class Elements {
         let html = '';
 
         if (protons && !element) {
-            console.log('Unknown element:', protons);
+            console.warn('Unknown element with atomic number:', protons);
         }
 
         if (element) {
