@@ -734,10 +734,10 @@ class Compounds {
         HOF: ['Hypofluorous acid'],
         HOBr: ['Hypobromous acid'],
         HF: ['Hydrogen fluoride'],
+        HArF: ['Argon fluorohydride'],
         HCl: ['Hydrogen chloride'],
         HClO: ['Hypochlorous acid'],
         HClO4: ['Perchloric acid'],
-        HArF: ['Argon fluorohydride'],
         HBr: ['Hydrogen bromide'],
         HBrO2: ['Bromous acid'],
         HTcO4: ['Pertechnetic acid'],
@@ -1374,6 +1374,7 @@ class Compounds {
         C5H14N2: ['Cadaverine'],
         C5H15Ta: ['Pentamethyltantalum'],
         C5FeN6Na2O: ['Sodium nitroprusside'],
+        C5O5ArW: ['Argon tungsten pentacarbonyl'],
         C5O5Os: ['Osmium pentacarbonyl'],
 
         C6H3N3O7: ['Picric acid'],
@@ -3874,6 +3875,7 @@ class Compounds {
         Cl6IrNa3: ['Sodium hexachloroiridate(III)'],
 
         ArH: ['Argon monohydride'],
+        ArH4: ['Argon hydride'],
         Ar1C60: ['Argon buckminsterfullerene'],
 
         KH: ['Potassium hydride'],
