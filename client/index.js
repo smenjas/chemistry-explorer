@@ -7,6 +7,7 @@ String.prototype.toSpliced = function (start, deleteCount, ...items) {
 class Site {
     static render() {
         const params = new URLSearchParams(window.location.search);
+        const molecule = params.get('molecule');
         const formula = params.get('formula');
         const group = params.get('group');
         const period = params.get('period');
@@ -16,6 +17,9 @@ class Site {
 
         if (formula) {
             html += Molecules.renderFormula(formula);
+        }
+        else if (molecule) {
+            html += Molecules.renderMolecule(molecule);
         }
         else if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
@@ -6288,6 +6292,22 @@ class Molecules {
         return formulas;
     }
 
+    static #foundMolecules = {};
+    static findMolecule(molecule) {
+        if (molecule in Molecules.#foundMolecules) {
+            return Molecules.#foundMolecules[molecule];
+        }
+        const formulas = [];
+        for (const formula in Molecules.data) {
+            const molecules = Molecules.data[formula];
+            if (molecules.includes(molecule)) {
+                formulas.push(formula);
+            }
+        }
+        Molecules.#foundMolecules[molecule] = formulas;
+        return formulas;
+    }
+
     static findEquivalentFormulas(formula) {
         const formulas = [];
         for (const f in Molecules.data) {
@@ -6475,6 +6495,30 @@ class Molecules {
         }
         html += '</section>';
         console.timeEnd('molecules-chart');
+
+        return html;
+    }
+
+    static renderMolecule(molecule) {
+        const formulas = Molecules.findMolecule(molecule);
+
+        if (formulas.length === 1) {
+            return Molecules.renderFormula(formulas[0]);
+        }
+
+        let html = `<h1>${molecule}</h1>`;
+
+        if (formulas.length === 0) {
+            html += '<p>No formulas found.</p>';
+            return html;
+        }
+
+        html += '<ul>';
+        for (const formula of formulas) {
+            const linkText = Molecules.format(formula);
+            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
+        }
+        html += '</ul>';
 
         return html;
     }
