@@ -178,7 +178,7 @@ td.empty {
     margin-bottom: 1rem;
 }
 .abundance-chart {
-    width: calc(100vw - 10rem);
+    width: calc(100vw - 9rem);
 }
 .compounds-chart {
     width: calc(100vw - 5rem);

@@ -325,8 +325,70 @@ class Elements {
         }
     }
 
+    static fixFloat(number) {
+        let [integer, decimal, exponent] = number.toString().split(/[.e]/);
+        if (decimal === undefined) {
+            return number;
+        }
+
+        const zeros = decimal.indexOf('00000');
+        if (zeros !== -1) {
+            decimal = decimal.substring(0, zeros);
+        }
+
+        const nines = decimal.indexOf('99999');
+        if (nines === 0) {
+            integer = `${parseInt(integer) + 1}`;
+            decimal = '';
+        }
+        else if (nines !== -1) {
+            decimal = decimal.substring(0, nines);
+            const lastDigit = parseInt(decimal.at(-1)) + 1;
+            decimal = decimal.substring(0, decimal.length - 1) + lastDigit.toString();
+        }
+
+        if (zeros === -1 && nines === -1) {
+            return number;
+        }
+
+        let string = integer;
+        if (decimal.length > 0) {
+            string += `.${decimal}`;
+        }
+        if (exponent !== undefined) {
+            string += `e${exponent}`;
+        }
+        const f = parseFloat(string);
+        return f;
+    }
+
     static formatAbundance(abundance) {
-        return `${abundance} kg/kg`;
+        if (abundance === 0) {
+            return '0';
+        }
+
+        if (abundance < 1e-12) {
+            const ppq = Elements.fixFloat(abundance * 1e15);
+            return `<span title="${abundance}">${ppq}</span> <abbr title="parts per quadrillion">ppq</abbr>`;
+        }
+
+        if (abundance < 1e-9) {
+            const ppt = Elements.fixFloat(abundance * 1e12);
+            return `<span title="${abundance}">${ppt}</span> <abbr title="parts per trillion">ppt</abbr>`;
+        }
+
+        if (abundance < 1e-6) {
+            const ppb = Elements.fixFloat(abundance * 1e9);
+            return `<span title="${abundance}">${ppb}</span> <abbr title="parts per billion">ppb</abbr>`;
+        }
+
+        if (abundance < 1e-3) {
+            const ppm = Elements.fixFloat(abundance * 1e6);
+            return `<span title="${abundance}">${ppm}</span> <abbr title="parts per million">ppm</abbr>`;
+        }
+
+        const percent = Elements.fixFloat(abundance * 100);
+        return `<span title="${abundance}">${percent}%</span>`;
     }
 
     static formatCelsius(temperature) {
@@ -454,10 +516,10 @@ class Elements {
             const abundance = element.crust;
             const percent = ((abundance / max) * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
-            const minWidth = (abundance === 0) ? '3rem' : '8rem';
+            const minWidth = (abundance === 0) ? '3rem' : '7rem';
             html += `<div class="${typeClass}" style="width: calc(${percent}% + ${minWidth})">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
-            html += `${element.symbol}: ${abundance}`;
+            html += `${element.symbol}: ${Elements.formatAbundance(abundance)}`;
             html += '<span class="link"></span></a></div>';
         }
         html += '</section>';
