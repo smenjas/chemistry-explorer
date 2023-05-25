@@ -5147,7 +5147,11 @@ class Compounds {
         return symbol ? Compounds.find(symbol) : Object.keys(Compounds.data);
     }
 
+    static #parsed = {};
     static parse(formula) {
+        if (formula in Compounds.#parsed) {
+            return Compounds.#parsed[formula];
+        }
         formula = formula.toString();
         const re = /([A-Z][a-z]?)(\d*)/g;
         const matches = formula.matchAll(re);
@@ -5162,6 +5166,7 @@ class Compounds {
                 elements[element] = count;
             }
         }
+        Compounds.#parsed[formula] = elements;
         return elements;
     }
 
@@ -5187,6 +5192,7 @@ class Compounds {
     }
 
     static renderChart() {
+        console.time('compounds-chart');
         const counts = {};
         let max = 0;
         for (const protons in Elements.data) {
@@ -5214,6 +5220,7 @@ class Compounds {
             html += '<span class="link"></span></a></div>';
         }
         html += '</section>';
+        console.timeEnd('compounds-chart');
 
         return html;
     }
