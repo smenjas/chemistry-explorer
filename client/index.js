@@ -5116,7 +5116,11 @@ class Compounds {
         Es2O3: ['Einsteinium(III) oxide'],
     };
 
+    static #found = {};
     static find(symbol) {
+        if (symbol in Compounds.#found) {
+            return Compounds.#found[symbol];
+        }
         const formulas = [];
         for (const formula in Compounds.data) {
             const elements = Compounds.parse(formula);
@@ -5124,6 +5128,7 @@ class Compounds {
                 formulas.push(formula);
             }
         }
+        Compounds.#found[symbol] = formulas;
         return formulas;
     }
 
