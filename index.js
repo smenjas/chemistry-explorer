@@ -492,6 +492,13 @@ class Elements {
         return html;
     }
 
+    static calculateBarWidth(value, max) {
+        if (value === 0) {
+            return 0;
+        }
+        return 1 / (Math.log(value) / Math.log(max));
+    }
+
     static renderAbundance() {
         console.time('abundance-chart');
         let max = 0;
@@ -510,11 +517,13 @@ class Elements {
         document.title = 'Abundance of Elements in Earth\'s Crust';
 
         let html = `<h1>${document.title}</h1>`;
+        html += '<legend style="text-align: center">using a logarithmic scale</legend>';
         html += '<section class="abundance-chart">';
         for (const protons in Elements.data) {
             const element = Elements.data[protons];
             const abundance = element.crust;
-            const percent = ((abundance / max) * 100).toFixed(1);
+            const width = Elements.calculateBarWidth(abundance, max);
+            const percent = (width * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             const minWidth = (abundance === 0) ? '3rem' : '7rem';
             html += `<div class="${typeClass}" style="width: calc(${percent}% + ${minWidth})">`;
