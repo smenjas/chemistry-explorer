@@ -647,6 +647,7 @@ class Elements {
         let html = `Density: ${Elements.formatDensity(element.density, true)}`;
         html += `<br>Melting Point: ${Elements.formatCelsius(element.melts)}`;
         html += `<br>Boiling Point: ${Elements.formatCelsius(element.boils)}`;
+        html += `<br>Abundance: ${Elements.formatAbundance(element.crust)}`;
         return html;
     }
 
