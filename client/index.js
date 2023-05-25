@@ -29,6 +29,9 @@ class Site {
             html += Elements.renderPeriod(period);
             html += '</main>';
         }
+        else if (view === 'abundance') {
+            html += Elements.renderAbundance();
+        }
         else if (view === 'compounds') {
             html += Compounds.render();
         }
@@ -103,7 +106,7 @@ class Elements {
         40:  { symbol: 'Zr', name: 'Zirconium',     weight:  91.22,    period: 5, group:  4,   block: 'd', density:  6.49,  melts: 1855,    boils: 4409,    crust: 1.65e-4,  type: 'Transition Metal' },
         41:  { symbol: 'Nb', name: 'Niobium',       weight:  92.906,   period: 5, group:  5,   block: 'd', density:  8.4,   melts: 2469,    boils: 4744,    crust:  2.0e-5,  type: 'Transition Metal' },
         42:  { symbol: 'Mo', name: 'Molybdenum',    weight:  95.94,    period: 5, group:  6,   block: 'd', density: 10.2,   melts: 2623,    boils: 4639,    crust:  1.2e-6,  type: 'Transition Metal' },
-        43:  { symbol: 'Tc', name: 'Technetium',    weight:  99,       period: 5, group:  7,   block: 'd', density: 11.5,   melts: 2204,    boils: 4265,    crust:       0,  type: 'Transition Metal' },
+        43:  { symbol: 'Tc', name: 'Technetium',    weight:  99,       period: 5, group:  7,   block: 'd', density: 11.5,   melts: 2204,    boils: 4265,    crust:    0,     type: 'Transition Metal' },
         44:  { symbol: 'Ru', name: 'Ruthenium',     weight: 101.07,    period: 5, group:  8,   block: 'd', density: 12.2,   melts: 2334,    boils: 4150,    crust:    1e-9,  type: 'Transition Metal' },
         45:  { symbol: 'Rh', name: 'Rhodium',       weight: 102.905,   period: 5, group:  9,   block: 'd', density: 12.4,   melts: 1963,    boils: 3697,    crust:    1e-9,  type: 'Transition Metal' },
         46:  { symbol: 'Pd', name: 'Palladium',     weight: 106.4,     period: 5, group: 10,   block: 'd', density: 12.0,   melts: 1555,    boils: 2964,    crust:  1.5e-8,  type: 'Transition Metal' },
@@ -121,7 +124,7 @@ class Elements {
         58:  { symbol: 'Ce', name: 'Cerium',        weight: 140.12,    period: 6, group: null, block: 'f', density:  6.67,  melts:  798,    boils: 3443,    crust: 6.65e-5,  type: 'Lanthanide' },
         59:  { symbol: 'Pr', name: 'Praseodymium',  weight: 140.907,   period: 6, group: null, block: 'f', density:  6.77,  melts:  931,    boils: 3520,    crust:  9.2e-6,  type: 'Lanthanide' },
         60:  { symbol: 'Nd', name: 'Neodymium',     weight: 144.24,    period: 6, group: null, block: 'f', density:  7.00,  melts: 1021,    boils: 3074,    crust: 4.15e-5,  type: 'Lanthanide' },
-        61:  { symbol: 'Pm', name: 'Promethium',    weight: 145,       period: 6, group: null, block: 'f', density: null,   melts: 1042,    boils: 3000,    crust:       0,  type: 'Lanthanide' },
+        61:  { symbol: 'Pm', name: 'Promethium',    weight: 145,       period: 6, group: null, block: 'f', density: null,   melts: 1042,    boils: 3000,    crust:    0,     type: 'Lanthanide' },
         62:  { symbol: 'Sm', name: 'Samarium',      weight: 150.36,    period: 6, group: null, block: 'f', density:  7.54,  melts: 1074,    boils: 1794,    crust: 7.05e-6,  type: 'Lanthanide' },
         63:  { symbol: 'Eu', name: 'Europium',      weight: 151.964,   period: 6, group: null, block: 'f', density:  5.26,  melts:  822,    boils: 1527,    crust:  2.0e-6,  type: 'Lanthanide' },
         64:  { symbol: 'Gd', name: 'Gadolinium',    weight: 157.25,    period: 6, group: null, block: 'f', density:  7.89,  melts: 1313,    boils: 3273,    crust:  6.2e-6,  type: 'Lanthanide' },
@@ -145,40 +148,40 @@ class Elements {
         82:  { symbol: 'Pb', name: 'Lead',          weight: 207.19,    period: 6, group: 14,   block: 'p', density: 11.4,   melts:  327.5,  boils: 1750,    crust:  1.4e-5,  type: 'Post Transition Metal' },
         83:  { symbol: 'Bi', name: 'Bismuth',       weight: 208.980,   period: 6, group: 15,   block: 'p', density:  9.8,   melts:  271.4,  boils: 1564,    crust:  8.5e-9,  type: 'Post Transition Metal' },
         84:  { symbol: 'Po', name: 'Polonium',      weight: 209,       period: 6, group: 16,   block: 'p', density:  9.2,   melts:  254,    boils: null,    crust:    2e-16, type: 'Post Transition Metal' },
-        85:  { symbol: 'At', name: 'Astatine',      weight: 210,       period: 6, group: 17,   block: 'p', density: null,   melts:  302,    boils: null,    crust:       0,  type: 'Metalloid' },
+        85:  { symbol: 'At', name: 'Astatine',      weight: 210,       period: 6, group: 17,   block: 'p', density: null,   melts:  302,    boils: null,    crust:    0,     type: 'Metalloid' },
         86:  { symbol: 'Rn', name: 'Radon',         weight: 222,       period: 6, group: 18,   block: 'p', density: null,   melts:  -71,    boils:  -61.7,  crust:    4e-19, type: 'Noble Gas' },
-        87:  { symbol: 'Fr', name: 'Francium',      weight: 223,       period: 7, group:  1,   block: 's', density: null,   melts:   27,    boils: null,    crust:       0,  type: 'Alkali Metal' },
+        87:  { symbol: 'Fr', name: 'Francium',      weight: 223,       period: 7, group:  1,   block: 's', density: null,   melts:   27,    boils: null,    crust:    0,     type: 'Alkali Metal' },
         88:  { symbol: 'Ra', name: 'Radium',        weight: 226,       period: 7, group:  2,   block: 's', density:  5.0,   melts:  700,    boils: null,    crust:    9e-13, type: 'Alkaline Earth Metal' },
         89:  { symbol: 'Ac', name: 'Actinium',      weight: 227,       period: 7, group:  3,   block: 'd', density: null,   melts: 1051,    boils: 3200,    crust:  5.5e-16, type: 'Actinide' },
         90:  { symbol: 'Th', name: 'Thorium',       weight: 232.038,   period: 7, group: null, block: 'f', density: 11.7,   melts: 1755,    boils: 4788,    crust:  9.6e-6,  type: 'Actinide' },
         91:  { symbol: 'Pa', name: 'Protactinium',  weight: 231.035,   period: 7, group: null, block: 'f', density: 15.4,   melts: 1572,    boils: null,    crust:  1.4e-12, type: 'Actinide' },
         92:  { symbol: 'U',  name: 'Uranium',       weight: 238.028,   period: 7, group: null, block: 'f', density: 19.07,  melts: 1135,    boils: 4134,    crust:  2.7e-6,  type: 'Actinide' },
-        93:  { symbol: 'Np', name: 'Neptunium',     weight: 237,       period: 7, group: null, block: 'f', density: 19.5,   melts:  639,    boils: null,    crust:       0,  type: 'Actinide' },
-        94:  { symbol: 'Pu', name: 'Plutonium',     weight: 244,       period: 7, group: null, block: 'f', density: null,   melts:  640,    boils: 3230,    crust:       0,  type: 'Actinide' },
-        95:  { symbol: 'Am', name: 'Americium',     weight: 243,       period: 7, group: null, block: 'f', density: null,   melts: 1176,    boils: null,    crust:       0,  type: 'Actinide' },
-        96:  { symbol: 'Cm', name: 'Curium',        weight: 247,       period: 7, group: null, block: 'f', density: null,   melts: 1345,    boils: null,    crust:       0,  type: 'Actinide' },
-        97:  { symbol: 'Bk', name: 'Berkelium',     weight: 247,       period: 7, group: null, block: 'f', density: null,   melts: 1050,    boils: null,    crust:       0,  type: 'Actinide' },
-        98:  { symbol: 'Cf', name: 'Californium',   weight: 251,       period: 7, group: null, block: 'f', density: null,   melts:  900,    boils: null,    crust:       0,  type: 'Actinide' },
-        99:  { symbol: 'Es', name: 'Einsteinium',   weight: 252,       period: 7, group: null, block: 'f', density: null,   melts:  860,    boils: null,    crust:       0,  type: 'Actinide' },
-        100: { symbol: 'Fm', name: 'Fermium',       weight: 257,       period: 7, group: null, block: 'f', density: null,   melts: 1527,    boils: null,    crust:       0,  type: 'Actinide' },
-        101: { symbol: 'Md', name: 'Mendelevium',   weight: 258,       period: 7, group: null, block: 'f', density: null,   melts:  827,    boils: null,    crust:       0,  type: 'Actinide' },
-        102: { symbol: 'No', name: 'Nobelium',      weight: 259,       period: 7, group: null, block: 'f', density: null,   melts:  827,    boils: null,    crust:       0,  type: 'Actinide' },
-        103: { symbol: 'Lr', name: 'Lawrencium',    weight: 262,       period: 7, group:  3,   block: 'd', density: null,   melts: 1627,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        104: { symbol: 'Rf', name: 'Rutherfordium', weight: 267,       period: 7, group:  4,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        105: { symbol: 'Db', name: 'Dubnium',       weight: 268,       period: 7, group:  5,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        106: { symbol: 'Sg', name: 'Seaborgium',    weight: 271,       period: 7, group:  6,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        107: { symbol: 'Bh', name: 'Bohrium',       weight: 272,       period: 7, group:  7,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        108: { symbol: 'Hs', name: 'Hassium',       weight: 270,       period: 7, group:  8,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        109: { symbol: 'Mt', name: 'Meitnerium',    weight: 276,       period: 7, group:  9,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        110: { symbol: 'Ds', name: 'Darmstadtium',  weight: 281,       period: 7, group: 10,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        111: { symbol: 'Rg', name: 'Roentgenium',   weight: 280,       period: 7, group: 11,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        112: { symbol: 'Cn', name: 'Copernicium',   weight: 285,       period: 7, group: 12,   block: 'd', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Transition Metal' },
-        113: { symbol: 'Nh', name: 'Nihonium',      weight: 284,       period: 7, group: 13,   block: 'p', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Post Transition Metal' },
-        114: { symbol: 'Fl', name: 'Flerovium',     weight: 289,       period: 7, group: 14,   block: 'p', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Post Transition Metal' },
-        115: { symbol: 'Mc', name: 'Moscovium',     weight: 288,       period: 7, group: 15,   block: 'p', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Post Transition Metal' },
-        116: { symbol: 'Lv', name: 'Livermorium',   weight: 293,       period: 7, group: 16,   block: 'p', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Post Transition Metal' },
-        117: { symbol: 'Ts', name: 'Tennessine',    weight: 294,       period: 7, group: 17,   block: 'p', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Post Transition Metal' },
-        118: { symbol: 'Og', name: 'Oganesson',     weight: 294,       period: 7, group: 18,   block: 'p', density: null,   melts: null,    boils: null,    crust:       0,  type: 'Noble Gas' },
+        93:  { symbol: 'Np', name: 'Neptunium',     weight: 237,       period: 7, group: null, block: 'f', density: 19.5,   melts:  639,    boils: null,    crust:    0,     type: 'Actinide' },
+        94:  { symbol: 'Pu', name: 'Plutonium',     weight: 244,       period: 7, group: null, block: 'f', density: null,   melts:  640,    boils: 3230,    crust:    0,     type: 'Actinide' },
+        95:  { symbol: 'Am', name: 'Americium',     weight: 243,       period: 7, group: null, block: 'f', density: null,   melts: 1176,    boils: null,    crust:    0,     type: 'Actinide' },
+        96:  { symbol: 'Cm', name: 'Curium',        weight: 247,       period: 7, group: null, block: 'f', density: null,   melts: 1345,    boils: null,    crust:    0,     type: 'Actinide' },
+        97:  { symbol: 'Bk', name: 'Berkelium',     weight: 247,       period: 7, group: null, block: 'f', density: null,   melts: 1050,    boils: null,    crust:    0,     type: 'Actinide' },
+        98:  { symbol: 'Cf', name: 'Californium',   weight: 251,       period: 7, group: null, block: 'f', density: null,   melts:  900,    boils: null,    crust:    0,     type: 'Actinide' },
+        99:  { symbol: 'Es', name: 'Einsteinium',   weight: 252,       period: 7, group: null, block: 'f', density: null,   melts:  860,    boils: null,    crust:    0,     type: 'Actinide' },
+        100: { symbol: 'Fm', name: 'Fermium',       weight: 257,       period: 7, group: null, block: 'f', density: null,   melts: 1527,    boils: null,    crust:    0,     type: 'Actinide' },
+        101: { symbol: 'Md', name: 'Mendelevium',   weight: 258,       period: 7, group: null, block: 'f', density: null,   melts:  827,    boils: null,    crust:    0,     type: 'Actinide' },
+        102: { symbol: 'No', name: 'Nobelium',      weight: 259,       period: 7, group: null, block: 'f', density: null,   melts:  827,    boils: null,    crust:    0,     type: 'Actinide' },
+        103: { symbol: 'Lr', name: 'Lawrencium',    weight: 262,       period: 7, group:  3,   block: 'd', density: null,   melts: 1627,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        104: { symbol: 'Rf', name: 'Rutherfordium', weight: 267,       period: 7, group:  4,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        105: { symbol: 'Db', name: 'Dubnium',       weight: 268,       period: 7, group:  5,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        106: { symbol: 'Sg', name: 'Seaborgium',    weight: 271,       period: 7, group:  6,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        107: { symbol: 'Bh', name: 'Bohrium',       weight: 272,       period: 7, group:  7,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        108: { symbol: 'Hs', name: 'Hassium',       weight: 270,       period: 7, group:  8,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        109: { symbol: 'Mt', name: 'Meitnerium',    weight: 276,       period: 7, group:  9,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        110: { symbol: 'Ds', name: 'Darmstadtium',  weight: 281,       period: 7, group: 10,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        111: { symbol: 'Rg', name: 'Roentgenium',   weight: 280,       period: 7, group: 11,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        112: { symbol: 'Cn', name: 'Copernicium',   weight: 285,       period: 7, group: 12,   block: 'd', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Transition Metal' },
+        113: { symbol: 'Nh', name: 'Nihonium',      weight: 284,       period: 7, group: 13,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Post Transition Metal' },
+        114: { symbol: 'Fl', name: 'Flerovium',     weight: 289,       period: 7, group: 14,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Post Transition Metal' },
+        115: { symbol: 'Mc', name: 'Moscovium',     weight: 288,       period: 7, group: 15,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Post Transition Metal' },
+        116: { symbol: 'Lv', name: 'Livermorium',   weight: 293,       period: 7, group: 16,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Post Transition Metal' },
+        117: { symbol: 'Ts', name: 'Tennessine',    weight: 294,       period: 7, group: 17,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Post Transition Metal' },
+        118: { symbol: 'Og', name: 'Oganesson',     weight: 294,       period: 7, group: 18,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Noble Gas' },
     };
 
     static groups = Elements.#getGroups();
@@ -276,33 +279,6 @@ class Elements {
         'Post Transition Metal': 'https://en.wikipedia.org/wiki/Post_transition_metal',
         'Transition Metal': 'https://en.wikipedia.org/wiki/Transition_metal',
     };
-
-    static render(protons = null) {
-        const element = Elements.data[protons];
-        let html = '';
-
-        if (protons && !element) {
-            console.warn('Unknown element with atomic number:', protons);
-        }
-
-        if (element) {
-            document.title = `${element.symbol}: ${element.name}`;
-            html += '<main>';
-            html += `<h1>${document.title}</h1>`;
-            html += Elements.renderElementNav(protons);
-            html += Elements.renderElement(protons);
-            html += '</main>';
-        }
-        else {
-            document.title = 'Periodic Table of the Elements';
-            html += '<main>';
-            html += `<h1>${document.title}</h1>`;
-            html += Elements.renderElements();
-            html += '</main>';
-        }
-
-        return html;
-    }
 
     static findNextInGroup(protons) {
         protons = parseInt(protons);
@@ -427,6 +403,69 @@ class Elements {
         return Link.toWikipedia(`${periodPath}#Period_${period}`, period);
     }
 
+    static render(protons = null) {
+        const element = Elements.data[protons];
+        let html = '';
+
+        if (protons && !element) {
+            console.warn('Unknown element with atomic number:', protons);
+        }
+
+        if (element) {
+            document.title = `${element.symbol}: ${element.name}`;
+            html += '<main>';
+            html += `<h1>${document.title}</h1>`;
+            html += Elements.renderElementNav(protons);
+            html += Elements.renderElement(protons);
+            html += '</main>';
+        }
+        else {
+            document.title = 'Periodic Table of the Elements';
+            html += '<main>';
+            html += `<h1>${document.title}</h1>`;
+            html += Elements.renderElements();
+            html += '</main>';
+        }
+
+        return html;
+    }
+
+    static renderAbundance() {
+        console.time('abundance-chart');
+        let max = 0;
+        let min = 1;
+        for (const protons in Elements.data) {
+            const element = Elements.data[protons];
+            const abundance = element.crust;
+            if (abundance > max) {
+                max = abundance;
+            }
+            if (abundance > 0 && abundance < min) {
+                min = abundance;
+            }
+        }
+
+        document.title = 'Abundance of Elements in Earth\'s Crust';
+
+        let html = `<h1>${document.title}</h1>`;
+        html += '<section class="abundance-chart">';
+        for (const protons in Elements.data) {
+            const element = Elements.data[protons];
+            const abundance = element.crust;
+            const percent = ((abundance / max) * 100).toFixed(1);
+            const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
+            const minWidth = (abundance === 0) ? '3rem' : '8rem';
+            html += `<div class="${typeClass}" style="width: calc(${percent}% + ${minWidth})">`;
+            html += `<a href="?protons=${protons}" title="${element.name}">`;
+            html += `${element.symbol}: ${abundance}`;
+            html += '<span class="link"></span></a></div>';
+        }
+        html += '</section>';
+        console.timeEnd('abundance-chart');
+
+        return html;
+    }
+
     static renderPeriodRow(cells, period) {
         const thLink = `<a href="?period=${period}">${period}<span class="link"></span></a>`;
         const th = `<th title="Period ${period}">${thLink}</th>`;
@@ -517,6 +556,7 @@ class Elements {
 
     static renderElementsNav() {
         let html = '<nav>';
+        html += '<a href="?view=abundance">Abundance</a> ';
         html += '<a href="?view=compounds">Compounds</a> ';
         html += '<a href="?view=isotopes">Isotopes</a>';
         html += '</nav>';
@@ -5196,11 +5236,9 @@ class Compounds {
 
     static render() {
         document.title = 'Compounds';
-
         let html = `<h1>${document.title}</h1>`;
         html += Compounds.renderChart();
         html += Compounds.renderList();
-
         return html;
     }
 
