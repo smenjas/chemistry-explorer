@@ -639,6 +639,13 @@ class Elements {
         return html;
     }
 
+    static renderElementHighlights(element) {
+        let html = `Density: ${Elements.formatDensity(element.density, true)}`;
+        html += `<br>Melting Point: ${Elements.formatCelsius(element.melts)}`;
+        html += `<br>Boiling Point: ${Elements.formatCelsius(element.boils)}`;
+        return html;
+    }
+
     static renderGroup(group) {
         if (!(group in Elements.groupElements)) {
             return '';
@@ -650,9 +657,7 @@ class Elements {
             const element = Elements.data[protons];
             html += '<tr>';
             html += `<td>${Elements.formatElement(protons, true)}</td>`;
-            html += `<td class="element-data">Density: ${Elements.formatDensity(element.density, true)}<br>`;
-            html += `Melting Point: ${Elements.formatCelsius(element.melts)}<br>`;
-            html += `Boiling Point: ${Elements.formatCelsius(element.boils)}</td>`;
+            html += `<td class="element-data">${Elements.renderElementHighlights(element)}</td>`;
             html += '</tr>';
         }
         html += '</tbody></table>';
@@ -696,9 +701,7 @@ class Elements {
             const element = Elements.data[protons];
             html += '<tr>';
             html += `<td>${Elements.formatElement(protons, true)}</td>`;
-            html += `<td class="element-data">Density: ${Elements.formatDensity(element.density)}<br>`;
-            html += `Melting Point: ${Elements.formatCelsius(element.melts)}<br>`;
-            html += `Boiling Point: ${Elements.formatCelsius(element.boils)}</td>`;
+            html += `<td class="element-data">${Elements.renderElementHighlights(element)}</td>`;
             html += '</tr>';
         }
         html += '</tbody></table>';
