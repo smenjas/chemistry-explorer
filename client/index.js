@@ -349,6 +349,10 @@ class Elements {
         }
     }
 
+    static formatAbundance(abundance) {
+        return `${abundance} kg/kg`;
+    }
+
     static formatCelsius(temperature) {
         return (temperature) ? `${temperature} °C` : 'Unknown';
     }
@@ -540,7 +544,7 @@ class Elements {
         html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
         html += `<li>${Link.toWikipedia('Melting_point', 'Melting Point')}: ${Elements.formatCelsius(element.melts)}</li>`;
         html += `<li>${Link.toWikipedia('Boiling_point', 'Boiling Point')}: ${Elements.formatCelsius(element.boils)}</li>`;
-        html += `<li>${crustLink}: ${element.crust} kg/kg</li>`;
+        html += `<li>${crustLink}: ${Elements.formatAbundance(element.crust)}</li>`;
         html += `<li>Type: ${Link.create(Elements.typeURLs[element.type], element.type, true)}</li>`;
         html += '</ul>';
 
