@@ -194,6 +194,9 @@ td.empty {
 .compounds-chart a span.link:hover {
     outline-width: 2px;
 }
+#abundance-scale {
+    text-align: center;
+}
 
 table.isotopes {
     height: 81vh;
