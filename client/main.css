@@ -173,17 +173,29 @@ td.empty {
     margin-top: 1rem;
 }
 
+.abundance-chart,
 .compounds-chart {
-    width: calc(100vw - 5rem);
     margin-bottom: 1rem;
 }
+.abundance-chart {
+    width: calc(100vw - 9rem);
+}
+.compounds-chart {
+    width: calc(100vw - 5rem);
+}
+.abundance-chart a,
+.abundance-chart a:visited,
 .compounds-chart a,
 .compounds-chart a:visited {
     color: inherit;
     text-decoration: none;
 }
+.abundance-chart a span.link:hover,
 .compounds-chart a span.link:hover {
     outline-width: 2px;
+}
+#abundance-scale {
+    text-align: center;
 }
 
 table.isotopes {
@@ -247,6 +259,7 @@ table.isotopes td.synthetic a span.link:hover {
 Make the whole element clickable in the periodic table.
 https://stackoverflow.com/a/3494108/12841859
 */
+.abundance-chart div,
 .compounds-chart div,
 section.elements article,
 table.isotopes th,
