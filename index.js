@@ -492,14 +492,25 @@ class Elements {
         return html;
     }
 
-    static calculateBarWidth(value, max) {
+    static calculateBarWidth(value, max, log = true) {
         if (value === 0) {
             return 0;
+        }
+        if (!log) {
+            return value / max;
         }
         return 1 / (Math.log(value) / Math.log(max));
     }
 
-    static renderAbundance() {
+    static handleAbundanceScale(log) {
+        document.body.innerHTML = '';
+        const html = Elements.renderAbundance(log);
+        document.body.insertAdjacentHTML('beforeend', html);
+        document.querySelector('#scale-linear').checked = !log;
+        document.querySelector('#scale-log').checked = log;
+    }
+
+    static renderAbundance(log = true) {
         console.time('abundance-chart');
         let max = 0;
         let min = 1;
@@ -517,12 +528,17 @@ class Elements {
         document.title = 'Abundance of Elements in Earth\'s Crust';
 
         let html = `<h1>${document.title}</h1>`;
-        html += '<legend style="text-align: center">using a logarithmic scale</legend>';
+        html += '<form id="abundance-scale">';
+        html += '<input id="scale-linear" type="radio" name="scale" value="linear" onchange="Elements.handleAbundanceScale(false)">';
+        html += '<label for="scale-linear">linear</label>';
+        html += '<input id="scale-log" type="radio" name="scale" value="log" onchange="Elements.handleAbundanceScale(true)" checked>';
+        html += '<label for="scale-log">logarithmic</label>';
+        html += '</form>';
         html += '<section class="abundance-chart">';
         for (const protons in Elements.data) {
             const element = Elements.data[protons];
             const abundance = element.crust;
-            const width = Elements.calculateBarWidth(abundance, max);
+            const width = Elements.calculateBarWidth(abundance, max, log);
             const percent = (width * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             const minWidth = (abundance === 0) ? '3rem' : '7rem';
