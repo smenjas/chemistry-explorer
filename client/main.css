@@ -246,13 +246,12 @@ table.isotopes td.primordial {
 table.isotopes td.synthetic {
     background-color: gold;
 }
-table.isotopes td.primordial a span.link:hover {
+table.isotopes td a span.link:hover {
     border: 1px solid black;
     outline: 0.75rem solid limegreen;
 }
 table.isotopes td.synthetic a span.link:hover {
-    border: 1px solid black;
-    outline: 0.75rem solid gold;
+    outline-color: gold;
 }
 
 /*
