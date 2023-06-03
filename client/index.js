@@ -5469,7 +5469,7 @@ class Compounds {
             const element = Elements.data[protons];
             const percent = ((count / max) * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
-            html += `<div class="${typeClass}" style="width: calc(${percent}% + 3rem)">`;
+            html += `<div class="${typeClass}" style="width: calc(${percent}% + 3.1rem)">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
             html += `${element.symbol}: ${count}`;
             html += '<span class="link"></span></a></div>';
