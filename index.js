@@ -320,9 +320,10 @@ class Elements {
         for (const protons in Elements.data) {
             const element = Elements.data[protons];
             if (element.symbol === symbol) {
-                return protons;
+                return parseInt(protons);
             }
         }
+        return 0;
     }
 
     static fixFloat(number) {
@@ -5733,6 +5734,118 @@ class Compounds {
         Es2O3: ['Einsteinium(III) oxide'],
     };
 
+    static compare(formulaA, formulaB, priority = 'H', debug = false) {
+        // Return early when formulas are identical.
+        if (formulaA === formulaB) {
+            if (debug) {
+                console.log(`${formulaA} === ${formulaB}`);
+            }
+            return 0;
+        }
+
+        // Allow the caller to identify a priority element to sort by.
+        const priorityProtons = Elements.findProtons(priority);
+        if (priorityProtons === 0) {
+            console.warn('Invalid priority element symbol:', priority);
+            return 0;
+        }
+
+        // Parse formulas into constituent elements.
+        const a = Compounds.parse(formulaA);
+        const b = Compounds.parse(formulaB);
+
+        // When priority element counts are different, sort by that.
+        if ((priority in a) && (priority in b)) {
+            const aCount = a[priority];
+            const bCount = b[priority];
+            if (aCount > bCount) {
+                if (debug) {
+                    console.log(`${formulaA} > ${formulaB}: ${priority}${aCount} > ${priority}${bCount}`);
+                }
+                return 1;
+            }
+            if (aCount < bCount) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: ${priority}${aCount} < ${priority}${bCount}`);
+                }
+                return -1;
+            }
+        }
+
+        // Find the highest atomic number in formulaA.
+        let aMax = 0;
+        for (const symbol in a) {
+            const protons = Elements.findProtons(symbol);
+            if (protons > aMax) {
+                aMax = protons;
+            }
+        }
+
+        // Find the highest atomic number in formulaB.
+        let bMax = 0;
+        for (const symbol in b) {
+            const protons = Elements.findProtons(symbol);
+            if (protons > bMax) {
+                bMax = protons;
+            }
+        }
+
+        // Compare formulas by their elements' atomic numbers; lowest comes first.
+        for (const protons in Elements.data) {
+            // Stop when we're past either formula's highest element.
+            if (protons > aMax) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: compared every element in ${formulaA}`);
+                }
+                return -1;
+            }
+            if (protons > bMax) {
+                if (debug) {
+                    console.log(`${formulaA} > ${formulaB}: compared every element in ${formulaB}`);
+                }
+                return 1;
+            }
+
+            const symbol = Elements.data[protons].symbol;
+            const inA = symbol in a;
+            const inB = symbol in b;
+
+            // When a lower element is in only one formula, it comes first.
+            if (inA && !inB) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: ${symbol} in ${formulaA}, not in ${formulaB}`);
+                }
+                return -1;
+            }
+            if (!inA && inB) {
+                if (debug) {
+                    console.log(`${formulaA} > ${formulaB}: ${symbol} in ${formulaB}, not in ${formulaA}`);
+                }
+                return 1;
+            }
+
+            // When both formulas contain an element, sort based on the element count.
+            if (inA && inB) {
+                const aCount = a[symbol];
+                const bCount = b[symbol];
+                if (aCount > bCount) {
+                    if (debug) {
+                        console.log(`${formulaA} > ${formulaB}: ${symbol}${aCount} > ${symbol}${bCount}`);
+                    }
+                    return 1;
+                }
+                if (aCount < bCount) {
+                    if (debug) {
+                        console.log(`${formulaA} < ${formulaB}: ${symbol}${aCount} < ${symbol}${bCount}`);
+                    }
+                    return -1;
+                }
+            }
+        }
+
+        return 0;
+    }
+
     static #found = {};
     static find(symbol) {
         if (symbol in Compounds.#found) {
@@ -5792,6 +5905,42 @@ class Compounds {
         return elements;
     }
 
+    static sort(formulas = [], priority = 'H') {
+        if (formulas.length < 1) {
+            formulas = Object.keys(Compounds.data);
+        }
+        const sorted = formulas.toSorted((a, b) => Compounds.compare(a, b, priority));
+
+        for (let i = 0; i < formulas.length; i++) {
+            if (formulas[i] !== sorted[i]) {
+                Compounds.compare(formulas[i], sorted[i], priority, true);
+                break;
+            }
+        }
+
+        return sorted;
+    }
+
+    static sortByFirstElement() {
+        console.time('Compounds.sortByFirstElement()');
+        const byElement = {};
+        for (const formula in Compounds.data) {
+            const components = Compounds.parse(formula);
+            const element = Object.keys(components)[0];
+            if (element in byElement) {
+                byElement[element].push(formula);
+            }
+            else {
+                byElement[element] = [formula];
+            }
+        }
+        for (const element in byElement) {
+            const formulas = byElement[element];
+            Compounds.sort(formulas, element);
+        }
+        console.timeEnd('Compounds.sortByFirstElement()');
+    }
+
     static weigh(formula) {
         const elements = Compounds.parse(formula);
         let weight = 0;
@@ -5808,6 +5957,7 @@ class Compounds {
         let html = `<h1>${document.title}</h1>`;
         html += Compounds.renderChart();
         html += Compounds.renderList();
+        Compounds.sortByFirstElement();
         return html;
     }
 
