@@ -5985,6 +5985,7 @@ class Compounds {
             const element = components[1];
             const count = (components[2] === '') ? 1 : parseInt(components[2]);
             if (Object.hasOwn(elements, element)) {
+                console.log(formula, 'repeats', element);
                 elements[element] += count;
             }
             else {
