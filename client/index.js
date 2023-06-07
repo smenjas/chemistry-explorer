@@ -270,6 +270,16 @@ class Elements {
         return periods;
     }
 
+    static symbols = Elements.#getSymbols();
+    static #getSymbols() {
+        const symbols = {};
+        for (const protons in Elements.data) {
+            const element = Elements.data[protons];
+            symbols[element.symbol] = parseInt(protons);
+        }
+        return symbols;
+    }
+
     static typeURLs = {
         'Actinide': 'https://en.wikipedia.org/wiki/Actinide',
         'Alkali Metal': 'https://en.wikipedia.org/wiki/Alkali_metal',
@@ -320,13 +330,7 @@ class Elements {
     }
 
     static findProtons(symbol) {
-        for (const protons in Elements.data) {
-            const element = Elements.data[protons];
-            if (element.symbol === symbol) {
-                return parseInt(protons);
-            }
-        }
-        return 0;
+        return Elements.symbols[symbol] ?? 0;
     }
 
     static fixFloat(number) {
