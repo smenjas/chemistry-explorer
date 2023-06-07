@@ -5737,7 +5737,25 @@ class Compounds {
         Es2O3: ['Einsteinium(III) oxide'],
     };
 
-    static compare(formulaA, formulaB, priority = 'H', debug = false) {
+    static #convertParsedFormulaSymbols(components, ignore = '') {
+        // Convert an object keyed by element symbols to a map keyed by atomic numbers.
+        const atomic = new Map();
+        for (const symbol in components) {
+            if (symbol === ignore) {
+                continue;
+            }
+            const protons = Elements.findProtons(symbol);
+            if (protons in atomic) {
+                atomic.set(protons, atomic.get(protons) + components[symbol]);
+            }
+            else {
+                atomic.set(protons, components[symbol]);
+            }
+        }
+        return atomic;
+    }
+
+    static compare(formulaA, formulaB, prioritySymbol = 'H', debug = false) {
         // Return early when formulas are identical.
         if (formulaA === formulaB) {
             if (debug) {
@@ -5747,54 +5765,50 @@ class Compounds {
         }
 
         // Allow the caller to identify a priority element to sort by.
-        const priorityProtons = Elements.findProtons(priority);
-        if (priorityProtons === 0) {
-            console.warn('Invalid priority element symbol:', priority);
+        const priority = Elements.findProtons(prioritySymbol);
+        if (priority === 0) {
+            console.warn('Invalid priority element symbol:', prioritySymbol);
             return 0;
         }
 
         // Parse formulas into constituent elements.
-        const a = Compounds.parse(formulaA);
-        const b = Compounds.parse(formulaB);
+        const aComponents = Compounds.parse(formulaA);
+        const bComponents = Compounds.parse(formulaB);
 
         // When priority element counts are different, sort by that.
-        if ((priority in a) && (priority in b)) {
-            const aCount = a[priority];
-            const bCount = b[priority];
+        if ((prioritySymbol in aComponents) && (prioritySymbol in bComponents)) {
+            const aCount = aComponents[prioritySymbol];
+            const bCount = bComponents[prioritySymbol];
             if (aCount > bCount) {
                 if (debug) {
-                    console.log(`${formulaA} > ${formulaB}: ${priority}${aCount} > ${priority}${bCount}`);
+                    console.log(`${formulaA} > ${formulaB}: ${prioritySymbol}${aCount} > ${prioritySymbol}${bCount}`);
                 }
                 return 1;
             }
             if (aCount < bCount) {
                 if (debug) {
-                    console.log(`${formulaA} < ${formulaB}: ${priority}${aCount} < ${priority}${bCount}`);
+                    console.log(`${formulaA} < ${formulaB}: ${prioritySymbol}${aCount} < ${prioritySymbol}${bCount}`);
                 }
                 return -1;
             }
         }
 
-        // Find the highest atomic number in formulaA.
-        let aMax = 0;
-        for (const symbol in a) {
-            const protons = Elements.findProtons(symbol);
-            if (protons > aMax) {
-                aMax = protons;
-            }
-        }
+        // Build maps keyed by atomic numbers, not atomic symbols.
+        // Ignore the priority element, since we've already checked it.
+        const a = Compounds.#convertParsedFormulaSymbols(aComponents, prioritySymbol);
+        const b = Compounds.#convertParsedFormulaSymbols(bComponents, prioritySymbol);
 
-        // Find the highest atomic number in formulaB.
-        let bMax = 0;
-        for (const symbol in b) {
-            const protons = Elements.findProtons(symbol);
-            if (protons > bMax) {
-                bMax = protons;
-            }
-        }
+        // Build an array of atomic numbers in each formula.
+        const aKeys = [...a.keys()];
+        const bKeys = [...b.keys()];
+
+        // Find the highest atomic number in each formula's elements.
+        const aMax = Math.max(...aKeys);
+        const bMax = Math.max(...bKeys);
 
         // Compare formulas by their elements' atomic numbers; lowest comes first.
-        for (const protons in Elements.data) {
+        for (let protons in Elements.data) {
+            protons = parseInt(protons);
             // Stop when we're past either formula's highest element.
             if (protons > aMax) {
                 if (debug) {
@@ -5810,8 +5824,8 @@ class Compounds {
             }
 
             const symbol = Elements.data[protons].symbol;
-            const inA = symbol in a;
-            const inB = symbol in b;
+            const inA = a.has(protons);
+            const inB = b.has(protons);
 
             // When a lower element is in only one formula, it comes first.
             if (inA && !inB) {
@@ -5829,8 +5843,8 @@ class Compounds {
 
             // When both formulas contain an element, sort based on the element count.
             if (inA && inB) {
-                const aCount = a[symbol];
-                const bCount = b[symbol];
+                const aCount = a.get(protons);
+                const bCount = b.get(protons);
                 if (aCount > bCount) {
                     if (debug) {
                         console.log(`${formulaA} > ${formulaB}: ${symbol}${aCount} > ${symbol}${bCount}`);
