@@ -5802,27 +5802,20 @@ class Compounds {
         const aKeys = [...a.keys()];
         const bKeys = [...b.keys()];
 
+        // Build a sorted array of atomic numbers in both formulas, without duplicates.
+        const unique = new Set(aKeys.concat(bKeys));
+        const all = [...unique].sort((a, b) => a - b);
+
         // Find the highest atomic number in each formula's elements.
         const aMax = Math.max(...aKeys);
         const bMax = Math.max(...bKeys);
 
-        // Compare formulas by their elements' atomic numbers; lowest comes first.
-        for (let protons in Elements.data) {
-            protons = parseInt(protons);
-            // Stop when we're past either formula's highest element.
-            if (protons > aMax) {
-                if (debug) {
-                    console.log(`${formulaA} < ${formulaB}: compared every element in ${formulaA}`);
-                }
-                return -1;
-            }
-            if (protons > bMax) {
-                if (debug) {
-                    console.log(`${formulaA} > ${formulaB}: compared every element in ${formulaB}`);
-                }
-                return 1;
-            }
+        // Limit comparisons to the lesser maximum atomic number of the two formulas.
+        const upperBound = Math.min(aMax, bMax);
+        all.splice(all.indexOf(upperBound) + 1);
 
+        // Compare formulas by their elements' atomic numbers; lowest comes first.
+        for (const protons of all) {
             const symbol = Elements.data[protons].symbol;
             const inA = a.has(protons);
             const inB = b.has(protons);
@@ -5857,6 +5850,14 @@ class Compounds {
                     }
                     return -1;
                 }
+            }
+
+            // Stop when we're past either formula's highest element.
+            if (protons === upperBound && aMax !== bMax) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: compared every element in ${formulaA}`);
+                }
+                return (upperBound === aMax) ? -1 : 1;
             }
         }
 
