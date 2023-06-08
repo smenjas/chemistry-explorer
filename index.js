@@ -38,6 +38,9 @@ class Site {
         else if (view === 'isotopes') {
             html += Isotopes.render();
         }
+        else if (view === 'test') {
+            html += Test.render();
+        }
         else {
             html += Elements.render(protons);
         }
@@ -5846,6 +5849,74 @@ class Compounds {
         return 0;
     }
 
+    static compareTest() {
+        const tests = [
+            [['HN', 'HNCO', 'H'], 1], // C in HNCO, not in HN
+            [['H2', 'H2', 'H'], 0], // H2 === H2
+            [['LiPF6', 'LiYF4', 'Li'], 1], // F6 > F4
+            [['LiNH2', 'Li2NH', 'Li'], -1], // Li1 < Li2
+            //[['BeF2', 'BeSO4', 'Be'], 1], // O in BeSO4, not in BeF2
+            //[['BN', 'BNH6', 'B'], 1], // H in BNH6, not in BN
+            //[['CHF3', 'CHClO2', 'C'], 1], // O in CHClO2, not in CHF3
+            [['C2H2', 'C2H2B2N2', 'C'], -1], // compared every element in C2H2
+            //[['C2H3B', 'C2H3LiO2', 'C'], 1], // Li in C2H3LiO2, not in C2H3B
+            [['NH4ClO4', 'NH4VO3', 'N'], 1], // O4 > O3
+            //[['NH4SCN', 'NH4ClO3', 'N'], 1], // N2 > N1
+            //[['NaOH', 'NaHCO3', 'Na'], 1], // C in NaHCO3, not in NaOH
+            //[['Mg2O8Si3', 'MgSO3', 'Mg'], 1], // Mg2 > Mg1
+            //[['S4N4', 'S2Sn', 'S'], 1], // S4 > S2
+            //[['KHSO3', 'KOH', 'K'], 1], // O1 < O3
+            //[['CaH2O2', 'CaH2C2O4', 'Ca'], 1], // C in CaH2C2O4, not in CaH2O2
+            //[['Ti2O3', 'TiI3', 'Ti'], 1], // Ti2 > Ti1
+            //[['FeCl2', 'FeKS2', 'Fe'], 1], // S in FeKS2, not in FeCl2
+            //[['CoB', 'CoC10H10', 'Co'], 1], // H in CoC10H10, not in CoB
+            //[['CuS', 'CuSO4', 'Cu'], 1], // O in CuSO4, not in CuS
+            //[['GaS', 'GaAsP', 'Ga'], 1], // P in GaAsP, not in GaS
+            //[['AsH3', 'AsCuHO3', 'As'], 1], // H1 < H3
+            //[['SeCl4', 'SeOCl2', 'Se'], 1], // O in SeOCl2, not in SeCl4
+            //[['YB6', 'YH3O3', 'Y'], 1], // H in YH3O3, not in YB6
+            //[['Ag2SeO3', 'Ag2O', 'Ag'], 1], // O1 < O3
+            //[['InN3O9', 'InGaN', 'In'], 1], // N1 < N3
+            //[['SnI2', 'SnTe', 'Sn'], 1], // Te in SnTe, not in SnI2
+            //[['IF', 'INaO3', 'I'], 1], // O in INaO3, not in IF
+            //[['CsHO4S', 'CsOH', 'Cs'], 1], // O1 < O4
+            //[['BaP2O6', 'BaSO3', 'Ba'], 1], // O3 < O6
+            //[['La2O3', 'La2C6O12', 'La'], 1], // C in La2C6O12, not in La2O3
+            //[['CeBr3', 'CeCoIn5', 'Ce'], 1], // Co in CeCoIn5, not in CeBr3
+            //[['Ho2S3', 'Ho2O7Ti2', 'Ho'], 1], // O in Ho2O7Ti2, not in Ho2S3
+            //[['YbP', 'YbRh2Si2', 'Yb'], 1], // Si in YbRh2Si2, not in YbP
+            //[['LuF3', 'LuTaO4', 'Lu'], 1], // O in LuTaO4, not in LuF3
+            //[['HfF4', 'HfSiO4', 'Hf'], 1], // O in HfSiO4, not in HfF4
+            //[['WO2Cl2', 'WO2', 'W'], 1], // compared every element in WO2
+            //[['IrCl3', 'IrS2', 'Ir'], 1], // S in IrS2, not in IrCl3
+            //[['HgF4', 'HgSO4', 'Hg'], 1], // O in HgSO4, not in HgF4
+            //[['TlH3', 'TlOH', 'Tl'], 1], // H1 < H3
+            //[['PbS', 'PbSO4', 'Pb'], 1], // O in PbSO4, not in PbS
+            //[['Bi2CO5', 'BiOCl', 'Bi'], 1], // Bi2 > Bi1
+            //[['RaF2', 'RaSO4', 'Ra'], 1], // O in RaSO4, not in RaF2
+            //[['ThF4', 'ThSiO4', 'Th'], 1], // O in ThSiO4, not in ThF4
+            //[['UB2', 'UB4H16', 'U'], 1], // H in UB4H16, not in UB2
+        ];
+
+        let failed = 0;
+        let passed = 0;
+        for (const test of tests) {
+            const args = test[0];
+            const expected = test[1];
+            const actual = Compounds.compare(...args, true);
+            console.assert(actual === expected, args[0], args[1], 'not sorted correctly.');
+            if (actual === expected) {
+                passed += 1;
+            }
+            else {
+                failed += 1;
+            }
+        }
+        console.log(`${failed} tests failed, ${passed} passed.`);
+
+        return failed;
+    }
+
     static #found = {};
     static find(symbol) {
         if (symbol in Compounds.#found) {
@@ -6274,6 +6345,24 @@ class Isotopes {
         html += '</table>';
 
         return html;
+    }
+}
+
+class Test {
+    static render() {
+        const failures = Test.run();
+        const color = failures ? 'red' : 'green';
+        document.title = 'Automated Tests';
+        let html = '<main>';
+        html += `<h1>${document.title}</h1>`;
+        html += `<p>Failures: <span style="color: ${color}">${failures}</span></p>`;
+        return html;
+    }
+
+    static run() {
+        let failures = 0;
+        failures += Compounds.compareTest();
+        return failures;
     }
 }
 
