@@ -5780,10 +5780,10 @@ class Compounds {
         const aComponents = Compounds.parse(formulaA);
         const bComponents = Compounds.parse(formulaB);
 
-        // When priority element counts are different, sort by that.
         if ((prioritySymbol in aComponents) && (prioritySymbol in bComponents)) {
             const aCount = aComponents[prioritySymbol];
             const bCount = bComponents[prioritySymbol];
+            // When priority element counts are different, sort by that.
             if (aCount > bCount) {
                 if (debug) {
                     console.log(`${formulaA} > ${formulaB}: ${prioritySymbol}${aCount} > ${prioritySymbol}${bCount}`);
@@ -5795,6 +5795,20 @@ class Compounds {
                     console.log(`${formulaA} < ${formulaB}: ${prioritySymbol}${aCount} < ${prioritySymbol}${bCount}`);
                 }
                 return -1;
+            }
+            // When priority element counts are the same, but one formula
+            // contains only the priority element, it comes first.
+            if (Object.keys(aComponents).length === 1) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: ${formulaA} contains only the priority element`);
+                }
+                return -1;
+            }
+            if (Object.keys(bComponents).length === 1) {
+                if (debug) {
+                    console.log(`${formulaA} > ${formulaB}: ${formulaB} contains only the priority element`);
+                }
+                return 1;
             }
         }
         else {
@@ -5822,8 +5836,10 @@ class Compounds {
 
         // Limit comparisons to the lesser maximum atomic number of the two formulas.
         const upperBound = Math.min(aMax, bMax);
+        if (upperBound === -Infinity) {
+            console.warn('upperBound =', upperBound);
+        }
         all.splice(all.indexOf(upperBound) + 1);
-        console.log(formulaA, formulaB, upperBound, all);
 
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
@@ -5883,7 +5899,10 @@ class Compounds {
             [['H2', 'O2', 'H'], -1], // H2 < O2: H in H2, not in O2
             [['O2', 'H2', 'H'], 1], // O2 > H2: H in H2, not in O2
             [['H2', 'O2', 'X'], -1], // H2 < O2: H in H2, not in O2
-            [['H2', 'H2O2', 'H'], -1], // H2 < O2: H in H2, not in O2
+            [['H2', 'H2O2', 'H'], -1], // H2 < H2O2: H2 contains only the priority element
+            [['H2O2', 'H2', 'H'], 1], // H2O2 > H2: H2 contains only the priority element
+            [['O2', 'H2O2', 'O'], -1], // O2 < H2O2: O2 contains only the priority element
+            [['H2O2', 'O2', 'O'], 1], // H2O2 > O2: O2 contains only the priority element
             [['HN', 'HNCO', 'H'], 1], // C in HNCO, not in HN
             [['H2', 'H2', 'H'], 0], // H2 === H2
             [['H2O', 'OH2', 'H'], 0], // H2O == OH2: formulas are equivalent
