@@ -5865,6 +5865,9 @@ class Compounds {
             }
         }
 
+        if (debug) {
+            console.log(`${formulaA} == ${formulaB}: formulas are equivalent`);
+        }
         return 0;
     }
 
@@ -5872,6 +5875,7 @@ class Compounds {
         const tests = [
             [['HN', 'HNCO', 'H'], 1], // C in HNCO, not in HN
             [['H2', 'H2', 'H'], 0], // H2 === H2
+            [['H2O', 'OH2', 'H'], 0], // H2O == OH2: formulas are equivalent
             [['LiPF6', 'LiYF4', 'Li'], 1], // F6 > F4
             [['LiNH2', 'Li2NH', 'Li'], -1], // Li1 < Li2
             //[['BeF2', 'BeSO4', 'Be'], 1], // O in BeSO4, not in BeF2
