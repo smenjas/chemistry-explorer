@@ -5874,6 +5874,9 @@ class Compounds {
 
     static compareTest() {
         const tests = [
+            [['H2', 'O2', 'H'], -1], // H2 < O2: H in H2, not in O2
+            [['O2', 'H2', 'H'], 1], // O2 > H2: H in H2, not in O2
+            [['H2', 'O2', 'X'], -1], // H2 < O2: H in H2, not in O2
             [['HN', 'HNCO', 'H'], 1], // C in HNCO, not in HN
             [['H2', 'H2', 'H'], 0], // H2 === H2
             [['H2O', 'OH2', 'H'], 0], // H2O == OH2: formulas are equivalent
@@ -5885,6 +5888,7 @@ class Compounds {
             [['C2H2', 'C2H2B2N2', 'C'], -1], // compared every element in C2H2
             //[['C2H3B', 'C2H3LiO2', 'C'], 1], // Li in C2H3LiO2, not in C2H3B
             [['NH4ClO4', 'NH4VO3', 'N'], 1], // O4 > O3
+            [['NH4VO3', 'NH4ClO4', 'N'], -1], // O3 < O4
             //[['NH4SCN', 'NH4ClO3', 'N'], 1], // N2 > N1
             //[['NaOH', 'NaHCO3', 'Na'], 1], // C in NaHCO3, not in NaOH
             //[['Mg2O8Si3', 'MgSO3', 'Mg'], 1], // Mg2 > Mg1
