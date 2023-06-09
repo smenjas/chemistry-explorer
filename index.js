@@ -5987,6 +5987,20 @@ class Compounds {
         return formulas;
     }
 
+    static findEquivalentFormulas(formula) {
+        const formulas = [];
+        for (const f in Compounds.data) {
+            if (formula === f) {
+                continue;
+            }
+            const result = Compounds.compare(formula, f);
+            if (result === 0) {
+                formulas.push(f);
+            }
+        }
+        return formulas;
+    }
+
     static format(formula) {
         return formula.replaceAll(/\d+/g, '<sub>$&</sub>');
     }
@@ -6084,6 +6098,16 @@ class Compounds {
         html += Compounds.renderChart();
         html += Compounds.renderList();
         Compounds.sortByFirstElement();
+        /*
+        console.time('findEquivalentFormulas');
+        for (const formula in Compounds.data) {
+            const equivalentFormulas = Compounds.findEquivalentFormulas(formula);
+            if (equivalentFormulas.length > 0) {
+                console.log(formula, equivalentFormulas);
+            }
+        }
+        console.timeEnd('findEquivalentFormulas');
+        */
         return html;
     }
 
