@@ -5780,10 +5780,10 @@ class Compounds {
         const aComponents = Compounds.parse(formulaA);
         const bComponents = Compounds.parse(formulaB);
 
-        // When priority element counts are different, sort by that.
         if ((prioritySymbol in aComponents) && (prioritySymbol in bComponents)) {
             const aCount = aComponents[prioritySymbol];
             const bCount = bComponents[prioritySymbol];
+            // When priority element counts are different, sort by that.
             if (aCount > bCount) {
                 if (debug) {
                     console.log(`${formulaA} > ${formulaB}: ${prioritySymbol}${aCount} > ${prioritySymbol}${bCount}`);
@@ -5796,6 +5796,25 @@ class Compounds {
                 }
                 return -1;
             }
+            // When priority element counts are the same, but one formula
+            // contains only the priority element, it comes first.
+            if (Object.keys(aComponents).length === 1) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: ${formulaA} contains only the priority element`);
+                }
+                return -1;
+            }
+            if (Object.keys(bComponents).length === 1) {
+                if (debug) {
+                    console.log(`${formulaA} > ${formulaB}: ${formulaB} contains only the priority element`);
+                }
+                return 1;
+            }
+        }
+        else {
+            // When the priority symbol is not present in both formulas, ignore it.
+            prioritySymbol = '';
+            priority = 0;
         }
 
         // Build maps keyed by atomic numbers, not atomic symbols.
@@ -5817,6 +5836,9 @@ class Compounds {
 
         // Limit comparisons to the lesser maximum atomic number of the two formulas.
         const upperBound = Math.min(aMax, bMax);
+        if (upperBound === -Infinity) {
+            console.warn('upperBound =', upperBound);
+        }
         all.splice(all.indexOf(upperBound) + 1);
 
         // Compare formulas by their elements' atomic numbers; lowest comes first.
@@ -5874,6 +5896,13 @@ class Compounds {
 
     static compareTest() {
         const tests = [
+            [['H2', 'O2', 'H'], -1], // H2 < O2: H in H2, not in O2
+            [['O2', 'H2', 'H'], 1], // O2 > H2: H in H2, not in O2
+            [['H2', 'O2', 'X'], -1], // H2 < O2: H in H2, not in O2
+            [['H2', 'H2O2', 'H'], -1], // H2 < H2O2: H2 contains only the priority element
+            [['H2O2', 'H2', 'H'], 1], // H2O2 > H2: H2 contains only the priority element
+            [['O2', 'H2O2', 'O'], -1], // O2 < H2O2: O2 contains only the priority element
+            [['H2O2', 'O2', 'O'], 1], // H2O2 > O2: O2 contains only the priority element
             [['HN', 'HNCO', 'H'], 1], // C in HNCO, not in HN
             [['H2', 'H2', 'H'], 0], // H2 === H2
             [['H2O', 'OH2', 'H'], 0], // H2O == OH2: formulas are equivalent
@@ -5885,6 +5914,7 @@ class Compounds {
             [['C2H2', 'C2H2B2N2', 'C'], -1], // compared every element in C2H2
             //[['C2H3B', 'C2H3LiO2', 'C'], 1], // Li in C2H3LiO2, not in C2H3B
             [['NH4ClO4', 'NH4VO3', 'N'], 1], // O4 > O3
+            [['NH4VO3', 'NH4ClO4', 'N'], -1], // O3 < O4
             //[['NH4SCN', 'NH4ClO3', 'N'], 1], // N2 > N1
             //[['NaOH', 'NaHCO3', 'Na'], 1], // C in NaHCO3, not in NaOH
             //[['Mg2O8Si3', 'MgSO3', 'Mg'], 1], // Mg2 > Mg1
