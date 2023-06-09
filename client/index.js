@@ -5797,6 +5797,11 @@ class Compounds {
                 return -1;
             }
         }
+        else {
+            // When the priority symbol is not present in both formulas, ignore it.
+            prioritySymbol = '';
+            priority = 0;
+        }
 
         // Build maps keyed by atomic numbers, not atomic symbols.
         // Ignore the priority element, since we've already checked it.
