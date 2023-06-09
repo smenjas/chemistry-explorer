@@ -5823,6 +5823,7 @@ class Compounds {
         // Limit comparisons to the lesser maximum atomic number of the two formulas.
         const upperBound = Math.min(aMax, bMax);
         all.splice(all.indexOf(upperBound) + 1);
+        console.log(formulaA, formulaB, upperBound, all);
 
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
@@ -5882,6 +5883,7 @@ class Compounds {
             [['H2', 'O2', 'H'], -1], // H2 < O2: H in H2, not in O2
             [['O2', 'H2', 'H'], 1], // O2 > H2: H in H2, not in O2
             [['H2', 'O2', 'X'], -1], // H2 < O2: H in H2, not in O2
+            [['H2', 'H2O2', 'H'], -1], // H2 < O2: H in H2, not in O2
             [['HN', 'HNCO', 'H'], 1], // C in HNCO, not in HN
             [['H2', 'H2', 'H'], 0], // H2 === H2
             [['H2O', 'OH2', 'H'], 0], // H2O == OH2: formulas are equivalent
