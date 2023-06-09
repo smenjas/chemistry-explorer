@@ -5769,10 +5769,11 @@ class Compounds {
         }
 
         // Allow the caller to identify a priority element to sort by.
-        const priority = Elements.findProtons(prioritySymbol);
+        let priority = Elements.findProtons(prioritySymbol);
         if (priority === 0) {
             console.warn('Invalid priority element symbol:', prioritySymbol);
-            return 0;
+            prioritySymbol = 'H';
+            priority = 1;
         }
 
         // Parse formulas into constituent elements.
