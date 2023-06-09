@@ -38,6 +38,9 @@ class Site {
         else if (view === 'isotopes') {
             html += Isotopes.render();
         }
+        else if (view === 'test') {
+            html += Test.render();
+        }
         else {
             html += Elements.render(protons);
         }
@@ -267,6 +270,16 @@ class Elements {
         return periods;
     }
 
+    static symbols = Elements.#getSymbols();
+    static #getSymbols() {
+        const symbols = {};
+        for (const protons in Elements.data) {
+            const element = Elements.data[protons];
+            symbols[element.symbol] = parseInt(protons);
+        }
+        return symbols;
+    }
+
     static typeURLs = {
         'Actinide': 'https://en.wikipedia.org/wiki/Actinide',
         'Alkali Metal': 'https://en.wikipedia.org/wiki/Alkali_metal',
@@ -317,12 +330,7 @@ class Elements {
     }
 
     static findProtons(symbol) {
-        for (const protons in Elements.data) {
-            const element = Elements.data[protons];
-            if (element.symbol === symbol) {
-                return protons;
-            }
-        }
+        return Elements.symbols[symbol] ?? 0;
     }
 
     static fixFloat(number) {
@@ -871,15 +879,15 @@ class Compounds {
         HBO: ['Oxoborane'],
         HBF4: ['Fluoroboric acid'],
         HCN: ['Hydrogen cyanide'],
+        HNCO: ['Isocyanic acid'],
         HN: ['Imidogen'],
         HNO: ['Nitroxyl'],
         HNO2: ['Nitrous acid'],
         HNO3: ['Nitric acid'],
-        HNCO: ['Isocyanic acid'],
         HN3: ['Hydrazoic acid'],
         HOF: ['Hypofluorous acid'],
-        HOBr: ['Hypobromous acid'],
         HClO: ['Hypochlorous acid'],
+        HOBr: ['Hypobromous acid'],
         HIO: ['Hypoiodous acid'],
         HClO2: ['Chlorous acid'],
         HBrO2: ['Bromous acid'],
@@ -892,27 +900,26 @@ class Compounds {
         HIO4: ['Metaperiodic acid'],
         HReO4: ['Perrhenic acid'],
         HF: ['Hydrogen fluoride'],
-        HPF6: ['Hexafluorophosphoric acid'],
         HArF: ['Argon fluorohydride'],
+        HPF6: ['Hexafluorophosphoric acid'],
         HAsF6: ['Hexafluoroarsenic acid'],
         HCl: ['Hydrogen chloride'],
+        HAuCl4: ['Chloroauric acid'],
         HBr: ['Hydrogen bromide'],
         HI: ['Hydrogen iodide'],
-        HAuCl4: ['Chloroauric acid'],
         HAt: ['Hydrogen astatide'],
         H2: ['Dihydrogen'],
+        H2CO3: ['Carbonic acid'],
         H2N2: ['Diimide'],
         H2N2O2: ['Hyponitrous acid'],
-        H2CO3: ['Carbonic acid'],
         H2O: ['Water'],
         H2O2: ['Hydrogen peroxide'],
         H2O2Si: ['Oxosilanol'],
         H2O2S2: ['Thiosulfurous acid'],
         H2O3: ['Trioxidane'],
-        H2XeO4: ['Xenic acid'],
+        H2SiO3: ['Metasilicic acid'],
         H2SO3: ['Sulfurous acid'],
         H2S2O3: ['Thiosulfuric acid'],
-        H2SiO3: ['Metasilicic acid'],
         H2TiO3: ['Metatitanic acid'],
         H2SeO3: ['Selenous acid'],
         H2TeO3: ['Tellurous acid'],
@@ -921,6 +928,7 @@ class Compounds {
         H2TiO4: ['Pertitanic acid'],
         H2CrO4: ['Chromic acid'],
         H2SeO4: ['Selenic acid'],
+        H2XeO4: ['Xenic acid'],
         H2WO4: ['Tungstic acid'],
         H2Si2O5: ['Disilicic acid'],
         H2S2O6: ['Dithionic acid'],
@@ -981,10 +989,10 @@ class Compounds {
         LiGe2P3O12: ['Lithium germanium phosphate'],
         LiZr2P3O12: ['Lithium zirconium phosphate'],
         LiF: ['Lithium fluoride'],
+        LiYF4: ['Yttrium lithium fluoride'],
         LiPF6: ['Lithium hexafluorophosphate'],
         LiCl: ['Lithium chloride'],
         LiBr: ['Lithium bromide'],
-        LiYF4: ['Yttrium lithium fluoride'],
         LiTe3: ['Lithium tritelluride'],
         LiI: ['Lithium iodide'],
         Li2NH: ['Lithium imide'],
@@ -995,7 +1003,6 @@ class Compounds {
         Li2O: ['Lithium oxide'],
         Li2O2: ['Lithium peroxide'],
         Li2SiO3: ['Lithium metasilicate'],
-        Li2S: ['Lithium sulfide'],
         Li2SO3: ['Lithium sulfite'],
         Li2TiO3: ['Lithium titanate'],
         Li2RuO3: ['Lithium ruthenate'],
@@ -1006,6 +1013,7 @@ class Compounds {
         Li2MoO4: ['Lithium molybdate'],
         Li2WO4: ['Lithium tungstate'],
         Li2O5Si2: ['Lithium disilicate'],
+        Li2S: ['Lithium sulfide'],
         Li2Se: ['Lithium selenide'],
         Li2Te: ['Lithium telluride'],
         Li2Po: ['Lithium polonide'],
@@ -1023,11 +1031,11 @@ class Compounds {
         BeN2O6: ['Beryllium nitrate'],
         BeN6: ['Beryllium azide'],
         BeO: ['Beryllium oxide'],
+        BeSO4: ['Beryllium sulfate'],
+        BeCrO4: ['Beryllium chromate'],
         BeF2: ['Beryllium fluoride'],
         BeS: ['Beryllium sulfide'],
-        BeSO4: ['Beryllium sulfate'],
         BeCl2: ['Beryllium chloride'],
-        BeCrO4: ['Beryllium chromate'],
         BeBr2: ['Beryllium bromide'],
         BeTe: ['Beryllium telluride'],
         BeI2: ['Beryllium iodide'],
@@ -1039,15 +1047,15 @@ class Compounds {
         BH3: ['Borane'],
         BH3O: ['Borinic acid'],
         BH3O3: ['Boric acid'],
-        BN: ['Boron nitride'],
         BNH6: ['Ammonia borane'],
+        BN: ['Boron nitride'],
         BN9: ['Boron triazide'],
         BN17: ['Pentazenium tetraazidoborate'],
-        BF: ['Boron monofluoride'],
         BFO: ['Boron monofluoride monoxide'],
+        BPO4: ['Boron phosphate'],
+        BF: ['Boron monofluoride'],
         BF3: ['Boron trifluoride'],
         BP: ['Boron phosphide'],
-        BPO4: ['Boron phosphate'],
         BCl3: ['Boron trichloride'],
         BAs: ['Boron arsenide'],
         BBr3: ['Boron tribromide'],
@@ -1085,11 +1093,12 @@ class Compounds {
         CHN5: ['Pentazine'],
         CHN9: ['Triazidomethane'],
         CHO2Na: ['Sodium formate'],
-        CHF3: ['Fluoroform'],
         CHClO2: ['Chloroformic acid'],
+        CF3SO3H: ['Triflic acid'],
         CHCl2F: ['Dichlorofluoromethane'],
         CHClF2: ['Chlorodifluoromethane'],
         CHBrF2: ['Bromodifluoromethane'],
+        CHF3: ['Fluoroform'],
         CHCl3: ['Chloroform'],
         CHBr3: ['Bromoform'],
         CHI3: ['Iodoform'],
@@ -1098,15 +1107,14 @@ class Compounds {
         CH2O: ['Formaldehyde'],
         CH2OS: ['Sulfine'],
         CH2O2: ['Dioxirane', 'Formic acid'],
-        CH2F2: ['Difluoromethane'],
         CH2ClF: ['Chlorofluoromethane'],
-        CH2Cl2: ['Dichloromethane'],
+        CH2F2: ['Difluoromethane'],
         CH2BrCl: ['Bromochloromethane'],
+        CH2Cl2: ['Dichloromethane'],
         CH2Br2: ['Dibromomethane'],
         CH2I2: ['Diiodomethane'],
         CH3Li: ['Methyllithium'],
         CH3BO: ['Borane carbonyl'],
-        CH3NH2: ['Methylamine'],
         CH3NO: ['Formamide', 'Oxaziridine'],
         CH3N3: ['Methyl azide'],
         CH3N3O2: ['Nitrosourea'],
@@ -1114,14 +1122,13 @@ class Compounds {
         CH3FO3S: ['Methyl fluorosulfonate'],
         CH3NaO3S: ['Rongalite'],
         CH3AsO3Na2: ['Disodium methyl arsonate'],
+        CH3ReO3: ['Methylrhenium trioxide'],
         CH3O5P: ['Foscarnet'],
         CH3NaS: ['Sodium methanethiolate'],
         CH3MgCl: ['Methylmagnesium chloride'],
-        CH3SH: ['Methanethiol'],
         CH3Cl: ['Chloromethane'],
         CH3Br: ['Bromomethane'],
         CH3I: ['Iodomethane'],
-        CH3ReO3: ['Methylrhenium trioxide'],
         CH3Hg: ['Methylmercury'],
         CH4: ['Methane'],
         CH4N2: ['Diaziridine'],
@@ -1130,6 +1137,8 @@ class Compounds {
         CH4N2S: ['Thiourea'],
         CH4O: ['Methanol'],
         CH4AsNaO3: ['Monosodium methyl arsonate'],
+        CH4S: ['Methanethiol'],
+        CH5N: ['Methylamine'],
         CH5NO: ['Aminomethanol'],
         CH5NO2: ['Ammonium formate'],
         CH5NO3: ['Ammonium bicarbonate'],
@@ -1137,6 +1146,7 @@ class Compounds {
         CH5N3S: ['Thiosemicarbazide'],
         CH8N2O3: ['Ammonium carbonate'],
         CBe2: ['Beryllium carbide'],
+        CFN: ['Cyanogen fluoride'],
         CNCl: ['Cyanogen chloride'],
         CN4: ['Cyanogen azide'],
         CN12: ['Tetraazidomethane'],
@@ -1144,17 +1154,15 @@ class Compounds {
         COCl2: ['Phosgene'],
         CO2: ['Carbon dioxide'],
         CF3NaO2S: ['Sodium trifluoromethanesulfinate'],
+        CBr3F: ['Tribromofluoromethane'],
         CF2: ['Difluorocarbene'],
-        CF3SO3H: ['Triflic acid'],
-        CF4: ['Carbon tetrafluoride'],
-        CFN: ['Cyanogen fluoride'],
-        CCl2F2: ['Dichlorodifluoromethane'],
         CBrClF2: ['Bromochlorodifluoromethane'],
+        CCl2F2: ['Dichlorodifluoromethane'],
         CBr2F2: ['Dibromodifluoromethane'],
         CBrF3: ['Bromotrifluoromethane'],
-        CBr3F: ['Tribromofluoromethane'],
-        CS2: ['Carbon disulfide'],
+        CF4: ['Carbon tetrafluoride'],
         CSi: ['Silicon carbide'],
+        CS2: ['Carbon disulfide'],
         CCl4: ['Carbon tetrachloride'],
         CSe2: ['Carbon diselenide'],
         CBr4: ['Carbon tetrabromide'],
@@ -1186,22 +1194,22 @@ class Compounds {
         C2H2S2: ['Dithiete'],
         C2H2Cl2: ['Dichloroethene'],
         C2H2Br2: ['1,2-Dibromoethylene'],
+        C2H3LiO2: ['Lithium acetate'],
         C2H3B: ['Borirene'],
         C2H3N: ['Acetonitrile', 'Azirine', 'Methyl isocyanide'],
         C2H3NO: ['Methyl isocyanate'],
         C2H3NO2: ['Dehydroglycine'],
-        C2H3KO2: ['Potassium acetate'],
         C2H3NS2: ['Dithiazole'],
         C2H3N3: ['Triazole'],
         C2H3FO: ['Acetyl fluoride'],
         C2H3OCl: ['Acetyl chloride'],
         C2H3BrO: ['Acetyl bromide'],
         C2H3IO: ['Acetyl iodide'],
-        C2H3LiO2: ['Lithium acetate'],
         C2H3FO2: ['Fluoroacetic acid'],
         C2H3NaO2: ['Sodium acetate'],
         C2H3ClO2: ['Chloroacetic acid'],
         C2H3Cl3O2: ['Chloral hydrate'],
+        C2H3KO2: ['Potassium acetate'],
         C2H3BrO2: ['Bromoacetic acid'],
         C2H3IO2: ['Iodoacetic acid'],
         C2H3CsO2: ['Cesium acetate'],
@@ -1212,6 +1220,7 @@ class Compounds {
         C2H3Cl: ['Vinyl chloride'],
         C2H3Cl3: ['Trichloroethane'],
         C2H4: ['Ethylene'],
+        C2H4INO: ['Iodoacetamide'],
         C2H4NNaS2: ['Metam sodium'],
         C2H4N4O2: ['Azodicarbonamide'],
         C2H4O: ['Acetaldehyde', 'Ethylene oxide', 'Polyvinyl alcohol'],
@@ -1221,28 +1230,27 @@ class Compounds {
         C2H4S2: ['Dithietane'],
         C2H4Cl2: ['Dichloroethane'],
         C2H4Br2: ['Dibromoethane'],
-        C2H4INO: ['Iodoacetamide'],
         C2H5B: ['Borirane'],
         C2H5N: ['Aziridine'],
         C2H5NO2: ['Glycine'],
         C2H5NS: ['Thioacetamide'],
         C2H5ONa: ['Sodium ethoxide'],
         C2H5NaOS: ['Sodium methylsulfinylmethylide'],
+        C2H5ClO: ['2-Chloroethanol'],
         C2H5NaO3S2: ['Mesna'],
         C2H5NaO4S: ['Sodium 2-hydroxyethyl sulfonate'],
-        C2H5ClO: ['2-Chloroethanol'],
         C2H5P: ['Phosphirane'],
         C2H6O: ['Ethanol', 'Dimethyl ether'],
         C2H6OS: ['Dimethyl sulfoxide'],
+        C2H6Cl3KOPt: ['Zeise\'s salt'],
         C2H6O2S: ['Ethylene glycol', 'Methylsulfonylmethane'],
         C2H6O4S: ['Dimethyl sulfate'],
         C2H6S: ['Dimethyl sulfide'],
+        C2H6AuClS: ['Chloro(dimethyl sulfide)gold(I)'],
         C2H6S2: ['Dimethyl disulfide'],
-        C2H6Cl3KOPt: ['Zeise\'s salt'],
         C2H6Zn: ['Dimethylzinc'],
         C2H6Cd: ['Dimethylcadmium'],
         C2H6Te: ['Dimethyl telluride'],
-        C2H6AuClS: ['Chloro(dimethyl sulfide)gold(I)'],
         C2H6Hg: ['Dimethylmercury'],
         C2H7N: ['Ethylamine'],
         C2H7NO2: ['Ammonium acetate'],
@@ -1253,23 +1261,23 @@ class Compounds {
         C2H8N2O3Pt: ['Nedaplatin'],
         C2H10I2N2: ['Ethylenediamine dihydroiodide'],
         C2H12B10: ['Ortho-carborane'],
+        C2BeO4: ['Beryllium oxalate'],
+        C2Cl3N: ['Trichloroacetonitrile'],
         C2N2O2Hg: ['Mercury(II) fulminate'],
         C2N2Mg: ['Magnesium cyanide'],
         C2N14: ['1-Diazidocarbamoyl-5-azidotetrazole'],
-        C2Cl3NaO2: ['Sodium trichloroacetate'],
-        C2BeO4: ['Beryllium oxalate'],
         C2F3NaO2: ['Sodium trifluoroacetate'],
+        C2Cl3NaO2: ['Sodium trichloroacetate'],
+        C2Cs2O4: ['Cesium oxalate'],
         C2ClF3: ['Chlorotrifluoroethylene'],
         C2F4: ['Tetrafluoroethylene'],
         C2Cl2F4: ['1,2-Dichlorotetrafluoroethane'],
+        C2Br2F4: ['Dibromotetrafluoroethane'],
         C2ClF5: ['Chloropentafluoroethane'],
         C2F6: ['Hexafluoroethane'],
-        C2Cl3N: ['Trichloroacetonitrile'],
         C2Cl4: ['Tetrachloroethylene'],
         C2Cl6: ['Hexachloroethane'],
-        C2Br2F4: ['Dibromotetrafluoroethane'],
         C2Ag2: ['Silver acetylide'],
-        C2Cs2O4: ['Cesium oxalate'],
 
         C3HF5O2: ['Perfluoropropionic acid'],
         C3H2ClF5O: ['Enflurane', 'Isoflurane'],
@@ -1289,11 +1297,11 @@ class Compounds {
         C3H4: ['Cyclopropene', 'Propadiene', 'Propyne'],
         C3H4N2: ['Imidazole', 'Pyrazole'],
         C3H4O: ['Oxetene', 'Propargyl alcohol'],
+        C3H4Cl2F2O: ['Methoxyflurane'],
+        C3H4Cl2O: ['Dichloroacetone'],
         C3H4O2: ['Acrylic acid'],
         C3H4O3: ['Pyruvic acid'],
         C3H4O4: ['Malonic acid'],
-        C3H4Cl2O: ['Dichloroacetone'],
-        C3H4Cl2F2O: ['Methoxyflurane'],
         C3H4S: ['Thiete'],
         C3H5LiO3: ['Lithium lactate'],
         C3H5N: ['Propionitrile'],
@@ -1302,13 +1310,13 @@ class Compounds {
         C3H5NS: ['Thiazoline'],
         C3H5N3O9: ['Nitroglycerin'],
         C3H5FO: ['Fluoroacetone'],
-        C3H5ClO: ['Chloroacetone'],
         C3H5NaOS2: ['Sodium ethyl xanthate'],
+        C3H5ClO: ['Chloroacetone'],
         C3H5BrO: ['Bromoacetone'],
-        C3H5ClO2: ['Ethyl chloroformate'],
         C3H5NaO2: ['Sodium propionate'],
-        C3H5NaO3: ['Sodium lactate'],
+        C3H5ClO2: ['Ethyl chloroformate'],
         C3H5KO2: ['Potassium propanoate'],
+        C3H5NaO3: ['Sodium lactate'],
         C3H5KO3: ['Potassium lactate'],
         C3H5O6P: ['Phosphoenolpyruvic acid'],
         C3H5Cl: ['Allyl chloride'],
@@ -1346,22 +1354,22 @@ class Compounds {
         C3H8OS2: ['Dimercaprol'],
         C3H8O2: ['Propylene glycol', 'Trimethylene glycol'],
         C3H8O3: ['Glycerol'],
+        C3H9BO3: ['Trimethyl borate'],
         C3H9N: ['Trimethylamine'],
         C3H9O3N: ['Ammonium lactate'],
         C3H9N3: ['Triazinane'],
         C3H9NaOSi: ['Sodium trimethylsiloxide'],
-        C3H9BO3: ['Trimethyl borate'],
-        C3H9SiCl: ['Trimethylsilyl chloride'],
         C3H9IOS: ['Trimethylsulfoxonium iodide'],
-        C3H9In: ['Trimethylindium'],
+        C3H9SiCl: ['Trimethylsilyl chloride'],
         C3H9SnCl: ['Trimethyltin chloride'],
+        C3H9In: ['Trimethylindium'],
+        C3CoNO4: ['Cobalt tricarbonyl nitrosyl'],
+        C3Cl2N3NaO3: ['Sodium dichloroisocyanurate'],
+        C3Br3N3: ['Cyanuric bromide'],
         C3F9O9S3Sc: ['Scandium(III) trifluoromethanesulfonate'],
         C3F9O9S3Ce: ['Cerium(III) trifluoromethanesulfonate'],
         C3F6: ['Hexafluoropropylene'],
         C3Na2S5: ['Sodium 1,3-dithiole-2-thione-4,5-dithiolate'],
-        C3Cl2N3NaO3: ['Sodium dichloroisocyanurate'],
-        C3CoNO4: ['Cobalt tricarbonyl nitrosyl'],
-        C3Br3N3: ['Cyanuric bromide'],
 
         C4HF7O2: ['Perfluorobutanoic acid'],
         C4HNaO3: ['Moniliformin'],
@@ -1373,7 +1381,6 @@ class Compounds {
         C4H2O4Ca: ['Calcium fumarate'],
         C4H3FN2O2: ['Fluorouracil'],
         C4H3F7O: ['Sevoflurane'],
-        C4H4AsH: ['Arsole'],
         C4H4KNO4S: ['Acesulfame potassium'],
         C4H4N2: ['Diazine', 'Pyrazine', 'Pyridazine', 'Pyrimidine'],
         C4H4N2O2: ['Uracil'],
@@ -1383,14 +1390,14 @@ class Compounds {
         C4H4O: ['Furan'],
         C4H4O2: ['1,4-Dioxin', '2-Furanone'],
         C4H4O4: ['Fumaric acid', 'Maleic acid'],
-        C4H4Na2O5: ['Sodium malate'],
-        C4H4K2O5: ['Potassium malate'],
-        C4H4CaO5: ['Calcium malate'],
-        C4H4Na2O6: ['Sodium tartrate'],
         C4H4AuNaO4S: ['Sodium aurothiomalate'],
         C4H4O5: ['Metatartaric acid', 'Oxaloacetic acid'],
+        C4H4Na2O5: ['Sodium malate'],
         C4H4MgO5: ['Magnesium malate'],
+        C4H4K2O5: ['Potassium malate'],
+        C4H4CaO5: ['Calcium malate'],
         C4H4KNaO6: ['Potassium sodium tartrate'],
+        C4H4Na2O6: ['Sodium tartrate'],
         C4H4K2O6: ['Potassium tartrate'],
         C4H4CaO6: ['Calcium tartrate'],
         C4H4S: ['Thiophene'],
@@ -1404,16 +1411,17 @@ class Compounds {
         C4H5N3O: ['Cytosine'],
         C4H5NaO6: ['Monosodium tartrate'],
         C4H5P: ['Phosphole'],
+        C4H5As: ['Arsole'],
         C4H5Sb: ['Stibole'],
         C4H5Bi: ['Bismole'],
         C4H6: ['Bicyclobutane', 'Butadiene', 'Butyne', 'Cyclobutene', 'Methylcyclopropene', 'Methylenecyclopropane', 'Trimethylenemethane'],
+        C4H6LiNO4: ['Lithium aspartate'],
         C4H6BN: ['1,2-Dihydro-1,2-azaborine'],
         C4H6N2: ['Fomepizole'],
         C4H6N2O2: ['Muscimol'],
         C4H6N2S: ['Thiamazole'],
         C4H6N4O3: ['Allantoin'],
         C4H6N4O3S2: ['Acetazolamide'],
-        C4H6LiNO4: ['Lithium aspartate'],
         C4H6O2: ['Butyrolactone', 'Methacrylic acid', 'Vinyl acetate'],
         C4H6O3: ['Acetoacetic acid', 'Ketobutyric acid'],
         C4H6O4: ['Succinic acid'],
@@ -1433,9 +1441,9 @@ class Compounds {
         C4H7NO4: ['Aspartic acid'],
         C4H7N3O: ['Creatinine'],
         C4H7NaO2: ['Sodium butyrate'],
+        C4H7BrO2: ['Ethyl bromoacetate'],
         C4H7NaO3: ['Sodium oxybate'],
         C4H7NaO4: ['Sodium diacetate'],
-        C4H7BrO2: ['Ethyl bromoacetate'],
         C4H8: ['Butene', 'Cyclobutane', 'Isobutylene'],
         C4H8N2O3: ['Asparagine'],
         C4H8MgN2O4: ['Magnesium glycinate'],
@@ -1477,8 +1485,8 @@ class Compounds {
         C4H10O8Pb3: ['Basic lead acetate'],
         C4H10S: ['1-Butanethiol'],
         C4H10Zn: ['Diethylzinc'],
-        C4H11BO: ['Borane–tetrahydrofuran'],
         C4H11LiSi: ['(Trimethylsilyl)methyllithium'],
+        C4H11BO: ['Borane–tetrahydrofuran'],
         C4H11N: ['Butylamine', 'Diethylamine'],
         C4H11N5: ['Metformin'],
         C4H12LiN: ['Lithium diisopropylamide'],
@@ -1493,10 +1501,10 @@ class Compounds {
         C4H14BN: ['Borane tert-butylamine'],
         C4H22B18CoNa: ['Sodium dicarbollylcobaltate(III)'],
         C4N2Na2S2: ['Sodium maleonitriledithiolate'],
+        C4FeNa2O4: ['Disodium tetracarbonylferrate'],
         C4O4Cl2Rh2: ['Rhodium carbonyl chloride'],
         C4F8: ['Octafluorocyclobutane'],
         C4F10: ['Perfluorobutane'],
-        C4FeNa2O4: ['Disodium tetracarbonylferrate'],
 
         C5H3LiN2O4: ['Lithium orotate'],
         C5H4N2O4: ['Orotic acid'],
@@ -1539,9 +1547,9 @@ class Compounds {
         C5H7N3O5: ['Quisqualic acid'],
         C5H8: ['Bicyclopentane', 'Cyclopentene', 'Isoprene', 'Pentadiene', 'Pentyne', 'Spiropentane'],
         C5H8NO4Na: ['Monosodium glutamate'],
+        C5H8KNO4: ['Monopotassium glutamate'],
         C5H8O: ['3,4-Dihydropyran'],
         C5H8O2: ['Acetylacetone', 'Angelic acid', 'Glutaraldehyde', 'Methyl methacrylate', 'Tiglic acid'],
-        C5H8KNO4: ['Monopotassium glutamate'],
         C5H9N: ['tert-Butyl isocyanide'],
         C5H9NO: ['N-Methyl-2-pyrrolidone'],
         C5H9NO2: ['Proline'],
@@ -1605,15 +1613,15 @@ class Compounds {
         C6H5NO2: ['Niacin'],
         C6H5HgNO3: ['Phenylmercuric nitrate'],
         C6H5NaO: ['Sodium phenoxide'],
+        C6H5Na3O7: ['Trisodium citrate'],
         C6H5F: ['Fluorobenzene'],
         C6H5F5S: ['Pentafluorosulfanylbenzene'],
         C6H5Na: ['Phenylsodium'],
-        C6H5Na3O7: ['Trisodium citrate'],
         C6H5MgBr: ['Phenylmagnesium bromide'],
         C6H5Cl: ['Chlorobenzene'],
+        C6H5Cl2I: ['Iodobenzene dichloride'],
         C6H5Br: ['Bromobenzene'],
         C6H5I: ['Iodobenzene'],
-        C6H5Cl2I: ['Iodobenzene dichloride'],
         C6H6: ['Benzene'],
         C6H6N2: ['Diazapentalene'],
         C6H6N2O: ['Nicotinamide'],
@@ -1655,7 +1663,9 @@ class Compounds {
         C6H9NO: ['Carbapenam', 'N-Vinylpyrrolidone'],
         C6H9NOS2: ['Raphanin'],
         C6H9NO6: ['Carboxyglutamic acid'],
+        C6H9N3O2: ['Histidine'],
         C6H9N3O3: ['Metronidazole'],
+        C6H9MnO6: ['Manganese(III) acetate'],
         C6H9O6Eu: ['Europium(III) acetate'],
         C6H9O6Gd: ['Gadolinium acetate'],
         C6H9O6Tb: ['Terbium acetate'],
@@ -1664,16 +1674,14 @@ class Compounds {
         C6H9O6Er: ['Erbium(III) acetate'],
         C6H9O6Tm: ['Thulium(III) acetate'],
         C6H9O6Yb: ['Ytterbium(III) acetate'],
-        C6H9O6lu: ['Lutetium(III) acetate'],
-        C6H9N3O2: ['Histidine'],
-        C6H9MnO6: ['Manganese(III) acetate'],
+        C6H9O6Lu: ['Lutetium(III) acetate'],
         C6H10: ['Cyclohexene', 'Hexadiene', 'Hexyne'],
+        C6H10O6NaB: ['Sodium triacetoxyborohydride'],
         C6H10N6O: ['Dacarbazine'],
         C6H10O4: ['Adipic acid', 'Isosorbide'],
         C6H10CaO4: ['Calcium propanoate'],
         C6H10O5: ['Curdlan', 'Dextrin', 'Glucose oxidase', 'Pullulan', 'Starch'],
         C6H10O6: ['Glucono delta-lactone'],
-        C6H10O6NaB: ['Sodium triacetoxyborohydride'],
         C6H10MgO6: ['Magnesium lactate'],
         C6H10CaO6: ['Calcium lactate'],
         C6H10FeO6: ['Iron(II) lactate'],
@@ -1725,10 +1733,10 @@ class Compounds {
         C6H14O6S2: ['Busulfan'],
         C6H14O8S2: ['Treosulfan'],
         C6H15B: ['Triethylborane'],
-        C6H15LiBH: ['Lithium triethylborohydride'],
         C6H15N: ['Triethylamine'],
         C6H15NaO3SSi: ['Sodium trimethylsilylpropanesulfonate'],
         C6H15In: ['Triethylindium'],
+        C6H16LiB: ['Lithium triethylborohydride'],
         C6H16BNa: ['Sodium triethylborohydride'],
         C6H16N2O4: ['Ammonium adipate'],
         C6H16AlNaO4: ['Sodium bis(2-methoxyethoxy)aluminum hydride'],
@@ -1750,11 +1758,11 @@ class Compounds {
 
         C7H3ClF6N2O4S2: ['Comins\' reagent'],
         C7H5NO: ['Anthranil', 'Benzisoxazole', 'Benzoxazole'],
+        C7H5Cl2NO4S: ['Halazone'],
         C7H5NS: ['Benzothiazole'],
         C7H5NaO2: ['Sodium benzoate'],
         C7H5KO2: ['Potassium benzoate'],
         C7H5NaO3: ['Sodium salicylate'],
-        C7H5Cl2NO4S: ['Halazone'],
         C7H5IO4: ['2-Iodoxybenzoic acid'],
         C7H5BiO4: ['Bismuth subsalicylate'],
         C7H5F3: ['Trifluorotoluene'],
@@ -1778,8 +1786,8 @@ class Compounds {
         C7H7O4Rh: ['Dicarbonyl(acetylacetonato)rhodium(I)'],
         C7H7K: ['Benzyl potassium'],
         C7H8: ['Cycloheptatriene', 'Toluene'],
-        C7H8ClN3O4S2: ['Hydrochlorothiazide'],
         C7H8NNa3O6: ['Trisodium dicarboxymethyl alaninate'],
+        C7H8ClN3O4S2: ['Hydrochlorothiazide'],
         C7H8N4O2: ['Paraxanthine', 'Theobromine', 'Theophylline'],
         C7H8O: ['Benzyl alcohol', 'Cresol'],
         C7H8O2: ['Methylcatechol', 'Methoxyphenol', 'Orcinol'],
@@ -1825,14 +1833,14 @@ class Compounds {
         C8H6N4O5: ['Nitrofurantoin'],
         C8H6O: ['Benzofuran', 'Isobenzofuran'],
         C8H6O2: ['Benzodioxine'],
+        C8H6Cl2O3: ['2,4-Dichlorophenoxyacetic acid'],
         C8H6O4: ['Benzenedicarboxylic acid'],
         C8H6O5: ['Stipitatic acid'],
-        C8H6Cl2O3: ['2,4-Dichlorophenoxyacetic acid'],
         C8H6S: ['Benzothiophene'],
         C8H7N: ['Indole', 'Isoindole'],
-        C8H7N3O2: ['Luminol'],
         C8H7NNa4O8: ['Tetrasodium iminodisuccinate'],
         C8H7ClN2O2S: ['Diazoxide'],
+        C8H7N3O2: ['Luminol'],
         C8H7NaO3: ['Sodium methylparaben'],
         C8H7NaO4: ['Sodium dehydroacetate'],
         C8H7P: ['Benzophosphole'],
@@ -1856,12 +1864,12 @@ class Compounds {
         C8H10N2O4: ['Mimosine'],
         C8H10N2O7Ca: ['Calcium carbimide'],
         C8H10N2S: ['Ethionamide'],
+        C8H10FN3O3S: ['Emtricitabine'],
         C8H10N4O2: ['Caffeine'],
         C8H10O: ['Xylenol'],
         C8H10O2: ['Creosol', 'Phenoxyethanol'],
         C8H10O3: ['Syringol'],
         C8H10O4: ['Penicillic acid'],
-        C8H10FN3O3S: ['Emtricitabine'],
         C8H11N: ['Phenethylamine'],
         C8H11NO: ['Tyramine'],
         C8H11NO2: ['Dopamine', 'Octopamine'],
@@ -1879,13 +1887,14 @@ class Compounds {
         C8H12N4O4: ['Decitabine'],
         C8H12N4O5: ['Azacitidine', 'Ribavirin'],
         C8H12N5O4P: ['Adefovir'],
-        C8H12O8Pb: ['Lead(IV) acetate'],
         C8H12ClO8Ru2: ['Diruthenium tetraacetate chloride'],
-        C8H12Cl2Pt: ['Dichloro(cycloocta-1,5-diene)platinum(II)'],
         C8H12Mo2O8: ['Molybdenum(II) acetate'],
+        C8H12O8Pb: ['Lead(IV) acetate'],
+        C8H12Cl2Pt: ['Dichloro(cycloocta-1,5-diene)platinum(II)'],
         C8H13NO: ['Tropinone'],
         C8H13NO2: ['Scopine'],
         C8H13O5N: ['Chitin'],
+        C8H13N5O4: ['Taribavirin'],
         C8H14N2O2: ['Levetiracetam'],
         C8H14N2O4: ['Coprine'],
         C8H14N2O4Pt: ['Oxaliplatin'],
@@ -1893,7 +1902,6 @@ class Compounds {
         C8H14N3O6P: ['Cidofovir'],
         C8H14N3O7P: ['5-Aminoimidazole ribotide'],
         C8H14N4NiO4: ['Nickel bis(dimethylglyoximate)'],
-        C8H13N5O4: ['Taribavirin'],
         C8H14O2S2: ['Lipoic acid'],
         C8H14MgO10: ['Magnesium L-threonate'],
         C8H15N: ['Tropane'],
@@ -1928,8 +1936,8 @@ class Compounds {
         C9H6O2: ['Chromone', 'Coumarin'],
         C9H6O3: ['Umbelliferone'],
         C9H6O4: ['Aesculetin'],
-        C9H7N: ['Isoquinoline', 'Quinoline'],
         C9H7BF2N2: ['BODIPY'],
+        C9H7N: ['Isoquinoline', 'Quinoline'],
         C9H7Cl2N5: ['Lamotrigine'],
         C9H7N7O2S: ['Azathioprine'],
         C9H7MnO3: ['Methylcyclopentadienyl manganese tricarbonyl'],
@@ -1939,8 +1947,8 @@ class Compounds {
         C9H8O3: ['Coumaric acid'],
         C9H8O4: ['Aspirin', 'Caffeic acid'],
         C9H9N: ['Skatole'],
-        C9H9Cl2N3: ['Clonidine'],
         C9H9Cl2N3O: ['Guanfacine'],
+        C9H9Cl2N3: ['Clonidine'],
         C9H9HgNaO2S: ['Thiomersal'],
         C9H10BKN6: ['Potassium trispyrazolylborate'],
         C9H10N4O4: ['Acefylline'],
@@ -1986,9 +1994,9 @@ class Compounds {
         C9H15N2O15P3: ['Uridine triphosphate'],
         C9H15N3O10P2: ['Deoxycytidine diphosphate'],
         C9H15N3O11P2: ['Cytidine diphosphate'],
+        C9H16ClN3O2: ['Lomustine'],
         C9H16N3O13P3: ['Deoxycytidine triphosphate'],
         C9H16N3O14P3: ['Cytidine triphosphate'],
-        C9H16ClN3O2: ['Lomustine'],
         C9H16Br2N5O4P: ['Evofosfamide'],
         C9H16O: ['2-Nonenal'],
         C9H16O4: ['Azelaic acid'],
@@ -1996,9 +2004,9 @@ class Compounds {
         C9H17NO5: ['Pantothenic acid'],
         C9H17NO8: ['Neuraminic acid'],
         C9H18: ['Cyclononane', 'Nonene'],
+        C9H18BF3O3S: ['Dibutylboron trifluoromethanesulfonate'],
         C9H18Cl3N2O2P: ['Trofosfamide'],
         C9H18N6: ['Altretamine'],
-        C9H18BF3O3S: ['Dibutylboron trifluoromethanesulfonate'],
         C9H18O2: ['Pelargonic acid'],
         C9H18O6: ['Acetone peroxide'],
         C9H19NO4: ['Panthenol'],
@@ -2008,8 +2016,8 @@ class Compounds {
         C9H20: ['Nonane'],
         C9H21N4P: ['Verkade base'],
 
-        C10HO9Co3: ['Methylidynetricobaltnonacarbonyl'],
         C10HF19O2: ['Perfluorodecanoic acid'],
+        C10HO9Co3: ['Methylidynetricobaltnonacarbonyl'],
         C10H2O6: ['Pyromellitic dianhydride'],
         C10H2O10Os3: ['Decacarbonyldihydridotriosmium'],
         C10H4N2Na2O8S: ['Naphthol yellow S'],
@@ -2030,9 +2038,9 @@ class Compounds {
         C10H8Li: ['Lithium naphthalene'],
         C10H8N2O2S2Zn: ['Zinc pyrithione'],
         C10H8O: ['Naphthol'],
+        C10H8MoO3: ['Cycloheptatrienemolybdenum tricarbonyl'],
         C10H8O4: ['Anemonin', 'Ethylene terephthalate', 'Furoin', 'Scopoletin'],
         C10H8Na: ['Sodium naphthalene'],
-        C10H8MoO3: ['Cycloheptatrienemolybdenum tricarbonyl'],
         C10H9N: ['Benzazepine'],
         C10H9NO2: ['Indole-3-acetic acid'],
         C10H9AgN4O2S: ['Silver sulfadiazine'],
@@ -2070,6 +2078,7 @@ class Compounds {
         C10H12N2: ['Tryptamine'],
         C10H12N2O: ['Serotonin'],
         C10H12N2O5S: ['7-ACA'],
+        C10H12MgN2O6: ['Magnesium pidolate'],
         C10H12N2O6S: ['Ritipenem'],
         C10H12FeN2NaO8: ['Ferric sodium EDTA'],
         C10H12CaN2Na2O8: ['Sodium calcium edetate'],
@@ -2078,6 +2087,7 @@ class Compounds {
         C10H12N4O5S: ['Tazobactam'],
         C10H12N4O6: ['Xanthosine'],
         C10H12ClN5O3: ['Cladribine'],
+        C10H12FN5O4: ['Fludarabine'],
         C10H12N5O7P: ['Cyclic guanosine monophosphate'],
         C10H12N5Na2O8P: ['Disodium guanylate'],
         C10H12K2N5O8P: ['Dipotassium guanylate'],
@@ -2086,13 +2096,12 @@ class Compounds {
         C10H12O2: ['Eugenol', 'Hinokitiol', 'Raspberry ketone', 'Thujaplicin', 'Thymoquinone'],
         C10H12O3: ['Carvonic acid', 'Coniferyl alcohol', 'Canolol', 'Isopropylparaben', 'Propylparaben'],
         C10H12O4: ['Acetosyringone', 'Cantharidin'],
-        C10H12FN5O4: ['Fludarabine'],
         C10H12O5: ['Propyl gallate'],
-        C10H12MgN2O6: ['Magnesium pidolate'],
         C10H12Mo: ['Molybdocene dihydride'],
         C10H13NO: ['Kairine'],
         C10H13NO2: ['3,4-Methylenedioxyamphetamine', 'Phenacetin'],
         C10H13NO4: ['Methyldopa'],
+        C10H13ClN2O3S: ['Chlorpropamide'],
         C10H13FN2O5: ['Clevudine'],
         C10H13N2O11P: ['Orotidine 5\'-monophosphate'],
         C10H13N3O5S: ['Nifurtimox'],
@@ -2102,7 +2111,6 @@ class Compounds {
         C10H13N5O3: ['Cordycepin', 'Deoxyadenosine'],
         C10H13N5O4: ['Adenosine', 'Deoxyguanosine', 'Vidarabine', 'Zidovudine'],
         C10H13N5O5: ['Guanosine'],
-        C10H13ClN2O3S: ['Chlorpropamide'],
         C10H14: ['Cymene'],
         C10H14NO5PS: ['Parathion'],
         C10H14N2: ['Nicotine'],
@@ -2117,9 +2125,9 @@ class Compounds {
         C10H14O: ['Carvacrol', 'Carvone', 'Chrysanthenone', 'Levoverbenone', 'Menthofuran', 'Myrtenal', 'Perillaldehyde', 'Perillene', 'Safranal', 'Thymol', 'Umbellulone', 'Verbenone'],
         C10H14O2: ['Camphorquinone', 'Dolichodial', 'Nepetalactone', '8-Oxogeranial', 'Perilla ketone', 'tert-Butylhydroquinone', 'Wine lactone'],
         C10H14O4: ['7-Deoxyloganetic acid', 'Guaifenesin'],
+        C10H14BaO4: ['Barium acetylacetonate'],
         C10H14O5V: ['Vanadyl acetylacetonate'],
         C10H14MgO6: ['Magnesium levulinate'],
-        C10H14BaO4: ['Barium acetylacetonate'],
         C10H15N: ['Levomethamphetamine', 'Methamphetamine', 'Phentermine'],
         C10H15NO: ['Anatoxin-a', 'Ephedrine', 'Hordenine', 'Perillartine', 'Pseudoephedrine'],
         C10H15NO2: ['Methylecgonidine'],
@@ -2187,9 +2195,9 @@ class Compounds {
         C11H10O4: ['Scoparone'],
         C11H10O6: ['Dipyrocetyl'],
         C11H12N2O: ['Phenazone'],
-        C11H12N2S: ['Levamisole'],
         C11H12N2O2: ['Idazoxan', 'Tryptophan'],
         C11H12Cl2N2O5: ['Chloramphenicol'],
+        C11H12N2S: ['Levamisole'],
         C11H12O4: ['Sinapaldehyde'],
         C11H12O5: ['Sinapinic acid'],
         C11H13NO4: ['Bendiocarb'],
@@ -2258,8 +2266,8 @@ class Compounds {
         C12H10Ca3O14: ['Calcium citrate'],
         C12H10S2: ['Diphenyl disulfide'],
         C12H10Se2: ['Diphenyl diselenide'],
-        C12H11N3O6S2: ['Fast Yellow AB'],
         C12H11ClN2O5S: ['Furosemide'],
+        C12H11N3O6S2: ['Fast Yellow AB'],
         C12H11N7: ['Triamterene'],
         C12H12N2O: ['4,4\'-Oxydianiline'],
         C12H12I3N2NaO2: ['Ipodate sodium'],
@@ -2282,20 +2290,21 @@ class Compounds {
         C12H15N3O2S: ['Albendazole'],
         C12H15N5O3: ['Entecavir'],
         C12H15AsN6OS2: ['Melarsoprol'],
-        C12H16F3N: ['Fenfluramine'],
-        C12H16O3: ['Vibralactone'],
-        C12H16O4: ['Olivetolic acid', 'Vibralactone B'],
         C12H16BNO5S: ['Vaborbactam'],
+        C12H16F3N: ['Fenfluramine'],
         C12H16N2: ['Dimethyltryptamine'],
         C12H16N2O: ['Psilocin'],
         C12H16N4O3: ['Iprazochrome'],
         C12H16N4O4: ['MK-608'],
+        C12H16O3: ['Vibralactone'],
+        C12H16O4: ['Olivetolic acid', 'Vibralactone B'],
         C12H17NO: ['DEET'],
         C12H17NO2: ['Ciclopirox'],
         C12H17NO3: ['Bucetin', 'Cerulenin'],
         C12H17N2O4P: ['Psilocybin'],
         C12H17N3O4S: ['Imipenem'],
         C12H18Be4O13: ['Basic beryllium acetate'],
+        C12H18NNaSi2: ['Sodium bis(trimethylsilyl)amide'],
         C12H18N2O2S: ['Thiamylal'],
         C12H18N2O3: ['Secobarbital'],
         C12H18N2O3S: ['Tolbutamide'],
@@ -2305,7 +2314,6 @@ class Compounds {
         C12H18O2: ['2,5-Dimethoxy-p-cymene', '4-Hexylresorcinol'],
         C12H18O3: ['Vibralactone D', 'Vibralactone K'],
         C12H18O12CaMg2: ['Calcium magnesium acetate'],
-        C12H18NNaSi2: ['Sodium bis(trimethylsilyl)amide'],
         C12H19NO20S3: ['Heparin'],
         C12H19N2O2: ['Neostigmine'],
         C12H19N3O: ['Procarbazine'],
@@ -2329,8 +2337,8 @@ class Compounds {
         C12H22O12: ['Lactobionic acid'],
         C12H22MgO14: ['Magnesium gluconate'],
         C12H22CaO14: ['Calcium gluconate'],
-        C12H22O14Zn: ['Zinc gluconate'],
         C12H22O14Fe: ['Iron(II) gluconate'],
+        C12H22O14Zn: ['Zinc gluconate'],
         C12H23LiO2: ['Lithium laurate'],
         C12H23NO3: ['Icaridin'],
         C12H23NO10S3: ['Glucoraphanin'],
@@ -2364,8 +2372,8 @@ class Compounds {
         C13H8O4: ['Urolithin A'],
         C13H9N: ['Acridine'],
         C13H10: ['Fluorene', 'Phenalene'],
-        C13H10N2O4: ['Thalidomide'],
         C13H10Li2N4O9S2: ['Lucifer yellow'],
+        C13H10N2O4: ['Thalidomide'],
         C13H10O3: ['4,4\'-Dihydroxybenzophenone', 'Diphenyl carbonate'],
         C13H12N2O: ['Harmine'],
         C13H12N2O5S: ['Nimesulide'],
@@ -2397,8 +2405,8 @@ class Compounds {
         C13H18ClNO: ['Bupropion'],
         C13H18N2: ['α,N,N-Trimethyltryptamine'],
         C13H18N2O: ['5-MeO-DMT'],
-        C13H18Cl2N2O2: ['Melphalan'],
         C13H18Br2N2O: ['Ambroxol'],
+        C13H18Cl2N2O2: ['Melphalan'],
         C13H18O: ['Damascenone'],
         C13H18O2: ['Ibuprofen'],
         C13H18O7: ['Salicin'],
@@ -2433,17 +2441,19 @@ class Compounds {
         C14H10BNO3: ['Crisaborole'],
         C14H10O4: ['Benzoyl peroxide'],
         C14H10MgO4: ['Magnesium benzoate'],
+        C14H10CaO4: ['Calcium benzoate'],
         C14H10MgO6: ['Magnesium salicylate'],
         C14H10Cl4: ['Mitotane'],
-        C14H10CaO4: ['Calcium benzoate'],
         C14H11Cl2NO2: ['Diclofenac'],
         C14H11Cl2NO4: ['Diloxanide'],
         C14H11ClN2O4S: ['Chlortalidone'],
-        C14H12O2: ['Benzyl benzoate'],
         C14H12ClNO2: ['Tolfenamic acid'],
+        C14H12O2: ['Benzyl benzoate'],
         C14H13BN2O3S: ['Diazaborine B'],
         C14H13N3O4S2: ['Meloxicam'],
         C14H13N5O5S2: ['Cefdinir'],
+        C14H14INO: ['o-Phenyl-3-iodotyramine'],
+        C14H14INO2: ['3-Iodothyronamine'],
         C14H14N2: ['Naphazoline'],
         C14H14N2O: ['Metyrapone'],
         C14H14N3NaO3S: ['Methyl orange'],
@@ -2452,8 +2462,6 @@ class Compounds {
         C14H14O3: ['Naproxen'],
         C14H14O4: ['Marmesin'],
         C14H14O9: ['Fertaric acid'],
-        C14H14INO: ['o-Phenyl-3-iodotyramine'],
-        C14H14INO2: ['3-Iodothyronamine'],
         C14H15Cl2N: ['Chlornaphazine'],
         C14H15N5O6S2: ['Cefdaloxime'],
         C14H16: ['Chamazulene'],
@@ -2472,8 +2480,8 @@ class Compounds {
         C14H19BCl2N2O4: ['Ixazomib'],
         C14H19NO: ['Ethoxyquin'],
         C14H19NO2: ['Dexmethylphenidate', 'Methylphenidate'],
-        C14H19NO4: ['Anisomycin'],
         C14H19Cl2NO2: ['Chlorambucil'],
+        C14H19NO4: ['Anisomycin'],
         C14H19N5O4: ['Famciclovir'],
         C14H20N2O: ['AAZ-A-154'],
         C14H20N2O3: ['Vorinostat'],
@@ -2519,13 +2527,13 @@ class Compounds {
         C15H10O8: ['Myricetin'],
         C15H11I3NNaO4: ['Liothyronine'],
         C15H11I4NO4: ['Thyroxine', 'Levothyroxine'],
+        C15H12ClNO2: ['Carprofen'],
+        C15H12I3NO4: ['Reverse triiodothyronine', 'Triiodothyronine'],
         C15H12N2O: ['Carbamazepine'],
         C15H12N2O2: ['Oxcarbazepine', 'Phenytoin'],
-        C15H12ClNO2: ['Carprofen'],
-        C15H12Br4O2: ['Tetrabromobisphenol A'],
-        C15H12I3NO4: ['Reverse triiodothyronine', 'Triiodothyronine'],
         C15H12O: ['Chalcone'],
         C15H12Cl2F4O2: ['Transfluthrin'],
+        C15H12Br4O2: ['Tetrabromobisphenol A'],
         C15H12O5: ['Naringenin'],
         C15H12O6: ['Aromadendrin', 'Eriodictyol'],
         C15H13NO3: ['Ketorolac'],
@@ -2571,6 +2579,7 @@ class Compounds {
         C15H21N3O: ['Primaquine'],
         C15H21N3O3S: ['Gliclazide'],
         C15H21N3O4S: ['Panipenem'],
+        C15H21NaO5S: ['Sodium nonanoyloxybenzenesulfonate'],
         C15H21O6Ce: ['Cerium(III) acetylacetonate'],
         C15H21O6Dy: ['Dysprosium acetylacetonate'],
         C15H21O6Ho: ['Holmium acetylacetonate'],
@@ -2582,7 +2591,6 @@ class Compounds {
         C15H22O2: ['Polygodial'],
         C15H22O3: ['Gemfibrozil', 'Nardosinone', 'Sterpuric acid'],
         C15H22O5: ['Artemisinin', 'Octyl gallate'],
-        C15H21NaO5S: ['Sodium nonanoyloxybenzenesulfonate'],
         C15H22O9: ['Aucubin'],
         C15H22O10: ['Catalpol'],
         C15H23N3O3S: ['Mecillinam'],
@@ -2591,6 +2599,8 @@ class Compounds {
         C15H24: ['Amorpha-4,11-diene', 'Aristolochene', 'Bergamotene', 'Bisabolene', 'Cadinenes', 'Caryophyllene', 'Cedrene', 'Chamigrene', 'Copaene', 'Cubebene', 'Elemene', 'Farnesene', 'Germacrene', 'Guaiene', 'Humulene', 'Isocomene', 'Longifolene', 'Selinene', 'Thujopsene', 'Valencene', 'Zingiberene'],
         C15H24N2O2: ['Tetracaine'],
         C15H24N2O17P2: ['Uridine diphosphate galactose', 'Uridine diphosphate glucose'],
+        C15H24N4O6: ['Valopicitabine'],
+        C15H24N4O6S2: ['Doripenem'],
         C15H24O: ['Butylated hydroxytoluene', 'Khusimol', 'Nonylphenol', 'Santalol', 'Spathulenol'],
         C15H24O2: ['Capsidiol', 'Curdione', 'Hernandulcin'],
         C15H24O3: ['Bisacurone'],
@@ -2637,11 +2647,11 @@ class Compounds {
         C16H15Cl3O2: ['Methoxychlor'],
         C16H16ClNO2S: ['Clopidogrel'],
         C16H16N2O2: ['Lysergic acid'],
-        C16H16O5: ['Alkannin'],
-        C16H16O6: ['Nigrosporin B'],
         C16H16N2O6S2: ['Cefalotin'],
         C16H16ClN3O4: ['Loracarbef'],
         C16H16N4O8S: ['Cefuroxime'],
+        C16H16O5: ['Alkannin'],
+        C16H16O6: ['Nigrosporin B'],
         C16H17N2NaO4S: ['Penicillin G sodium'],
         C16H17KN2O4S: ['Penicillin G potassium'],
         C16H17N3O: ['Ergine'],
@@ -2658,9 +2668,9 @@ class Compounds {
         C16H18N6O: ['Delgocitinib'],
         C16H18O9: ['Chlorogenic acid'],
         C16H19NO4: ['Benzoylecgonine'],
+        C16H19ClN2: ['Chlorphenamine'],
         C16H19N3O4S: ['Ampicillin', 'Cefradine'],
         C16H19N3O5S: ['Amoxicillin'],
-        C16H19ClN2: ['Chlorphenamine'],
         C16H20N2: ['Benzathine'],
         C16H20FN3O4: ['Linezolid'],
         C16H20N4O3S: ['Torasemide'],
@@ -2708,22 +2718,22 @@ class Compounds {
         C17H12F3NO4S: ['Belzutifan'],
         C17H13ClN4: ['Alprazolam'],
         C17H14BF4NO3: ['Acoziborole'],
-        C17H14O: ['Dibenzylideneacetone'],
         C17H14F3N3O2S: ['Celecoxib'],
+        C17H14O: ['Dibenzylideneacetone'],
         C17H15NO5: ['Benorilate'],
         C17H15FN6O3: ['Tedizolid'],
         C17H16F6N2O: ['Mefloquine'],
         C17H17NO2: ['Apomorphine'],
-        C17H17N3O6S2: ['Cefapirin'],
-        C17H17N7O8S4: ['Cefotetan'],
-        C17H17ClN6O3: ['Eszopiclone'],
-        C17H17ClO6: ['Griseofulvin'],
         C17H17Cl2N: ['Sertraline'],
-        C17H18FN3O3: ['Ciprofloxacin'],
+        C17H17N3O6S2: ['Cefapirin'],
+        C17H17ClN6O3: ['Eszopiclone'],
+        C17H17N7O8S4: ['Cefotetan'],
+        C17H17ClO6: ['Griseofulvin'],
         C17H18F3NO: ['Fluoxetine'],
         C17H18N2O: ['Conolidine', 'Ervaticine'],
         C17H18N2O6: ['Nifedipine'],
         C17H18N2O6S: ['Carbenicillin'],
+        C17H18FN3O3: ['Ciprofloxacin'],
         C17H18N6: ['Ruxolitinib'],
         C17H19N: ['Tametraline'],
         C17H19NO: ['Diphenylprolinol'],
@@ -2736,14 +2746,14 @@ class Compounds {
         C17H19N5O6S2: ['Cefcapene', 'Cefovecin'],
         C17H19F3N6O: ['Upadacitinib'],
         C17H19BrN6O2: ['Barettin'],
-        C17H20N2O2: ['Tropicamide'],
-        C17H20N2O5S: ['Bumetanide'],
-        C17H20N4S: ['Olanzapine'],
         C17H20FNO4: ['4′-Fluorococaine'],
+        C17H20N2O2: ['Tropicamide'],
         C17H20F6N2O3: ['Flecainide'],
+        C17H20N2O5S: ['Bumetanide'],
         C17H20N2O6S: ['Methicillin'],
         C17H20N2S: ['Promethazine'],
         C17H20N4O6: ['Riboflavin'],
+        C17H20N4S: ['Olanzapine'],
         C17H20O6: ['Mycophenolic acid'],
         C17H21NO: ['Atomoxetine', 'Diphenhydramine', 'Phenyltoloxamine'],
         C17H21NO4: ['Cocaine', 'Scopolamine'],
@@ -2848,10 +2858,10 @@ class Compounds {
         C18H24O6S: ['Estriol sulfate'],
         C18H25NO: ['Dextromethorphan'],
         C18H25O5P: ['Estradiol phosphate'],
-        C18H26N10O3: ['Netropsin'],
-        C18H26ClN3: ['Chloroquine'],
         C18H26ClN3O: ['Hydroxychloroquine'],
         C18H26FN3O6: ['Mericitabine'],
+        C18H26ClN3: ['Chloroquine'],
+        C18H26N10O3: ['Netropsin'],
         C18H26O2: ['Nandrolone'],
         C18H26O3: ['Oxabolone'],
         C18H26O5: ['Zeranol'],
@@ -2870,9 +2880,9 @@ class Compounds {
         C18H32O2: ['Linoleic acid', 'Linolelaidic acid', 'Rumenic acid'],
         C18H32O16: ['Raffinose'],
         C18H33ClN2O5S: ['Clindamycin'],
-        C18H33SnOH: ['Cyhexatin'],
         C18H33NaO3: ['Sodium ricinoleate'],
         C18H34N2NaO3: ['Sodium lauroamphoacetate'],
+        C18H34SnO: ['Cyhexatin'],
         C18H34O2: ['Elaidic acid', 'Oleic acid', 'Vaccenic acid'],
         C18H34O3: ['Ricinoleic acid'],
         C18H34O6: ['Sorbitan monolaurate'],
@@ -2958,12 +2968,12 @@ class Compounds {
         C19H28O3: ['Hydroxy-DHEA', 'Hydroxytestosterone', '11-Ketoandrosterone', '11-Ketodihydrotestosterone', 'Methylhydroxynandrolone'],
         C19H28O5S: ['Dehydroepiandrosterone sulfate', 'Prasterone sulfate', 'Testosterone sulfate'],
         C19H28O8: ['Artesunate'],
+        C19H30N5O10P: ['Tenofovir disoproxil'],
         C19H30O: ['Androstenol'],
         C19H30O2: ['Androstenediol', 'Androsterone', 'Dihydrotestosterone', 'Epiandrosterone', 'Epietiocholanolone', 'Etiocholanolone'],
         C19H30O3: ['Hydroxyepiandrosterone', 'Oxandrolone'],
         C19H30O5: ['Dodecyl gallate'],
         C19H30O5S: ['Androstenediol sulfate', 'Androsterone sulfate'],
-        C19H30N5O10P: ['Tenofovir disoproxil'],
         C19H32: ['Androstane'],
         C19H32O2: ['Androstanediol', 'Etiocholanediol'],
         C19H34: ['Fichtelite', '18-Norabietane'],
@@ -3058,9 +3068,9 @@ class Compounds {
         C20H30O3: ['Galanolactone', 'Leukotriene A4', 'Neotripterifordin', 'Oxymesterone', 'Steviol'],
         C20H30O5: ['Andrographolide'],
         C20H30O8: ['Ptaquiloside'],
+        C20H30Cl2Zr: ['Decamethylzirconocene dichloride'],
         C20H30Cl4Rh2: ['Pentamethylcyclopentadienyl rhodium dichloride dimer'],
         C20H30Cl4Ir2: ['Pentamethylcyclopentadienyl iridium dichloride dimer'],
-        C20H30Cl2Zr: ['Decamethylzirconocene dichloride'],
         C20H30Zn2: ['Decamethyldizincocene'],
         C20H31N: ['Leelamine'],
         C20H31NO3: ['Pentoxyverine'],
@@ -3124,22 +3134,22 @@ class Compounds {
         C21H23ClFNO2: ['Haloperidol'],
         C21H23NO3: ['Olopatadine'],
         C21H23NO5: ['Heroin'],
+        C21H23N3O2: ['Panobinostat'],
+        C21H23N5O3S: ['Filgotinib'],
         C21H24N2O2: ['Tabersonine'],
         C21H24N2O3: ['Lochnericine', 'Vobasine'],
-        C21H23N3O2: ['Panobinostat'],
         C21H24FN3O4: ['Moxifloxacin'],
         C21H24N4O2S: ['Mirabegron'],
-        C21H23N5O3S: ['Filgotinib'],
         C21H24O10: ['Nothofagin'],
         C21H24O11: ['Aspalathin'],
-        C21H25ClN2O3: ['Cetirizine', 'Levocetirizine'],
-        C21H25ClN2O4S: ['Tianeptine'],
-        C21H25ClO6: ['Dapagliflozin'],
         C21H25N: ['Terbinafine'],
         C21H25NO: ['Benzatropine'],
         C21H25NO5: ['Demecolcine'],
+        C21H25ClN2O3: ['Cetirizine', 'Levocetirizine'],
+        C21H25ClN2O4S: ['Tianeptine'],
         C21H25N3O2S: ['Quetiapine'],
         C21H25N5O8S2: ['Mezlocillin'],
+        C21H25ClO6: ['Dapagliflozin'],
         C21H26ClNO: ['Clemastine'],
         C21H26N2: ['SIMes'],
         C21H26N2O2: ['Coronaridine'],
@@ -3220,17 +3230,15 @@ class Compounds {
         C22H23ClN2O8: ['Chlortetracycline'],
         C22H23N3O4: ['Erlotinib'],
         C22H23N5O: ['Motesanib'],
-        C22H23FN6O3: ['Radezolid'],
         C22H23ClN6O: ['Losartan'],
+        C22H23FN6O3: ['Radezolid'],
         C22H24N2O8: ['Doxycycline', 'Tetracycline'],
         C22H24N2O9: ['Oxytetracycline'],
         C22H24ClN3O: ['Azelastine'],
         C22H24ClFN4O3: ['Gefitinib'],
-        C15H24N4O6: ['Valopicitabine'],
-        C15H24N4O6S2: ['Doripenem'],
         C22H24O10: ['Sakuranin'],
-        C22H25F2NO4: ['Nebivolol'],
         C22H25NO3: ['Tamibarotene'],
+        C22H25F2NO4: ['Nebivolol'],
         C22H25NO6: ['Colchicine'],
         C22H25BrN2O3S: ['Umifenovir'],
         C22H25N3O3: ['Spiroxatrine'],
@@ -3254,9 +3262,9 @@ class Compounds {
         C22H28O2: ['Etonogestrel'],
         C22H28O3: ['Norethisterone acetate'],
         C22H28O4: ['Endecaphyllacin B'],
-        C22H28O5: ['Pyrethrin II'],
         C22H28ClFO4: ['Clobetasol'],
         C22H28Cl2O4: ['Mometasone'],
+        C22H28O5: ['Pyrethrin II'],
         C22H28O6: ['Quassin'],
         C22H29N3O6S: ['Pivampicillin'],
         C22H29FN3O9P: ['Sofosbuvir'],
@@ -3265,11 +3273,11 @@ class Compounds {
         C22H30N4O4: ['Tentoxin'],
         C22H30N6O3S: ['Avitriptan'],
         C22H30N6O4S: ['Sildenafil'],
+        C22H30Cl2N10: ['Chlorhexidine'],
         C22H30O: ['Desogestrel'],
         C22H30O4: ['Cannabichromenic acid', 'Cannabidiolic acid', 'Endecaphyllacin A', 'Tetrahydrocannabinolic acid'],
         C22H30O5: ['Guanacastepene A', 'Jasmolin II', 'Methylprednisolone'],
         C22H30O6: ['Prostratin'],
-        C22H30Cl2N10: ['Chlorhexidine'],
         C22H31NO: ['Tolterodine'],
         C22H31NO2: ['Pregnenolone 16α-carbonitrile'],
         C22H31NO3: ['Oxybutynin'],
@@ -3300,8 +3308,8 @@ class Compounds {
         C23H21F7N4O3: ['Aprepitant'],
         C23H22ClF3O2: ['Bifenthrin'],
         C23H22O6: ['Rotenone'],
-        C23H23ClFNO5: ['Elvitegravir'],
         C23H23NO2: ['Crisnatol'],
+        C23H23ClFNO5: ['Elvitegravir'],
         C23H23N3O5: ['Topotecan'],
         C23H23N7O5: ['Pralatrexate'],
         C23H24N4O6: ['Merimepodib'],
@@ -3312,12 +3320,12 @@ class Compounds {
         C23H26N2O2: ['Solifenacin'],
         C23H26N2O4: ['Brucine'],
         C23H26O3: ['Phenothrin'],
-        C23H27ClO7: ['Empagliflozin'],
         C23H27Cl2N3O2: ['Aripiprazole'],
         C23H27N3O7: ['Minocycline'],
         C23H27FN4O2: ['Risperidone'],
         C23H27FN4O3: ['Paliperidone'],
         C23H27N5O7S: ['Piperacillin'],
+        C23H27ClO7: ['Empagliflozin'],
         C23H28ClN3O5S: ['Glibenclamide'],
         C23H28F2N6O4S: ['Ticagrelor'],
         C23H28N8O4: ['Copanlisib'],
@@ -3399,10 +3407,10 @@ class Compounds {
         C24H34N4O5S: ['Glimepiride'],
         C24H34O3: ['Rimexolone'],
         C24H34O4: ['Medroxyprogesterone acetate'],
+        C24H34O9: ['T-2 mycotoxin'],
         C24H36N4O6S2: ['Romidepsin'],
         C24H36O2: ['Nisinic acid'],
         C24H36O5: ['Lovastatin'],
-        C24H34O9: ['T-2 mycotoxin'],
         C24H37N5O9: ['Gluten exorphin A5'],
         C24H38N4O4S: ['Azamulin'],
         C24H38N7O19P3S: ['Malonyl-CoA'],
@@ -3410,9 +3418,9 @@ class Compounds {
         C24H39NO7: ['Gigactonine', 'Vinervine'],
         C24H40N7O17P3S: ['Propionyl-CoA'],
         C24H40O3: ['Lithocholic acid'],
-        C24H40O32Zr6: ['Zirconyl acetate'],
         C24H40O4: ['Chenodeoxycholic acid', 'Deoxycholic acid'],
         C24H40O5: ['Cholic acid'],
+        C24H40O32Zr6: ['Zirconyl acetate'],
         C24H42: ['Cholane'],
         C24H42O7: ['Ascorbyl stearate'],
         C24H42O21: ['Stachyose'],
@@ -3436,8 +3444,8 @@ class Compounds {
         C25H25F3N4O6: ['Delamanid'],
         C25H25N5O4: ['Apixaban'],
         C25H26O3: ['Adarotene'],
-        C25H27ClN2: ['Meclizine'],
         C25H27N2NaO6S2: ['Xylene cyanol'],
+        C25H27ClN2: ['Meclizine'],
         C25H27N3O4: ['Belotecan'],
         C25H27N9O8S2: ['Cefoperazone'],
         C25H28N6O: ['Irbesartan'],
@@ -3510,8 +3518,8 @@ class Compounds {
         C26H54O: ['1-Hexacosanol'],
 
         C27H18N4Na2O9S2: ['Brown HT'],
-        C27H22Cl2N4: ['Clofazimine'],
         C27H22Cl2N4O: ['Tipifarnib'],
+        C27H22Cl2N4: ['Clofazimine'],
         C27H23F2N3O7S: ['Baloxavir marboxil'],
         C27H24N4O6: ['OSI-7904'],
         C27H25N2NaO7S2: ['Green S'],
@@ -3572,8 +3580,8 @@ class Compounds {
         C28H16ClF6N5O: ['Tradipitant'],
         C28H17N5Na4O14S4: ['Brilliant Black BN'],
         C28H19N5Na2O6S4: ['Titan yellow'],
-        C28H22F3N7O: ['Nilotinib'],
         C28H22ClF3N6O3: ['Ivosidenib'],
+        C28H22F3N7O: ['Nilotinib'],
         C28H24N2O7: ['Orcein'],
         C28H26N4O3: ['Staurosporine'],
         C28H27NO4S: ['Raloxifene'],
@@ -3737,8 +3745,8 @@ class Compounds {
         C31H46O9: ['Yunnanxane'],
         C31H46O18S2: ['Carboxyatractyloside'],
         C31H48O6: ['Fusidic acid'],
-        C31H50O3: ['Momordicin-28'],
         C31H50F6IrNP2: ['Crabtree\'s catalyst'],
+        C31H50O3: ['Momordicin-28'],
         C31H52N2O5S: ['Valnemulin'],
         C31H52O3: ['α-Tocopheryl acetate'],
         C31H52O4: ['Balsaminol B', 'Cucurbalsaminol B'],
@@ -3834,11 +3842,11 @@ class Compounds {
         C35H52O4: ['Hyperforin'],
         C35H54GdN7O15: ['Gadopiclenol'],
         C35H55N9O16: ['Peptide T'],
+        C35H58O11: ['Filipin'],
         C35H60O6: ['Daucosterol'],
         C35H61NO12: ['Oleandomycin'],
         C35H66NO7P: ['Lecithin'],
         C35H72: ['Pentatriacontane'],
-        C35H58O11: ['Filipin'],
 
         C36H28O16: ['Theaflavin-3-gallate'],
         C36H30OP2Cl3Re: ['Oxotrichlorobis(triphenylphosphine)rhenium(V)'],
@@ -3865,8 +3873,8 @@ class Compounds {
         C36H61N5O7S: ['Narlaprevir'],
         C36H62O11: ['Monensin'],
         C36H66O6Zn: ['Zinc ricinoleate'],
-        C36H70CaO4: ['Calcium stearate'],
         C36H70O4Mg: ['Magnesium stearate'],
+        C36H70CaO4: ['Calcium stearate'],
         C36H70O4Cu: ['Copper(II) stearate'],
         C36H70O4Zn: ['Zinc stearate'],
         C36H74: ['Hexatriacontane'],
@@ -3962,7 +3970,6 @@ class Compounds {
         C41H72O9: ['Ionomycin'],
         C41H84: ['Hentetracontane'],
 
-        C42H67NO10: ['Spinosad D'],
         C42H38O20: ['Senna glycoside'],
         C42H50Cl4N2O4: ['Estradiol mustard'],
         C42H53NO15: ['Aclarubicin'],
@@ -3971,6 +3978,7 @@ class Compounds {
         C42H58O6: ['Fucoxanthin'],
         C42H62O16: ['Glycyrrhizin'],
         C42H66O14: ['Neokuguaglucoside'],
+        C42H67NO10: ['Spinosad D'],
         C42H70O11: ['Salinomycin'],
         C42H70O13: ['Kuguaglycoside G'],
         C42H70O14: ['Kuguaglycoside E'],
@@ -3999,15 +4007,15 @@ class Compounds {
 
         C44H30N4: ['Tetraphenylporphyrin'],
         C44H32N4O4: ['Temoporfin'],
+        C44H43AlCa2O30: ['Carmine'],
+        C44H55NO16: ['Milataxel'],
+        C44H57NO17: ['Ortataxel'],
+        C44H58N2O10: ['Budesonide/formoterol'],
         C44H64O24: ['Crocin', 'Saffron'],
         C44H67N5O4: ['Ibrexafungerp'],
         C44H68O13: ['Okadaic acid'],
         C44H69NO12: ['Tacrolimus'],
         C44H70O23: ['Rebaudioside A'],
-        C44H43AlCa2O30: ['Carmine'],
-        C44H55NO16: ['Milataxel'],
-        C44H57NO17: ['Ortataxel'],
-        C44H58N2O10: ['Budesonide/formoterol'],
         C44H90: ['Tetratetracontane'],
 
         C45H38O20: ['Prodelphinidin C2'],
@@ -4066,11 +4074,11 @@ class Compounds {
         C50H73N15O11: ['Bradykinin'],
         C50H80N14O14S: ['Neurokinin A'],
         C50H102: ['Pentacontane'],
+        C51H40N6O23S6: ['Suramin'],
+        C51H42O3Pd2: ['Tris(dibenzylideneacetone)dipalladium(0)'],
         C51H79NO13: ['Sirolimus'],
         C51H80O18: ['Ziziphin'],
         C51H98O6: ['Tripalmitin'],
-        C51H40N6O23S6: ['Suramin'],
-        C51H42O3Pd2: ['Tris(dibenzylideneacetone)dipalladium(0)'],
         C51H104: ['Henpentacontane'],
         C52H74Cl2O18: ['Fidaxomicin'],
         C52H76O24: ['Plicamycin'],
@@ -4105,10 +4113,10 @@ class Compounds {
         C56H71N9O23S: ['Micafungin'],
         C56H100N16O17S: ['Polymyxin B'],
         C56H114: ['Hexapentacontane'],
-        C57H110O6: ['Stearin'],
         C57H65F5N10O8: ['Pibrentasvir'],
         C57H82O26: ['Chromomycin A3'],
         C57H87N7O15: ['Plitidepsin'],
+        C57H110O6: ['Stearin'],
         C57H116: ['Heptapentacontane'],
         C58H73N13O21S2: ['Ceruletide'],
         C58H86N2O19: ['Hamycin A'],
@@ -4235,7 +4243,6 @@ class Compounds {
         C6420H9832N1690O2014S44: ['Dostarlimab'],
         C6428H9912N1694O1987S46: ['Adalimumab', 'Infliximab'],
         C6428H9976N1720O2018S42: ['Tocilizumab'],
-        C6482H10004N1712O2016S46: ['Ustekinumab'],
         C6446H9902N1706O1998S42: ['Atezolizumab'],
         C6446H9946N1702O2042S42: ['Bavituximab'],
         C6450H9916N1714O2023S38: ['Omalizumab'],
@@ -4250,6 +4257,7 @@ class Compounds {
         C6472H9964N1728O2018S50: ['Erenumab'],
         C6472H10028N1740O2014S46: ['Aducanumab'],
         C6480H10022N1742O2020S44: ['Ofatumumab'],
+        C6482H10004N1712O2016S46: ['Ustekinumab'],
         C6484H10042N1732O2023S36: ['Cetuximab'],
         C6488H10034N1746O2038S50: ['Tixagevimab'],
         C6534H10004N1716O2036S46: ['Pembrolizumab'],
@@ -4265,10 +4273,9 @@ class Compounds {
         NH2Cl: ['Monochloramine'],
         NH3: ['Ammonia'],
         NH3CO2: ['Carbamic acid'],
-        NH4SCN: ['Ammonium thiocyanate'],
         NH4ClO3: ['Ammonium chlorate'],
-        NH4ClO4: ['Ammonium perchlorate'],
         NH4VO3: ['Ammonium metavanadate'],
+        NH4ClO4: ['Ammonium perchlorate'],
         NH4AlS2O8: ['Ammonium alum'],
         NH6O4P: ['Ammonium dihydrogen phosphate'],
         NO: ['Nitric oxide'],
@@ -4281,6 +4288,7 @@ class Compounds {
         NI3: ['Nitrogen triiodide'],
         N2: ['Dinitrogen'],
         N2H4: ['Hydrazine'],
+        N2H4SC: ['Ammonium thiocyanate'],
         N2H8SO4: ['Ammonium sulfate'],
         N2H8S2O8: ['Ammonium persulfate'],
         N2H8SiF6: ['Ammonium fluorosilicate'],
@@ -4312,21 +4320,21 @@ class Compounds {
         F6H2Si: ['Hexafluorosilicic acid'],
 
         NaH: ['Sodium hydride'],
-        NaOH: ['Sodium hydroxide'],
         NaHCO3: ['Sodium bicarbonate'],
-        NaHF2: ['Sodium bifluoride'],
-        NaSH: ['Sodium hydrosulfide'],
+        NaOH: ['Sodium hydroxide'],
         NaHSO3: ['Sodium bisulfite'],
         NaHSO4: ['Sodium bisulfate'],
-        NaSeH: ['Sodium hydroselenide'],
         NaHXeO4: ['Monosodium xenate'],
+        NaHF2: ['Sodium bifluoride'],
+        NaSH: ['Sodium hydrosulfide'],
+        NaSeH: ['Sodium hydroselenide'],
         NaNH2: ['Sodium amide'],
         NaH2PO2: ['Sodium hypophosphite'],
         NaH2PO4: ['Monosodium phosphate'],
         NaH2AsO4: ['Sodium dihydrogen arsenate'],
         NaBH3CN: ['Sodium cyanoborohydride'],
-        NaH4BO4: ['Sodium tetrahydroxyborate'],
         NaBH4: ['Sodium borohydride'],
+        NaH4BO4: ['Sodium tetrahydroxyborate'],
         NaAlH4: ['Sodium aluminum hydride'],
         NaH5PO4: ['Microcosmic salt'],
         NaH14Al3P8O32: ['Sodium aluminum phosphate'],
@@ -4370,8 +4378,8 @@ class Compounds {
         Na2HPO4: ['Disodium phosphate'],
         Na2HAsO4: ['Disodium hydrogen arsenate'],
         Na2H2P2O7: ['Disodium pyrophosphate'],
-        Na2H20B4O17: ['Borax'],
         Na2H6O6Sn: ['Sodium stannate'],
+        Na2H20B4O17: ['Borax'],
         Na2He: ['Disodium helide'],
         Na2B4O7: ['Sodium tetraborate'],
         Na2B8O13: ['Disodium octaborate'],
@@ -4382,12 +4390,12 @@ class Compounds {
         Na2N2O3: ['Angeli\'s salt'],
         Na2ZnO2: ['Sodium zincate'],
         Na2PFO3: ['Sodium monofluorophosphate'],
+        Na2SiO3: ['Sodium metasilicate'],
+        Na2SO3: ['Sodium sulfite'],
         Na2O3S2: ['Sodium thiosulfate'],
         Na2TiO3: ['Sodium metatitanate'],
         Na2GeO3: ['Sodium germanate'],
         Na2O3Se: ['Sodium selenite'],
-        Na2SiO3: ['Sodium metasilicate'],
-        Na2SO3: ['Sodium sulfite'],
         Na2TeO3: ['Sodium tellurite'],
         Na2SO4: ['Sodium sulfate'],
         Na2S2O4: ['Sodium dithionite'],
@@ -4399,8 +4407,8 @@ class Compounds {
         Na2S2O6: ['Sodium dithionate'],
         Na2S2O7: ['Sodium pyrosulfate'],
         Na2U2O7: ['Sodium diuranate'],
-        Na2S2O8: ['Sodium persulfate'],
         Na2MgS2O8: ['Sodium magnesium sulfate'],
+        Na2S2O8: ['Sodium persulfate'],
         Na2S: ['Sodium sulfide'],
         Na2S4: ['Sodium tetrasulfide'],
         Na2PdCl4: ['Sodium tetrachloropalladate'],
@@ -4411,8 +4419,8 @@ class Compounds {
         Na2Po: ['Sodium polonide'],
         Na3H15Al2P8O32: ['Sodium aluminum phosphate'],
         Na3B5O8: ['Trisodium pentaborate'],
-        Na3N6O12Co: ['Sodium hexanitritocobaltate(III)'],
         Na3N: ['Sodium nitride'],
+        Na3N6O12Co: ['Sodium hexanitritocobaltate(III)'],
         Na3PS2O2: ['Sodium dithiophosphate'],
         Na3PO3S: ['Sodium monothiophosphate'],
         Na3PO4: ['Trisodium phosphate'],
@@ -4440,24 +4448,24 @@ class Compounds {
         MgN2O6: ['Magnesium nitrate'],
         MgO: ['Magnesium oxide'],
         MgO2: ['Magnesium peroxide'],
-        Mg2O8Si3: ['Magnesium trisilicate'],
-        MgF2: ['Magnesium fluoride'],
-        MgS: ['Magnesium sulfide'],
         MgSO3: ['Magnesium sulfite'],
         MgSO4: ['Magnesium sulfate'],
-        MgCl2: ['Magnesium chloride'],
-        MgCl2O6: ['Magnesium chlorate'],
-        MgCl2O8: ['Magnesium perchlorate'],
         MgCrO4: ['Magnesium chromate'],
+        MgCl2O6: ['Magnesium chlorate'],
+        MgU2O7: ['Magnesium diuranate'],
+        MgCl2O8: ['Magnesium perchlorate'],
+        MgNb2O9Pb3: ['Lead magnesium niobate'],
+        MgF2: ['Magnesium fluoride'],
+        MgS: ['Magnesium sulfide'],
+        MgCl2: ['Magnesium chloride'],
         MgCu2: ['Magnesium copper'],
         MgBr2: ['Magnesium bromide'],
-        MgNb2O9Pb3: ['Lead magnesium niobate'],
         MgI2: ['Magnesium iodide'],
         MgPo: ['Magnesium polonide'],
-        MgU2O7: ['Magnesium diuranate'],
-        Mg2Si: ['Magnesium silicide'],
-        Mg2SiO4: ['Magnesium orthosilicate'],
         Mg2NiH4: ['Magnesium nickel hydride'],
+        Mg2SiO4: ['Magnesium orthosilicate'],
+        Mg2O8Si3: ['Magnesium trisilicate'],
+        Mg2Si: ['Magnesium silicide'],
         Mg3Si4H2O12: ['Talc'],
         Mg3N2: ['Magnesium nitride'],
         Mg3O8P2: ['Trimagnesium phosphate'],
@@ -4549,6 +4557,7 @@ class Compounds {
 
         KH: ['Potassium hydride'],
         KHCO3: ['Potassium bicarbonate'],
+        KOH: ['Potassium hydroxide'],
         KHSO3: ['Potassium bisulfite'],
         KHSO4: ['Potassium bisulfate'],
         KHF2: ['Potassium bifluoride'],
@@ -4562,7 +4571,6 @@ class Compounds {
         KNO2: ['Potassium nitrite'],
         KNO3: ['Potassium nitrate'],
         KN3: ['Potassium azide'],
-        KOH: ['Potassium hydroxide'],
         KO2: ['Potassium superoxide'],
         KO3: ['Potassium ozonide'],
         KClO3: ['Potassium chlorate'],
@@ -4583,34 +4591,34 @@ class Compounds {
         K2O: ['Potassium oxide'],
         K2O2: ['Potassium peroxide'],
         K2O3Si: ['Potassium silicate'],
-        K2O5S2: ['Potassium metabisulfite'],
-        K2S2O8: ['Potassium persulfate'],
-        K2Mg2S2O8: ['Potassium magnesium sulfate'],
-        K2Mg2S3O12: ['Langbeinite'],
         K2SO3: ['Potassium sulfite'],
         K2TeO3: ['Potassium tellurite'],
         K2SO4: ['Potassium sulfate'],
         K2FeO4: ['Potassium ferrate'],
         K2SeO4: ['Potassium selenate'],
-        K2Te: ['Potassium telluride'],
+        K2O5S2: ['Potassium metabisulfite'],
+        K2Mg2S2O8: ['Potassium magnesium sulfate'],
+        K2S2O8: ['Potassium persulfate'],
+        K2Mg2S3O12: ['Langbeinite'],
         K2TaF7: ['Potassium heptafluorotantalate'],
-        K2Re2Cl8: ['Potassium octachlorodirhenate'],
         K2PtCl4: ['Potassium tetrachloroplatinate'],
         K2PtCl6: ['Potassium hexachloroplatinate'],
+        K2Re2Cl8: ['Potassium octachlorodirhenate'],
+        K2Te: ['Potassium telluride'],
         K2HgI4: ['Potassium tetraiodomercurate(II)'],
         K2Po: ['Potassium polonide'],
         K3C6H5O7: ['Potassium citrate'],
+        K3FeC6O12: ['Potassium ferrioxalate'],
         K3PO4: ['Tripotassium phosphate'],
         K3CrO8: ['Potassium tetraperoxochromate(V)'],
-        K3FeC6O12: ['Potassium ferrioxalate'],
         K3CuF6: ['Potassium hexafluorocuprate(III)'],
         K4FeC6N6: ['Potassium ferrocyanide'],
 
         CaClHO: ['Calcium hydroxychloride'],
         CaHPO4: ['Dicalcium phosphate'],
         CaH2: ['Calcium hydride'],
-        CaH2O2: ['Calcium hydroxide'],
         CaH2C2O4: ['Calcium formate'],
+        CaH2O2: ['Calcium hydroxide'],
         CaH2S2O6: ['Calcium bisulfite'],
         CaH4P2O8: ['Monocalcium phosphate'],
         CaB6: ['Calcium hexaboride'],
@@ -4627,6 +4635,7 @@ class Compounds {
         CaCrO4: ['Calcium chromate'],
         CaWO4: ['Scheelite'],
         CaCl2O6: ['Calcium chlorate'],
+        CaBr2O6: ['Calcium bromate'],
         CaI2O6: ['Calcium iodate'],
         CaAl2Si2O8: ['Calcium aluminosilicate'],
         CaCl2O8: ['Calcium perchlorate'],
@@ -4635,20 +4644,19 @@ class Compounds {
         CaSi: ['Calcium monosilicide'],
         CaS: ['Calcium sulfide'],
         CaCl: ['Calcium(I) chloride'],
-        CaPo: ['Calcium polonide'],
         CaCl2: ['Calcium chloride'],
         CaBr2: ['Calcium bromide'],
-        CaBr2O6: ['Calcium bromate'],
         CaI2: ['Calcium iodide'],
+        CaPo: ['Calcium polonide'],
         Ca2O4Si: ['Calcium silicate'],
         Ca2O7P2: ['Calcium pyrophosphate'],
         Ca3B2O6: ['Calcium borate'],
         Ca3N2: ['Calcium nitride'],
-        Ca3Al2O6: ['Tricalcium aluminate'],
         Ca3SiO5: ['Alite'],
+        Ca3Al2O6: ['Tricalcium aluminate'],
         Ca3P2O8: ['Tricalcium phosphate'],
-        Ca3P2: ['Calcium phosphide'],
         Ca3As2O8: ['Calcium arsenate'],
+        Ca3P2: ['Calcium phosphide'],
         Ca5P3HO13: ['Hydroxyapatite'],
         Ca12Al14O33: ['Dodecacalcium hepta-aluminate'],
 
@@ -4666,6 +4674,7 @@ class Compounds {
         TiO2: ['Titanium dioxide'],
         TiCl3: ['Titanium(III) chloride'],
         TiCl4: ['Titanium tetrachloride'],
+        TiI3: ['Titanium(III) iodide'],
         Ti2O3: ['Titanium(III) oxide'],
 
         VOF3: ['Vanadium(V) oxytrifluoride'],
@@ -4698,9 +4707,9 @@ class Compounds {
         FeSO4: ['Iron(II) sulfate'],
         FeCl2O8: ['Iron(II) perchlorate'],
         FeS2: ['Pyrite'],
+        FeKS2: ['Potassium dithioferrate'],
         FeCl2: ['Iron(II) chloride'],
         FeCl3: ['Iron(III) chloride'],
-        FeKS2: ['Potassium dithioferrate'],
         Fe2B: ['Iron boride'],
         Fe2C9O9: ['Diiron nonacarbonyl'],
         Fe2O3: ['Ferric oxide'],
@@ -4709,9 +4718,9 @@ class Compounds {
         Fe16N2: ['Iron nitride'],
 
         CoH2O2: ['Cobalt(II) hydroxide'],
+        CoC10H10: ['Cobaltocene'],
         CoB: ['Cobalt boride'],
         CoCO3: ['Cobalt(II) carbonate'],
-        CoC10H10: ['Cobaltocene'],
         CoN2O3: ['Cobalt(II) nitrate'],
         CoO: ['Cobalt(II) oxide'],
         CoSO4: ['Cobalt(II) sulfate'],
@@ -4760,11 +4769,11 @@ class Compounds {
         CuC2O4: ['Copper oxalate'],
         CuO: ['Copper(II) oxide'],
         CuO2: ['Copper peroxide'],
-        CuS: ['Copper monosulfide'],
         CuSO4: ['Copper(II) sulfate'],
+        CuCl2O8: ['Copper(II) perchlorate'],
+        CuS: ['Copper monosulfide'],
         CuCl: ['Copper(I) chloride'],
         CuCl2: ['Copper(II) chloride'],
-        CuCl2O8: ['Copper(II) perchlorate'],
         CuBr2: ['Copper(II) bromide'],
         CuTe: ['Copper(II) telluride'],
         CuTe2: ['Copper ditelluride'],
@@ -4817,10 +4826,10 @@ class Compounds {
         GaN3O9: ['Gallium nitrate'],
         GaF3: ['Gallium(III) fluoride'],
         GaP: ['Gallium phosphide'],
+        GaAsP: ['Gallium arsenide phosphide'],
         GaS: ['Gallium(II) sulfide'],
         GaCl3: ['Gallium trichloride'],
         GaAs: ['Gallium arsenide'],
-        GaAsP: ['Gallium arsenide phosphide'],
         GaSe: ['Gallium(II) selenide'],
         GaBr3: ['Gallium(III) bromide'],
         GaPd: ['Gallium palladide'],
@@ -4846,15 +4855,15 @@ class Compounds {
         GeTe: ['Germanium telluride'],
         Ge2H2: ['Digermyne'],
 
+        AsCuHO3: ['Scheele\'s Green'],
         AsH3: ['Arsine'],
         AsLi: ['Lithium arsenide'],
         AsO2: ['Arsenic dioxide'],
+        AsKO2: ['Potassium arsenite'],
         AsF3: ['Arsenic trifluoride'],
         AsF5: ['Arsenic pentafluoride'],
         AsS: ['Realgar'],
         AsCl3: ['Arsenic trichloride'],
-        AsKO2: ['Potassium arsenite'],
-        AsCuHO3: ['Scheele\'s Green'],
         AsBr3: ['Arsenic tribromide'],
         AsI3: ['Arsenic triiodide'],
         As2O3: ['Arsenic trioxide'],
@@ -4864,7 +4873,6 @@ class Compounds {
         As2Te3: ['Arsenic(III) telluride'],
         As4S4: ['Realgar'],
 
-        SeCl4: ['Selenium tetrachloride'],
         SeOCl2: ['Selenium oxydichloride'],
         SeOBr2: ['Selenium oxybromide'],
         SeO2: ['Selenium dioxide'],
@@ -4872,6 +4880,7 @@ class Compounds {
         SeO3: ['Selenium trioxide'],
         SeF4: ['Selenium tetrafluoride'],
         SeF6: ['Selenium hexafluoride'],
+        SeCl4: ['Selenium tetrachloride'],
         SeBr4: ['Selenium tetrabromide'],
         Se2S6: ['Selenium hexasulfide'],
         Se2Cl2: ['Selenium monochloride'],
@@ -4924,14 +4933,14 @@ class Compounds {
 
         YH2: ['Yttrium hydride'],
         YH3: ['Yttrium hydride'],
+        YH3O3: ['Yttrium hydroxide'],
         YB6: ['Yttrium boride'],
         YN: ['Yttrium nitride'],
         YN3O9: ['Yttrium(III) nitrate'],
         YO: ['Yttrium(II) oxide'],
-        YH3O3: ['Yttrium hydroxide'],
+        YBa2Cu3O7: ['Yttrium barium copper oxide'],
         YP: ['Yttrium phosphide'],
         YCl3: ['Yttrium(III) chloride'],
-        YBa2Cu3O7: ['Yttrium barium copper oxide'],
         Y2C6O12: ['Yttrium oxalate'],
         Y2O3: ['Yttrium(III) oxide'],
         Y3Al5O12: ['Yttrium aluminum garnet'],
@@ -4977,7 +4986,6 @@ class Compounds {
         TcF6: ['Technetium hexafluoride'],
         TcCl3: ['Technetium trichloride'],
         TcCl4: ['Technetium(IV) chloride'],
-        TiI3: ['Titanium(III) iodide'],
         Tc2O7: ['Technetium(VII) oxide'],
 
         RuB2: ['Ruthenium boride'],
@@ -5014,14 +5022,14 @@ class Compounds {
         AgBr: ['Silver bromide'],
         AgI: ['Silver iodide'],
         Ag2CO3: ['Silver carbonate'],
-        Ag2SeO3: ['Silver selenite'],
         Ag2O: ['Silver oxide'],
+        Ag2SeO3: ['Silver selenite'],
         Ag2F: ['Silver subfluoride'],
         Ag2S: ['Silver sulfide'],
         Ag2Te: ['Silver telluride'],
         Ag3N: ['Silver nitride'],
-        Ag3Sb: ['Silver antimonide'],
         Ag3SbS3: ['Silver sulfantimonite'],
+        Ag3Sb: ['Silver antimonide'],
         Ag4O4: ['Silver(I,III) oxide'],
 
         CdH2O2: ['Cadmium hydroxide'],
@@ -5040,11 +5048,11 @@ class Compounds {
 
         InH3O3: ['Indium(III) hydroxide'],
         InN: ['Indium nitride'],
+        InGaN: ['Indium gallium nitride'],
         InN3O9: ['Indium(III) nitrate'],
         InF3: ['Indium(III) fluoride'],
         InP: ['Indium phosphide'],
         InCl3: ['Indium(III) chloride'],
-        InGaN: ['Indium gallium nitride'],
         InBr3: ['Indium(III) bromide'],
         InSb: ['Indium antimonide'],
         InI3: ['Indium(III) iodide'],
@@ -5058,14 +5066,14 @@ class Compounds {
         SnF2: ['Tin(II) fluoride'],
         SnF4: ['Tin(IV) fluoride'],
         SnS: ['Tin(II) sulfide'],
+        SnS2: ['Tin(IV) sulfide'],
         SnCl2: ['Tin(II) chloride'],
         SnCl4: ['Tin(IV) chloride'],
         SnBr2: ['Tin(II) bromide'],
         SnBr4: ['Tin(IV) bromide'],
+        SnTe: ['Tin telluride'],
         SnI2: ['Tin(II) iodide'],
         SnI4: ['Tin(IV) iodide'],
-        S2Sn: ['Tin(IV) sulfide'],
-        SnTe: ['Tin telluride'],
 
         SbOCl: ['Antimony oxychloride'],
         SbF3: ['Antimony trifluoride'],
@@ -5093,11 +5101,11 @@ class Compounds {
 
         ICN: ['Cyanogen iodide'],
         IN3: ['Iodine azide'],
+        INaO3: ['Sodium iodate'],
         IF: ['Iodine monofluoride'],
         IF3: ['Iodine trifluoride'],
         IF5: ['Iodine pentafluoride'],
         IF7: ['Iodine heptafluoride'],
-        INaO3: ['Sodium iodate'],
         ICl: ['Iodine monochloride'],
         IBr: ['Iodine monobromide'],
         I2: ['Diiodine'],
@@ -5121,26 +5129,26 @@ class Compounds {
 
         CsH: ['Cesium hydride'],
         CsHCO2: ['Cesium formate'],
+        CsOH: ['Cesium hydroxide'],
         CsHO4S: ['Cesium bisulfate'],
         CsLiB6O10: ['Cesium lithium borate'],
         CsNO3: ['Cesium nitrate'],
-        CsOH: ['Cesium hydroxide'],
         CsO2: ['Cesium superoxide'],
         CsO3: ['Cesium ozonide'],
+        CsClO4: ['Cesium perchlorate'],
         CsF: ['Cesium fluoride'],
         CsCl: ['Cesium chloride'],
-        CsClO4: ['Cesium perchlorate'],
-        CsBr: ['Cesium bromide'],
         CsCdCl3: ['Cesium cadmium chloride'],
+        CsBr: ['Cesium bromide'],
         CsCdBr3: ['Cesium cadmium bromide'],
         CsI: ['Cesium iodide'],
         Cs2CO3: ['Cesium carbonate'],
         Cs2O: ['Cesium monoxide'],
         Cs2O2: ['Cesium peroxide'],
-        Cs2Al2Si4O12: ['Pollucite'],
-        Cs2S: ['Cesium sulfide'],
         Cs2SO4: ['Cesium sulfate'],
+        Cs2Al2Si4O12: ['Pollucite'],
         Cs2CuF6: ['Cesium hexafluorocuprate(IV)'],
+        Cs2S: ['Cesium sulfide'],
         Cs2Te: ['Cesium telluride'],
         Cs4O6: ['Cesium sesquioxide'],
 
@@ -5158,18 +5166,16 @@ class Compounds {
         BaO: ['Barium oxide'],
         BaO2: ['Barium peroxide'],
         BaCl2O2: ['Barium hypochlorite'],
-        BaP2O6: ['Barium metaphosphate'],
-        BaF2: ['Barium fluoride'],
-        BaS: ['Barium sulfide'],
         BaSO3: ['Barium sulfite'],
+        BaTiO3: ['Barium titanate'],
         BaSnO3: ['Barium stannate'],
         BaSO4: ['Barium sulfate'],
-        BaTiO3: ['Barium titanate'],
         BaCrO4: ['Barium chromate'],
         BaMnO4: ['Barium manganate'],
         BaFeO4: ['Barium ferrate'],
         BaWO4: ['Barium tungstate'],
         BaCuSi2O6: ['Han purple'],
+        BaP2O6: ['Barium metaphosphate'],
         BaCl2O6: ['Barium chlorate'],
         BaBr2O6: ['Barium bromate'],
         BaI2O6: ['Barium iodate'],
@@ -5177,6 +5183,8 @@ class Compounds {
         BaMn2O8: ['Barium permanganate'],
         BaCuSi4O10: ['Han blue'],
         BaFe12O19: ['Barium ferrite'],
+        BaF2: ['Barium fluoride'],
+        BaS: ['Barium sulfide'],
         BaCl2: ['Barium chloride'],
         BaZnGa: ['Barium zinc gallide'],
         BaBr2: ['Barium bromide'],
@@ -5189,9 +5197,9 @@ class Compounds {
         LaYbO3: ['Lanthanum ytterbium oxide'],
         LaF3: ['Lanthanum trifluoride'],
         LaCl3: ['Lanthanum(III) chloride'],
+        La2C6O12: ['Lanthanum oxalate'],
         La2O3: ['Lanthanum oxide'],
         La2Hf2O7: ['Lanthanum hafnate'],
-        La2C6O12: ['Lanthanum oxalate'],
 
         CeH3O3: ['Cerium(III) hydroxide'],
         CeH4O4: ['Cerium(IV) hydroxide'],
@@ -5204,10 +5212,10 @@ class Compounds {
         CeF3: ['Cerium(III) fluoride'],
         CeF4: ['Cerium(IV) fluoride'],
         CeCl3: ['Cerium(III) chloride'],
+        CeCoIn5: ['Cerium-Cobalt-Indium 5'],
         CeBr3: ['Cerium(III) bromide'],
         CeI2: ['Cerium diiodide'],
         CeI3: ['Cerium(III) iodide'],
-        CeCoIn5: ['Cerium-Cobalt-Indium 5'],
         Ce2C3O9: ['Cerium(III) carbonate'],
         Ce2C6O12: ['Cerium oxalate'],
         Ce2N6O19: ['Dicerium nitrate'],
@@ -5330,8 +5338,8 @@ class Compounds {
         HoBr3: ['Holmium(III) bromide'],
         HoI3: ['Holmium(III) iodide'],
         Ho2O3: ['Holmium(III) oxide'],
-        Ho2S3: ['Holmium(III) sulfide'],
         Ho2O7Ti2: ['Holmium titanate'],
+        Ho2S3: ['Holmium(III) sulfide'],
 
         ErH3O3: ['Erbium(III) hydroxide'],
         ErB4: ['Erbium tetraboride'],
@@ -5359,35 +5367,35 @@ class Compounds {
         YbH2: ['Ytterbium hydride'],
         YbN3O9: ['Ytterbium(III) nitrate'],
         YbF3: ['Ytterbium(III) fluoride'],
+        YbRh2Si2: ['Ytterbium dirhodium disilicide'],
         YbP: ['Ytterbium phosphide'],
         YbCl2: ['Ytterbium(II) chloride'],
         YbCl3: ['Ytterbium(III) chloride'],
         YbBr3: ['Ytterbium(III) bromide'],
         YbI2: ['Ytterbium(II) iodide'],
         YbI3: ['Ytterbium(III) iodide'],
-        YbRh2Si2: ['Ytterbium dirhodium disilicide'],
         Yb2O3: ['Ytterbium(III) oxide'],
         Yb2S3O12: ['Ytterbium(III) sulfate'],
 
         LuH3: ['Lutetium hydride'],
         LuH3O3: ['Lutetium(III) hydroxide'],
         LuN3O9: ['Lutetium(III) nitrate'],
+        LuTaO4: ['Lutetium tantalate'],
         LuF3: ['Lutetium(III) fluoride'],
-        Lu3Al5O12: ['Lutetium aluminum garnet'],
         LuP: ['Lutetium phosphide'],
         LuCl3: ['Lutetium(III) chloride'],
         LuBr3: ['Lutetium(III) bromide'],
         LuI3: ['Lutetium(III) iodide'],
-        LuTaO4: ['Lutetium tantalate'],
         Lu2O3: ['Lutetium(III) oxide'],
         Lu2V2O7: ['Lutetium vanadate'],
+        Lu3Al5O12: ['Lutetium aluminum garnet'],
 
         HfB2: ['Hafnium diboride'],
         HfC: ['Hafnium carbide'],
         HfN4O12: ['Hafnium nitrate'],
         HfO2: ['Hafnium(IV) oxide'],
-        HfF4: ['Hafnium tetrafluoride'],
         HfSiO4: ['Hafnium(IV) silicate'],
+        HfF4: ['Hafnium tetrafluoride'],
         HfS2: ['Hafnium disulfide'],
         HfCl4: ['Hafnium tetrachloride'],
         HfBr4: ['Hafnium tetrabromide'],
@@ -5420,8 +5428,8 @@ class Compounds {
         WOF4: ['Tungsten(VI) oxytetrafluoride'],
         WOCl4: ['Tungsten(VI) oxytetrachloride'],
         WOBr4: ['Tungsten(VI) oxytetrabromide'],
-        WO2Cl2: ['Tungsten dichloride dioxide'],
         WO2: ['Tungsten(IV) oxide'],
+        WO2Cl2: ['Tungsten dichloride dioxide'],
         WO3: ['Tungsten trioxide'],
         WF6: ['Tungsten hexafluoride'],
         WSi2: ['Tungsten disilicide'],
@@ -5476,9 +5484,9 @@ class Compounds {
         IrF4: ['Iridium tetrafluoride'],
         IrF5: ['Iridium(V) fluoride'],
         IrF6: ['Iridium hexafluoride'],
+        IrS2: ['Iridium disulfide'],
         IrCl3: ['Iridium(III) chloride'],
         IrCl4: ['Iridium tetrachloride'],
-        IrS2: ['Iridium disulfide'],
         Ir2S3: ['Iridium(III) sulfide'],
         Ir4C12O12: ['Tetrairidium dodecacarbonyl'],
 
@@ -5511,19 +5519,19 @@ class Compounds {
         HgH: ['Mercury(I) hydride'],
         HgN6: ['Mercuric azide'],
         HgO: ['Mercury(II) oxide'],
+        HgSO4: ['Mercury(II) sulfate'],
         HgF4: ['Mercury(IV) fluoride'],
         HgS: ['Mercury sulfide'],
-        HgSO4: ['Mercury(II) sulfate'],
         HgCl2: ['Mercury(II) chloride'],
         HgZnTe: ['Mercury zinc telluride'],
         HgSe: ['Mercury selenide'],
         HgTe: ['Mercury telluride'],
         Hg2Cl2: ['Mercury(I) chloride'],
 
+        TlOH: ['Thallium(I) hydroxide'],
         TlH3: ['Thallane'],
         TlH3O3: ['Thallium(III) hydroxide'],
         TlNO3: ['Thallium(I) nitrate'],
-        TlOH: ['Thallium(I) hydroxide'],
         TlF: ['Thallium(I) fluoride'],
         TlF3: ['Thallium trifluoride'],
         TlCl: ['Thallium(I) chloride'],
@@ -5534,8 +5542,8 @@ class Compounds {
         Tl2O: ['Thallium(I) oxide'],
         Tl2O3: ['Thallium(III) oxide'],
         Tl2SO4: ['Thallium(I) sulfate'],
-        Tl2Te: ['Thallium(I) telluride'],
         Tl2Ba2Ca2Cu3O10: ['Thallium barium calcium copper oxide'],
+        Tl2Te: ['Thallium(I) telluride'],
 
         PbHAsO4: ['Lead hydrogen arsenate'],
         PbH2O2: ['Lead(II) hydroxide'],
@@ -5544,10 +5552,10 @@ class Compounds {
         PbN6: ['Lead(II) azide'],
         PbO: ['Lead(II) oxide'],
         PbO2: ['Lead dioxide'],
-        PbS: ['Lead(II) sulfide'],
         PbSO4: ['Lead(II) sulfate'],
-        PbS2: ['Lead(IV) sulfide'],
         PbCrO4: ['Lead(II) chromate'],
+        PbS: ['Lead(II) sulfide'],
+        PbS2: ['Lead(IV) sulfide'],
         PbSe: ['Lead selenide'],
         PbTe: ['Lead telluride'],
         Pb3O4: ['Lead(II,IV) oxide'],
@@ -5556,7 +5564,6 @@ class Compounds {
         Pb9Sb22S42: ['Lead anitmony sulfide'],
 
         BiH3: ['Bismuthine'],
-        Bi2CO5: ['Bismuth subcarbonate'],
         BiOCl: ['Bismuth oxychloride'],
         BiO4V: ['Bismuth vanadate'],
         BiF3: ['Bismuth trifluoride'],
@@ -5565,9 +5572,10 @@ class Compounds {
         BiMn: ['Bismanol'],
         BiBr3: ['Bismuth tribromide'],
         BiI3: ['Bismuth(III) iodide'],
+        Bi2CO5: ['Bismuth subcarbonate'],
         Bi2O3: ['Bismuth(III) oxide'],
-        Bi2S3: ['Bismuth(III) sulfide'],
         Bi2Ge3O9: ['Bismuth germanate'],
+        Bi2S3: ['Bismuth(III) sulfide'],
         Bi2Br9Cs3: ['Cesium enneabromodibismuthate'],
         Bi2Te3: ['Bismuth telluride'],
         Bi4Ge3O12: ['Bismuth germanate'],
@@ -5595,8 +5603,8 @@ class Compounds {
 
         RaCO3: ['Radium carbonate'],
         RaN2O6: ['Radium nitrate'],
-        RaF2: ['Radium fluoride'],
         RaSO4: ['Radium sulfate'],
+        RaF2: ['Radium fluoride'],
         RaCl2: ['Radium chloride'],
         RaBr2: ['Radium bromide'],
 
@@ -5617,8 +5625,8 @@ class Compounds {
         ThO: ['Thorium monoxide'],
         ThOF2: ['Thorium oxyfluoride'],
         ThO2: ['Thorium dioxide'],
-        ThF4: ['Thorium tetrafluoride'],
         ThSiO4: ['Thorium(IV) orthosilicate'],
+        ThF4: ['Thorium tetrafluoride'],
         ThS2: ['Thorium(IV) sulfide'],
         ThCl4: ['Thorium(IV) chloride'],
         ThI4: ['Thorium(IV) iodide'],
@@ -5633,10 +5641,10 @@ class Compounds {
         PaI5: ['Protactinium(V) iodide'],
         Pa2O5: ['Protactinium(V) oxide'],
 
-        UB2: ['Uranium diboride'],
         UB4H16: ['Uranium borohydride'],
-        UC: ['Uranium carbide'],
         UC16H16: ['Uranocene'],
+        UB2: ['Uranium diboride'],
+        UC: ['Uranium carbide'],
         UO2: ['Uranium dioxide'],
         UO2F2: ['Uranyl fluoride'],
         UO3: ['Uranium trioxide'],
@@ -5646,17 +5654,17 @@ class Compounds {
         UF4: ['Uranium tetrafluoride'],
         UF5: ['Uranium pentafluoride'],
         UF6: ['Uranium hexafluoride'],
+        UPd2Al3: ['Uranium palladium aluminide'],
         USi2: ['Uranium disilicide'],
+        URu2Si2: ['Uranium ruthenium silicide'],
         US: ['Uranium monosulfide'],
         UCl3: ['Uranium(III) chloride'],
         UCl4: ['Uranium tetrachloride'],
         UCl5: ['Uranium pentachloride'],
         UCl6: ['Uranium hexachloride'],
+        URhGe: ['Uranium rhodium germanium'],
         UBr4: ['Uranium tetrabromide'],
         UBr5: ['Uranium pentabromide'],
-        URu2Si2: ['Uranium ruthenium silicide'],
-        URhGe: ['Uranium rhodium germanium'],
-        UPd2Al3: ['Uranium palladium aluminide'],
         UI3: ['Uranium(III) iodide'],
         UI4: ['Uranium(IV) iodide'],
         UPt3: ['Uranium platinide'],
@@ -5733,6 +5741,201 @@ class Compounds {
         Es2O3: ['Einsteinium(III) oxide'],
     };
 
+    static #convertParsedFormulaSymbols(components, ignore = '') {
+        // Convert an object keyed by element symbols to a map keyed by atomic numbers.
+        const atomic = new Map();
+        for (const symbol in components) {
+            if (symbol === ignore) {
+                continue;
+            }
+            const protons = Elements.findProtons(symbol);
+            if (protons in atomic) {
+                atomic.set(protons, atomic.get(protons) + components[symbol]);
+            }
+            else {
+                atomic.set(protons, components[symbol]);
+            }
+        }
+        return atomic;
+    }
+
+    static compare(formulaA, formulaB, prioritySymbol = 'H', debug = false) {
+        // Return early when formulas are identical.
+        if (formulaA === formulaB) {
+            if (debug) {
+                console.log(`${formulaA} === ${formulaB}`);
+            }
+            return 0;
+        }
+
+        // Allow the caller to identify a priority element to sort by.
+        const priority = Elements.findProtons(prioritySymbol);
+        if (priority === 0) {
+            console.warn('Invalid priority element symbol:', prioritySymbol);
+            return 0;
+        }
+
+        // Parse formulas into constituent elements.
+        const aComponents = Compounds.parse(formulaA);
+        const bComponents = Compounds.parse(formulaB);
+
+        // When priority element counts are different, sort by that.
+        if ((prioritySymbol in aComponents) && (prioritySymbol in bComponents)) {
+            const aCount = aComponents[prioritySymbol];
+            const bCount = bComponents[prioritySymbol];
+            if (aCount > bCount) {
+                if (debug) {
+                    console.log(`${formulaA} > ${formulaB}: ${prioritySymbol}${aCount} > ${prioritySymbol}${bCount}`);
+                }
+                return 1;
+            }
+            if (aCount < bCount) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: ${prioritySymbol}${aCount} < ${prioritySymbol}${bCount}`);
+                }
+                return -1;
+            }
+        }
+
+        // Build maps keyed by atomic numbers, not atomic symbols.
+        // Ignore the priority element, since we've already checked it.
+        const a = Compounds.#convertParsedFormulaSymbols(aComponents, prioritySymbol);
+        const b = Compounds.#convertParsedFormulaSymbols(bComponents, prioritySymbol);
+
+        // Build an array of atomic numbers in each formula.
+        const aKeys = [...a.keys()];
+        const bKeys = [...b.keys()];
+
+        // Build a sorted array of atomic numbers in both formulas, without duplicates.
+        const unique = new Set(aKeys.concat(bKeys));
+        const all = [...unique].sort((a, b) => a - b);
+
+        // Find the highest atomic number in each formula's elements.
+        const aMax = Math.max(...aKeys);
+        const bMax = Math.max(...bKeys);
+
+        // Limit comparisons to the lesser maximum atomic number of the two formulas.
+        const upperBound = Math.min(aMax, bMax);
+        all.splice(all.indexOf(upperBound) + 1);
+
+        // Compare formulas by their elements' atomic numbers; lowest comes first.
+        for (const protons of all) {
+            const symbol = Elements.data[protons].symbol;
+            const inA = a.has(protons);
+            const inB = b.has(protons);
+
+            // When a lower element is in only one formula, it comes first.
+            if (inA && !inB) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: ${symbol} in ${formulaA}, not in ${formulaB}`);
+                }
+                return -1;
+            }
+            if (!inA && inB) {
+                if (debug) {
+                    console.log(`${formulaA} > ${formulaB}: ${symbol} in ${formulaB}, not in ${formulaA}`);
+                }
+                return 1;
+            }
+
+            // When both formulas contain an element, sort based on the element count.
+            if (inA && inB) {
+                const aCount = a.get(protons);
+                const bCount = b.get(protons);
+                if (aCount > bCount) {
+                    if (debug) {
+                        console.log(`${formulaA} > ${formulaB}: ${symbol}${aCount} > ${symbol}${bCount}`);
+                    }
+                    return 1;
+                }
+                if (aCount < bCount) {
+                    if (debug) {
+                        console.log(`${formulaA} < ${formulaB}: ${symbol}${aCount} < ${symbol}${bCount}`);
+                    }
+                    return -1;
+                }
+            }
+
+            // Stop when we're past either formula's highest element.
+            if (protons === upperBound && aMax !== bMax) {
+                if (debug) {
+                    console.log(`${formulaA} < ${formulaB}: compared every element in ${formulaA}`);
+                }
+                return (upperBound === aMax) ? -1 : 1;
+            }
+        }
+
+        return 0;
+    }
+
+    static compareTest() {
+        const tests = [
+            [['HN', 'HNCO', 'H'], 1], // C in HNCO, not in HN
+            [['H2', 'H2', 'H'], 0], // H2 === H2
+            [['LiPF6', 'LiYF4', 'Li'], 1], // F6 > F4
+            [['LiNH2', 'Li2NH', 'Li'], -1], // Li1 < Li2
+            //[['BeF2', 'BeSO4', 'Be'], 1], // O in BeSO4, not in BeF2
+            //[['BN', 'BNH6', 'B'], 1], // H in BNH6, not in BN
+            //[['CHF3', 'CHClO2', 'C'], 1], // O in CHClO2, not in CHF3
+            [['C2H2', 'C2H2B2N2', 'C'], -1], // compared every element in C2H2
+            //[['C2H3B', 'C2H3LiO2', 'C'], 1], // Li in C2H3LiO2, not in C2H3B
+            [['NH4ClO4', 'NH4VO3', 'N'], 1], // O4 > O3
+            //[['NH4SCN', 'NH4ClO3', 'N'], 1], // N2 > N1
+            //[['NaOH', 'NaHCO3', 'Na'], 1], // C in NaHCO3, not in NaOH
+            //[['Mg2O8Si3', 'MgSO3', 'Mg'], 1], // Mg2 > Mg1
+            //[['S4N4', 'S2Sn', 'S'], 1], // S4 > S2
+            //[['KHSO3', 'KOH', 'K'], 1], // O1 < O3
+            //[['CaH2O2', 'CaH2C2O4', 'Ca'], 1], // C in CaH2C2O4, not in CaH2O2
+            //[['Ti2O3', 'TiI3', 'Ti'], 1], // Ti2 > Ti1
+            //[['FeCl2', 'FeKS2', 'Fe'], 1], // S in FeKS2, not in FeCl2
+            //[['CoB', 'CoC10H10', 'Co'], 1], // H in CoC10H10, not in CoB
+            //[['CuS', 'CuSO4', 'Cu'], 1], // O in CuSO4, not in CuS
+            //[['GaS', 'GaAsP', 'Ga'], 1], // P in GaAsP, not in GaS
+            //[['AsH3', 'AsCuHO3', 'As'], 1], // H1 < H3
+            //[['SeCl4', 'SeOCl2', 'Se'], 1], // O in SeOCl2, not in SeCl4
+            //[['YB6', 'YH3O3', 'Y'], 1], // H in YH3O3, not in YB6
+            //[['Ag2SeO3', 'Ag2O', 'Ag'], 1], // O1 < O3
+            //[['InN3O9', 'InGaN', 'In'], 1], // N1 < N3
+            //[['SnI2', 'SnTe', 'Sn'], 1], // Te in SnTe, not in SnI2
+            //[['IF', 'INaO3', 'I'], 1], // O in INaO3, not in IF
+            //[['CsHO4S', 'CsOH', 'Cs'], 1], // O1 < O4
+            //[['BaP2O6', 'BaSO3', 'Ba'], 1], // O3 < O6
+            //[['La2O3', 'La2C6O12', 'La'], 1], // C in La2C6O12, not in La2O3
+            //[['CeBr3', 'CeCoIn5', 'Ce'], 1], // Co in CeCoIn5, not in CeBr3
+            //[['Ho2S3', 'Ho2O7Ti2', 'Ho'], 1], // O in Ho2O7Ti2, not in Ho2S3
+            //[['YbP', 'YbRh2Si2', 'Yb'], 1], // Si in YbRh2Si2, not in YbP
+            //[['LuF3', 'LuTaO4', 'Lu'], 1], // O in LuTaO4, not in LuF3
+            //[['HfF4', 'HfSiO4', 'Hf'], 1], // O in HfSiO4, not in HfF4
+            //[['WO2Cl2', 'WO2', 'W'], 1], // compared every element in WO2
+            //[['IrCl3', 'IrS2', 'Ir'], 1], // S in IrS2, not in IrCl3
+            //[['HgF4', 'HgSO4', 'Hg'], 1], // O in HgSO4, not in HgF4
+            //[['TlH3', 'TlOH', 'Tl'], 1], // H1 < H3
+            //[['PbS', 'PbSO4', 'Pb'], 1], // O in PbSO4, not in PbS
+            //[['Bi2CO5', 'BiOCl', 'Bi'], 1], // Bi2 > Bi1
+            //[['RaF2', 'RaSO4', 'Ra'], 1], // O in RaSO4, not in RaF2
+            //[['ThF4', 'ThSiO4', 'Th'], 1], // O in ThSiO4, not in ThF4
+            //[['UB2', 'UB4H16', 'U'], 1], // H in UB4H16, not in UB2
+        ];
+
+        let failed = 0;
+        let passed = 0;
+        for (const test of tests) {
+            const args = test[0];
+            const expected = test[1];
+            const actual = Compounds.compare(...args, true);
+            console.assert(actual === expected, args[0], args[1], 'not sorted correctly.');
+            if (actual === expected) {
+                passed += 1;
+            }
+            else {
+                failed += 1;
+            }
+        }
+        console.log(`${failed} tests failed, ${passed} passed.`);
+
+        return failed;
+    }
+
     static #found = {};
     static find(symbol) {
         if (symbol in Compounds.#found) {
@@ -5782,6 +5985,7 @@ class Compounds {
             const element = components[1];
             const count = (components[2] === '') ? 1 : parseInt(components[2]);
             if (Object.hasOwn(elements, element)) {
+                console.log(formula, 'repeats', element);
                 elements[element] += count;
             }
             else {
@@ -5790,6 +5994,42 @@ class Compounds {
         }
         Compounds.#parsed[formula] = elements;
         return elements;
+    }
+
+    static sort(formulas = [], priority = 'H') {
+        if (formulas.length < 1) {
+            formulas = Object.keys(Compounds.data);
+        }
+        const sorted = formulas.toSorted((a, b) => Compounds.compare(a, b, priority));
+
+        for (let i = 0; i < formulas.length; i++) {
+            if (formulas[i] !== sorted[i]) {
+                Compounds.compare(formulas[i], sorted[i], priority, true);
+                break;
+            }
+        }
+
+        return sorted;
+    }
+
+    static sortByFirstElement() {
+        console.time('Compounds.sortByFirstElement()');
+        const byElement = {};
+        for (const formula in Compounds.data) {
+            const components = Compounds.parse(formula);
+            const element = Object.keys(components)[0];
+            if (element in byElement) {
+                byElement[element].push(formula);
+            }
+            else {
+                byElement[element] = [formula];
+            }
+        }
+        for (const element in byElement) {
+            const formulas = byElement[element];
+            Compounds.sort(formulas, element);
+        }
+        console.timeEnd('Compounds.sortByFirstElement()');
     }
 
     static weigh(formula) {
@@ -5808,6 +6048,7 @@ class Compounds {
         let html = `<h1>${document.title}</h1>`;
         html += Compounds.renderChart();
         html += Compounds.renderList();
+        Compounds.sortByFirstElement();
         return html;
     }
 
@@ -6124,6 +6365,24 @@ class Isotopes {
         html += '</table>';
 
         return html;
+    }
+}
+
+class Test {
+    static render() {
+        const failures = Test.run();
+        const color = failures ? 'red' : 'green';
+        document.title = 'Automated Tests';
+        let html = '<main>';
+        html += `<h1>${document.title}</h1>`;
+        html += `<p>Failures: <span style="color: ${color}">${failures}</span></p>`;
+        return html;
+    }
+
+    static run() {
+        let failures = 0;
+        failures += Compounds.compareTest();
+        return failures;
     }
 }
 
