@@ -5737,13 +5737,10 @@ class Compounds {
         Es2O3: ['Einsteinium(III) oxide'],
     };
 
-    static #convertParsedFormulaSymbols(components, ignore = '') {
+    static #convertSymbols(components) {
         // Convert an object keyed by element symbols to a map keyed by atomic numbers.
         const atomic = new Map();
         for (const symbol in components) {
-            if (symbol === ignore) {
-                continue;
-            }
             const protons = Elements.findProtons(symbol);
             if (protons in atomic) {
                 atomic.set(protons, atomic.get(protons) + components[symbol]);
@@ -5776,47 +5773,22 @@ class Compounds {
         const aComponents = Compounds.parse(formulaA);
         const bComponents = Compounds.parse(formulaB);
 
-        if ((prioritySymbol in aComponents) && (prioritySymbol in bComponents)) {
-            const aCount = aComponents[prioritySymbol];
-            const bCount = bComponents[prioritySymbol];
-            // When priority element counts are different, sort by that.
-            if (aCount > bCount) {
-                if (debug) {
-                    console.log(`${formulaA} > ${formulaB}: ${prioritySymbol}${aCount} > ${prioritySymbol}${bCount}`);
-                }
-                return 1;
+        // Build maps keyed by atomic numbers, not atomic symbols.
+        const a = Compounds.#convertSymbols(aComponents);
+        const b = Compounds.#convertSymbols(bComponents);
+
+        const result = Compounds.#compareElement(a, b, priority, true);
+        if (result !== 0) {
+            if (debug) {
+                const inequality = (result < 0) ? '<' : '>';
+                console.log(`${formulaA} ${inequality} ${formulaB}: ${prioritySymbol} is the priority`);
             }
-            if (aCount < bCount) {
-                if (debug) {
-                    console.log(`${formulaA} < ${formulaB}: ${prioritySymbol}${aCount} < ${prioritySymbol}${bCount}`);
-                }
-                return -1;
-            }
-            // When priority element counts are the same, but one formula
-            // contains only the priority element, it comes first.
-            if (Object.keys(aComponents).length === 1) {
-                if (debug) {
-                    console.log(`${formulaA} < ${formulaB}: ${formulaA} contains only the priority element`);
-                }
-                return -1;
-            }
-            if (Object.keys(bComponents).length === 1) {
-                if (debug) {
-                    console.log(`${formulaA} > ${formulaB}: ${formulaB} contains only the priority element`);
-                }
-                return 1;
-            }
-        }
-        else {
-            // When the priority symbol is not present in both formulas, ignore it.
-            prioritySymbol = '';
-            priority = 0;
+            return result;
         }
 
-        // Build maps keyed by atomic numbers, not atomic symbols.
         // Ignore the priority element, since we've already checked it.
-        const a = Compounds.#convertParsedFormulaSymbols(aComponents, prioritySymbol);
-        const b = Compounds.#convertParsedFormulaSymbols(bComponents, prioritySymbol);
+        a.delete(priority);
+        b.delete(priority);
 
         // Build an array of atomic numbers in each formula.
         const aKeys = [...a.keys()];
@@ -5840,53 +5812,65 @@ class Compounds {
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
             const symbol = Elements.data[protons].symbol;
-            const inA = a.has(protons);
-            const inB = b.has(protons);
-
-            // When a lower element is in only one formula, it comes first.
-            if (inA && !inB) {
+            const result = Compounds.#compareElement(a, b, protons);
+            if (result !== 0) {
                 if (debug) {
-                    console.log(`${formulaA} < ${formulaB}: ${symbol} in ${formulaA}, not in ${formulaB}`);
+                    const inequality = (result < 0) ? '<' : '>';
+                    console.log(`${formulaA} ${inequality} ${formulaB}: ${symbol}`);
                 }
-                return -1;
+                return result;
             }
-            if (!inA && inB) {
-                if (debug) {
-                    console.log(`${formulaA} > ${formulaB}: ${symbol} in ${formulaB}, not in ${formulaA}`);
-                }
-                return 1;
-            }
-
-            // When both formulas contain an element, sort based on the element count.
-            if (inA && inB) {
-                const aCount = a.get(protons);
-                const bCount = b.get(protons);
-                if (aCount > bCount) {
-                    if (debug) {
-                        console.log(`${formulaA} > ${formulaB}: ${symbol}${aCount} > ${symbol}${bCount}`);
-                    }
-                    return 1;
-                }
-                if (aCount < bCount) {
-                    if (debug) {
-                        console.log(`${formulaA} < ${formulaB}: ${symbol}${aCount} < ${symbol}${bCount}`);
-                    }
-                    return -1;
-                }
-            }
-
             // Stop when we're past either formula's highest element.
             if (protons === upperBound && aMax !== bMax) {
+                const positivity = (upperBound === aMax) ? -1 : 1;
                 if (debug) {
-                    console.log(`${formulaA} < ${formulaB}: compared every element in ${formulaA}`);
+                    const inequality = (positivity < 0) ? '<' : '>';
+                    console.log(`${formulaA} ${inequality} ${formulaB}: ${formulaA} has fewer protons`);
                 }
-                return (upperBound === aMax) ? -1 : 1;
+                return positivity;
             }
         }
 
         if (debug) {
-            console.log(`${formulaA} == ${formulaB}: formulas are equivalent`);
+            console.log(`${formulaA} == ${formulaB}`);
         }
+        return 0;
+    }
+
+    static #compareElement(a, b, protons, priority = false) {
+        const inA = a.has(protons);
+        const inB = b.has(protons);
+        if (!inA && !inB) {
+            return 0;
+        }
+
+        // When a lower element is in only one formula, it comes first.
+        if (inA && !inB) {
+            return -1;
+        }
+        if (!inA && inB) {
+            return 1;
+        }
+
+        // When both formulas contain an element, sort based on the element count.
+        const aCount = a.get(protons);
+        const bCount = b.get(protons);
+        if (aCount > bCount) {
+            return 1;
+        }
+        if (aCount < bCount) {
+            return -1;
+        }
+        if (priority) {
+            // When one formula contains only the priority element, it comes first.
+            if (a.size === 1) {
+                return -1;
+            }
+            if (b.size === 1) {
+                return 1;
+            }
+        }
+
         return 0;
     }
 
