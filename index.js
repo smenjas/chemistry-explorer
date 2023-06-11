@@ -1060,6 +1060,7 @@ class Compounds {
         BAs: ['Boron arsenide'],
         BBr3: ['Boron tribromide'],
         BI3: ['Boron triiodide'],
+        B2: ['Diboron'],
         B2H2: ['Diborane(2)'],
         B2H4: ['Diborane(4)'],
         B2H4O4: ['Tetrahydroxydiboron'],
@@ -1085,6 +1086,7 @@ class Compounds {
         B6O18Zn9: ['Zinc borate'],
         B9H22Na2O20: ['Disodium enneaborate'],
         B10H14: ['Decaborane'],
+        B12: ['Dodecaboron'],
         B12H12Cs2: ['Cesium dodecaborate'],
         B18H22: ['Octadecaborane'],
 
@@ -2981,6 +2983,7 @@ class Compounds {
         C19H40: ['Nonadecane', 'Pristane'],
         C19H42BrN: ['Cetrimonium bromide'],
 
+        C20: ['C20 fullerene'],
         C20H6I4Na2O5: ['Erythrosine'],
         C20H8Br2HgNa2O6: ['Merbromin'],
         C20H8Br4Na2O10S2: ['Bromsulfthalein'],
@@ -3486,6 +3489,7 @@ class Compounds {
         C25H50: ['Highly branched isoprenoid I'],
         C25H52: ['Pentacosane'],
 
+        C26: ['C26 fullerene'],
         C26H26F2N2: ['Flunarizine'],
         C26H27NO9: ['Idarubicin'],
         C26H27N3O5S: ['Dasabuvir'],
@@ -4214,6 +4218,7 @@ class Compounds {
         C267H404N72O78S6: ['Insulin glargine'],
         C274H411N65O81S6: ['Insulin degludec'],
 
+        C540: ['C540 fullerene'],
         C759H1186N208O232S10: ['Anakinra'],
         C845H1343N223O243S9: ['Filgrastim'],
         C860H1353N227O255S9: ['Peginterferon alfa-2a'],
@@ -4299,6 +4304,7 @@ class Compounds {
         N2F4: ['Tetrafluorohydrazine'],
         N3H12PO4: ['Ammonium phosphate'],
         N3P3Cl6: ['Hexachlorophosphazene'],
+        N4: ['Tetranitrogen'],
         N4O: ['Nitrosyl azide', 'Oxatetrazole'],
         N4O2: ['Nitryl azide'],
         N4O6: ['Trinitramide'],
@@ -4309,6 +4315,8 @@ class Compounds {
         O2F2: ['Dioxygen difluoride'],
         O2PtF6: ['Dioxygenyl hexafluoroplatinate'],
         O3: ['Ozone'],
+        O4: ['Tetraoxygen'],
+        O8: ['Octaoxygen'],
 
         FHO3S: ['Fluorosulfuric acid'],
         FN3: ['Fluorine azide'],
@@ -4491,6 +4499,7 @@ class Compounds {
         Al2Br6: ['Aluminum bromide'],
         Al2I6: ['Aluminum iodide'],
 
+        Si: ['Crystalline silicon', 'Silicene', 'Silicyne'],
         SiH4: ['Silane'],
         SiB3: ['Silicon triboride'],
         SiB4: ['Silicon tetraboride'],
@@ -4501,6 +4510,7 @@ class Compounds {
         SiS2: ['Silicon disulfide'],
         SiCl4: ['Silicon tetrachloride'],
         Si3N4: ['Silicon nitride'],
+        Si24: ['Si24'],
 
         PH3: ['Phosphine'],
         POCl3: ['Phosphoryl chloride'],
@@ -4528,10 +4538,17 @@ class Compounds {
         SF5Cl: ['Sulfur chloride pentafluoride'],
         SF6: ['Sulfur hexafluoride'],
         SCl2: ['Sulfur dichloride'],
+        S2: ['Disulfur'],
         S2F10: ['Disulfur decafluoride'],
         S2Cl2: ['Disulfur dichloride'],
         S2Se: ['Selenium disulfide'],
+        S3: ['Trisulfur'],
+        S4: ['Tetrasulfur'],
         S4N4: ['Tetrasulfur tetranitride'],
+        S6: ['Hexasulfur'],
+        S7: ['Heptasulfur'],
+        S8: ['Octasulfur'],
+        S12: ['Dodecasulfur'],
 
         ClH4N: ['Ammonium chloride'],
         ClN3: ['Chlorine azide'],
@@ -4840,6 +4857,7 @@ class Compounds {
         Ga2Te3: ['Gallium(III) telluride'],
         Ga4I4: ['Gallium monoiodide'],
 
+        Ge: ['α-Germanium', 'β-Germanium', 'Germanene'],
         GeH4: ['Germane'],
         GeO: ['Germanium monoxide'],
         GeO2: ['Germanium dioxide'],
@@ -4881,6 +4899,7 @@ class Compounds {
         Se2S6: ['Selenium hexasulfide'],
         Se2Cl2: ['Selenium monochloride'],
         Se4N4: ['Tetraselenium tetranitride'],
+        Se8: ['Cyclooctaselenium'],
 
         BrHO3: ['Bromic acid'],
         BrHO4: ['Perbromic acid'],
