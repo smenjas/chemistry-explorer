@@ -4527,7 +4527,13 @@ class Compounds {
         SiF4: ['Silicon tetrafluoride'],
         SiS2: ['Silicon disulfide'],
         SiCl4: ['Silicon tetrachloride'],
+        Si2H6: ['Disilane'],
+        Si3H8: ['Trisilane'],
         Si3N4: ['Silicon nitride'],
+        Si4H10: ['Tetrasilane'],
+        Si5H10: ['Cyclopentasilane'],
+        Si5H12: ['Pentasilane'],
+        Si6H14: ['Haxasilane'],
         Si24: ['Si24'],
 
         PH3: ['Phosphine'],
