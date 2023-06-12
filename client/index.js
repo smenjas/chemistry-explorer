@@ -11,7 +11,7 @@ class Site {
         let html = '';
 
         if (formula) {
-            html += Compounds.renderFormula(formula);
+            html += Molecules.renderFormula(formula);
         }
         else if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
@@ -32,8 +32,8 @@ class Site {
         else if (view === 'abundance') {
             html += Elements.renderAbundance();
         }
-        else if (view === 'compounds') {
-            html += Compounds.render();
+        else if (view === 'molecules') {
+            html += Molecules.render();
         }
         else if (view === 'isotopes') {
             html += Isotopes.render();
@@ -652,8 +652,8 @@ class Elements {
     static renderElementsNav() {
         let html = '<nav>';
         html += '<a href="?view=abundance">Abundance</a> ';
-        html += '<a href="?view=compounds">Compounds</a> ';
         html += '<a href="?view=isotopes">Isotopes</a>';
+        html += '<a href="?view=molecules">Molecules</a> ';
         html += '</nav>';
 
         return html;
@@ -716,8 +716,8 @@ class Elements {
         }
 
         html += '</section>';
-        html += '<section class="compounds">';
-        html += '<h2>Compounds</h2>';
+        html += '<section class="molecules">';
+        html += '<h2>Molecules</h2>';
 
         const compoundsPath = (protons < 103) ? `${element.name}_compounds` : `${element.name}#Chemical`;
         html += '<ul>';
@@ -734,7 +734,7 @@ class Elements {
             pressures, or both.</p>`;
         }
 
-        html += Compounds.renderList(element.symbol);
+        html += Molecules.renderList(element.symbol);
         html += '</section>';
 
         return html;
@@ -874,7 +874,7 @@ class Elements {
     }
 }
 
-class Compounds {
+class Molecules {
     static data = {
         HBO: ['Oxoborane'],
         HBF4: ['Fluoroboric acid'],
@@ -1060,6 +1060,7 @@ class Compounds {
         BAs: ['Boron arsenide'],
         BBr3: ['Boron tribromide'],
         BI3: ['Boron triiodide'],
+        B2: ['Diboron'],
         B2H2: ['Diborane(2)'],
         B2H4: ['Diborane(4)'],
         B2H4O4: ['Tetrahydroxydiboron'],
@@ -1085,6 +1086,7 @@ class Compounds {
         B6O18Zn9: ['Zinc borate'],
         B9H22Na2O20: ['Disodium enneaborate'],
         B10H14: ['Decaborane'],
+        B12: ['Dodecaboron'],
         B12H12Cs2: ['Cesium dodecaborate'],
         B18H22: ['Octadecaborane'],
 
@@ -1422,7 +1424,7 @@ class Compounds {
         C4H6N4O3: ['Allantoin'],
         C4H6N4O3S2: ['Acetazolamide'],
         C4H6O2: ['Butyrolactone', 'Methacrylic acid', 'Vinyl acetate'],
-        C4H6O3: ['Acetoacetic acid', 'Ketobutyric acid'],
+        C4H6O3: ['Acetoacetic acid', 'Ketobutyric acid', 'Propylene carbonate'],
         C4H6O4: ['Succinic acid'],
         C4H6MgO4: ['Magnesium acetate'],
         C4H6O4S2: ['Succimer'],
@@ -1539,6 +1541,7 @@ class Compounds {
         C5H6S: ['Thiopyran'],
         C5H6Ge: ['Germabenzene'],
         C5H6Sn: ['Stannabenzene'],
+        C5H7NOS: ['Goitrin'],
         C5H7NO3: ['Pyroglutamic acid'],
         C5H7NNa2O4: ['Disodium glutamate'],
         C5H7N3O: ['5-Methylcytosine'],
@@ -1838,6 +1841,7 @@ class Compounds {
         C8H6S: ['Benzothiophene'],
         C8H7N: ['Indole', 'Isoindole'],
         C8H7NNa4O8: ['Tetrasodium iminodisuccinate'],
+        C8H7NS: ['Benzyl isothiocyanate'],
         C8H7ClN2O2S: ['Diazoxide'],
         C8H7N3O2: ['Luminol'],
         C8H7NaO3: ['Sodium methylparaben'],
@@ -1946,6 +1950,7 @@ class Compounds {
         C9H8O3: ['Coumaric acid'],
         C9H8O4: ['Aspirin', 'Caffeic acid'],
         C9H9N: ['Skatole'],
+        C9H9NS: ['Phenethyl isothiocyanate'],
         C9H9Cl2N3O: ['Guanfacine'],
         C9H9Cl2N3: ['Clonidine'],
         C9H9HgNaO2S: ['Thiomersal'],
@@ -2153,6 +2158,7 @@ class Compounds {
         C10H16O2: ['Ascaridole', 'Chrysanthemic acid', 'Geranic acid', 'Iridodial', 'Iridomyrmecin', 'Lineatin', 'Nepetalactol', 'Nerolic acid'],
         C10H16O4S: ['Camphorsulfonic acid'],
         C10H17N: ['Amantadine'],
+        C10H17NO9S2: ['Sinigrin'],
         C10H17N2O14P3: ['Thymidine triphosphate'],
         C10H17N2O15P3: ['5-Methyluridine triphosphate'],
         C10H17N3O6S: ['Glutathione'],
@@ -2235,6 +2241,7 @@ class Compounds {
         C11H19NO8: ['N-Acetylmuramic acid'],
         C11H19NO9: ['N-Acetylneuraminic acid'],
         C11H19NO10: ['N-Glycolylneuraminic acid'],
+        C11H19NO10S2: ['Progoitrin'],
         C11H19N3O6: ['Ophthalmic acid'],
         C11H20O: ['2-Methylisoborneol'],
         C11H20O2: ['Undecylenic acid'],
@@ -2319,6 +2326,7 @@ class Compounds {
         C12H19N4O10P3S: ['Thiamine triphosphate'],
         C12H19Cl3O8: ['Sucralose'],
         C12H20N2O3S: ['Sotalol'],
+        C12H20N2O8: ['Mugineic acid'],
         C12H20N2O8Pt: ['Dicycloplatin'],
         C12H20N4O6S: ['Relebactam'],
         C12H20O2: ['Bornyl acetate', 'Geranyl acetate', 'Isobornyl acetate', 'Lavandulyl acetate', 'Linalyl acetate'],
@@ -2327,6 +2335,7 @@ class Compounds {
         C12H21N: ['Memantine', 'Rimantadine'],
         C12H21NO8S: ['Topiramate'],
         C12H21N3O3: ['Pyrrolysine'],
+        C12H21N3O6: ['Nicotianamine'],
         C12H21N5O3: ['Choline theophyllinate'],
         C12H22O: ['Geosmin'],
         C12H22O2: ['Menthyl acetate'],
@@ -2481,6 +2490,7 @@ class Compounds {
         C14H19NO2: ['Dexmethylphenidate', 'Methylphenidate'],
         C14H19Cl2NO2: ['Chlorambucil'],
         C14H19NO4: ['Anisomycin'],
+        C14H19NO9S2: ['Glucotropaeolin'],
         C14H19N5O4: ['Famciclovir'],
         C14H20N2O: ['AAZ-A-154'],
         C14H20N2O3: ['Vorinostat'],
@@ -2503,6 +2513,7 @@ class Compounds {
         C14H22O2: ['Rishitin'],
         C14H23NO: ['Tapentadol'],
         C14H24N2O7: ['Spectinomycin'],
+        C14H24N4O6: ['Rhodotorulic acid'],
         C14H24N6O4: ['Glycyl-L-histidyl-L-lysine'],
         C14H25N3O4S: ['Alitame'],
         C14H25N3O14P2: ['4-Diphosphocytidyl-2-C-methylerythritol'],
@@ -2575,6 +2586,7 @@ class Compounds {
         C15H20O5: ['Koningic acid', 'Phaseic acid'],
         C15H20O6: ['Vomitoxin'],
         C15H21NO2: ['Desmethylprodine', 'Ketobemidone', 'Pethidine'],
+        C15H21NO9S2: ['Gluconasturtiin'],
         C15H21N3O: ['Primaquine'],
         C15H21N3O3S: ['Gliclazide'],
         C15H21N3O4S: ['Panipenem'],
@@ -2890,6 +2902,8 @@ class Compounds {
         C18H36N4O11: ['Kanamycin A'],
         C18H36O2: ['Stearic acid'],
         C18H37NO2: ['Sphingosine'],
+        C18H37N5O8: ['Dibekacin'],
+        C18H37N5O9: ['Tobramycin'],
         C18H38: ['Octadecane'],
         C18H38NO5P: ['Sphingosine-1-phosphate'],
         C18F15B: ['Tris(pentafluorophenyl)borane'],
@@ -2977,10 +2991,13 @@ class Compounds {
         C19H32O2: ['Androstanediol', 'Etiocholanediol'],
         C19H34: ['Fichtelite', '18-Norabietane'],
         C19H35NO2: ['Dicycloverine'],
+        C19H37N5O7: ['Sisomicin'],
         C19H38O2: ['Pristanic acid'],
         C19H40: ['Nonadecane', 'Pristane'],
         C19H42BrN: ['Cetrimonium bromide'],
 
+        C20: ['C20 fullerene'],
+        C20H4Cl4I4O5: ['Rose bengal'],
         C20H6I4Na2O5: ['Erythrosine'],
         C20H8Br2HgNa2O6: ['Merbromin'],
         C20H8Br4Na2O10S2: ['Bromsulfthalein'],
@@ -3160,6 +3177,7 @@ class Compounds {
         C21H26O10: ['Bruceolide'],
         C21H27NO: ['Methadone'],
         C21H27ClN2O2: ['Hydroxyzine'],
+        C21H27N3O4S3: ['Yersiniabactin'],
         C21H27N5O4S: ['Glipizide'],
         C21H27FO6: ['Triamcinolone'],
         C21H28N2O2: ['Ibogaline'],
@@ -3195,6 +3213,7 @@ class Compounds {
         C21H36O3: ['Pregnanetriol'],
         C21H39N7O12: ['Streptomycin'],
         C21H40N8O6: ['Tuftsin'],
+        C21H41N5O7: ['Netilmicin'],
         C21H41O7P: ['Lysophosphatidic acid'],
         C21H43N5O7: ['Gentamicin'],
         C21H44: ['Heneicosane'],
@@ -3486,6 +3505,7 @@ class Compounds {
         C25H50: ['Highly branched isoprenoid I'],
         C25H52: ['Pentacosane'],
 
+        C26: ['C26 fullerene'],
         C26H26F2N2: ['Flunarizine'],
         C26H27NO9: ['Idarubicin'],
         C26H27N3O5S: ['Dasabuvir'],
@@ -3557,6 +3577,7 @@ class Compounds {
         C27H41NO2: ['Cyclopamine'],
         C27H41NO6S: ['Epothilone B'],
         C27H42N2O5S: ['Ixabepilone'],
+        C27H42FeN9O12: ['Ferrichrome'],
         C27H42O3: ['Diosgenin', 'Yamogenin'],
         C27H44N7O20P3S: ['HMG-CoA'],
         C27H44N10O6: ['Antipain'],
@@ -3688,6 +3709,7 @@ class Compounds {
         C30H24N6Cl2Ru: ['Tris(bipyridine)ruthenium(II) chloride'],
         C30H25Sb: ['Pentaphenylantimony'],
         C30H26O13: ['Prodelphinidin B3', 'Prodelphinidin B9'],
+        C30H27N3O15: ['Enterobactin'],
         C30H30F2N6O3: ['Sotorasib'],
         C30H32Cl3NO: ['Lumefantrine'],
         C30H32N2O2: ['Diphenoxylate'],
@@ -3829,6 +3851,7 @@ class Compounds {
         C35H35F2N8O5S: ['Isavuconazonium'],
         C35H36ClNO3S: ['Montelukast'],
         C35H38Cl2N8O4: ['Itraconazole'],
+        C35H39N5O11: ['Vibriobactin'],
         C35H42O14: ['Taxinine M'],
         C35H44O16: ['Azadirachtin'],
         C35H45Cl2NO6: ['Prednimustine'],
@@ -3908,6 +3931,7 @@ class Compounds {
         C38H72N2O12: ['Azithromycin'],
         C38H78: ['Octatriacontane'],
 
+        C39H42N6O18: ['Bacillibactin'],
         C39H43N3O11S: ['Trabectedin'],
         C39H49NO16: ['Nogalamycin'],
         C39H50O7: ['Peridinin'],
@@ -4110,6 +4134,7 @@ class Compounds {
         C55H112: ['Pentapentacontane'],
         C56H45O2P3Ru: ['Dicarbonyltris(triphenylphosphine)ruthenium(0)'],
         C56H71N9O23S: ['Micafungin'],
+        C56H88N18O22: ['Pyoverdine'],
         C56H100N16O17S: ['Polymyxin B'],
         C56H114: ['Hexapentacontane'],
         C57H65F5N10O8: ['Pibrentasvir'],
@@ -4214,6 +4239,7 @@ class Compounds {
         C267H404N72O78S6: ['Insulin glargine'],
         C274H411N65O81S6: ['Insulin degludec'],
 
+        C540: ['C540 fullerene'],
         C759H1186N208O232S10: ['Anakinra'],
         C845H1343N223O243S9: ['Filgrastim'],
         C860H1353N227O255S9: ['Peginterferon alfa-2a'],
@@ -4299,6 +4325,7 @@ class Compounds {
         N2F4: ['Tetrafluorohydrazine'],
         N3H12PO4: ['Ammonium phosphate'],
         N3P3Cl6: ['Hexachlorophosphazene'],
+        N4: ['Tetranitrogen'],
         N4O: ['Nitrosyl azide', 'Oxatetrazole'],
         N4O2: ['Nitryl azide'],
         N4O6: ['Trinitramide'],
@@ -4309,6 +4336,8 @@ class Compounds {
         O2F2: ['Dioxygen difluoride'],
         O2PtF6: ['Dioxygenyl hexafluoroplatinate'],
         O3: ['Ozone'],
+        O4: ['Tetraoxygen'],
+        O8: ['Octaoxygen'],
 
         FHO3S: ['Fluorosulfuric acid'],
         FN3: ['Fluorine azide'],
@@ -4466,6 +4495,7 @@ class Compounds {
         Mg2Si: ['Magnesium silicide'],
         Mg3Si4H2O12: ['Talc'],
         Mg3N2: ['Magnesium nitride'],
+        Mg3ZnO4: ['Magnesium zinc oxide'],
         Mg3O8P2: ['Trimagnesium phosphate'],
         Mg4Si6H2O17: ['Sepiolite'],
         Mg5Ga2: ['Pentamagnesium digallide'],
@@ -4491,6 +4521,7 @@ class Compounds {
         Al2Br6: ['Aluminum bromide'],
         Al2I6: ['Aluminum iodide'],
 
+        Si: ['Crystalline silicon', 'Silicene', 'Silicyne'],
         SiH4: ['Silane'],
         SiB3: ['Silicon triboride'],
         SiB4: ['Silicon tetraboride'],
@@ -4500,7 +4531,14 @@ class Compounds {
         SiF4: ['Silicon tetrafluoride'],
         SiS2: ['Silicon disulfide'],
         SiCl4: ['Silicon tetrachloride'],
+        Si2H6: ['Disilane'],
+        Si3H8: ['Trisilane'],
         Si3N4: ['Silicon nitride'],
+        Si4H10: ['Tetrasilane'],
+        Si5H10: ['Cyclopentasilane'],
+        Si5H12: ['Pentasilane'],
+        Si6H14: ['Haxasilane'],
+        Si24: ['Si24'],
 
         PH3: ['Phosphine'],
         POCl3: ['Phosphoryl chloride'],
@@ -4528,10 +4566,17 @@ class Compounds {
         SF5Cl: ['Sulfur chloride pentafluoride'],
         SF6: ['Sulfur hexafluoride'],
         SCl2: ['Sulfur dichloride'],
+        S2: ['Disulfur'],
         S2F10: ['Disulfur decafluoride'],
         S2Cl2: ['Disulfur dichloride'],
         S2Se: ['Selenium disulfide'],
+        S3: ['Trisulfur'],
+        S4: ['Tetrasulfur'],
         S4N4: ['Tetrasulfur tetranitride'],
+        S6: ['Hexasulfur'],
+        S7: ['Heptasulfur'],
+        S8: ['Octasulfur'],
+        S12: ['Dodecasulfur'],
 
         ClH4N: ['Ammonium chloride'],
         ClN3: ['Chlorine azide'],
@@ -4840,6 +4885,7 @@ class Compounds {
         Ga2Te3: ['Gallium(III) telluride'],
         Ga4I4: ['Gallium monoiodide'],
 
+        Ge: ['α-Germanium', 'β-Germanium', 'Germanene'],
         GeH4: ['Germane'],
         GeO: ['Germanium monoxide'],
         GeO2: ['Germanium dioxide'],
@@ -4881,6 +4927,7 @@ class Compounds {
         Se2S6: ['Selenium hexasulfide'],
         Se2Cl2: ['Selenium monochloride'],
         Se4N4: ['Tetraselenium tetranitride'],
+        Se8: ['Cyclooctaselenium'],
 
         BrHO3: ['Bromic acid'],
         BrHO4: ['Perbromic acid'],
@@ -5770,14 +5817,14 @@ class Compounds {
         }
 
         // Parse formulas into constituent elements.
-        const aComponents = Compounds.parse(formulaA);
-        const bComponents = Compounds.parse(formulaB);
+        const aComponents = Molecules.parse(formulaA);
+        const bComponents = Molecules.parse(formulaB);
 
         // Build maps keyed by atomic numbers, not atomic symbols.
-        const a = Compounds.#convertSymbols(aComponents);
-        const b = Compounds.#convertSymbols(bComponents);
+        const a = Molecules.#convertSymbols(aComponents);
+        const b = Molecules.#convertSymbols(bComponents);
 
-        const result = Compounds.#compareElement(a, b, priority, true);
+        const result = Molecules.#compareElement(a, b, priority, true);
         if (result !== 0) {
             if (debug) {
                 const inequality = (result < 0) ? '<' : '>';
@@ -5812,7 +5859,7 @@ class Compounds {
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
             const symbol = Elements.data[protons].symbol;
-            const result = Compounds.#compareElement(a, b, protons);
+            const result = Molecules.#compareElement(a, b, protons);
             if (result !== 0) {
                 if (debug) {
                     const inequality = (result < 0) ? '<' : '>';
@@ -5937,7 +5984,7 @@ class Compounds {
         for (const test of tests) {
             const args = test[0];
             const expected = test[1];
-            const actual = Compounds.compare(...args, true);
+            const actual = Molecules.compare(...args, true);
             console.assert(actual === expected, args[0], args[1], 'not sorted correctly.');
             if (actual === expected) {
                 passed += 1;
@@ -5953,27 +6000,27 @@ class Compounds {
 
     static #found = {};
     static find(symbol) {
-        if (symbol in Compounds.#found) {
-            return Compounds.#found[symbol];
+        if (symbol in Molecules.#found) {
+            return Molecules.#found[symbol];
         }
         const formulas = [];
-        for (const formula in Compounds.data) {
-            const elements = Compounds.parse(formula);
+        for (const formula in Molecules.data) {
+            const elements = Molecules.parse(formula);
             if (symbol in elements) {
                 formulas.push(formula);
             }
         }
-        Compounds.#found[symbol] = formulas;
+        Molecules.#found[symbol] = formulas;
         return formulas;
     }
 
     static findEquivalentFormulas(formula) {
         const formulas = [];
-        for (const f in Compounds.data) {
+        for (const f in Molecules.data) {
             if (formula === f) {
                 continue;
             }
-            const result = Compounds.compare(formula, f);
+            const result = Molecules.compare(formula, f);
             if (result === 0) {
                 formulas.push(f);
             }
@@ -5998,13 +6045,13 @@ class Compounds {
     }
 
     static list(symbol = null) {
-        return symbol ? Compounds.find(symbol) : Object.keys(Compounds.data);
+        return symbol ? Molecules.find(symbol) : Object.keys(Molecules.data);
     }
 
     static #parsed = {};
     static parse(formula) {
-        if (formula in Compounds.#parsed) {
-            return Compounds.#parsed[formula];
+        if (formula in Molecules.#parsed) {
+            return Molecules.#parsed[formula];
         }
         formula = formula.toString();
         const re = /([A-Z][a-z]?)(\d*)/g;
@@ -6021,19 +6068,19 @@ class Compounds {
                 elements[element] = count;
             }
         }
-        Compounds.#parsed[formula] = elements;
+        Molecules.#parsed[formula] = elements;
         return elements;
     }
 
     static sort(formulas = [], priority = 'H') {
         if (formulas.length < 1) {
-            formulas = Object.keys(Compounds.data);
+            formulas = Object.keys(Molecules.data);
         }
-        const sorted = formulas.toSorted((a, b) => Compounds.compare(a, b, priority));
+        const sorted = formulas.toSorted((a, b) => Molecules.compare(a, b, priority));
 
         for (let i = 0; i < formulas.length; i++) {
             if (formulas[i] !== sorted[i]) {
-                Compounds.compare(formulas[i], sorted[i], priority, true);
+                Molecules.compare(formulas[i], sorted[i], priority, true);
                 break;
             }
         }
@@ -6042,10 +6089,10 @@ class Compounds {
     }
 
     static sortByFirstElement() {
-        console.time('Compounds.sortByFirstElement()');
+        console.time('Molecules.sortByFirstElement()');
         const byElement = {};
-        for (const formula in Compounds.data) {
-            const components = Compounds.parse(formula);
+        for (const formula in Molecules.data) {
+            const components = Molecules.parse(formula);
             const element = Object.keys(components)[0];
             if (element in byElement) {
                 byElement[element].push(formula);
@@ -6056,13 +6103,13 @@ class Compounds {
         }
         for (const element in byElement) {
             const formulas = byElement[element];
-            Compounds.sort(formulas, element);
+            Molecules.sort(formulas, element);
         }
-        console.timeEnd('Compounds.sortByFirstElement()');
+        console.timeEnd('Molecules.sortByFirstElement()');
     }
 
     static weigh(formula) {
-        const elements = Compounds.parse(formula);
+        const elements = Molecules.parse(formula);
         let weight = 0;
         for (const symbol in elements) {
             const protons = Elements.findProtons(symbol);
@@ -6073,15 +6120,15 @@ class Compounds {
     }
 
     static render() {
-        document.title = 'Compounds';
+        document.title = 'Molecules';
         let html = `<h1>${document.title}</h1>`;
-        html += Compounds.renderChart();
-        html += Compounds.renderList();
-        Compounds.sortByFirstElement();
+        html += Molecules.renderChart();
+        html += Molecules.renderList();
+        Molecules.sortByFirstElement();
         /*
         console.time('findEquivalentFormulas');
-        for (const formula in Compounds.data) {
-            const equivalentFormulas = Compounds.findEquivalentFormulas(formula);
+        for (const formula in Molecules.data) {
+            const equivalentFormulas = Molecules.findEquivalentFormulas(formula);
             if (equivalentFormulas.length > 0) {
                 console.log(formula, equivalentFormulas);
             }
@@ -6092,16 +6139,16 @@ class Compounds {
     }
 
     static renderChart() {
-        console.time('compounds-chart');
+        console.time('molecules-chart');
         const counts = {};
         let max = 0;
         for (const protons in Elements.data) {
             const element = Elements.data[protons];
-            const formulas = Compounds.list(element.symbol);
+            const formulas = Molecules.list(element.symbol);
             let count = 0;
             for (const formula of formulas) {
-                const compounds = Compounds.data[formula];
-                count += compounds.length;
+                const molecules = Molecules.data[formula];
+                count += molecules.length;
             }
             if (count > max) {
                 max = count;
@@ -6109,7 +6156,7 @@ class Compounds {
             counts[protons] = count;
         }
 
-        let html = '<section class="compounds-chart">';
+        let html = '<section class="molecules-chart">';
         for (const [protons, count] of Object.entries(counts)) {
             const element = Elements.data[protons];
             const percent = ((count / max) * 100).toFixed(1);
@@ -6120,23 +6167,23 @@ class Compounds {
             html += '<span class="link"></span></a></div>';
         }
         html += '</section>';
-        console.timeEnd('compounds-chart');
+        console.timeEnd('molecules-chart');
 
         return html;
     }
 
     static renderFormula(formula) {
-        const pretty = Compounds.format(formula);
+        const pretty = Molecules.format(formula);
 
         document.title = formula;
 
         let html = `<h1>${pretty}</h1>`;
-        html += `<p>Molecular weight: ${Compounds.weigh(formula)}</p>`;
+        html += `<p>Molecular weight: ${Molecules.weigh(formula)}</p>`;
         html += '<h2>Links</h2>';
 
-        if (formula in Compounds.data) {
+        if (formula in Molecules.data) {
             html += '<ul>';
-            for (const chemical of Compounds.data[formula]) {
+            for (const chemical of Molecules.data[formula]) {
                 html += `<li>${Link.toWikipedia(chemical, `Wikipedia: ${chemical}`)}</li>`;
             }
             html += '</ul>';
@@ -6146,12 +6193,12 @@ class Compounds {
         }
 
         html += '<ul>';
-        html += `<li>${Link.create(Compounds.getWebBookURL(formula), 'NIST WebBook', true)}</li>`;
-        html += `<li>${Link.create(Compounds.getChemSpiderURL(formula), 'ChemSpider', true)}</li>`;
-        html += `<li>${Link.create(Compounds.getPubChemURL(formula), 'PubChem', true)}</li>`;
+        html += `<li>${Link.create(Molecules.getWebBookURL(formula), 'NIST WebBook', true)}</li>`;
+        html += `<li>${Link.create(Molecules.getChemSpiderURL(formula), 'ChemSpider', true)}</li>`;
+        html += `<li>${Link.create(Molecules.getPubChemURL(formula), 'PubChem', true)}</li>`;
         html += '</ul>';
 
-        const elements = Compounds.parse(formula);
+        const elements = Molecules.parse(formula);
 
         html += '<h2>Contains</h2>';
         html += '<section class="elements">';
@@ -6165,24 +6212,24 @@ class Compounds {
     }
 
     static renderList(symbol = null) {
-        const formulas = Compounds.list(symbol);
+        const formulas = Molecules.list(symbol);
         if (formulas.length < 1) {
             return '';
         }
 
-        let compoundsCount = 0;
+        let moleculesCount = 0;
         for (const formula of formulas) {
-            const names = Compounds.data[formula];
-            compoundsCount += names.length;
+            const names = Molecules.data[formula];
+            moleculesCount += names.length;
         }
 
         const formulasTally = `${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}`;
-        const compoundsTally = `${compoundsCount} Compound${(compoundsCount === 1) ? '' : 's'}`;
-        let html = `<h3>${formulasTally}, ${compoundsTally}</h3>`;
+        const moleculesTally = `${moleculesCount} Molecule${(moleculesCount === 1) ? '' : 's'}`;
+        let html = `<h3>${formulasTally}, ${moleculesTally}</h3>`;
         html += '<ul>';
         for (const formula of formulas) {
-            const names = Compounds.data[formula];
-            const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
+            const names = Molecules.data[formula];
+            const linkText = `${Molecules.format(formula)}: ${names.join(', ')}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
         html += '</ul>';
@@ -6420,7 +6467,7 @@ class Test {
 
     static run() {
         let failures = 0;
-        failures += Compounds.compareTest();
+        failures += Molecules.compareTest();
         return failures;
     }
 }
