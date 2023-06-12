@@ -174,24 +174,24 @@ td.empty {
 }
 
 .abundance-chart,
-.compounds-chart {
+.molecules-chart {
     margin-bottom: 1rem;
 }
 .abundance-chart {
     width: calc(100vw - 9rem);
 }
-.compounds-chart {
+.molecules-chart {
     width: calc(100vw - 5rem);
 }
 .abundance-chart a,
 .abundance-chart a:visited,
-.compounds-chart a,
-.compounds-chart a:visited {
+.molecules-chart a,
+.molecules-chart a:visited {
     color: inherit;
     text-decoration: none;
 }
 .abundance-chart a span.link:hover,
-.compounds-chart a span.link:hover {
+.molecules-chart a span.link:hover {
     outline-width: 2px;
 }
 #abundance-scale {
@@ -259,7 +259,7 @@ Make the whole element clickable in the periodic table.
 https://stackoverflow.com/a/3494108/12841859
 */
 .abundance-chart div,
-.compounds-chart div,
+.molecules-chart div,
 section.elements article,
 table.isotopes th,
 table.isotopes td,

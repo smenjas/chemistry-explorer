@@ -11,7 +11,7 @@ class Site {
         let html = '';
 
         if (formula) {
-            html += Compounds.renderFormula(formula);
+            html += Molecules.renderFormula(formula);
         }
         else if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
@@ -32,8 +32,8 @@ class Site {
         else if (view === 'abundance') {
             html += Elements.renderAbundance();
         }
-        else if (view === 'compounds') {
-            html += Compounds.render();
+        else if (view === 'molecules') {
+            html += Molecules.render();
         }
         else if (view === 'isotopes') {
             html += Isotopes.render();
@@ -652,8 +652,8 @@ class Elements {
     static renderElementsNav() {
         let html = '<nav>';
         html += '<a href="?view=abundance">Abundance</a> ';
-        html += '<a href="?view=compounds">Compounds</a> ';
         html += '<a href="?view=isotopes">Isotopes</a>';
+        html += '<a href="?view=molecules">Molecules</a> ';
         html += '</nav>';
 
         return html;
@@ -716,8 +716,8 @@ class Elements {
         }
 
         html += '</section>';
-        html += '<section class="compounds">';
-        html += '<h2>Compounds</h2>';
+        html += '<section class="molecules">';
+        html += '<h2>Molecules</h2>';
 
         const compoundsPath = (protons < 103) ? `${element.name}_compounds` : `${element.name}#Chemical`;
         html += '<ul>';
@@ -734,7 +734,7 @@ class Elements {
             pressures, or both.</p>`;
         }
 
-        html += Compounds.renderList(element.symbol);
+        html += Molecules.renderList(element.symbol);
         html += '</section>';
 
         return html;
@@ -874,7 +874,7 @@ class Elements {
     }
 }
 
-class Compounds {
+class Molecules {
     static data = {
         HBO: ['Oxoborane'],
         HBF4: ['Fluoroboric acid'],
@@ -5817,14 +5817,14 @@ class Compounds {
         }
 
         // Parse formulas into constituent elements.
-        const aComponents = Compounds.parse(formulaA);
-        const bComponents = Compounds.parse(formulaB);
+        const aComponents = Molecules.parse(formulaA);
+        const bComponents = Molecules.parse(formulaB);
 
         // Build maps keyed by atomic numbers, not atomic symbols.
-        const a = Compounds.#convertSymbols(aComponents);
-        const b = Compounds.#convertSymbols(bComponents);
+        const a = Molecules.#convertSymbols(aComponents);
+        const b = Molecules.#convertSymbols(bComponents);
 
-        const result = Compounds.#compareElement(a, b, priority, true);
+        const result = Molecules.#compareElement(a, b, priority, true);
         if (result !== 0) {
             if (debug) {
                 const inequality = (result < 0) ? '<' : '>';
@@ -5859,7 +5859,7 @@ class Compounds {
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
             const symbol = Elements.data[protons].symbol;
-            const result = Compounds.#compareElement(a, b, protons);
+            const result = Molecules.#compareElement(a, b, protons);
             if (result !== 0) {
                 if (debug) {
                     const inequality = (result < 0) ? '<' : '>';
@@ -5984,7 +5984,7 @@ class Compounds {
         for (const test of tests) {
             const args = test[0];
             const expected = test[1];
-            const actual = Compounds.compare(...args, true);
+            const actual = Molecules.compare(...args, true);
             console.assert(actual === expected, args[0], args[1], 'not sorted correctly.');
             if (actual === expected) {
                 passed += 1;
@@ -6000,27 +6000,27 @@ class Compounds {
 
     static #found = {};
     static find(symbol) {
-        if (symbol in Compounds.#found) {
-            return Compounds.#found[symbol];
+        if (symbol in Molecules.#found) {
+            return Molecules.#found[symbol];
         }
         const formulas = [];
-        for (const formula in Compounds.data) {
-            const elements = Compounds.parse(formula);
+        for (const formula in Molecules.data) {
+            const elements = Molecules.parse(formula);
             if (symbol in elements) {
                 formulas.push(formula);
             }
         }
-        Compounds.#found[symbol] = formulas;
+        Molecules.#found[symbol] = formulas;
         return formulas;
     }
 
     static findEquivalentFormulas(formula) {
         const formulas = [];
-        for (const f in Compounds.data) {
+        for (const f in Molecules.data) {
             if (formula === f) {
                 continue;
             }
-            const result = Compounds.compare(formula, f);
+            const result = Molecules.compare(formula, f);
             if (result === 0) {
                 formulas.push(f);
             }
@@ -6045,13 +6045,13 @@ class Compounds {
     }
 
     static list(symbol = null) {
-        return symbol ? Compounds.find(symbol) : Object.keys(Compounds.data);
+        return symbol ? Molecules.find(symbol) : Object.keys(Molecules.data);
     }
 
     static #parsed = {};
     static parse(formula) {
-        if (formula in Compounds.#parsed) {
-            return Compounds.#parsed[formula];
+        if (formula in Molecules.#parsed) {
+            return Molecules.#parsed[formula];
         }
         formula = formula.toString();
         const re = /([A-Z][a-z]?)(\d*)/g;
@@ -6068,19 +6068,19 @@ class Compounds {
                 elements[element] = count;
             }
         }
-        Compounds.#parsed[formula] = elements;
+        Molecules.#parsed[formula] = elements;
         return elements;
     }
 
     static sort(formulas = [], priority = 'H') {
         if (formulas.length < 1) {
-            formulas = Object.keys(Compounds.data);
+            formulas = Object.keys(Molecules.data);
         }
-        const sorted = formulas.toSorted((a, b) => Compounds.compare(a, b, priority));
+        const sorted = formulas.toSorted((a, b) => Molecules.compare(a, b, priority));
 
         for (let i = 0; i < formulas.length; i++) {
             if (formulas[i] !== sorted[i]) {
-                Compounds.compare(formulas[i], sorted[i], priority, true);
+                Molecules.compare(formulas[i], sorted[i], priority, true);
                 break;
             }
         }
@@ -6089,10 +6089,10 @@ class Compounds {
     }
 
     static sortByFirstElement() {
-        console.time('Compounds.sortByFirstElement()');
+        console.time('Molecules.sortByFirstElement()');
         const byElement = {};
-        for (const formula in Compounds.data) {
-            const components = Compounds.parse(formula);
+        for (const formula in Molecules.data) {
+            const components = Molecules.parse(formula);
             const element = Object.keys(components)[0];
             if (element in byElement) {
                 byElement[element].push(formula);
@@ -6103,13 +6103,13 @@ class Compounds {
         }
         for (const element in byElement) {
             const formulas = byElement[element];
-            Compounds.sort(formulas, element);
+            Molecules.sort(formulas, element);
         }
-        console.timeEnd('Compounds.sortByFirstElement()');
+        console.timeEnd('Molecules.sortByFirstElement()');
     }
 
     static weigh(formula) {
-        const elements = Compounds.parse(formula);
+        const elements = Molecules.parse(formula);
         let weight = 0;
         for (const symbol in elements) {
             const protons = Elements.findProtons(symbol);
@@ -6120,15 +6120,15 @@ class Compounds {
     }
 
     static render() {
-        document.title = 'Compounds';
+        document.title = 'Molecules';
         let html = `<h1>${document.title}</h1>`;
-        html += Compounds.renderChart();
-        html += Compounds.renderList();
-        Compounds.sortByFirstElement();
+        html += Molecules.renderChart();
+        html += Molecules.renderList();
+        Molecules.sortByFirstElement();
         /*
         console.time('findEquivalentFormulas');
-        for (const formula in Compounds.data) {
-            const equivalentFormulas = Compounds.findEquivalentFormulas(formula);
+        for (const formula in Molecules.data) {
+            const equivalentFormulas = Molecules.findEquivalentFormulas(formula);
             if (equivalentFormulas.length > 0) {
                 console.log(formula, equivalentFormulas);
             }
@@ -6139,16 +6139,16 @@ class Compounds {
     }
 
     static renderChart() {
-        console.time('compounds-chart');
+        console.time('molecules-chart');
         const counts = {};
         let max = 0;
         for (const protons in Elements.data) {
             const element = Elements.data[protons];
-            const formulas = Compounds.list(element.symbol);
+            const formulas = Molecules.list(element.symbol);
             let count = 0;
             for (const formula of formulas) {
-                const compounds = Compounds.data[formula];
-                count += compounds.length;
+                const molecules = Molecules.data[formula];
+                count += molecules.length;
             }
             if (count > max) {
                 max = count;
@@ -6156,7 +6156,7 @@ class Compounds {
             counts[protons] = count;
         }
 
-        let html = '<section class="compounds-chart">';
+        let html = '<section class="molecules-chart">';
         for (const [protons, count] of Object.entries(counts)) {
             const element = Elements.data[protons];
             const percent = ((count / max) * 100).toFixed(1);
@@ -6167,23 +6167,23 @@ class Compounds {
             html += '<span class="link"></span></a></div>';
         }
         html += '</section>';
-        console.timeEnd('compounds-chart');
+        console.timeEnd('molecules-chart');
 
         return html;
     }
 
     static renderFormula(formula) {
-        const pretty = Compounds.format(formula);
+        const pretty = Molecules.format(formula);
 
         document.title = formula;
 
         let html = `<h1>${pretty}</h1>`;
-        html += `<p>Molecular weight: ${Compounds.weigh(formula)}</p>`;
+        html += `<p>Molecular weight: ${Molecules.weigh(formula)}</p>`;
         html += '<h2>Links</h2>';
 
-        if (formula in Compounds.data) {
+        if (formula in Molecules.data) {
             html += '<ul>';
-            for (const chemical of Compounds.data[formula]) {
+            for (const chemical of Molecules.data[formula]) {
                 html += `<li>${Link.toWikipedia(chemical, `Wikipedia: ${chemical}`)}</li>`;
             }
             html += '</ul>';
@@ -6193,12 +6193,12 @@ class Compounds {
         }
 
         html += '<ul>';
-        html += `<li>${Link.create(Compounds.getWebBookURL(formula), 'NIST WebBook', true)}</li>`;
-        html += `<li>${Link.create(Compounds.getChemSpiderURL(formula), 'ChemSpider', true)}</li>`;
-        html += `<li>${Link.create(Compounds.getPubChemURL(formula), 'PubChem', true)}</li>`;
+        html += `<li>${Link.create(Molecules.getWebBookURL(formula), 'NIST WebBook', true)}</li>`;
+        html += `<li>${Link.create(Molecules.getChemSpiderURL(formula), 'ChemSpider', true)}</li>`;
+        html += `<li>${Link.create(Molecules.getPubChemURL(formula), 'PubChem', true)}</li>`;
         html += '</ul>';
 
-        const elements = Compounds.parse(formula);
+        const elements = Molecules.parse(formula);
 
         html += '<h2>Contains</h2>';
         html += '<section class="elements">';
@@ -6212,24 +6212,24 @@ class Compounds {
     }
 
     static renderList(symbol = null) {
-        const formulas = Compounds.list(symbol);
+        const formulas = Molecules.list(symbol);
         if (formulas.length < 1) {
             return '';
         }
 
-        let compoundsCount = 0;
+        let moleculesCount = 0;
         for (const formula of formulas) {
-            const names = Compounds.data[formula];
-            compoundsCount += names.length;
+            const names = Molecules.data[formula];
+            moleculesCount += names.length;
         }
 
         const formulasTally = `${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}`;
-        const compoundsTally = `${compoundsCount} Compound${(compoundsCount === 1) ? '' : 's'}`;
-        let html = `<h3>${formulasTally}, ${compoundsTally}</h3>`;
+        const moleculesTally = `${moleculesCount} Molecule${(moleculesCount === 1) ? '' : 's'}`;
+        let html = `<h3>${formulasTally}, ${moleculesTally}</h3>`;
         html += '<ul>';
         for (const formula of formulas) {
-            const names = Compounds.data[formula];
-            const linkText = `${Compounds.format(formula)}: ${names.join(', ')}`;
+            const names = Molecules.data[formula];
+            const linkText = `${Molecules.format(formula)}: ${names.join(', ')}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
         html += '</ul>';
@@ -6467,7 +6467,7 @@ class Test {
 
     static run() {
         let failures = 0;
-        failures += Compounds.compareTest();
+        failures += Molecules.compareTest();
         return failures;
     }
 }
