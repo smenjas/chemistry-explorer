@@ -1,5 +1,9 @@
 'use strict';
 
+String.prototype.toSpliced = function (start, deleteCount, ...items) {
+    return this.split('').toSpliced(start, deleteCount, ...items).join('');
+};
+
 class Site {
     static render() {
         const params = new URLSearchParams(window.location.search);
@@ -4302,6 +4306,7 @@ class Molecules {
         C2569H3928N746O781S40: ['Alteplase'],
         C2646H4044N704O836S18: ['Dulaglutide'],
         C4318H6788N1164O1304S32: ['Aflibercept'],
+        H582O111C290: ['P123'],
         C6332H9808N1678O1989S42: ['Daclizumab'],
         C6352H9838N1694O1992S46: ['Eptinezumab'],
         C6362H9862N1712O1995S42: ['Nivolumab'],
@@ -5830,19 +5835,14 @@ class Molecules {
         Es2O3: ['Einsteinium(III) oxide'],
     };
 
-    static #convertSymbols(components) {
-        // Convert an object keyed by element symbols to a map keyed by atomic numbers.
-        const atomic = new Map();
-        for (const symbol in components) {
-            const protons = Elements.findProtons(symbol);
-            if (protons in atomic) {
-                atomic.set(protons, atomic.get(protons) + components[symbol]);
-            }
-            else {
-                atomic.set(protons, components[symbol]);
-            }
+    static combine(elements, multiplier = 1) {
+        let newFormula = '';
+        for (const element in elements) {
+            const count = elements[element] * multiplier ;
+            newFormula += element;
+            newFormula += (count > 1) ? count: '';
         }
-        return atomic;
+        return newFormula;
     }
 
     static compare(formulaA, formulaB, prioritySymbol = 'H', debug = false) {
@@ -6044,6 +6044,209 @@ class Molecules {
         return failed;
     }
 
+    static convertFormula(formula) {
+        // Convert a semistructural chemical formula to a molecular formula.
+        formula = formula.toString();
+
+        // Extract parenthetical substrings and their multipliers, ungreedily.
+        // This handles the most deeply nested parentheses first.
+        const re = /\(([^\(\)]+)\)(\d*)/g; // eslint-disable-line
+        const matches = formula.matchAll(re);
+
+        // Replace parentheses and multipliers with molecular formulas.
+        let offset = 0;
+        for (const match of matches) {
+            const count = (match[2] === '') ? 1 : parseInt(match[2]);
+            const index = match.index - offset;
+            const length = match[0].length;
+            const parts = Molecules.parse(match[1]);
+            const substr = Molecules.combine(parts, count);
+            formula = formula.toSpliced(index, length, substr);
+            offset += length - substr.length;
+        }
+
+        // Recurse if there are more parentheses.
+        if (formula.indexOf('(') !== -1) {
+            formula = Molecules.convertFormula(formula);
+        }
+
+        // Combine duplicate elements.
+        return Molecules.combine(Molecules.parse(formula));
+    }
+
+    static convertFormulaTest() {
+        const tests = [
+            [['H2O'], 'H2O'],
+            [['CH3(CH2)17COOH'], 'C19H38O2'],
+            [['HO(CH2O)2(CH(CH3)2O)2H'], 'H20O5C8'],
+            [['HO(CH2CH2O)20(CH2CH(CH3)O)70(CH2CH2O)20H'], 'H582O111C290'],
+            /*
+            [['Be(BH4)2'], 'BeB2H8'],
+            [['Be(NO3)2'], 'BeN2O6'],
+            [['Mn(CH3CO2)2'], 'C4H6O4Mn'],
+            [['Os3H2(CO)10'], 'C10H2O10Os3'],
+            //[['ReOCl3(PPh3)2'], 'C36H30OP2Cl3Re'],
+            [['Fe(NO3)3'], 'FeN3O9'],
+            [['Fe(CO)5'], 'FeC5O5'],
+            [['Fe(ClO4)2'], 'FeCl2O8'],
+            [['Fe2(SO4)3'], 'Fe2S3O12'],
+            [['Co(OH)2'], 'CoH2O2'],
+            [['Co(C5H5)2'], 'CoC10H10'],
+            [['Co(NO3)2'], 'CoN2O3'],
+            [['Co2(CO)8'], 'Co2C8O8'],
+            [['Co4(CO)12'], 'Co4C12O12'],
+            [['NiO(OH)'], 'NiHO2'],
+            [['Ni(OH)2'], 'NiH2O2'],
+            [['Ni(NO3)2'], 'NiN2O6'],
+            [['Ni(CO)4'], 'NiC4O4'],
+            [['Ni3(PO4)2'], 'Ni3P2O8'],
+            [['Cu(OH)2'], 'CuH2O2'],
+            [['Cu2CO3(OH)2'], 'Cu2CH2O5'],
+            [['Cu2(OH)3Cl'], 'Cu2H3O3Cl'],
+            [['Cu3(CO3)2(OH)2'], 'Cu3C2H2O8'],
+            [['Zn(CH3)2'], 'ZnC2H6'],
+            [['Zn(CH3CO2)2'], 'ZnC4H6O4'],
+            [['Zn(CN)2'], 'ZnC2N2'],
+            [['Zn(OH)2'], 'ZnH2O2'],
+            [['Zn(NO3)2'], 'ZnN2O6'],
+            [['Zn(ClO3)2'], 'ZnCl2O6'],
+            [['Zn3(PO4)2'], 'Zn3P2O8'],
+            [['Ga(CH3)3'], 'GaC3H9'],
+            [['Ga(OH)3'], 'GaH3O3'],
+            [['Ga(NO3)3'], 'GaN3O9'],
+            [['Sr(OH)2'], 'SrH2O2'],
+            [['Sr(NO3)2'], 'SrN2O6'],
+            [['Y(NO3)3'], 'YN3O9'],
+            [['Y(OH)3'], 'YH3O3'],
+            [['Y2(C2O4)3'], 'Y2C6O12'],
+            [['Zr(WO4)2'], 'ZrW2O8'],
+            [['Mo(CO)6'], 'MoC6O6'],
+            [['Ru(CO)5'], 'RuC5O5'],
+            [['Cd(CN)2'], 'CdC2N2'],
+            [['Cd(NO3)2'], 'CdN2O6'],
+            [['Cd(OH)2'], 'CdH2O2'],
+            [['In(OH)3'], 'InH3O3'],
+            [['Sn(OH)2'], 'SnH2O2'],
+            [['Te(OH)6'], 'TeH6O6'],
+            [['Ba(OH)2'], 'BaH2O2'],
+            [['Ba(CN)2'], 'BaC2N2'],
+            [['Ba(SCN)2'], 'BaC2N2S2'],
+            [['Ba(NO3)2'], 'BaN2O6'],
+            [['Ba(N3)2'], 'BaN6'],
+            [['Ba(ClO)2'], 'BaCl2O2'],
+            [['Ba(PO3)2'], 'BaP2O6'],
+            [['Ba(ClO3)2'], 'BaCl2O6'],
+            [['Ba(IO3)2'], 'BaI2O6'],
+            [['Ba(ClO4)2'], 'BaCl2O8'],
+            [['Ba(MnO4)2'], 'BaMn2O8'],
+            [['La(OH)3'], 'LaH3O3'],
+            [['La(NO3)3'], 'LaN3O9'],
+            [['La2(C2O4)3'], 'La2C6O12'],
+            [['Ce(OH)3'], 'CeH3O3'],
+            [['Ce(OH)4'], 'CeH4O4'],
+            [['Ce(C8H8)2'], 'CeC16H16'],
+            [['Ce(NO3)3'], 'CeN3O9'],
+            [['Ce(SO4)2'], 'CeS2O8'],
+            [['Ce(ClO4)4'], 'CeCl4O16'],
+            [['Ce2(CO3)3'], 'Ce2C3O9'],
+            [['Ce2(C2O4)3'], 'Ce2C6O12'],
+            [['Ce2O(NO3)6'], 'Ce2N6O19'],
+            [['Ce2(SO4)3'], 'Ce2S3O12'],
+            [['Pr(NO3)3'], 'PrN3O9'],
+            [['Nd(OH)3'], 'NdH3O3'],
+            [['Nd(O2C2H3)3'], 'NdC6H9O6'],
+            [['Nd(NO3)3'], 'NdN3O9'],
+            [['Nd2(CO3)3'], 'Nd2C3O9'],
+            [['Nd2(C2O4)3'], 'Nd2C6O12'],
+            [['Nd2(SO4)3'], 'Nd2S3O12'],
+            [['Pm(OH)3'], 'PmH3O3'],
+            [['Pm(NO3)3'], 'PmN3O9'],
+            [['Sm(OH)3'], 'SmH3O3'],
+            [['Sm(NO3)3'], 'SmN3O9'],
+            [['Eu(OH)3'], 'EuH3O3'],
+            [['Eu(NO3)3'], 'EuN3O9'],
+            [['Eu2(C2O4)3'], 'EuAsO4'],
+            [['Gd(OH)3'], 'GdH3O3'],
+            [['Gd(NO3)3'], 'GdN3O9'],
+            [['Tb(NO3)3'], 'TbN3O9'],
+            [['Tb(OH)3'], 'TbH3O3'],
+            [['Dy(OH)3'], 'DyH3O3'],
+            [['Dy(NO3)3'], 'DyN3O9'],
+            [['Ho(NO3)3'], 'HoN3O9'],
+            [['Er(OH)3'], 'ErH3O3'],
+            [['Er(NO3)3'], 'ErN3O9'],
+            [['Tm(OH)3'], 'TmH3O3'],
+            [['Tm(NO3)3'], 'TmN3O9'],
+            [['Yb(NO3)3'], 'YbN3O9'],
+            [['Yb2(SO4)3'], 'Yb2S3O12'],
+            [['Lu(OH)3'], 'LuH3O3'],
+            [['Lu(NO3)3'], 'LuN3O9'],
+            [['Hf(NO3)4'], 'HfN4O12'],
+            [['ReH(CO)5'], 'ReC5HO5'],
+            [['ReBr(CO)5'], 'ReBrC5O5'],
+            [['Re2(CO)10'], 'Re2C10O10'],
+            [['Ir4(CO)12'], 'Ir4C12O12'],
+            [['Pt(NH3)2Cl2'], 'PtN2H6Cl2'],
+            [['Au2(SO4)2'], 'Au2S2O8'],
+            [['Pb(OH)2'], 'PbH2O2'],
+            [['Pb(NO3)2'], 'PbN2O6'],
+            [['Bi2O2(CO3)'], 'Bi2CO5'],
+            [['Ra(NO3)2'], 'RaN2O6'],
+            [['Ac(NO3)3'], 'AcN3O9'],
+            [['Th(OH)4'], 'ThH4O4'],
+            [['Th(C8H8)2'], 'ThC16H16'],
+            [['Th(C2O4)2'], 'ThC4O8'],
+            [['Th(NO3)4'], 'ThN4O12'],
+            [['Pa(C8H8)2'], 'PaC16H16'],
+            [['U(C8H8)2'], 'UC16H16'],
+            [['Np(C8H8)2'], 'NpC16H16'],
+            [['Np(NO3)4'], 'NpN4O12'],
+            [['NpO2(OH)3'], 'NpH3O5'],
+            [['Np(C2O4)2'], 'NpC4O8'],
+            [['Pu(C8H8)2'], 'PuC16H16'],
+            [['Pu(NO3)4'], 'PuN4O12'],
+            [['Am(OH)3'], 'AmH3O3'],
+            [['Am(NO3)3'], 'AmN3O9'],
+            [['Cm(NO3)3'], 'CmN3O9'],
+            [['Bk(NO3)3'], 'BkN3O9'],
+            [['Cf[B6O8(OH)5]'], 'CfB6H5O13'],
+            */
+        ];
+
+        let failed = 0;
+        let passed = 0;
+        for (const test of tests) {
+            const args = test[0];
+            const expected = test[1];
+            const actual = Molecules.convertFormula(...args);
+            console.assert(actual === expected, args, `${actual} !== ${expected}`, 'not converted correctly.');
+            if (actual === expected) {
+                passed += 1;
+            }
+            else {
+                failed += 1;
+            }
+        }
+        console.log(`${failed} tests failed, ${passed} passed.`);
+
+        return failed;
+    }
+
+    static #convertSymbols(components) {
+        // Convert an object keyed by element symbols to a map keyed by atomic numbers.
+        const atomic = new Map();
+        for (const symbol in components) {
+            const protons = Elements.findProtons(symbol);
+            if (protons in atomic) {
+                atomic.set(protons, atomic.get(protons) + components[symbol]);
+            }
+            else {
+                atomic.set(protons, components[symbol]);
+            }
+        }
+        return atomic;
+    }
+
     static #found = {};
     static find(symbol) {
         if (symbol in Molecules.#found) {
@@ -6107,7 +6310,7 @@ class Molecules {
             const element = components[1];
             const count = (components[2] === '') ? 1 : parseInt(components[2]);
             if (Object.hasOwn(elements, element)) {
-                console.log(formula, 'repeats', element);
+                //console.log(formula, 'repeats', element);
                 elements[element] += count;
             }
             else {
@@ -6514,6 +6717,7 @@ class Test {
     static run() {
         let failures = 0;
         failures += Molecules.compareTest();
+        failures += Molecules.convertFormulaTest();
         return failures;
     }
 }
