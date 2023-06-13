@@ -6272,10 +6272,10 @@ class Molecules {
         return atomic;
     }
 
-    static #found = {};
-    static find(symbol) {
-        if (symbol in Molecules.#found) {
-            return Molecules.#found[symbol];
+    static #foundElements = {};
+    static findElement(symbol) {
+        if (symbol in Molecules.#foundElements) {
+            return Molecules.#foundElements[symbol];
         }
         const formulas = [];
         for (const formula in Molecules.data) {
@@ -6284,7 +6284,7 @@ class Molecules {
                 formulas.push(formula);
             }
         }
-        Molecules.#found[symbol] = formulas;
+        Molecules.#foundElements[symbol] = formulas;
         return formulas;
     }
 
@@ -6319,7 +6319,7 @@ class Molecules {
     }
 
     static list(symbol = null) {
-        return symbol ? Molecules.find(symbol) : Object.keys(Molecules.data);
+        return symbol ? Molecules.findElement(symbol) : Object.keys(Molecules.data);
     }
 
     static #parsed = {};
