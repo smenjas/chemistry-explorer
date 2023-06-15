@@ -5870,7 +5870,7 @@ class Molecules {
         const a = Molecules.#convertSymbols(aComponents);
         const b = Molecules.#convertSymbols(bComponents);
 
-        const result = Molecules.#compareElement(a, b, priority, true);
+        const result = Molecules.#compareElements(a, b, priority, true);
         if (result !== 0) {
             if (debug) {
                 const inequality = (result < 0) ? '<' : '>';
@@ -5905,7 +5905,7 @@ class Molecules {
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
             const symbol = Elements.data[protons].symbol;
-            const result = Molecules.#compareElement(a, b, protons);
+            const result = Molecules.#compareElements(a, b, protons);
             if (result !== 0) {
                 if (debug) {
                     const inequality = (result < 0) ? '<' : '>';
@@ -5930,7 +5930,7 @@ class Molecules {
         return 0;
     }
 
-    static #compareElement(a, b, protons, priority = false) {
+    static #compareElements(a, b, protons, priority = false) {
         const inA = a.has(protons);
         const inB = b.has(protons);
         if (!inA && !inB) {
