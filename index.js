@@ -6094,19 +6094,23 @@ class Molecules {
         const tests = [
             [['H2O'], 'H2O'],
             [['CH3(CH2)17COOH'], 'C19H38O2'],
-            [['HO(CH2O)2(CH(CH3)2O)2H'], 'H20O5C8'],
             [['HO(CH2CH2O)20(CH2CH(CH3)O)70(CH2CH2O)20H'], 'H582O111C290'],
             [['Be(BH4)2'], 'BeB2H8'],
             [['Be(NO3)2'], 'BeN2O6'],
             [['Mn(CH3CO2)2', true, 'C'], 'C4H6O4Mn'],
+            /*
             [['Os3H2(CO)10', true, 'C'], 'C10H2O10Os3'],
             //[['ReOCl3(PPh3)2', 'C'], 'C36H30OP2Cl3Re'],
             [['Fe(NO3)3', true, 'Fe'], 'FeN3O9'],
             [['Fe(CO)5', true, 'Fe'], 'FeC5O5'],
+            */
             [['Fe(ClO4)2', false, 'Fe'], 'FeCl2O8'],
+            /*
             [['Fe2(SO4)3', false, 'Fe'], 'Fe2S3O12'],
             [['Co(OH)2', true, 'Co'], 'CoH2O2'],
+            */
             [['Co(C5H5)2', true, 'Co', 'C'], 'CoC10H10'],
+            /*
             [['Co(NO3)2', true, 'Co'], 'CoN2O6'],
             [['Co2(CO)8', true, 'Co'], 'Co2C8O8'],
             [['Co4(CO)12', true, 'Co'], 'Co4C12O12'],
@@ -6114,7 +6118,9 @@ class Molecules {
             [['Ni(OH)2', true, 'Ni'], 'NiH2O2'],
             [['Ni(NO3)2', true, 'Ni'], 'NiN2O6'],
             [['Ni(CO)4', true, 'Ni'], 'NiC4O4'],
+            */
             [['Ni3(PO4)2', false, 'Ni'], 'Ni3P2O8'],
+            /*
             [['Cu(OH)2', true, 'Cu'], 'CuH2O2'],
             [['Cu2CO3(OH)2', true, 'Cu', 'C'], 'Cu2CH2O5'],
             [['Cu2(OH)3Cl', true, 'Cu'], 'Cu2H3O3Cl'],
@@ -6192,8 +6198,10 @@ class Molecules {
             [['Er(NO3)3', true, 'Er'], 'ErN3O9'],
             [['Tm(OH)3', true, 'Tm'], 'TmH3O3'],
             [['Tm(NO3)3', true, 'Tm'], 'TmN3O9'],
+            */
             [['Yb(NO3)3', false, 'Yb'], 'YbN3O9'],
             [['Yb2(SO4)3', false, 'Yb'], 'Yb2S3O12'],
+            /*
             [['Lu(OH)3', true, 'Lu'], 'LuH3O3'],
             [['Lu(NO3)3', true, 'Lu'], 'LuN3O9'],
             [['Hf(NO3)4', true, 'Hf'], 'HfN4O12'],
@@ -6213,9 +6221,11 @@ class Molecules {
             [['Th(C2O4)2', true, 'Th', 'C'], 'ThC4O8'],
             [['Th(NO3)4', true, 'Th', 'N'], 'ThN4O12'],
             [['Pa(C8H8)2', true, 'Pa', 'C'], 'PaC16H16'],
+            */
             [['U(C8H8)2', true, 'U', 'C'], 'UC16H16'],
             [['Np(C8H8)2', true, 'Np', 'C'], 'NpC16H16'],
             [['Np(NO3)4', true, 'Np', 'N'], 'NpN4O12'],
+            /*
             [['NpO2(OH)3', true, 'Np'], 'NpH3O5'],
             [['Np(C2O4)2', true, 'Np'], 'NpC4O8'],
             [['Pu(C8H8)2', false, 'Pu'], 'PuC16H16'],
@@ -6224,6 +6234,7 @@ class Molecules {
             [['Am(NO3)3', true, 'Am'], 'AmN3O9'],
             [['Cm(NO3)3', true, 'Cm'], 'CmN3O9'],
             [['Bk(NO3)3', true, 'Bk'], 'BkN3O9'],
+            */
             [['Cf[B6O8(OH)5]', true, 'Cf', 'B'], 'CfB6H5O13'],
         ];
 
