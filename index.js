@@ -297,6 +297,12 @@ class Elements {
         'Transition Metal': 'https://en.wikipedia.org/wiki/Transition_metal',
     };
 
+    static compare(symbolA, symbolB) {
+        const a = Elements.findProtons(symbolA);
+        const b = Elements.findProtons(symbolB);
+        return a - b;
+    }
+
     static findNextInGroup(protons) {
         protons = parseInt(protons);
         if (protons === 1) {
@@ -6044,7 +6050,7 @@ class Molecules {
         return failed;
     }
 
-    static convertFormula(formula) {
+    static convertFormula(formula, sort = false, ...priorities) {
         // Convert a semistructural chemical formula to a molecular formula.
         formula = formula.toString();
 
@@ -6070,8 +6076,18 @@ class Molecules {
             formula = Molecules.convertFormula(formula);
         }
 
+        let elements = Molecules.parse(formula);
+
+        if (sort) {
+            elements = Molecules.sortElements(elements);
+        }
+
+        if (priorities.length > 0) {
+            elements = Molecules.prioritizeElements(elements, ...priorities);
+        }
+
         // Combine duplicate elements.
-        return Molecules.combine(Molecules.parse(formula));
+        return Molecules.combine(elements);
     }
 
     static convertFormulaTest() {
@@ -6080,137 +6096,135 @@ class Molecules {
             [['CH3(CH2)17COOH'], 'C19H38O2'],
             [['HO(CH2O)2(CH(CH3)2O)2H'], 'H20O5C8'],
             [['HO(CH2CH2O)20(CH2CH(CH3)O)70(CH2CH2O)20H'], 'H582O111C290'],
-            /*
             [['Be(BH4)2'], 'BeB2H8'],
             [['Be(NO3)2'], 'BeN2O6'],
-            [['Mn(CH3CO2)2'], 'C4H6O4Mn'],
-            [['Os3H2(CO)10'], 'C10H2O10Os3'],
-            //[['ReOCl3(PPh3)2'], 'C36H30OP2Cl3Re'],
-            [['Fe(NO3)3'], 'FeN3O9'],
-            [['Fe(CO)5'], 'FeC5O5'],
-            [['Fe(ClO4)2'], 'FeCl2O8'],
-            [['Fe2(SO4)3'], 'Fe2S3O12'],
-            [['Co(OH)2'], 'CoH2O2'],
-            [['Co(C5H5)2'], 'CoC10H10'],
-            [['Co(NO3)2'], 'CoN2O6'],
-            [['Co2(CO)8'], 'Co2C8O8'],
-            [['Co4(CO)12'], 'Co4C12O12'],
-            [['NiO(OH)'], 'NiHO2'],
-            [['Ni(OH)2'], 'NiH2O2'],
-            [['Ni(NO3)2'], 'NiN2O6'],
-            [['Ni(CO)4'], 'NiC4O4'],
-            [['Ni3(PO4)2'], 'Ni3P2O8'],
-            [['Cu(OH)2'], 'CuH2O2'],
-            [['Cu2CO3(OH)2'], 'Cu2CH2O5'],
-            [['Cu2(OH)3Cl'], 'Cu2H3O3Cl'],
-            [['Cu3(CO3)2(OH)2'], 'Cu3C2H2O8'],
-            [['Zn(CH3)2'], 'ZnC2H6'],
-            [['Zn(CH3CO2)2'], 'ZnC4H6O4'],
-            [['Zn(CN)2'], 'ZnC2N2'],
-            [['Zn(OH)2'], 'ZnH2O2'],
-            [['Zn(NO3)2'], 'ZnN2O6'],
-            [['Zn(ClO3)2'], 'ZnCl2O6'],
-            [['Zn3(PO4)2'], 'Zn3P2O8'],
-            [['Ga(CH3)3'], 'GaC3H9'],
-            [['Ga(OH)3'], 'GaH3O3'],
-            [['Ga(NO3)3'], 'GaN3O9'],
-            [['Sr(OH)2'], 'SrH2O2'],
-            [['Sr(NO3)2'], 'SrN2O6'],
-            [['Y(NO3)3'], 'YN3O9'],
-            [['Y(OH)3'], 'YH3O3'],
-            [['Y2(C2O4)3'], 'Y2C6O12'],
-            [['Zr(WO4)2'], 'ZrW2O8'],
-            [['Mo(CO)6'], 'MoC6O6'],
-            [['Ru(CO)5'], 'RuC5O5'],
-            [['Cd(CN)2'], 'CdC2N2'],
-            [['Cd(NO3)2'], 'CdN2O6'],
-            [['Cd(OH)2'], 'CdH2O2'],
-            [['In(OH)3'], 'InH3O3'],
-            [['Sn(OH)2'], 'SnH2O2'],
-            [['Te(OH)6'], 'TeH6O6'],
-            [['Ba(OH)2'], 'BaH2O2'],
-            [['Ba(CN)2'], 'BaC2N2'],
-            [['Ba(SCN)2'], 'BaC2N2S2'],
-            [['Ba(NO3)2'], 'BaN2O6'],
-            [['Ba(N3)2'], 'BaN6'],
-            [['Ba(ClO)2'], 'BaCl2O2'],
-            [['Ba(PO3)2'], 'BaP2O6'],
-            [['Ba(ClO3)2'], 'BaCl2O6'],
-            [['Ba(IO3)2'], 'BaI2O6'],
-            [['Ba(ClO4)2'], 'BaCl2O8'],
-            [['Ba(MnO4)2'], 'BaMn2O8'],
-            [['La(OH)3'], 'LaH3O3'],
-            [['La(NO3)3'], 'LaN3O9'],
-            [['La2(C2O4)3'], 'La2C6O12'],
-            [['Ce(OH)3'], 'CeH3O3'],
-            [['Ce(OH)4'], 'CeH4O4'],
-            [['Ce(C8H8)2'], 'CeC16H16'],
-            [['Ce(NO3)3'], 'CeN3O9'],
-            [['Ce(SO4)2'], 'CeS2O8'],
-            [['Ce(ClO4)4'], 'CeCl4O16'],
-            [['Ce2(CO3)3'], 'Ce2C3O9'],
-            [['Ce2(C2O4)3'], 'Ce2C6O12'],
-            [['Ce2O(NO3)6'], 'Ce2N6O19'],
-            [['Ce2(SO4)3'], 'Ce2S3O12'],
-            [['Pr(NO3)3'], 'PrN3O9'],
-            [['Nd(OH)3'], 'NdH3O3'],
-            [['Nd(O2C2H3)3'], 'NdC6H9O6'],
-            [['Nd(NO3)3'], 'NdN3O9'],
-            [['Nd2(CO3)3'], 'Nd2C3O9'],
-            [['Nd2(C2O4)3'], 'Nd2C6O12'],
-            [['Nd2(SO4)3'], 'Nd2S3O12'],
-            [['Pm(OH)3'], 'PmH3O3'],
-            [['Pm(NO3)3'], 'PmN3O9'],
-            [['Sm(OH)3'], 'SmH3O3'],
-            [['Sm(NO3)3'], 'SmN3O9'],
-            [['Eu(OH)3'], 'EuH3O3'],
-            [['Eu(NO3)3'], 'EuN3O9'],
-            [['Eu2(C2O4)3'], 'EuAsO4'],
-            [['Gd(OH)3'], 'GdH3O3'],
-            [['Gd(NO3)3'], 'GdN3O9'],
-            [['Tb(NO3)3'], 'TbN3O9'],
-            [['Tb(OH)3'], 'TbH3O3'],
-            [['Dy(OH)3'], 'DyH3O3'],
-            [['Dy(NO3)3'], 'DyN3O9'],
-            [['Ho(NO3)3'], 'HoN3O9'],
-            [['Er(OH)3'], 'ErH3O3'],
-            [['Er(NO3)3'], 'ErN3O9'],
-            [['Tm(OH)3'], 'TmH3O3'],
-            [['Tm(NO3)3'], 'TmN3O9'],
-            [['Yb(NO3)3'], 'YbN3O9'],
-            [['Yb2(SO4)3'], 'Yb2S3O12'],
-            [['Lu(OH)3'], 'LuH3O3'],
-            [['Lu(NO3)3'], 'LuN3O9'],
-            [['Hf(NO3)4'], 'HfN4O12'],
-            [['ReH(CO)5'], 'ReC5HO5'],
-            [['ReBr(CO)5'], 'ReBrC5O5'],
-            [['Re2(CO)10'], 'Re2C10O10'],
-            [['Ir4(CO)12'], 'Ir4C12O12'],
-            [['Pt(NH3)2Cl2'], 'PtN2H6Cl2'],
-            [['Au2(SO4)2'], 'Au2S2O8'],
-            [['Pb(OH)2'], 'PbH2O2'],
-            [['Pb(NO3)2'], 'PbN2O6'],
-            [['Bi2O2(CO3)'], 'Bi2CO5'],
-            [['Ra(NO3)2'], 'RaN2O6'],
-            [['Ac(NO3)3'], 'AcN3O9'],
-            [['Th(OH)4'], 'ThH4O4'],
-            [['Th(C8H8)2'], 'ThC16H16'],
-            [['Th(C2O4)2'], 'ThC4O8'],
-            [['Th(NO3)4'], 'ThN4O12'],
-            [['Pa(C8H8)2'], 'PaC16H16'],
-            [['U(C8H8)2'], 'UC16H16'],
-            [['Np(C8H8)2'], 'NpC16H16'],
-            [['Np(NO3)4'], 'NpN4O12'],
-            [['NpO2(OH)3'], 'NpH3O5'],
-            [['Np(C2O4)2'], 'NpC4O8'],
-            [['Pu(C8H8)2'], 'PuC16H16'],
-            [['Pu(NO3)4'], 'PuN4O12'],
-            [['Am(OH)3'], 'AmH3O3'],
-            [['Am(NO3)3'], 'AmN3O9'],
-            [['Cm(NO3)3'], 'CmN3O9'],
-            [['Bk(NO3)3'], 'BkN3O9'],
-            [['Cf[B6O8(OH)5]'], 'CfB6H5O13'],
-            */
+            [['Mn(CH3CO2)2', true, 'C'], 'C4H6O4Mn'],
+            [['Os3H2(CO)10', true, 'C'], 'C10H2O10Os3'],
+            //[['ReOCl3(PPh3)2', 'C'], 'C36H30OP2Cl3Re'],
+            [['Fe(NO3)3', true, 'Fe'], 'FeN3O9'],
+            [['Fe(CO)5', true, 'Fe'], 'FeC5O5'],
+            [['Fe(ClO4)2', false, 'Fe'], 'FeCl2O8'],
+            [['Fe2(SO4)3', false, 'Fe'], 'Fe2S3O12'],
+            [['Co(OH)2', true, 'Co'], 'CoH2O2'],
+            [['Co(C5H5)2', true, 'Co', 'C'], 'CoC10H10'],
+            [['Co(NO3)2', true, 'Co'], 'CoN2O6'],
+            [['Co2(CO)8', true, 'Co'], 'Co2C8O8'],
+            [['Co4(CO)12', true, 'Co'], 'Co4C12O12'],
+            [['NiO(OH)', true, 'Ni'], 'NiHO2'],
+            [['Ni(OH)2', true, 'Ni'], 'NiH2O2'],
+            [['Ni(NO3)2', true, 'Ni'], 'NiN2O6'],
+            [['Ni(CO)4', true, 'Ni'], 'NiC4O4'],
+            [['Ni3(PO4)2', false, 'Ni'], 'Ni3P2O8'],
+            [['Cu(OH)2', true, 'Cu'], 'CuH2O2'],
+            [['Cu2CO3(OH)2', true, 'Cu', 'C'], 'Cu2CH2O5'],
+            [['Cu2(OH)3Cl', true, 'Cu'], 'Cu2H3O3Cl'],
+            [['Cu3(CO3)2(OH)2', true, 'Cu', 'C'], 'Cu3C2H2O8'],
+            [['Zn(CH3)2', true, 'Zn', 'C'], 'ZnC2H6'],
+            [['Zn(CH3CO2)2', true, 'Zn', 'C'], 'ZnC4H6O4'],
+            [['Zn(CN)2', true, 'Zn'], 'ZnC2N2'],
+            [['Zn(OH)2', true, 'Zn'], 'ZnH2O2'],
+            [['Zn(NO3)2', true, 'Zn'], 'ZnN2O6'],
+            [['Zn(ClO3)2', false, 'Zn'], 'ZnCl2O6'],
+            [['Zn3(PO4)2', false, 'Zn'], 'Zn3P2O8'],
+            [['Ga(CH3)3', false, 'Ga'], 'GaC3H9'],
+            [['Ga(OH)3', true, 'Ga'], 'GaH3O3'],
+            [['Ga(NO3)3', true, 'Ga'], 'GaN3O9'],
+            [['Sr(OH)2', true, 'Sr'], 'SrH2O2'],
+            [['Sr(NO3)2', true, 'Sr'], 'SrN2O6'],
+            [['Y(NO3)3', true, 'Y'], 'YN3O9'],
+            [['Y(OH)3', true, 'Y'], 'YH3O3'],
+            [['Y2(C2O4)3', true, 'Y'], 'Y2C6O12'],
+            [['Zr(WO4)2', false, 'Zr'], 'ZrW2O8'],
+            [['Mo(CO)6', true, 'Mo'], 'MoC6O6'],
+            [['Ru(CO)5', true, 'Ru'], 'RuC5O5'],
+            [['Cd(CN)2', true, 'Cd'], 'CdC2N2'],
+            [['Cd(NO3)2', true, 'Cd'], 'CdN2O6'],
+            [['Cd(OH)2', true, 'Cd'], 'CdH2O2'],
+            [['In(OH)3', true, 'In'], 'InH3O3'],
+            [['Sn(OH)2', true, 'Sn'], 'SnH2O2'],
+            [['Te(OH)6', true, 'Te'], 'TeH6O6'],
+            [['Ba(OH)2', true, 'Ba'], 'BaH2O2'],
+            [['Ba(CN)2', true, 'Ba'], 'BaC2N2'],
+            [['Ba(SCN)2', true, 'Ba'], 'BaC2N2S2'],
+            [['Ba(NO3)2', true, 'Ba'], 'BaN2O6'],
+            [['Ba(N3)2', true, 'Ba'], 'BaN6'],
+            [['Ba(ClO)2', false, 'Ba'], 'BaCl2O2'],
+            [['Ba(PO3)2', false, 'Ba'], 'BaP2O6'],
+            [['Ba(ClO3)2', false, 'Ba'], 'BaCl2O6'],
+            [['Ba(IO3)2', false, 'Ba'], 'BaI2O6'],
+            [['Ba(ClO4)2', false, 'Ba'], 'BaCl2O8'],
+            [['Ba(MnO4)2', false, 'Ba'], 'BaMn2O8'],
+            [['La(OH)3', true, 'La'], 'LaH3O3'],
+            [['La(NO3)3', false, 'La'], 'LaN3O9'],
+            [['La2(C2O4)3', false, 'La'], 'La2C6O12'],
+            [['Ce(OH)3', true, 'Ce'], 'CeH3O3'],
+            [['Ce(OH)4', true, 'Ce'], 'CeH4O4'],
+            [['Ce(C8H8)2', false, 'Ce'], 'CeC16H16'],
+            [['Ce(NO3)3', true, 'Ce'], 'CeN3O9'],
+            [['Ce(SO4)2', false, 'Ce'], 'CeS2O8'],
+            [['Ce(ClO4)4', false, 'Ce'], 'CeCl4O16'],
+            [['Ce2(CO3)3', true, 'Ce'], 'Ce2C3O9'],
+            [['Ce2(C2O4)3', true, 'Ce'], 'Ce2C6O12'],
+            [['Ce2O(NO3)6', true, 'Ce'], 'Ce2N6O19'],
+            [['Ce2(SO4)3', false, 'Ce'], 'Ce2S3O12'],
+            [['Pr(NO3)3', true, 'Pr'], 'PrN3O9'],
+            [['Nd(OH)3', true, 'Nd'], 'NdH3O3'],
+            [['Nd(O2C2H3)3', true, 'Nd', 'C'], 'NdC6H9O6'],
+            [['Nd(NO3)3', true, 'Nd'], 'NdN3O9'],
+            [['Nd2(CO3)3', true, 'Nd'], 'Nd2C3O9'],
+            [['Nd2(C2O4)3', true, 'Nd'], 'Nd2C6O12'],
+            [['Nd2(SO4)3', false, 'Nd'], 'Nd2S3O12'],
+            [['Pm(OH)3', true, 'Pm'], 'PmH3O3'],
+            [['Pm(NO3)3', true, 'Pm'], 'PmN3O9'],
+            [['Sm(OH)3', true, 'Sm'], 'SmH3O3'],
+            [['Sm(NO3)3', true, 'Sm'], 'SmN3O9'],
+            [['Eu(OH)3', true, 'Eu'], 'EuH3O3'],
+            [['Eu(NO3)3', true, 'Eu'], 'EuN3O9'],
+            [['Eu2(C2O4)3', true, 'Eu', 'C'], 'Eu2C6O12'],
+            [['Gd(OH)3', true, 'Gd'], 'GdH3O3'],
+            [['Gd(NO3)3', true, 'Gd'], 'GdN3O9'],
+            [['Tb(NO3)3', true, 'Tb'], 'TbN3O9'],
+            [['Tb(OH)3', true, 'Tb'], 'TbH3O3'],
+            [['Dy(OH)3', true, 'Dy'], 'DyH3O3'],
+            [['Dy(NO3)3', true, 'Dy'], 'DyN3O9'],
+            [['Ho(NO3)3', true, 'Ho'], 'HoN3O9'],
+            [['Er(OH)3', true, 'Er'], 'ErH3O3'],
+            [['Er(NO3)3', true, 'Er'], 'ErN3O9'],
+            [['Tm(OH)3', true, 'Tm'], 'TmH3O3'],
+            [['Tm(NO3)3', true, 'Tm'], 'TmN3O9'],
+            [['Yb(NO3)3', false, 'Yb'], 'YbN3O9'],
+            [['Yb2(SO4)3', false, 'Yb'], 'Yb2S3O12'],
+            [['Lu(OH)3', true, 'Lu'], 'LuH3O3'],
+            [['Lu(NO3)3', true, 'Lu'], 'LuN3O9'],
+            [['Hf(NO3)4', true, 'Hf'], 'HfN4O12'],
+            [['ReH(CO)5', true, 'Re', 'C'], 'ReC5HO5'],
+            [['ReBr(CO)5', false, 'Re'], 'ReBrC5O5'],
+            [['Re2(CO)10', true, 'Re'], 'Re2C10O10'],
+            [['Ir4(CO)12', true, 'Ir'], 'Ir4C12O12'],
+            [['Pt(NH3)2Cl2', false, 'Pt'], 'PtN2H6Cl2'],
+            [['Au2(SO4)2', false, 'Au'], 'Au2S2O8'],
+            [['Pb(OH)2', true, 'Pb'], 'PbH2O2'],
+            [['Pb(NO3)2', true, 'Pb'], 'PbN2O6'],
+            [['Bi2O2(CO3)', true, 'Bi'], 'Bi2CO5'],
+            [['Ra(NO3)2', true, 'Ra'], 'RaN2O6'],
+            [['Ac(NO3)3', true, 'Ac'], 'AcN3O9'],
+            [['Th(OH)4', true, 'Th'], 'ThH4O4'],
+            [['Th(C8H8)2', true, 'Th', 'C'], 'ThC16H16'],
+            [['Th(C2O4)2', true, 'Th', 'C'], 'ThC4O8'],
+            [['Th(NO3)4', true, 'Th', 'N'], 'ThN4O12'],
+            [['Pa(C8H8)2', true, 'Pa', 'C'], 'PaC16H16'],
+            [['U(C8H8)2', true, 'U', 'C'], 'UC16H16'],
+            [['Np(C8H8)2', true, 'Np', 'C'], 'NpC16H16'],
+            [['Np(NO3)4', true, 'Np', 'N'], 'NpN4O12'],
+            [['NpO2(OH)3', true, 'Np'], 'NpH3O5'],
+            [['Np(C2O4)2', true, 'Np'], 'NpC4O8'],
+            [['Pu(C8H8)2', false, 'Pu'], 'PuC16H16'],
+            [['Pu(NO3)4', true, 'Pu'], 'PuN4O12'],
+            [['Am(OH)3', true, 'Am'], 'AmH3O3'],
+            [['Am(NO3)3', true, 'Am'], 'AmN3O9'],
+            [['Cm(NO3)3', true, 'Cm'], 'CmN3O9'],
+            [['Bk(NO3)3', true, 'Bk'], 'BkN3O9'],
+            [['Cf[B6O8(OH)5]', true, 'Cf', 'B'], 'CfB6H5O13'],
         ];
 
         let failed = 0;
@@ -6319,6 +6333,39 @@ class Molecules {
         }
         Molecules.#parsed[formula] = elements;
         return elements;
+    }
+
+    static prioritizeElements(elements, ...priorities) {
+        // Accepts an object of element counts, keyed by element symbols.
+        // Returns a copy of the object with elements prioritized in argument order.
+        // Copy the input object, so we don't mutate it.
+        const clone = structuredClone(elements);
+        if (priorities.length < 1) {
+            return clone;
+        }
+        const components = {};
+        for (const priority of priorities) {
+            if (!(priority in elements)) {
+                continue;
+            }
+            components[priority] = elements[priority];
+            delete clone[priority];
+        }
+        for (const element in clone) {
+            components[element] = clone[element];
+        }
+        return components;
+    }
+
+    static sortElements(elements) {
+        // Accepts an object of element counts, keyed by element symbols.
+        // Returns a copy of the object with the keys sorted.
+        const keys = Object.keys(elements).sort(Elements.compare);
+        const components = {};
+        for (const element of keys) {
+            components[element] = elements[element];
+        }
+        return components;
     }
 
     static sort(formulas = [], priority = 'H') {
