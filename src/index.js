@@ -17,6 +17,9 @@ const server = http.createServer((request, response) => {
         console.log('HTTP', response.statusCode, request.url);
         break;
     case '/index.js':
+    case '/elementsData.js':
+    case '/isotopesData.js':
+    case '/moleculesData.js':
         response.statusCode = 200;
         response.setHeader('Content-Type', 'text/javascript');
         content = fs.readFileSync(`../client${path}`, 'utf8');
