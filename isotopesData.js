@@ -1,5 +1,3 @@
-'use strict';
-
 // Source: https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
 const isotopesData = {
     primordial: {
@@ -126,3 +124,5 @@ const isotopesData = {
         118: {294: '690 μs'},
     }
 };
+
+export default isotopesData;

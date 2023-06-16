@@ -1,5 +1,3 @@
-'use strict';
-
 const moleculesData = {
     HBO: ['Oxoborane'],
     HBF4: ['Fluoroboric acid'],
@@ -5067,3 +5065,5 @@ const moleculesData = {
     EsI3: ['Einsteinium(III) iodide'],
     Es2O3: ['Einsteinium(III) oxide'],
 };
+
+export default moleculesData;

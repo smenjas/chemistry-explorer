@@ -1,4 +1,6 @@
-'use strict';
+import elementsData from './elementsData.js';
+import isotopesData from './isotopesData.js';
+import moleculesData from './moleculesData.js';
 
 String.prototype.toSpliced = function (start, deleteCount, ...items) {
     return this.split('').toSpliced(start, deleteCount, ...items).join('');
