@@ -6096,25 +6096,21 @@ class Molecules {
 
     static convertFormulaTest() {
         const tests = [
-            [['H2O'], 'H2O'],
-            [['CH3(CH2)17COOH'], 'C19H38O2'],
-            [['HO(CH2CH2O)20(CH2CH(CH3)O)70(CH2CH2O)20H'], 'H582O111C290'],
+            [['H2O'], 'H2O'], // No parentheses
+            [['CH3(CH2)17COOH'], 'C19H38O2'], // Parentheses, repeated elements
+            [['HO(CH2CH2O)20(CH2CH(CH3)O)70(CH2CH2O)20H'], 'H582O111C290'], // Nested parentheses
             [['Be(BH4)2'], 'BeB2H8'],
             [['Be(NO3)2'], 'BeN2O6'],
-            [['Mn(CH3CO2)2', true, 'C'], 'C4H6O4Mn'],
+            [['Mn(CH3CO2)2', true, 'C'], 'C4H6O4Mn'], // Sort, prioritize carbon
+            [['H2(CO)10Os3', false, 'C'], 'C10H2O10Os3'], // Don't sort, prioritize carbon
             /*
-            [['Os3H2(CO)10', true, 'C'], 'C10H2O10Os3'],
             //[['ReOCl3(PPh3)2', 'C'], 'C36H30OP2Cl3Re'],
             [['Fe(NO3)3', true, 'Fe'], 'FeN3O9'],
             [['Fe(CO)5', true, 'Fe'], 'FeC5O5'],
-            */
-            [['Fe(ClO4)2', false, 'Fe'], 'FeCl2O8'],
-            /*
-            [['Fe2(SO4)3', false, 'Fe'], 'Fe2S3O12'],
+            [['Fe(ClO4)2'], 'FeCl2O8'],
+            [['Fe2(SO4)3'], 'Fe2S3O12'],
             [['Co(OH)2', true, 'Co'], 'CoH2O2'],
-            */
             [['Co(C5H5)2', true, 'Co', 'C'], 'CoC10H10'],
-            /*
             [['Co(NO3)2', true, 'Co'], 'CoN2O6'],
             [['Co2(CO)8', true, 'Co'], 'Co2C8O8'],
             [['Co4(CO)12', true, 'Co'], 'Co4C12O12'],
@@ -6122,13 +6118,13 @@ class Molecules {
             [['Ni(OH)2', true, 'Ni'], 'NiH2O2'],
             [['Ni(NO3)2', true, 'Ni'], 'NiN2O6'],
             [['Ni(CO)4', true, 'Ni'], 'NiC4O4'],
-            */
             [['Ni3(PO4)2', false, 'Ni'], 'Ni3P2O8'],
-            /*
             [['Cu(OH)2', true, 'Cu'], 'CuH2O2'],
             [['Cu2CO3(OH)2', true, 'Cu', 'C'], 'Cu2CH2O5'],
             [['Cu2(OH)3Cl', true, 'Cu'], 'Cu2H3O3Cl'],
-            [['Cu3(CO3)2(OH)2', true, 'Cu', 'C'], 'Cu3C2H2O8'],
+            */
+            [['Cu3(CO3)2(OH)2', true, 'Cu', 'C'], 'Cu3C2H2O8'], // Sort, prioritize copper & carbon
+            /*
             [['Zn(CH3)2', true, 'Zn', 'C'], 'ZnC2H6'],
             [['Zn(CH3CO2)2', true, 'Zn', 'C'], 'ZnC4H6O4'],
             [['Zn(CN)2', true, 'Zn'], 'ZnC2N2'],
@@ -6202,15 +6198,15 @@ class Molecules {
             [['Er(NO3)3', true, 'Er'], 'ErN3O9'],
             [['Tm(OH)3', true, 'Tm'], 'TmH3O3'],
             [['Tm(NO3)3', true, 'Tm'], 'TmN3O9'],
-            */
             [['Yb(NO3)3', false, 'Yb'], 'YbN3O9'],
             [['Yb2(SO4)3', false, 'Yb'], 'Yb2S3O12'],
-            /*
             [['Lu(OH)3', true, 'Lu'], 'LuH3O3'],
             [['Lu(NO3)3', true, 'Lu'], 'LuN3O9'],
             [['Hf(NO3)4', true, 'Hf'], 'HfN4O12'],
+            */
             [['ReH(CO)5', true, 'Re', 'C'], 'ReC5HO5'],
             [['ReBr(CO)5', false, 'Re'], 'ReBrC5O5'],
+            /*
             [['Re2(CO)10', true, 'Re'], 'Re2C10O10'],
             [['Ir4(CO)12', true, 'Ir'], 'Ir4C12O12'],
             [['Pt(NH3)2Cl2', false, 'Pt'], 'PtN2H6Cl2'],
