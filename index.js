@@ -54,6 +54,14 @@ class Site {
         }
 
         document.body.insertAdjacentHTML('beforeend', html);
+        Site.addEventHandlers();
+    }
+
+    static addEventHandlers() {
+        const abundanceScale = document.querySelector('form#abundance-scale');
+        if (abundanceScale) {
+            abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
+        }
     }
 }
 
@@ -403,10 +411,10 @@ class Elements {
         return 1 / (Math.log(value) / Math.log(max));
     }
 
-    static handleAbundanceScale(log) {
-        document.body.innerHTML = '';
-        const html = Elements.renderAbundance(log);
-        document.body.insertAdjacentHTML('beforeend', html);
+    static handleAbundanceScale(event) {
+        const log = (event.target.value === 'log');
+        document.body.innerHTML = Elements.renderAbundance(log);
+        Site.addEventHandlers();
         document.querySelector('#scale-linear').checked = !log;
         document.querySelector('#scale-log').checked = log;
     }
@@ -430,9 +438,9 @@ class Elements {
 
         let html = `<h1>${document.title}</h1>`;
         html += '<form id="abundance-scale">';
-        html += '<input id="scale-linear" type="radio" name="scale" value="linear" onchange="Elements.handleAbundanceScale(false)">';
+        html += '<input id="scale-linear" type="radio" name="scale" value="linear">';
         html += '<label for="scale-linear">linear</label>';
-        html += '<input id="scale-log" type="radio" name="scale" value="log" onchange="Elements.handleAbundanceScale(true)" checked>';
+        html += '<input id="scale-log" type="radio" name="scale" value="log" checked>';
         html += '<label for="scale-log">logarithmic</label>';
         html += '</form>';
         html += '<section class="abundance-chart">';
