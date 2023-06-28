@@ -1,3 +1,9 @@
+:root {
+    --abundance-width-none: 3rem;
+    --abundance-width-min: 7rem;
+    --molecules-width-min: 3.1rem;
+}
+
 body {
     font-family: sans-serif;
     background: white;
@@ -579,6 +585,62 @@ a span.link:hover {
     .all article .name,
     .all article .weight {
         font-size: 0.8rem;
+    }
+}
+
+/* 4K Support */
+@media only screen and (min-width: 3800px) {
+    :root {
+        --abundance-width-none: 7rem;
+        --abundance-width-min: 14rem;
+        --molecules-width-min: 7.3rem;
+    }
+    body {
+        font-size: 250%;
+    }
+    /* Periodic table */
+    .all article {
+        min-width: 10.6rem;
+        padding: 0.4rem;
+    }
+    th,
+    .all article .atomic {
+        font-size: 2.0rem;
+    }
+    .all article .name,
+    .all article .weight {
+        font-size: 1.6rem;
+    }
+    .all article .symbol {
+        font-size: 3.0rem;
+    }
+    /* Charts */
+    table.isotopes th {
+        font-size: 2.4rem;
+    }
+    /* Element details */
+    nav {
+        font-size: 3.0rem;
+        margin: 2rem;
+    }
+    nav span {
+        min-width: 32.4rem;
+    }
+    ol, ul {
+        padding: 0 0 0 2rem;
+        margin: 0 0 2rem 2rem;
+    }
+    section.element {
+        gap: 0.75rem;
+    }
+    section.element article {
+        font-size: 8rem;
+        border: 20px outset black;
+        padding: 4rem;
+        min-width: 44rem;
+    }
+    section.element aside {
+        font-size: 3.0rem;
     }
 }
 

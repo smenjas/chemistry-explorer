@@ -452,7 +452,7 @@ class Elements {
             const width = Elements.calculateBarWidth(abundance, max, log);
             const percent = (width * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
-            const minWidth = (abundance === 0) ? '3rem' : '7rem';
+            const minWidth = (abundance === 0) ? 'var(--abundance-width-none)' : 'var(--abundance-width-min)';
             html += `<div class="${typeClass}" style="width: calc(${percent}% + ${minWidth})">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
             html += `${element.symbol}: ${Elements.formatAbundance(abundance)}`;
@@ -1442,7 +1442,7 @@ class Molecules {
             const element = elementsData[protons];
             const percent = ((count / max) * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
-            html += `<div class="${typeClass}" style="width: calc(${percent}% + 3.1rem)">`;
+            html += `<div class="${typeClass}" style="width: calc(${percent}% + var(--molecules-width-min))">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
             html += `${element.symbol}: ${count}`;
             html += '<span class="link"></span></a></div>';
