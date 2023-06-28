@@ -1,3 +1,9 @@
+:root {
+    --abundance-width-none: 3rem;
+    --abundance-width-min: 7rem;
+    --molecules-width-min: 3.1rem;
+}
+
 body {
     font-family: sans-serif;
     background: white;
@@ -584,6 +590,11 @@ a span.link:hover {
 
 /* 4K Support */
 @media only screen and (min-width: 3800px) {
+    :root {
+        --abundance-width-none: 7rem;
+        --abundance-width-min: 14rem;
+        --molecules-width-min: 7.3rem;
+    }
     body {
         font-size: 250%;
     }
