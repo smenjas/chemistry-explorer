@@ -3635,6 +3635,7 @@ const moleculesData = {
     N8H8CSPt: ['Ammonium hexathiocyanoplatinate(IV)'],
     N8H8O18Ce: ['Ceric ammonium nitrate'],
 
+    OF2: ['Oxygen difluoride'],
     O2: ['Dioxygen'],
     O2F2: ['Dioxygen difluoride'],
     O2PtF6: ['Dioxygenyl hexafluoroplatinate'],
@@ -4027,6 +4028,7 @@ const moleculesData = {
     TiI3: ['Titanium(III) iodide'],
     Ti2O3: ['Titanium(III) oxide'],
 
+    VO: ['Vanadium(II) oxide'],
     VOF3: ['Vanadium(V) oxytrifluoride'],
     VOCl3: ['Vanadium oxytrichloride'],
     VCl4: ['Vanadium tetrachloride'],
