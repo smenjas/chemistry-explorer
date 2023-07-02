@@ -1237,28 +1237,28 @@ class Molecules {
         return formulas;
     }
 
-    static findMoleculeDuplicates() {
-        console.time('findMoleculeDuplicates');
-        const names = {};
+    static findDuplicateNames() {
+        console.time('findDuplicateNames');
+        const dupes = {};
         for (const formula in moleculesData) {
-            const molecules = moleculesData[formula];
-            for (const molecule of molecules) {
-                const formulas = Molecules.findMolecule(molecule);
+            const names = moleculesData[formula];
+            for (const name of names) {
+                const formulas = Molecules.findMolecule(name);
                 if (formulas.length < 2) {
                     continue;
                 }
-                if (!(molecule in names)) {
-                    names[molecule] = [];
+                if (!(name in dupes)) {
+                    dupes[name] = [];
                 }
                 for (const f of formulas) {
-                    if (!names[molecule].includes(f)) {
-                        names[molecule].push(f);
+                    if (!dupes[name].includes(f)) {
+                        dupes[name].push(f);
                     }
                 }
             }
         }
-        console.timeEnd('findMoleculeDuplicates');
-        return names;
+        console.timeEnd('findDuplicateNames');
+        return dupes;
     }
 
     static findDuplicateFormulas() {
@@ -1426,7 +1426,7 @@ class Molecules {
         html += Molecules.renderChart();
         html += Molecules.renderList();
         Molecules.sortByFirstElement();
-        //console.log(Molecules.findMoleculeDuplicates());
+        //console.log(Molecules.findDuplicateNames());
         //console.log(Molecules.findDuplicateFormulas());
         return html;
     }
