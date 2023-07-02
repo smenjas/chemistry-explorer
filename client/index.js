@@ -1261,6 +1261,27 @@ class Molecules {
         return names;
     }
 
+    static findDuplicateFormulas() {
+        console.time('findDuplicateFormulas');
+        const dupes = {};
+        for (const formula in moleculesData) {
+            const matches = Molecules.findEquivalentFormulas(formula);
+            if (matches.length < 1) {
+                continue;
+            }
+            if (!(formula in dupes)) {
+                dupes[formula] = [];
+            }
+            for (const match of matches) {
+                if (!dupes[formula].includes(match)) {
+                    dupes[formula].push(match);
+                }
+            }
+        }
+        console.timeEnd('findDuplicateFormulas');
+        return dupes;
+    }
+
     static findEquivalentFormulas(formula) {
         const formulas = [];
         for (const f in moleculesData) {
@@ -1405,17 +1426,8 @@ class Molecules {
         html += Molecules.renderChart();
         html += Molecules.renderList();
         Molecules.sortByFirstElement();
-        /*
-        console.log(Molecules.findMoleculeDuplicates());
-        console.time('findEquivalentFormulas');
-        for (const formula in moleculesData) {
-            const equivalentFormulas = Molecules.findEquivalentFormulas(formula);
-            if (equivalentFormulas.length > 0) {
-                console.log(formula, equivalentFormulas);
-            }
-        }
-        console.timeEnd('findEquivalentFormulas');
-        */
+        //console.log(Molecules.findMoleculeDuplicates());
+        //console.log(Molecules.findDuplicateFormulas());
         return html;
     }
 
