@@ -1221,19 +1221,19 @@ class Molecules {
         return formulas;
     }
 
-    static #foundMolecules = {};
-    static findMolecule(molecule) {
-        if (molecule in Molecules.#foundMolecules) {
-            return Molecules.#foundMolecules[molecule];
+    static #foundNames = {};
+    static findName(name) {
+        if (name in Molecules.#foundNames) {
+            return Molecules.#foundNames[name];
         }
         const formulas = [];
         for (const formula in moleculesData) {
             const molecules = moleculesData[formula];
-            if (molecules.includes(molecule)) {
+            if (molecules.includes(name)) {
                 formulas.push(formula);
             }
         }
-        Molecules.#foundMolecules[molecule] = formulas;
+        Molecules.#foundNames[name] = formulas;
         return formulas;
     }
 
@@ -1243,7 +1243,7 @@ class Molecules {
         for (const formula in moleculesData) {
             const names = moleculesData[formula];
             for (const name of names) {
-                const formulas = Molecules.findMolecule(name);
+                const formulas = Molecules.findName(name);
                 if (formulas.length < 2) {
                     continue;
                 }
@@ -1466,7 +1466,7 @@ class Molecules {
     }
 
     static renderMolecule(molecule) {
-        const formulas = Molecules.findMolecule(molecule);
+        const formulas = Molecules.findName(molecule);
 
         if (formulas.length === 1) {
             return Molecules.renderFormula(formulas[0]);
