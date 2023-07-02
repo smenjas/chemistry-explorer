@@ -4836,6 +4836,7 @@ const moleculesData = {
     Ta2I10: ['Tantalum(V) iodide'],
     Ta4HfC5: ['Tantalum hafnium carbide'],
 
+    WH2O2F2: ['Tungsten difluoride dioxide'],
     WB: ['Tungsten boride'],
     WB2: ['Tungsten boride'],
     WB4: ['Tungsten boride'],
@@ -4847,7 +4848,10 @@ const moleculesData = {
     WOBr4: ['Tungsten(VI) oxytetrabromide'],
     WO2: ['Tungsten(IV) oxide'],
     WO2Cl2: ['Tungsten dichloride dioxide'],
+    WO2Br2: ['Tungsten dibromide dioxide'],
+    WO2I2: ['Tungsten diiodide dioxide'],
     WO3: ['Tungsten trioxide'],
+    WF4: ['Tungsten(IV) fluoride'],
     WF6: ['Tungsten hexafluoride'],
     WSi2: ['Tungsten disilicide'],
     WS2: ['Tungsten disulfide'],
@@ -4861,6 +4865,7 @@ const moleculesData = {
     W2N: ['Tungsten nitride'],
     W2O3: ['Tungsten(III) oxide'],
     W2Cl10: ['Tungsten(V) chloride'],
+    W2Br10: ['Tungsten(V) bromide'],
     W6Cl12: ['Tungsten(II) chloride'],
     W6Cl18: ['Tungsten(III) chloride'],
 
