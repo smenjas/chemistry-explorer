@@ -1221,44 +1221,65 @@ class Molecules {
         return formulas;
     }
 
-    static #foundMolecules = {};
-    static findMolecule(molecule) {
-        if (molecule in Molecules.#foundMolecules) {
-            return Molecules.#foundMolecules[molecule];
+    static #foundNames = {};
+    static findName(name) {
+        if (name in Molecules.#foundNames) {
+            return Molecules.#foundNames[name];
         }
         const formulas = [];
         for (const formula in moleculesData) {
             const molecules = moleculesData[formula];
-            if (molecules.includes(molecule)) {
+            if (molecules.includes(name)) {
                 formulas.push(formula);
             }
         }
-        Molecules.#foundMolecules[molecule] = formulas;
+        Molecules.#foundNames[name] = formulas;
         return formulas;
     }
 
-    static findMoleculeDuplicates() {
-        console.time('findMoleculeDuplicates');
-        const names = {};
+    static findDuplicateNames() {
+        console.time('findDuplicateNames');
+        const dupes = {};
         for (const formula in moleculesData) {
-            const molecules = moleculesData[formula];
-            for (const molecule of molecules) {
-                const formulas = Molecules.findMolecule(molecule);
+            const names = moleculesData[formula];
+            for (const name of names) {
+                const formulas = Molecules.findName(name);
                 if (formulas.length < 2) {
                     continue;
                 }
-                if (!(molecule in names)) {
-                    names[molecule] = [];
+                if (!(name in dupes)) {
+                    dupes[name] = [];
                 }
                 for (const f of formulas) {
-                    if (!names[molecule].includes(f)) {
-                        names[molecule].push(f);
+                    if (!dupes[name].includes(f)) {
+                        dupes[name].push(f);
                     }
                 }
             }
         }
-        console.timeEnd('findMoleculeDuplicates');
-        return names;
+        console.timeEnd('findDuplicateNames');
+        return dupes;
+    }
+
+    static findDuplicateFormulas() {
+        console.time('findDuplicateFormulas');
+        const dupes = {};
+        for (const formula in moleculesData) {
+            const matches = Molecules.findEquivalentFormulas(formula);
+            if (matches.length < 1) {
+                continue;
+            }
+            if (!(formula in dupes)) {
+                dupes[formula] = [];
+            }
+            for (const match of matches) {
+                if (!dupes[formula].includes(match)) {
+                    dupes[formula].push(match);
+                }
+            }
+        }
+        console.timeEnd('findDuplicateFormulas');
+        return dupes;
     }
 
     static findEquivalentFormulas(formula) {
@@ -1405,17 +1426,8 @@ class Molecules {
         html += Molecules.renderChart();
         html += Molecules.renderList();
         Molecules.sortByFirstElement();
-        /*
-        console.log(Molecules.findMoleculeDuplicates());
-        console.time('findEquivalentFormulas');
-        for (const formula in moleculesData) {
-            const equivalentFormulas = Molecules.findEquivalentFormulas(formula);
-            if (equivalentFormulas.length > 0) {
-                console.log(formula, equivalentFormulas);
-            }
-        }
-        console.timeEnd('findEquivalentFormulas');
-        */
+        //console.log(Molecules.findDuplicateNames());
+        //console.log(Molecules.findDuplicateFormulas());
         return html;
     }
 
@@ -1454,7 +1466,7 @@ class Molecules {
     }
 
     static renderMolecule(molecule) {
-        const formulas = Molecules.findMolecule(molecule);
+        const formulas = Molecules.findName(molecule);
 
         if (formulas.length === 1) {
             return Molecules.renderFormula(formulas[0]);
