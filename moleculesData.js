@@ -4806,6 +4806,7 @@ const moleculesData = {
     LuI3: ['Lutetium(III) iodide'],
     Lu2O3: ['Lutetium(III) oxide'],
     Lu2V2O7: ['Lutetium vanadate'],
+    Lu2Se3: ['Lutetium selenide'],
     Lu3Al5O12: ['Lutetium aluminum garnet'],
 
     HfB2: ['Hafnium diboride'],
