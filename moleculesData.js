@@ -1847,6 +1847,7 @@ const moleculesData = {
     C15H21O6Ce: ['Cerium(III) acetylacetonate'],
     C15H21O6Dy: ['Dysprosium acetylacetonate'],
     C15H21O6Ho: ['Holmium acetylacetonate'],
+    C15H21ErO6: ['Erbium acetylacetonate'],
     C15H21O6Tm: ['Thulium acetylacetonate'],
     C15H21O6Ir: ['Iridium acetylacetonate'],
     C15H22BKN6: ['Potassium tris(3,5-dimethyl-1-pyrazolyl)borate'],
@@ -4769,6 +4770,7 @@ const moleculesData = {
     ErBr3: ['Erbium(III) bromide'],
     ErI3: ['Erbium(III) iodide'],
     Er2O3: ['Erbium(III) oxide'],
+    Er2Se3: ['Erbium selenide'],
 
     TmH3O3: ['Thulium(III) hydroxide'],
     TmN3O9: ['Thulium(III) nitrate'],
