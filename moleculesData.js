@@ -4759,6 +4759,7 @@ const moleculesData = {
     Ho2O3: ['Holmium(III) oxide'],
     Ho2O7Ti2: ['Holmium titanate'],
     Ho2S3: ['Holmium(III) sulfide'],
+    Ho2Se3: ['Holmium selenide'],
 
     ErH3O3: ['Erbium(III) hydroxide'],
     ErB4: ['Erbium tetraboride'],
