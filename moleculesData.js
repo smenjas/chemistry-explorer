@@ -4644,6 +4644,7 @@ const moleculesData = {
     CeCl4O16: ['Cerium(IV) perchlorate'],
     CeF3: ['Cerium(III) fluoride'],
     CeF4: ['Cerium(IV) fluoride'],
+    CeS: ['Cerium monosulfide'],
     CeCl3: ['Cerium(III) chloride'],
     CeCoIn5: ['Cerium-Cobalt-Indium 5'],
     CeBr3: ['Cerium(III) bromide'],
