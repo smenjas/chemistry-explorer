@@ -36,5 +36,9 @@ Identify syntax and style issues with:
 ```sh
 npm run lint
 ```
+Generate documentation with:
+```sh
+npm run doc
+```
 
 [Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)
