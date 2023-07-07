@@ -8,6 +8,7 @@ CSS, & JS.
 - No libraries, frameworks, templates, or preprocessors outside Node.js
 - Limited dev tools:
   - [ESLint](https://www.npmjs.com/package/eslint)
+  - [JSDoc](https://www.npmjs.com/package/jsdoc)
   - [nodemon](https://www.npmjs.com/package/nodemon)
 
 ## Goals
