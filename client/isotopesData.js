@@ -1,3 +1,4 @@
+/** @module isotopesData */
 // Source: https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
 const isotopesData = {
     primordial: {
