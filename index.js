@@ -6,7 +6,7 @@ String.prototype.toSpliced = function (start, deleteCount, ...items) {
     return this.split('').toSpliced(start, deleteCount, ...items).join('');
 };
 
-class Site {
+class Page {
     static render() {
         const params = new URLSearchParams(window.location.search);
         const molecule = params.get('molecule');
@@ -56,7 +56,7 @@ class Site {
         }
 
         document.body.insertAdjacentHTML('beforeend', html);
-        Site.addEventHandlers();
+        Page.addEventHandlers();
     }
 
     static addEventHandlers() {
@@ -416,7 +416,7 @@ class Elements {
     static handleAbundanceScale(event) {
         const log = (event.target.value === 'log');
         document.body.innerHTML = Elements.renderAbundance(log);
-        Site.addEventHandlers();
+        Page.addEventHandlers();
         document.querySelector('#scale-linear').checked = !log;
         document.querySelector('#scale-log').checked = log;
     }
@@ -1664,4 +1664,4 @@ class Test {
     }
 }
 
-Site.render();
+Page.render();
