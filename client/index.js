@@ -764,8 +764,8 @@ class Elements {
         const isotopesPath = `Isotopes of ${element.name.toLowerCase()}`;
         html += `<p>${Link.toWikipedia(isotopesPath, `Wikipedia: ${isotopesPath}`)}</p>`;
 
-        if (protons in isotopesData.primordial) {
-            const isotopes = isotopesData.primordial[protons];
+        if (isotopesData.primordial.has(protons)) {
+            const isotopes = isotopesData.primordial.get(protons);
             html += '<ul>';
             for (const mass of isotopes) {
                 const isotopeName = Elements.formatIsotope(protons, mass);
@@ -774,8 +774,8 @@ class Elements {
             }
             html += '</ul>';
         }
-        else if (protons in isotopesData.synthetic) {
-            const isotopes = isotopesData.synthetic[protons];
+        else if (isotopesData.synthetic.has(protons)) {
+            const isotopes = isotopesData.synthetic.get(protons);
             const mass = Object.keys(isotopes)[0];
             const time = Elements.formatScientificNotation(isotopes[mass]);
             const isotopeName = Elements.formatIsotope(protons, mass);
@@ -1931,9 +1931,8 @@ class Isotopes {
     static getAll() {
         const all = {};
 
-        for (let protons in isotopesData.primordial) {
-            protons = parseInt(protons);
-            for (const isotope of isotopesData.primordial[protons]) {
+        for (const [protons, isotopes] of isotopesData.primordial) {
+            for (const isotope of isotopes) {
                 const neutrons = isotope - protons;
                 if (neutrons in all) {
                     all[neutrons].push(protons);
@@ -1944,9 +1943,8 @@ class Isotopes {
             }
         }
 
-        for (let protons in isotopesData.synthetic) {
-            protons = parseInt(protons);
-            for (const isotope in isotopesData.synthetic[protons]) {
+        for (const [protons, isotopes] of isotopesData.synthetic) {
+            for (const isotope in isotopes) {
                 const neutrons = isotope - protons;
                 if (neutrons in all) {
                     all[neutrons].push(protons);
@@ -2004,7 +2002,7 @@ class Isotopes {
                     html += `<td class="empty" title="${title}"></td>`;
                 }
                 else {
-                    const tdClass = (protons in isotopesData.synthetic) ? 'synthetic' : 'primordial';
+                    const tdClass = (isotopesData.synthetic.has(protons)) ? 'synthetic' : 'primordial';
                     const nucleons = neutrons + protons;
                     const title = `${element.symbol}: ${element.name}\nProtons: ${protons}\nNeutrons: ${neutrons}\nNucleons: ${nucleons}`;
                     const link = `<a href="?protons=${protons}"><span class="link"></span></a>`;
