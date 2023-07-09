@@ -219,9 +219,8 @@ class Elements {
      */
     static #getSymbols() {
         const symbols = {};
-        for (const protons in elementsData) {
-            const element = elementsData[protons];
-            symbols[element.symbol] = parseInt(protons);
+        for (const [protons, element] of elementsData) {
+            symbols[element.symbol] = protons;
         }
         return symbols;
     }
@@ -412,7 +411,7 @@ class Elements {
      * @returns {string} HTML
      */
     static formatElement(protons, link = false) {
-        const element = elementsData[protons];
+        const element = elementsData.get(protons);
 
         let html = `<span class="atomic">${protons}<br></span>`;
         html += `<span class="symbol">${element.symbol}</span>`;
@@ -437,7 +436,7 @@ class Elements {
      * @returns {string}
      */
     static formatIsotope(protons, mass) {
-        const element = elementsData[protons];
+        const element = elementsData.get(protons);
         if (!element) {
             return '';
         }
@@ -512,7 +511,7 @@ class Elements {
      * @returns {string} HTML
      */
     static render(protons = null) {
-        const element = elementsData[protons];
+        const element = elementsData.get(protons);
         let html = '';
 
         if (protons && !element) {
@@ -575,8 +574,7 @@ class Elements {
         console.time('abundance-chart');
         let max = 0;
         let min = 1;
-        for (const protons in elementsData) {
-            const element = elementsData[protons];
+        for (const element of elementsData.values()) {
             const abundance = element.crust;
             if (abundance > max) {
                 max = abundance;
@@ -596,8 +594,7 @@ class Elements {
         html += '<label for="scale-log">logarithmic</label>';
         html += '</form>';
         html += '<section class="abundance-chart">';
-        for (const protons in elementsData) {
-            const element = elementsData[protons];
+        for (const [protons, element] of elementsData) {
             const abundance = element.crust;
             const width = Elements.calculateBarWidth(abundance, max, log);
             const percent = (width * 100).toFixed(1);
@@ -729,7 +726,7 @@ class Elements {
      * @returns {string} HTML: sections describing an element in detail
      */
     static renderElement(protons) {
-        const element = elementsData[protons];
+        const element = elementsData.get(protons);
 
         let html = '<section class="element">';
         html += Elements.formatElement(protons, false);
@@ -816,14 +813,14 @@ class Elements {
      */
     static renderElementNav(protons) {
         protons = parseInt(protons);
-        const prev = elementsData[protons - 1];
-        const next = elementsData[protons + 1];
+        const prev = elementsData.get(protons - 1);
+        const next = elementsData.get(protons + 1);
 
         const up = Elements.findPreviousInGroup(protons);
         const down = Elements.findNextInGroup(protons);
 
-        const groupPrev = elementsData[up];
-        const groupNext = elementsData[down];
+        const groupPrev = elementsData.get(up);
+        const groupNext = elementsData.get(down);
 
         let html = '<nav>';
         html += '<span class="previous">';
@@ -878,7 +875,7 @@ class Elements {
         let html = '<table class="elements group"><tbody>';
         const elements = Elements.groupElements[group];
         for (const protons of elements) {
-            const element = elementsData[protons];
+            const element = elementsData.get(protons);
             html += '<tr>';
             html += `<td>${Elements.formatElement(protons, true)}</td>`;
             html += `<td class="element-data">${Elements.renderElementHighlights(element)}</td>`;
@@ -932,7 +929,7 @@ class Elements {
         let html = '<table class="elements period"><tbody>';
         const { min, max } = Elements.periods.get(period);
         for (let protons = min; protons <= max; protons++) {
-            const element = elementsData[protons];
+            const element = elementsData.get(protons);
             html += '<tr>';
             html += `<td>${Elements.formatElement(protons, true)}</td>`;
             html += `<td class="element-data">${Elements.renderElementHighlights(element)}</td>`;
@@ -1062,7 +1059,7 @@ class Molecules {
 
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
-            const symbol = elementsData[protons].symbol;
+            const symbol = elementsData.get(protons).symbol;
             const result = Molecules.#compareElements(a, b, protons);
             if (result !== 0) {
                 if (debug) {
@@ -1752,7 +1749,7 @@ class Molecules {
         let weight = 0;
         for (const symbol in elements) {
             const protons = Elements.findProtons(symbol);
-            const element = elementsData[protons];
+            const element = elementsData.get(protons);
             weight += Math.round(element.weight) * elements[symbol];
         }
         return weight;
@@ -1781,10 +1778,9 @@ class Molecules {
      */
     static renderChart() {
         console.time('molecules-chart');
-        const counts = {};
+        const counts = new Map();
         let max = 0;
-        for (const protons in elementsData) {
-            const element = elementsData[protons];
+        for (const [protons, element] of elementsData) {
             const formulas = Molecules.list(element.symbol);
             let count = 0;
             for (const formula of formulas) {
@@ -1794,12 +1790,12 @@ class Molecules {
             if (count > max) {
                 max = count;
             }
-            counts[protons] = count;
+            counts.set(protons, count);
         }
 
         let html = '<section class="molecules-chart">';
-        for (const [protons, count] of Object.entries(counts)) {
-            const element = elementsData[protons];
+        for (const [protons, count] of counts) {
+            const element = elementsData.get(protons);
             const percent = ((count / max) * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             html += `<div class="${typeClass}" style="width: calc(${percent}% + var(--molecules-width-min))">`;
@@ -1994,9 +1990,8 @@ class Isotopes {
                 continue;
             }
 
-            for (let protons = 1; protons < 119; protons++) {
+            for (const [protons, element] of elementsData) {
                 const elements = all[neutrons];
-                const element = elementsData[protons];
                 if (!(neutrons in all) || elements.indexOf(protons) === -1) {
                     const title = `\n\nNeutrons: ${neutrons}`;
                     html += `<td class="empty" title="${title}"></td>`;
