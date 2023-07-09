@@ -2036,6 +2036,7 @@ class Test {
         let html = '<main>';
         html += `<h1>${document.title}</h1>`;
         html += `<p>Failures: <span style="color: ${color}">${failures}</span></p>`;
+        html += '</main>';
         return html;
     }
 
