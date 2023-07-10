@@ -281,6 +281,7 @@ class Elements {
      * @returns {integer}
      */
     static findPreviousInGroup(protons) {
+        protons = parseInt(protons);
         if (protons === 3) {
             return 1;
         }
