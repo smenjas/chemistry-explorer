@@ -8,6 +8,7 @@ CSS, & JS.
 - No libraries, frameworks, templates, or preprocessors outside Node.js
 - Limited dev tools:
   - [ESLint](https://www.npmjs.com/package/eslint)
+  - [JSDoc](https://www.npmjs.com/package/jsdoc)
   - [nodemon](https://www.npmjs.com/package/nodemon)
 
 ## Goals
@@ -34,6 +35,10 @@ npm run dev
 Identify syntax and style issues with:
 ```sh
 npm run lint
+```
+Generate documentation with:
+```sh
+npm run doc
 ```
 
 [Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)

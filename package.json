@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cd src && ../node_modules/nodemon/bin/nodemon.js .",
+    "doc": "rm -r documentation; node_modules/jsdoc/jsdoc.js -c jsdoc.json",
     "lint": "node_modules/eslint/bin/eslint.js src/*.js client/*.js; scripts/check-spelling",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/smenjas/chemistry-explorer#readme",
   "devDependencies": {
     "eslint": "^8.38.0",
+    "jsdoc": "^4.0.2",
     "nodemon": "^2.0.22"
   }
 }
