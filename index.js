@@ -7,11 +7,11 @@ String.prototype.toSpliced = function (start, deleteCount, ...items) {
 };
 
 /**
- * @class Page
+ * Create a web page.
  */
 class Page {
     /**
-     * Generate HTML based on the URL.
+     * Create HTML based on the URL.
      */
     static render() {
         const params = new URLSearchParams(window.location.search);
@@ -77,14 +77,15 @@ class Page {
 }
 
 /**
- * @class Link
+ * Create hyperlinks.
  */
 class Link {
     /**
      * Create a hyperlink.
-     * @param {string} url
-     * @param {string} content
-     * @param {boolean} [newTab=false]
+     *
+     * @param {string} url - The URL target
+     * @param {string} content - The link text (or other HTML content) to click
+     * @param {boolean} [newTab=false] - Whether to open the link in a new tab
      * @returns {string} HTML
      */
     static create(url, content, newTab = false) {
@@ -94,9 +95,10 @@ class Link {
 
     /**
      * Create a hyperlink to Wikipedia.
-     * @param {string} path
-     * @param {string} content
-     * @returns {string} HTML
+     *
+     * @param {string} path - The Wikipedia page (or section) target
+     * @param {string} content - The link text (or other HTML content) to click
+     * @returns {string} HTML - An anchor tag
      */
     static toWikipedia(path, content) {
         path = path.replaceAll(' ', '_');
@@ -109,13 +111,14 @@ class Link {
 }
 
 /**
- * @class Elements
- * @property {Map} groups
- * @property {Object} groupElements
- * @property {Object} groupURLs
- * @property {Map} periods
- * @property {Object} symbols
- * @property {Object} typeURLs
+ * Show information about atomic elements.
+ *
+ * @property {Map} groups - Element groups: columns on the periodic table
+ * @property {Object} groupElements - Which elements belong to each group
+ * @property {Object} groupURLs - Wikipedia URLs for each group
+ * @property {Map} periods - Element periods: rows on the periodic table
+ * @property {Object} symbols - Atomic numbers keyed by element symbols
+ * @property {Object} typeURLs - Wikipedia URLs for each element type
  */
 class Elements {
     static groups = Elements.#getGroups();
@@ -240,8 +243,10 @@ class Elements {
 
     /**
      * Compare two element symbols.
+     *
      * @param {string} symbolA - An element symbol
      * @param {string} symbolB - An element symbol
+     *
      * @returns {integer} A number indicating how the given elements should be sorted:
      * - negative if symbolA should come before symbolB
      * - positive if symbolA should come after symbolB
@@ -255,8 +260,9 @@ class Elements {
 
     /**
      * Find the next atomic number in a given element's group.
+     *
      * @param {integer} protons - An atomic number
-     * @returns {integer}
+     * @returns {integer} - An atomic number, or zero
      */
     static findNextInGroup(protons) {
         protons = parseInt(protons);
@@ -277,8 +283,9 @@ class Elements {
 
     /**
      * Find the previous atomic number in a given element's group.
+     *
      * @param {integer} protons - An atomic number
-     * @returns {integer}
+     * @returns {integer} - An atomic number, or zero
      */
     static findPreviousInGroup(protons) {
         protons = parseInt(protons);
@@ -302,8 +309,9 @@ class Elements {
 
     /**
      * Find the atomic number for a given element symbol.
+     *
      * @param {string} symbol - An element symbol
-     * @returns {integer}
+     * @returns {integer} - An atomic number, or zero
      */
     static findProtons(symbol) {
         return Elements.symbols[symbol] ?? 0;
@@ -311,6 +319,7 @@ class Elements {
 
     /**
      * Fix floating point numbers that have been mangled.
+     *
      * @param {number} number
      * @returns {number}
      */
@@ -353,6 +362,7 @@ class Elements {
 
     /**
      * Format a number representing an element's abundance.
+     *
      * @param {number} abundance
      * @returns {string} HTML
      */
@@ -387,8 +397,9 @@ class Elements {
 
     /**
      * Format a temperature in degrees celsius.
+     *
      * @param {number|null} temperature - Degrees celsius
-     * @returns {string}
+     * @returns {string} Plain text
      */
     static formatCelsius(temperature) {
         return (temperature) ? `${temperature} °C` : 'Unknown';
@@ -396,6 +407,7 @@ class Elements {
 
     /**
      * Format a density value.
+     *
      * @param {number|null} density - Grams per cubic centimeter
      * @returns {string} HTML
      */
@@ -407,6 +419,7 @@ class Elements {
 
     /**
      * Format element data for display.
+     *
      * @param {integer} protons - An atomic number
      * @param {boolean} [link=false] - Optional, whether to return a link
      * @returns {string} HTML
@@ -432,9 +445,10 @@ class Elements {
 
     /**
      * Format isotope data for display.
+     *
      * @param {integer} protons - An atomic number
      * @param {number} mass - Whether to return a link
-     * @returns {string}
+     * @returns {string} Plain text
      */
     static formatIsotope(protons, mass) {
         const element = elementsData.get(protons);
@@ -446,6 +460,7 @@ class Elements {
 
     /**
      * Format plain text that contains scientific notation, for display to HTML.
+     *
      * @param {string} value
      * @returns {string} HTML
      */
@@ -455,8 +470,9 @@ class Elements {
 
     /**
      * Format a standard atomic weight.
+     *
      * @param {number} weight
-     * @returns {string}
+     * @returns {string} Plain text
      */
     static formatWeight(weight) {
         return (weight.toString().indexOf('.') === -1) ? `(${weight})` : `${weight}`;
@@ -464,8 +480,9 @@ class Elements {
 
     /**
      * Link to Wikipedia's page for a given element block.
+     *
      * @param {boolean|null} [block=null]
-     * @returns {string}
+     * @returns {string} HTML: an anchor tag
      */
     static linkBlock(block = null) {
         // All elements have a block, so if block is null, link to the Block
@@ -479,8 +496,9 @@ class Elements {
 
     /**
      * Link to Wikipedia's page for a given element group.
+     *
      * @param {integer|null} group
-     * @returns {string} HTML
+     * @returns {string} HTML: an anchor tag
      */
     static linkGroup(group) {
         // Lanthanides & actinides don't belong to a group, so don't link those.
@@ -493,8 +511,9 @@ class Elements {
 
     /**
      * Link to Wikipedia's page for a given element period.
+     *
      * @param {integer} period
-     * @returns {string} HTML
+     * @returns {string} HTML: an anchor tag
      */
     static linkPeriod(period) {
         // All elements have a period, so if period is null, link to the Period
@@ -507,9 +526,10 @@ class Elements {
     }
 
     /**
-     * Generate HTML for a given element.
+     * Create HTML for a given element, describing it in detail.
+     *
      * @param {integer|null} protons
-     * @returns {string} HTML
+     * @returns {string} HTML: a main block
      */
     static render(protons = null) {
         const element = elementsData.get(protons);
@@ -540,6 +560,7 @@ class Elements {
 
     /**
      * Calculate the width of a bar, for a bar chart.
+     *
      * @param {number} value - A number that is less than or equal to the max
      * @param {number} max - The maximum value in the dataset
      * @param {boolean} [log=true] - Whether to use a logarithmic scale
@@ -557,6 +578,7 @@ class Elements {
 
     /**
      * Toggle between linear and logarithmic scales for the abundance chart.
+     *
      * @param {Object} event - A browser event object
      */
     static handleAbundanceScale(event) {
@@ -568,6 +590,8 @@ class Elements {
     }
 
     /**
+     * Create HTML showing a chart of every element's abundance on Earth
+     *
      * @param {boolean} [log=true] - Whether to use a logarithmic scale
      * @returns {string} HTML
      */
@@ -613,6 +637,8 @@ class Elements {
     }
 
     /**
+     * Wrap table cells in a table row, for the periodic table.
+     *
      * @param {string} cells - Table data
      * @param {integer} period - An element period
      * @returns {string} HTML: a table row
@@ -624,6 +650,8 @@ class Elements {
     }
 
     /**
+     * Create HTML showing the periodic table of the elements.
+     *
      * @returns {string} HTML: a section containing two tables
      */
     static renderElements() {
@@ -709,6 +737,8 @@ class Elements {
     }
 
     /**
+     * Create HTML allowing navigation between different top-level pages.
+     *
      * @returns {string} HTML: a nav block
      */
     static renderElementsNav() {
@@ -722,9 +752,10 @@ class Elements {
     }
 
     /**
-     * Generate HTML describing an element in detail
+     * Create HTML describing an element in detail.
+     *
      * @param {integer} protons - An atomic number
-     * @returns {string} HTML: sections describing an element in detail
+     * @returns {string} HTML: section blocks
      */
     static renderElement(protons) {
         const element = elementsData.get(protons);
@@ -808,7 +839,8 @@ class Elements {
     }
 
     /**
-     * Generate HTML to navigate between elements
+     * Create HTML to navigate between elements.
+     *
      * @param {integer} protons - An atomic number
      * @returns {string} HTML: a nav block
      */
@@ -851,9 +883,10 @@ class Elements {
     }
 
     /**
-     * Generate HTML with basic element data
+     * Create HTML with basic element data.
+     *
      * @param {Object} element - Element data
-     * @returns {string} HTML
+     * @returns {string} HTML: inline content
      */
     static renderElementHighlights(element) {
         let html = `Density: ${Elements.formatDensity(element.density, true)}`;
@@ -864,7 +897,8 @@ class Elements {
     }
 
     /**
-     * Generate HTML showing an entire group of elements
+     * Create HTML showing an entire group of elements.
+     *
      * @param {integer} group - An element group number
      * @returns {string} HTML: a table
      */
@@ -888,7 +922,8 @@ class Elements {
     }
 
     /**
-     * Generate HTML to navigate between element groups
+     * Create HTML to navigate between element groups.
+     *
      * @param {integer} group - An element group number
      * @returns {string} HTML: a nav block
      */
@@ -917,9 +952,10 @@ class Elements {
     }
 
     /**
-     * Generate HTML showing an entire period of elements
+     * Create HTML showing an entire period of elements.
+     *
      * @param {integer} period
-     * @returns {string} HTML
+     * @returns {string} HTML: a table
      */
     static renderPeriod(period) {
         period = parseInt(period);
@@ -942,9 +978,10 @@ class Elements {
     }
 
     /**
-     * Generate HTML to navigate between element periods
+     * Create HTML to navigate between element periods.
+     *
      * @param {integer} period
-     * @returns {string} HTML
+     * @returns {string} HTML: a nav block
      */
     static renderPeriodNav(period) {
         period = parseInt(period);
@@ -972,34 +1009,39 @@ class Elements {
 }
 
 /**
- * @class Molecules
- * @property {Object} #foundElements
- * @property {Object} #foundNames
- * @property {Object} #parsed
+ * Show information about molecules.
  */
 class Molecules {
     /**
-     * @param {Object} elements
-     * @param {integer} [multiplier=1]
-     * @returns {string}
+     * Combine element counts into a molecular formula.
+     *
+     * @param {Object} elements - Element counts keyed by element symbols
+     * @param {integer} [multiplier=1] - What to multiply the element counts by
+     * @returns {string} A molecular formula
      */
     static combine(elements, multiplier = 1) {
         let newFormula = '';
         for (const element in elements) {
             const count = elements[element] * multiplier ;
             newFormula += element;
-            newFormula += (count > 1) ? count: '';
+            newFormula += (count > 1) ? count : '';
         }
         return newFormula;
     }
 
     /**
      * Compare two molecular formulas, for sorting.
+     *
      * @param {string} formulaA - A molecular formula
      * @param {string} formulaB - A molecular formula
      * @param {string} [prioritySymbol='H'] - An element symbol to prioritize
      * @param {boolean} [debug=false] - Whether to generate debugging output
-     * @returns {integer}
+     *
+     * @returns {integer} how the formulas should be sorted, with regard to the
+     * given element:
+     * - -1 if a comes before b
+     * - 1 if a comes after b
+     * - 0 if the formulas are equivalent
      */
     static compare(formulaA, formulaB, prioritySymbol = 'H', debug = false) {
         // Return early when formulas are identical.
@@ -1222,6 +1264,7 @@ class Molecules {
 
     /**
      * Convert a semistructural chemical formula to a molecular formula.
+     *
      * @param {string} formula - A molecular or semistructural formula
      * @param {boolean} [sort=false] - Whether to sort elements by atomic number
      * @param {...string} priorities - Element symbols to prioritize
@@ -1435,6 +1478,7 @@ class Molecules {
 
     /**
      * Convert an object keyed by element symbols to a map keyed by atomic numbers.
+     *
      * @param {Object} components - Element counts, keyed by element symbols
      * @return {Map} Element counts, keyed by atomic numbers
      * @private
@@ -1457,6 +1501,7 @@ class Molecules {
 
     /**
      * Find molecular formulas that contain a given element.
+     *
      * @param {string} symbol - An element symbol
      * @returns {Array} Molecular formulas that contain the given symbol
      */
@@ -1478,7 +1523,8 @@ class Molecules {
     static #foundNames = {};
 
     /**
-     * Find molecular formulas that have a given name.
+     * Find molecular formulas by name.
+     *
      * @param {string} name - A molecule name
      * @returns {Array} Molecular formulas that match the given name
      */
@@ -1526,8 +1572,8 @@ class Molecules {
     }
 
     /**
-     * Find duplicate formulas in our database.
-     * @returns {object} Molecular formulas that have duplicates
+     * Find duplicate molecular formulas in our database.
+     * @returns {object} Formulas and their duplicates
      */
     static findDuplicateFormulas() {
         console.time('findDuplicateFormulas');
@@ -1552,8 +1598,9 @@ class Molecules {
 
     /**
      * Find equivalent molecular formulas in our database.
+     *
      * @param {string} formula - A molecular formula
-     * @returns {Array<string>} An array of formulas equivalent to the one given
+     * @returns {Array<string>} Formulas equivalent to the one given
      */
     static findEquivalentFormulas(formula) {
         const formulas = [];
@@ -1573,37 +1620,37 @@ class Molecules {
      * Format a molecular formula for output to HTML.
      *
      * @param {string} formula - A molecular formula
-     * @returns {string} HTML
+     * @returns {string} HTML: inline text
      */
     static format(formula) {
         return formula.replaceAll(/\d+/g, '<sub>$&</sub>');
     }
 
     /**
-     * Generate a URL for a molecular formula on the ChemSpider site.
+     * Create a URL for a molecular formula on the ChemSpider site.
      *
      * @param {string} formula - A molecular formula
-     * @returns {string} URL
+     * @returns {string} A URL
      */
     static getChemSpiderURL(formula) {
         return `https://www.chemspider.com/Search.aspx?q=${formula}`;
     }
 
     /**
-     * Generate a URL for a molecular formula on NIH's PubChem site.
+     * Create a URL for a molecular formula on NIH's PubChem site.
      *
      * @param {string} formula - A molecular formula
-     * @returns {string} URL
+     * @returns {string} A URL
      */
     static getPubChemURL(formula) {
         return `https://pubchem.ncbi.nlm.nih.gov/#query=${formula}`;
     }
 
     /**
-     * Generate a URL for a molecular formula on NIST's WebBook site.
+     * Create a URL for a molecular formula on NIST's WebBook site.
      *
      * @param {string} formula - A molecular formula
-     * @returns {string} URL
+     * @returns {string} A URL
      */
     static getWebBookURL(formula) {
         return `https://webbook.nist.gov/cgi/cbook.cgi?Formula=${formula}&NoIon=on&Units=SI`;
@@ -1742,8 +1789,7 @@ class Molecules {
      * Calculate the weight of a molecular formula.
      *
      * @param {string} formula - A molecular formula
-     * @returns {integer} The molecular weight of the formula, rounded to the
-     * nearest integer
+     * @returns {integer} The molecular weight of the formula
      */
     static weigh(formula) {
         const elements = Molecules.parse(formula);
@@ -1757,9 +1803,9 @@ class Molecules {
     }
 
     /**
-     * Generate the HTML for the molecules page.
+     * Create the HTML for the molecules page.
      *
-     * @returns {string} HTML
+     * @returns {string} HTML: a chart and a list
      */
     static render() {
         document.title = 'Molecules';
@@ -1773,9 +1819,9 @@ class Molecules {
     }
 
     /**
-     * Generate the HTML for the molecules chart.
+     * Create the HTML for the molecules chart.
      *
-     * @returns {string} HTML
+     * @returns {string} HTML: a chart
      */
     static renderChart() {
         console.time('molecules-chart');
@@ -1811,10 +1857,10 @@ class Molecules {
     }
 
     /**
-     * Generate the HTML for the molecule page.
+     * Create the HTML for the molecule page.
      *
      * @param {string} molecule - A molecule name
-     * @returns {string} HTML
+     * @returns {string} HTML: a heading, a paragraph, and a list
      */
     static renderMolecule(molecule) {
         const formulas = Molecules.findName(molecule);
@@ -1841,10 +1887,10 @@ class Molecules {
     }
 
     /**
-     * Generate the HTML for the formula page.
+     * Create the HTML for the formula page.
      *
      * @param {string} formula - A molecular formula
-     * @returns {string} HTML
+     * @returns {string} HTML: headings and blocks
      */
     static renderFormula(formula) {
         const pretty = Molecules.format(formula);
@@ -1886,9 +1932,10 @@ class Molecules {
     }
 
     /**
-     * Generate the HTML for a list of molecular formulas.
+     * Create the HTML for a list of molecular formulas.
+     *
      * @param {string|null} [symbol=null] - An element symbol
-     * @returns {string} HTML
+     * @returns {string} HTML: a heading and a list
      */
     static renderList(symbol = null) {
         const formulas = Molecules.list(symbol);
@@ -1918,7 +1965,7 @@ class Molecules {
 }
 
 /**
- * @class Isotopes
+ * Show information about atomic isotopes: elements whose neutron numbers vary.
  */
 class Isotopes {
     /**
@@ -1956,8 +2003,8 @@ class Isotopes {
     }
 
     /**
-     * Generate a chart of the most stable isotopes for each element.
-     * @returns {string} HTML
+     * Create a chart of the most stable isotopes for each element.
+     * @returns {string} HTML: a heading and a table
      */
     static render() {
         const all = Isotopes.getAll();
@@ -2015,12 +2062,12 @@ class Isotopes {
 }
 
 /**
- * @class Test
+ * Run automated tests and report the results.
  */
 class Test {
     /**
-     * Generate a report for automated test results.
-     * @returns {string} HTML
+     * Create a report for automated test results.
+     * @returns {string} HTML: a main block
      */
     static render() {
         const failures = Test.run();

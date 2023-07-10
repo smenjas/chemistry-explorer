@@ -1,4 +1,7 @@
-/** @module moleculesData */
+/**
+ * Molecular formulas and their names.
+ * @module {Object} moleculesData
+ */
 const moleculesData = {
     HBO: ['Oxoborane'],
     HBF4: ['Fluoroboric acid'],
