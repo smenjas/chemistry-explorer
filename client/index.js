@@ -1967,7 +1967,6 @@ class Isotopes {
         html += '<table class="isotopes">';
 
         for (let neutrons = 177; neutrons >= -1; neutrons--) {
-            neutrons = parseInt(neutrons);
             html += '<tr>';
 
             if (neutrons === 177) {
