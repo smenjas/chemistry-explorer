@@ -86,7 +86,7 @@ class Link {
      * @param {string} url - The URL target
      * @param {string} content - The link text (or other HTML content) to click
      * @param {boolean} [newTab=false] - Whether to open the link in a new tab
-     * @returns {string} HTML
+     * @returns {string} HTML: an anchor tag
      */
     static create(url, content, newTab = false) {
         const target = (newTab) ? ' target="_blank"' : '';
@@ -98,7 +98,7 @@ class Link {
      *
      * @param {string} path - The Wikipedia page (or section) target
      * @param {string} content - The link text (or other HTML content) to click
-     * @returns {string} HTML - An anchor tag
+     * @returns {string} HTML: an anchor tag
      */
     static toWikipedia(path, content) {
         path = path.replaceAll(' ', '_');
@@ -320,8 +320,8 @@ class Elements {
     /**
      * Fix floating point numbers that have been mangled.
      *
-     * @param {number} number
-     * @returns {number}
+     * @param {number} number - A number, possibly a smidgen off
+     * @returns {number} The given number, possibly rounded
      */
     static fixFloat(number) {
         let [integer, decimal, exponent] = number.toString().split(/[.e]/);
@@ -363,8 +363,8 @@ class Elements {
     /**
      * Format a number representing an element's abundance.
      *
-     * @param {number} abundance
-     * @returns {string} HTML
+     * @param {number} abundance - The proportion of a substance in a sample
+     * @returns {string} HTML: inline text
      */
     static formatAbundance(abundance) {
         if (abundance === 0) {
@@ -409,7 +409,7 @@ class Elements {
      * Format a density value.
      *
      * @param {number|null} density - Grams per cubic centimeter
-     * @returns {string} HTML
+     * @returns {string} HTML: inline text
      */
     static formatDensity(density) {
         // The element data use grams per cubic centimeter for density.
@@ -422,7 +422,7 @@ class Elements {
      *
      * @param {integer} protons - An atomic number
      * @param {boolean} [link=false] - Optional, whether to return a link
-     * @returns {string} HTML
+     * @returns {string} HTML: inline text
      */
     static formatElement(protons, link = false) {
         const element = elementsData.get(protons);
@@ -445,9 +445,10 @@ class Elements {
 
     /**
      * Format isotope data for display.
+     * @see https://en.wikipedia.org/wiki/Mass_number
      *
      * @param {integer} protons - An atomic number
-     * @param {number} mass - Whether to return a link
+     * @param {number} mass - The number of neutrons and protons
      * @returns {string} Plain text
      */
     static formatIsotope(protons, mass) {
@@ -461,8 +462,8 @@ class Elements {
     /**
      * Format plain text that contains scientific notation, for display to HTML.
      *
-     * @param {string} value
-     * @returns {string} HTML
+     * @param {string} value - A number in scientific notation, perhaps with units
+     * @returns {string} HTML: inline text
      */
     static formatScientificNotation(value) {
         return value.replace(/\^(\d+)/g, '<sup>$1</sup>');
@@ -470,8 +471,9 @@ class Elements {
 
     /**
      * Format a standard atomic weight.
+     * @see https://en.wikipedia.org/wiki/Standard_atomic_weight
      *
-     * @param {number} weight
+     * @param {number} weight - The standard atomic weight
      * @returns {string} Plain text
      */
     static formatWeight(weight) {
@@ -481,7 +483,7 @@ class Elements {
     /**
      * Link to Wikipedia's page for a given element block.
      *
-     * @param {boolean|null} [block=null]
+     * @param {boolean|null} [block=null] - An atomic orbital block
      * @returns {string} HTML: an anchor tag
      */
     static linkBlock(block = null) {
@@ -497,7 +499,7 @@ class Elements {
     /**
      * Link to Wikipedia's page for a given element group.
      *
-     * @param {integer|null} group
+     * @param {integer|null} group - A column in the periodic table
      * @returns {string} HTML: an anchor tag
      */
     static linkGroup(group) {
@@ -512,7 +514,7 @@ class Elements {
     /**
      * Link to Wikipedia's page for a given element period.
      *
-     * @param {integer} period
+     * @param {integer} period - A row in the periodic table
      * @returns {string} HTML: an anchor tag
      */
     static linkPeriod(period) {
@@ -528,7 +530,7 @@ class Elements {
     /**
      * Create HTML for a given element, describing it in detail.
      *
-     * @param {integer|null} protons
+     * @param {integer|null} protons - An atomic number
      * @returns {string} HTML: a main block
      */
     static render(protons = null) {
@@ -590,10 +592,10 @@ class Elements {
     }
 
     /**
-     * Create HTML showing a chart of every element's abundance on Earth
+     * Create HTML showing a chart of every element's abundance on Earth.
      *
      * @param {boolean} [log=true] - Whether to use a logarithmic scale
-     * @returns {string} HTML
+     * @returns {string} HTML: a heading and a chart
      */
     static renderAbundance(log = true) {
         console.time('abundance-chart');
@@ -899,7 +901,7 @@ class Elements {
     /**
      * Create HTML showing an entire group of elements.
      *
-     * @param {integer} group - An element group number
+     * @param {integer} group - A column in the periodic table
      * @returns {string} HTML: a table
      */
     static renderGroup(group) {
@@ -924,7 +926,7 @@ class Elements {
     /**
      * Create HTML to navigate between element groups.
      *
-     * @param {integer} group - An element group number
+     * @param {integer} group - A column in the periodic table
      * @returns {string} HTML: a nav block
      */
     static renderGroupNav(group) {
@@ -954,7 +956,7 @@ class Elements {
     /**
      * Create HTML showing an entire period of elements.
      *
-     * @param {integer} period
+     * @param {integer} period - A row in the periodic table
      * @returns {string} HTML: a table
      */
     static renderPeriod(period) {
@@ -980,7 +982,7 @@ class Elements {
     /**
      * Create HTML to navigate between element periods.
      *
-     * @param {integer} period
+     * @param {integer} period - A row in the periodic table
      * @returns {string} HTML: a nav block
      */
     static renderPeriodNav(period) {
@@ -1183,6 +1185,7 @@ class Molecules {
 
     /**
      * Test the compare method.
+     *
      * @returns {integer} How many tests failed
      */
     static compareTest() {
@@ -1311,6 +1314,7 @@ class Molecules {
 
     /**
      * Test the convertFormula method.
+     *
      * @returns {integer} How many tests failed
      */
     static convertFormulaTest() {
@@ -1545,6 +1549,7 @@ class Molecules {
 
     /**
      * Find duplicate molecule names in our database.
+     *
      * @returns {object} Molecular formulas, keyed by molecule names
      */
     static findDuplicateNames() {
@@ -1573,6 +1578,7 @@ class Molecules {
 
     /**
      * Find duplicate molecular formulas in our database.
+     *
      * @returns {object} Formulas and their duplicates
      */
     static findDuplicateFormulas() {
@@ -1745,6 +1751,7 @@ class Molecules {
      *
      * @param {Array<string>} formulas - Molecular formulas to be sorted
      * @param {string} priority - An atomic symbol to prioritize
+     * @returns {Array<string>} Molecular formulas, in ascending order
      */
     static sort(formulas = [], priority = 'H') {
         if (formulas.length < 1) {
@@ -1970,6 +1977,7 @@ class Molecules {
 class Isotopes {
     /**
      * Get all isotopes in our database: the most stable for each element.
+     *
      * @returns {Object} Atomic numbers keyed by neutron counts
      */
     static getAll() {
@@ -2004,6 +2012,7 @@ class Isotopes {
 
     /**
      * Create a chart of the most stable isotopes for each element.
+     *
      * @returns {string} HTML: a heading and a table
      */
     static render() {
@@ -2067,6 +2076,7 @@ class Isotopes {
 class Test {
     /**
      * Create a report for automated test results.
+     *
      * @returns {string} HTML: a main block
      */
     static render() {
@@ -2082,6 +2092,7 @@ class Test {
 
     /**
      * Run automated tests.
+     *
      * @returns {integer} How many tests failed
      */
     static run() {
