@@ -534,6 +534,7 @@ class Elements {
      * @returns {string} HTML: a main block
      */
     static render(protons = null) {
+        protons = parseInt(protons);
         const element = elementsData.get(protons);
         let html = '';
 
