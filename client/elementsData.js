@@ -1,4 +1,7 @@
-/** @module elementsData */
+/**
+ * Data about the atomic elements.
+ * @module {Map} elementsData
+ */
 const elementsData = new Map([
     [1,   { symbol: 'H',  name: 'Hydrogen',      weight:   1.00794, period: 1, group:  1,   block: 's', density:  0.071, melts: -259.3,  boils: -252.9,  crust: 1.40e-3,  type: 'Other Nonmetal' }],
     [2,   { symbol: 'He', name: 'Helium',        weight:   4.0026,  period: 1, group: 18,   block: 's', density:  0.126, melts: null,    boils: -268.9,  crust:    8e-9,  type: 'Noble Gas' }],

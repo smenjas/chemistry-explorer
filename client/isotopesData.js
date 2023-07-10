@@ -1,5 +1,8 @@
-/** @module isotopesData */
-// Source: https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
+/**
+ * Data about the most stable isotopes for each atomic element.
+ * @module {Object} isotopesData
+ * @see https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
+ */
 const isotopesData = {
     primordial: new Map([
         [1, [1, 2]],
