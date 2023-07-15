@@ -1505,26 +1505,22 @@ class Molecules {
         return atomic;
     }
 
-    static #foundElements = {};
-
     /**
      * Find molecular formulas that contain a given element.
      *
-     * @param {string} symbol - An element symbol
+     * @param {...string} symbols - Element symbols
      * @returns {Array} Molecular formulas that contain the given symbol
      */
-    static findElement(symbol) {
-        if (symbol in Molecules.#foundElements) {
-            return Molecules.#foundElements[symbol];
-        }
+    static findElements(...symbols) {
         const formulas = [];
         for (const formula in moleculesData) {
             const elements = Molecules.parse(formula);
-            if (symbol in elements) {
-                formulas.push(formula);
+            for (const symbol of symbols) {
+                if (symbol in elements) {
+                    formulas.push(formula);
+                }
             }
         }
-        Molecules.#foundElements[symbol] = formulas;
         return formulas;
     }
 
@@ -1673,7 +1669,7 @@ class Molecules {
      * @returns {Array<string>} A list of molecular formulas
      */
     static list(symbol = null) {
-        return symbol ? Molecules.findElement(symbol) : Object.keys(moleculesData);
+        return symbol ? Molecules.findElements(symbol) : Object.keys(moleculesData);
     }
 
     static #parsed = {};
