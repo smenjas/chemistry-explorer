@@ -220,7 +220,12 @@ class Search {
         const formulasLength = Object.keys(formulas).length;
         if (elements.length === 0 && formulasLength === 0) {
             console.timeEnd(`Search.renderResults("${search}")`);
-            return '<p>No matches found.</p>';
+            if (search.length < 3) {
+                return '<p>Try a different search.</p>';
+            }
+            else {
+                return '<p>No matches found.</p>';
+            }
         }
 
         let html = '';
