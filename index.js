@@ -170,7 +170,7 @@ class Search {
                 for (const name of moleculesData[formula]) {
                     if (name.toUpperCase().includes(upper) && !formulas.includes(formula)) {
                         formulas.push(formula);
-                        moleculesCount += moleculesData[formula].length;
+                        moleculesCount += 1;
                     }
                 }
             }
