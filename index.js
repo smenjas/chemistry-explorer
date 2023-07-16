@@ -77,9 +77,9 @@ class Page {
             abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
         }
 
-        const searchForm = document.querySelector('input[name="search"]');
-        if (searchForm) {
-            searchForm.addEventListener('input', Search.handleForm);
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', Search.handleForm);
         }
     }
 }
@@ -90,6 +90,9 @@ class Page {
 class Search {
     /**
      * Create the HTML for the search page.
+     *
+     * @param {string} search - The search query
+     * @returns {string} HTML: a search page
      */
     static render(search) {
         document.title = 'Search Chemicals';
@@ -104,10 +107,10 @@ class Search {
     }
 
     /**
-     * Create the HTML for the search page.
+     * Create the HTML for the search form.
      *
-     * @param {string} search - The search term(s)
-     * @returns {string} HTML: search results
+     * @param {string} search - The search query
+     * @returns {string} HTML: a form
      */
     static renderForm(search) {
         let html = '<form id="search">';
@@ -117,9 +120,11 @@ class Search {
     }
 
     /**
-     * Create the HTML for the search page.
+     * Create the HTML for the search results.
+     * @todo Factor out search logic from presentation, and add tests.
+     * @todo Optimize searching for formulas and molecule names.
      *
-     * @param {string} search - The search term(s)
+     * @param {string} search - The search query
      * @returns {string} HTML: search results
      */
     static renderResults(search) {
@@ -223,6 +228,11 @@ class Search {
         return html;
     }
 
+    /**
+     * Handle input events in the search box.
+     *
+     * @param {Object} event - A browser event
+     */
     static handleForm(event) {
         const search = event.target.value;
         document.getElementById('search-results').innerHTML = Search.renderResults(search);
