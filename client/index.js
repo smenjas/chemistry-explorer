@@ -15,7 +15,6 @@ class Page {
      */
     static render() {
         const params = new URLSearchParams(window.location.search);
-        const molecule = params.get('molecule');
         const formula = params.get('formula');
         const group = params.get('group');
         const period = params.get('period');
@@ -26,9 +25,6 @@ class Page {
 
         if (formula) {
             html += Molecules.renderFormula(formula);
-        }
-        else if (molecule) {
-            html += Molecules.renderMolecule(molecule);
         }
         else if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
@@ -1685,7 +1681,7 @@ class Molecules {
      * Find molecular formulas by name.
      *
      * @param {string} name - A molecule name
-     * @returns {Array} Molecular formulas that match the given name
+     * @returns {Array} Molecular formulas that match the given name exactly
      */
     static findName(name) {
         if (name in Molecules.#foundNames) {
@@ -1693,8 +1689,8 @@ class Molecules {
         }
         const formulas = [];
         for (const formula in moleculesData) {
-            const molecules = moleculesData[formula];
-            if (molecules.includes(name)) {
+            const names = moleculesData[formula];
+            if (names.includes(name)) {
                 formulas.push(formula);
             }
         }
@@ -2019,36 +2015,6 @@ class Molecules {
         }
         html += '</section>';
         console.timeEnd('molecules-chart');
-
-        return html;
-    }
-
-    /**
-     * Create the HTML for the molecule page.
-     *
-     * @param {string} molecule - A molecule name
-     * @returns {string} HTML: a heading, a paragraph, and a list
-     */
-    static renderMolecule(molecule) {
-        const formulas = Molecules.findName(molecule);
-
-        if (formulas.length === 1) {
-            return Molecules.renderFormula(formulas[0]);
-        }
-
-        let html = `<h1>${molecule}</h1>`;
-
-        if (formulas.length === 0) {
-            html += '<p>No formulas found.</p>';
-            return html;
-        }
-
-        html += '<ul>';
-        for (const formula of formulas) {
-            const linkText = Molecules.format(formula);
-            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
-        }
-        html += '</ul>';
 
         return html;
     }
