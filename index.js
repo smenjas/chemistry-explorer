@@ -121,7 +121,6 @@ class Search {
 
     /**
      * Create the HTML for the search results.
-     * @todo Factor out search logic from presentation, and add tests.
      *
      * @param {string} search - The search query
      * @returns {string} HTML: search results
@@ -135,7 +134,6 @@ class Search {
         }
 
         console.time(`Search.renderResults("${search}")`);
-        const upper = search.toUpperCase();
         const elements = Elements.find(search);
         let formulas = {};
         let moleculesCount = 0;
@@ -162,11 +160,13 @@ class Search {
         if (search.length > 1) {
             // Search for molecules by formula.
             let added = false;
-            for (const formula in moleculesData) {
-                let found = false;
-                const formulaUpper = formula.toUpperCase();
-                if (formulaUpper === upper) {
-                    found = true;
+            const upper = search.toUpperCase();
+            const foundFormulas = Molecules.findFormulas(search);
+            for (const formula of foundFormulas) {
+                added = true;
+                formulas[formula] = moleculesData[formula];
+                moleculesCount += moleculesData[formula].length;
+                if (formula.toUpperCase() === upper) {
                     // Show elements when the formula matches exactly.
                     const symbols = Object.keys(Molecules.parse(formula));
                     for (const symbol of symbols) {
@@ -175,14 +175,6 @@ class Search {
                             elements.push(protons);
                         }
                     }
-                }
-                else if (formulaUpper.includes(upper)) {
-                    found = true;
-                }
-                if (found && !(formula in formulas)) {
-                    formulas[formula] = moleculesData[formula];
-                    moleculesCount += moleculesData[formula].length;
-                    added = true;
                 }
             }
             if (added) {
@@ -1717,6 +1709,32 @@ class Molecules {
                 }
             }
         }
+        return formulas;
+    }
+
+    static #foundFormulas = {};
+
+    /**
+     * Find molecules by formula.
+     *
+     * @param {string} search - The search query
+     * @param {Array<string>} Molecular formulas that include the query
+     */
+    static findFormulas(search) {
+        if (search in Molecules.#foundFormulas) {
+            return Molecules.#foundFormulas[search];
+        }
+        const formulas = [];
+        const upper = search.toUpperCase();
+
+        for (const formula in moleculesData) {
+            const f = formula.toUpperCase();
+            if ((f === upper) || (f.includes(upper))) {
+                formulas.push(formula);
+            }
+        }
+
+        Molecules.#foundFormulas[search] = formulas;
         return formulas;
     }
 
