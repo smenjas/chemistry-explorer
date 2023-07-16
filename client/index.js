@@ -172,7 +172,7 @@ class Search {
             let added = false;
             // Search for molecules by formula.
             for (const formula in moleculesData) {
-                if (formula.includes(upper) && !formulas.includes(formula)) {
+                if (formula.toUpperCase().includes(upper) && !formulas.includes(formula)) {
                     formulas.push(formula);
                     moleculesCount += moleculesData[formula].length;
                     added = true;
@@ -202,7 +202,7 @@ class Search {
         html += '<ul>';
         for (const formula of formulas) {
             let moleculeNames = '';
-            if (search.length < 3) {
+            if (search.length < 3 || formula.toUpperCase().includes(upper)) {
                 moleculeNames = moleculesData[formula].join(', ');
             }
             else {
