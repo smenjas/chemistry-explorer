@@ -20,6 +20,7 @@ class Page {
         const group = params.get('group');
         const period = params.get('period');
         const protons = params.get('protons');
+        const search = params.get('search');
         const view = params.get('view');
         let html = '';
 
@@ -44,6 +45,9 @@ class Page {
             html += Elements.renderPeriodNav(period);
             html += Elements.renderPeriod(period);
             html += '</main>';
+        }
+        else if (params.has('search')) {
+            html += Search.render(search);
         }
         else if (view === 'abundance') {
             html += Elements.renderAbundance();
@@ -76,6 +80,156 @@ class Page {
         if (abundanceScale) {
             abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
         }
+
+        const searchForm = document.querySelector('input[name="search"]');
+        if (searchForm) {
+            searchForm.addEventListener('input', Search.handleForm);
+        }
+    }
+}
+
+/**
+ * Search for elements and molecules.
+ */
+class Search {
+    /**
+     * Create the HTML for the search page.
+     */
+    static render(search) {
+        document.title = 'Search Chemicals';
+        let html = '<main>';
+        html += `<h1>${document.title}</h1>`;
+        html += Search.renderForm(search);
+        html += '<section id="search-results">';
+        html += Search.renderResults(search);
+        html += '</section>';
+        html += '</main>';
+        return html;
+    }
+
+    /**
+     * Create the HTML for the search page.
+     *
+     * @param {string} search - The search term(s)
+     * @returns {string} HTML: search results
+     */
+    static renderForm(search) {
+        let html = '<form id="search">';
+        html += `<input name="search" type="text" size="50" value="${search}">`;
+        html += '</form>';
+        return html;
+    }
+
+    /**
+     * Create the HTML for the search page.
+     *
+     * @param {string} search - The search term(s)
+     * @returns {string} HTML: search results
+     */
+    static renderResults(search) {
+        // Show a word cloud by default.
+        if (search.length < 1) {
+            return Molecules.renderWords();
+        }
+
+        const upper = search.toUpperCase();
+        const elements = [];
+        let formulas = [];
+        let moleculesCount = 0;
+
+        if (search.length < 3) {
+            const symbols = [];
+            // Search for elements by symbol.
+            for (const [protons, element] of elementsData) {
+                const symbol = element.symbol.toUpperCase();
+                if (upper === symbol) {
+                    elements.push(protons);
+                    symbols.push(element.symbol);
+                }
+            }
+            // Show formulas that contain the element.
+            formulas = Molecules.findElements(...symbols);
+            for (const formula of formulas) {
+                moleculesCount += moleculesData[formula].length;
+            }
+        }
+        else {
+            // Search for elements by name.
+            for (const [protons, element] of elementsData) {
+                const name = element.name.toUpperCase();
+                if (name.includes(upper)) {
+                    elements.push(protons);
+                }
+            }
+            // Search for molecules by name.
+            for (const formula in moleculesData) {
+                for (const name of moleculesData[formula]) {
+                    if (name.toUpperCase().includes(upper) && !formulas.includes(formula)) {
+                        formulas.push(formula);
+                        moleculesCount += moleculesData[formula].length;
+                    }
+                }
+            }
+        }
+
+        if (search.length > 1) {
+            let added = false;
+            // Search for molecules by formula.
+            for (const formula in moleculesData) {
+                if (formula.includes(upper) && !formulas.includes(formula)) {
+                    formulas.push(formula);
+                    moleculesCount += moleculesData[formula].length;
+                    added = true;
+                }
+            }
+            if (added) {
+                formulas = Molecules.sortByFirstElement(formulas);
+            }
+        }
+
+        if (elements.length === 0 && formulas.length === 0) {
+            return '<p>No matches found.</p>';
+        }
+
+        let html = '';
+        const elementResults = `${elements.length} Element${(elements.length === 1) ? '' : 's'}`;
+        html += `<h2>${elementResults}</h2>`;
+        html += '<section class="elements">';
+        for (const protons of elements) {
+            html += Elements.formatElement(protons, true);
+        }
+        html += '</section>';
+
+        const formulaResults = `${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}`;
+        const moleculeResults = `${moleculesCount} Molecule${(moleculesCount === 1) ? '' : 's'}`;
+        html += `<h2>${formulaResults}, ${moleculeResults}</h2>`;
+        html += '<ul>';
+        for (const formula of formulas) {
+            let moleculeNames = '';
+            if (search.length < 3) {
+                moleculeNames = moleculesData[formula].join(', ');
+            }
+            else {
+                // Only show molecule names matching the search query.
+                const names = [];
+                for (const name of moleculesData[formula]) {
+                    if (name.toUpperCase().includes(upper)) {
+                        names.push(name);
+                    }
+                }
+                moleculeNames = names.join(', ');
+            }
+            const linkText = `${Molecules.format(formula)}: ${moleculeNames}`;
+            html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
+        }
+        html += '</ul>';
+
+        return html;
+    }
+
+    static handleForm(event) {
+        const search = event.target.value;
+        document.getElementById('search-results').innerHTML = Search.renderResults(search);
     }
 }
 
@@ -752,6 +906,7 @@ class Elements {
         html += '<a href="?view=abundance">Abundance</a> ';
         html += '<a href="?view=isotopes">Isotopes</a>';
         html += '<a href="?view=molecules">Molecules</a> ';
+        html += '<a href="?search=">Search</a> ';
         html += '</nav>';
 
         return html;
@@ -1505,26 +1660,22 @@ class Molecules {
         return atomic;
     }
 
-    static #foundElements = {};
-
     /**
      * Find molecular formulas that contain a given element.
      *
-     * @param {string} symbol - An element symbol
+     * @param {...string} symbols - Element symbols
      * @returns {Array} Molecular formulas that contain the given symbol
      */
-    static findElement(symbol) {
-        if (symbol in Molecules.#foundElements) {
-            return Molecules.#foundElements[symbol];
-        }
+    static findElements(...symbols) {
         const formulas = [];
         for (const formula in moleculesData) {
             const elements = Molecules.parse(formula);
-            if (symbol in elements) {
-                formulas.push(formula);
+            for (const symbol of symbols) {
+                if (symbol in elements) {
+                    formulas.push(formula);
+                }
             }
         }
-        Molecules.#foundElements[symbol] = formulas;
         return formulas;
     }
 
@@ -1673,7 +1824,7 @@ class Molecules {
      * @returns {Array<string>} A list of molecular formulas
      */
     static list(symbol = null) {
-        return symbol ? Molecules.findElement(symbol) : Object.keys(moleculesData);
+        return symbol ? Molecules.findElements(symbol) : Object.keys(moleculesData);
     }
 
     static #parsed = {};
@@ -1774,12 +1925,16 @@ class Molecules {
     }
 
     /**
-     * Sort all molecular formulas in our database, prioritizing the first element.
+     * Sort molecular formulas, prioritizing the first element.
+     *
+     * @param {Array<string>} formulas - Molecular formulas to sort
+     * @returns {Array<string>} Molecular formulas, sorted in ascending order
      */
-    static sortByFirstElement() {
+    static sortByFirstElement(formulas = Object.keys(moleculesData)) {
         console.time('Molecules.sortByFirstElement()');
+        let sorted = [];
         const byElement = {};
-        for (const formula in moleculesData) {
+        for (const formula of formulas) {
             const components = Molecules.parse(formula);
             const element = Object.keys(components)[0];
             if (element in byElement) {
@@ -1791,9 +1946,10 @@ class Molecules {
         }
         for (const element in byElement) {
             const formulas = byElement[element];
-            Molecules.sort(formulas, element);
+            sorted = sorted.concat(Molecules.sort(formulas, element));
         }
         console.timeEnd('Molecules.sortByFirstElement()');
+        return sorted;
     }
 
     /**
@@ -1981,11 +2137,11 @@ class Molecules {
         const words = {};
         for (const names of Object.values(moleculesData)) {
             for (const name of names) {
-                const tokens = name.split(/[-,() ]/);
+                const tokens = name.replace(/\([IV,]+\)/i, '').split(/[-,() ]/);
                 for (let token of tokens) {
                     token = token.toLowerCase();
                     token = token.replace('′', '\'',);
-                    if (token.length === 0) {
+                    if (token.length < 3) {
                         continue;
                     }
                     if (token in words) {
@@ -2010,16 +2166,14 @@ class Molecules {
         const countMin = Math.min(...counts);
         const countRange = countMax - countMin;
         const sizeMax = 500;
-        const sizeMin = 100;
+        const sizeMin = 85;
         const sizeRange = sizeMax - sizeMin;
-        console.log(countMax, countMin, countRange);
-        console.log(sizeMax, sizeMin, sizeRange);
 
         let html = '<p>';
         for (const word of sortedWords) {
             const position = (words[word] - countMin) / countRange;
             const size = Math.ceil((position * sizeRange) + sizeMin);
-            html += `<span style="font-size: ${size}%">${word}</span> `;
+            html += `<a href="?search=${word}" style="font-size: ${size}%">${word}</a> `;
         }
         html += '</p>';
 
