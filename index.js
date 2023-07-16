@@ -1770,12 +1770,16 @@ class Molecules {
     }
 
     /**
-     * Sort all molecular formulas in our database, prioritizing the first element.
+     * Sort molecular formulas, prioritizing the first element.
+     *
+     * @param {Array<string>} formulas - Molecular formulas to sort
+     * @returns {Array<string>} Molecular formulas, sorted in ascending order
      */
-    static sortByFirstElement() {
+    static sortByFirstElement(formulas = Object.keys(moleculesData)) {
         console.time('Molecules.sortByFirstElement()');
+        let sorted = [];
         const byElement = {};
-        for (const formula in moleculesData) {
+        for (const formula of formulas) {
             const components = Molecules.parse(formula);
             const element = Object.keys(components)[0];
             if (element in byElement) {
@@ -1787,9 +1791,10 @@ class Molecules {
         }
         for (const element in byElement) {
             const formulas = byElement[element];
-            Molecules.sort(formulas, element);
+            sorted = sorted.concat(Molecules.sort(formulas, element));
         }
         console.timeEnd('Molecules.sortByFirstElement()');
+        return sorted;
     }
 
     /**
