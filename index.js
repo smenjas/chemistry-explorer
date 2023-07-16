@@ -135,6 +135,7 @@ class Search {
             return Molecules.renderWords();
         }
 
+        console.time(`Search.renderResults("${search}")`);
         const upper = search.toUpperCase();
         const elements = [];
         let formulas = [];
@@ -191,6 +192,7 @@ class Search {
         }
 
         if (elements.length === 0 && formulas.length === 0) {
+            console.timeEnd(`Search.renderResults("${search}")`);
             return '<p>No matches found.</p>';
         }
 
@@ -227,6 +229,7 @@ class Search {
         }
         html += '</ul>';
 
+        console.timeEnd(`Search.renderResults("${search}")`);
         return html;
     }
 
