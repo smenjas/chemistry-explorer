@@ -57,6 +57,9 @@ class Page {
         else if (view === 'test') {
             html += Test.render();
         }
+        else if (view === 'words') {
+            html += Molecules.renderWords();
+        }
         else {
             html += Elements.render(protons);
         }
@@ -1967,6 +1970,58 @@ class Molecules {
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
         html += '</ul>';
+
+        return html;
+    }
+
+    /**
+     * Create the HTML for a word cloud of molecule names.
+     */
+    static renderWords() {
+        const words = {};
+        for (const names of Object.values(moleculesData)) {
+            for (const name of names) {
+                const tokens = name.split(/[-,() ]/);
+                for (let token of tokens) {
+                    token = token.toLowerCase();
+                    token = token.replace('′', '\'',);
+                    if (token.length === 0) {
+                        continue;
+                    }
+                    if (token in words) {
+                        words[token] += 1;
+                    }
+                    else {
+                        words[token] = 1;
+                    }
+                }
+            }
+        }
+
+        for (const [word, count] of Object.entries(words)) {
+            if (count === 1) {
+                delete words[word];
+            }
+        }
+
+        const sortedWords = Object.keys(words).sort();
+        const counts = Object.values(words);
+        const countMax = Math.max(...counts);
+        const countMin = Math.min(...counts);
+        const countRange = countMax - countMin;
+        const sizeMax = 500;
+        const sizeMin = 100;
+        const sizeRange = sizeMax - sizeMin;
+        console.log(countMax, countMin, countRange);
+        console.log(sizeMax, sizeMin, sizeRange);
+
+        let html = '<p>';
+        for (const word of sortedWords) {
+            const position = (words[word] - countMin) / countRange;
+            const size = Math.ceil((position * sizeRange) + sizeMin);
+            html += `<span style="font-size: ${size}%">${word}</span> `;
+        }
+        html += '</p>';
 
         return html;
     }
