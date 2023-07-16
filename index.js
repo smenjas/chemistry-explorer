@@ -136,19 +136,14 @@ class Search {
 
         console.time(`Search.renderResults("${search}")`);
         const upper = search.toUpperCase();
-        const elements = [];
+        const elements = Elements.find(search);
         let formulas = {};
         let moleculesCount = 0;
 
         if (search.length < 3) {
             const symbols = [];
-            // Search for elements by symbol.
-            for (const [protons, element] of elementsData) {
-                const symbol = element.symbol.toUpperCase();
-                if (upper === symbol) {
-                    elements.push(protons);
-                    symbols.push(element.symbol);
-                }
+            for (const protons of elements) {
+                symbols.push(elementsData.get(protons).symbol);
             }
             // Show formulas that contain the element.
             const foundFormulas = Molecules.findElements(...symbols);
@@ -158,13 +153,6 @@ class Search {
             }
         }
         else {
-            // Search for elements by name.
-            for (const [protons, element] of elementsData) {
-                const name = element.name.toUpperCase();
-                if (name.includes(upper)) {
-                    elements.push(protons);
-                }
-            }
             // Search for molecules by name.
             for (const formula in moleculesData) {
                 for (const name of moleculesData[formula]) {
@@ -443,6 +431,39 @@ class Elements {
         const a = Elements.findProtons(symbolA);
         const b = Elements.findProtons(symbolB);
         return a - b;
+    }
+
+    /**
+     * Find elements by symbol or by name.
+     * @todo Add tests.
+     *
+     * @param {string} search - The search query
+     * @returns {Array<integer>} Atomic numbers of matching elements
+     */
+    static find(search) {
+        const elements = [];
+        const upper = search.toUpperCase();
+
+        if (search.length < 3) {
+            // Search for elements by symbol.
+            for (const [protons, element] of elementsData) {
+                const symbol = element.symbol.toUpperCase();
+                if (upper === symbol) {
+                    elements.push(protons);
+                }
+            }
+            return elements;
+        }
+
+        // Search for elements by name.
+        for (const [protons, element] of elementsData) {
+            const name = element.name.toUpperCase();
+            if (name.includes(upper)) {
+                elements.push(protons);
+            }
+        }
+
+        return elements;
     }
 
     /**
