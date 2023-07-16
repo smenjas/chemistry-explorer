@@ -129,7 +129,7 @@ class Search {
     static renderResults(search) {
         // Show a word cloud by default.
         if (search.length < 1) {
-            return '';
+            return Molecules.renderWords();
         }
 
         const upper = search.toUpperCase();
@@ -2137,11 +2137,11 @@ class Molecules {
         const words = {};
         for (const names of Object.values(moleculesData)) {
             for (const name of names) {
-                const tokens = name.split(/[-,() ]/);
+                const tokens = name.replace(/\([IV,]+\)/i, '').split(/[-,() ]/);
                 for (let token of tokens) {
                     token = token.toLowerCase();
                     token = token.replace('′', '\'',);
-                    if (token.length === 0) {
+                    if (token.length < 3) {
                         continue;
                     }
                     if (token in words) {
@@ -2166,10 +2166,8 @@ class Molecules {
         const countMin = Math.min(...counts);
         const countRange = countMax - countMin;
         const sizeMax = 500;
-        const sizeMin = 100;
+        const sizeMin = 85;
         const sizeRange = sizeMax - sizeMin;
-        console.log(countMax, countMin, countRange);
-        console.log(sizeMax, sizeMin, sizeRange);
 
         let html = '<p>';
         for (const word of sortedWords) {
