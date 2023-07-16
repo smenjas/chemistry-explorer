@@ -177,10 +177,21 @@ class Search {
         }
 
         if (search.length > 1) {
-            let added = false;
             // Search for molecules by formula.
+            let added = false;
             for (const formula in moleculesData) {
-                if (formula.toUpperCase().includes(upper) && !formulas.includes(formula)) {
+                const formulaUpper = formula.toUpperCase();
+                if (formulaUpper.includes(upper) && !formulas.includes(formula)) {
+                    if (formulaUpper === upper) {
+                        // Show elements when the formula matches exactly.
+                        const symbols = Object.keys(Molecules.parse(formula));
+                        for (const symbol of symbols) {
+                            const protons = Elements.findProtons(symbol);
+                            if (!elements.includes(protons)) {
+                                elements.push(protons);
+                            }
+                        }
+                    }
                     formulas.push(formula);
                     moleculesCount += moleculesData[formula].length;
                     added = true;
