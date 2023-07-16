@@ -153,19 +153,9 @@ class Search {
             }
         }
         else {
-            // Search for molecules by name.
-            for (const formula in moleculesData) {
-                for (const name of moleculesData[formula]) {
-                    if (name.toUpperCase().includes(upper)) {
-                        if (formula in formulas) {
-                            formulas[formula].push(name);
-                        }
-                        else {
-                            formulas[formula] = [name];
-                        }
-                        moleculesCount += 1;
-                    }
-                }
+            formulas = Molecules.findNames(search);
+            for (const formula in formulas) {
+                moleculesCount += formulas[formula].length;
             }
         }
 
@@ -1733,7 +1723,7 @@ class Molecules {
     static #foundNames = {};
 
     /**
-     * Find molecular formulas by name.
+     * Find a molecular formula by its exact name, case sensitive.
      *
      * @param {string} name - A molecule name
      * @returns {Array} Molecular formulas that match the given name exactly
@@ -1750,6 +1740,30 @@ class Molecules {
             }
         }
         Molecules.#foundNames[name] = formulas;
+        return formulas;
+    }
+
+    /**
+     * Find molecular formulas by name.
+     *
+     * @param {string} search - The search query
+     * @returns {Object} Molecule names that include the query, keyed by formula
+     */
+    static findNames(search) {
+        const formulas = {};
+        const upper = search.toUpperCase();
+        for (const formula in moleculesData) {
+            for (const name of moleculesData[formula]) {
+                if (name.toUpperCase().includes(upper)) {
+                    if (formula in formulas) {
+                        formulas[formula].push(name);
+                    }
+                    else {
+                        formulas[formula] = [name];
+                    }
+                }
+            }
+        }
         return formulas;
     }
 
