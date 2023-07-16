@@ -122,7 +122,6 @@ class Search {
     /**
      * Create the HTML for the search results.
      * @todo Factor out search logic from presentation, and add tests.
-     * @todo Optimize searching for formulas and molecule names.
      *
      * @param {string} search - The search query
      * @returns {string} HTML: search results
@@ -138,7 +137,7 @@ class Search {
         console.time(`Search.renderResults("${search}")`);
         const upper = search.toUpperCase();
         const elements = [];
-        let formulas = [];
+        let formulas = {};
         let moleculesCount = 0;
 
         if (search.length < 3) {
@@ -152,8 +151,9 @@ class Search {
                 }
             }
             // Show formulas that contain the element.
-            formulas = Molecules.findElements(...symbols);
-            for (const formula of formulas) {
+            const foundFormulas = Molecules.findElements(...symbols);
+            for (const formula of foundFormulas) {
+                formulas[formula] = moleculesData[formula];
                 moleculesCount += moleculesData[formula].length;
             }
         }
@@ -168,8 +168,13 @@ class Search {
             // Search for molecules by name.
             for (const formula in moleculesData) {
                 for (const name of moleculesData[formula]) {
-                    if (name.toUpperCase().includes(upper) && !formulas.includes(formula)) {
-                        formulas.push(formula);
+                    if (name.toUpperCase().includes(upper)) {
+                        if (formula in formulas) {
+                            formulas[formula].push(name);
+                        }
+                        else {
+                            formulas[formula] = [name];
+                        }
                         moleculesCount += 1;
                     }
                 }
@@ -180,29 +185,40 @@ class Search {
             // Search for molecules by formula.
             let added = false;
             for (const formula in moleculesData) {
+                let found = false;
                 const formulaUpper = formula.toUpperCase();
-                if (formulaUpper.includes(upper) && !formulas.includes(formula)) {
-                    if (formulaUpper === upper) {
-                        // Show elements when the formula matches exactly.
-                        const symbols = Object.keys(Molecules.parse(formula));
-                        for (const symbol of symbols) {
-                            const protons = Elements.findProtons(symbol);
-                            if (!elements.includes(protons)) {
-                                elements.push(protons);
-                            }
+                if (formulaUpper === upper) {
+                    found = true;
+                    // Show elements when the formula matches exactly.
+                    const symbols = Object.keys(Molecules.parse(formula));
+                    for (const symbol of symbols) {
+                        const protons = Elements.findProtons(symbol);
+                        if (!elements.includes(protons)) {
+                            elements.push(protons);
                         }
                     }
-                    formulas.push(formula);
+                }
+                else if (formulaUpper.includes(upper)) {
+                    found = true;
+                }
+                if (found && !(formula in formulas)) {
+                    formulas[formula] = moleculesData[formula];
                     moleculesCount += moleculesData[formula].length;
                     added = true;
                 }
             }
             if (added) {
-                formulas = Molecules.sortByFirstElement(formulas);
+                const sorted = Molecules.sortByFirstElement(Object.keys(formulas));
+                let unsorted = formulas;
+                formulas = {};
+                for (const formula of sorted) {
+                    formulas[formula] = unsorted[formula];
+                }
             }
         }
 
-        if (elements.length === 0 && formulas.length === 0) {
+        const formulasLength = Object.keys(formulas).length;
+        if (elements.length === 0 && formulasLength === 0) {
             console.timeEnd(`Search.renderResults("${search}")`);
             return '<p>No matches found.</p>';
         }
@@ -216,25 +232,12 @@ class Search {
         }
         html += '</section>';
 
-        const formulaResults = `${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}`;
+        const formulaResults = `${formulasLength} Formula${(formulasLength === 1) ? '' : 's'}`;
         const moleculeResults = `${moleculesCount} Molecule${(moleculesCount === 1) ? '' : 's'}`;
         html += `<h2>${formulaResults}, ${moleculeResults}</h2>`;
         html += '<ul>';
-        for (const formula of formulas) {
-            let moleculeNames = '';
-            if (search.length < 3 || formula.toUpperCase().includes(upper)) {
-                moleculeNames = moleculesData[formula].join(', ');
-            }
-            else {
-                // Only show molecule names matching the search query.
-                const names = [];
-                for (const name of moleculesData[formula]) {
-                    if (name.toUpperCase().includes(upper)) {
-                        names.push(name);
-                    }
-                }
-                moleculeNames = names.join(', ');
-            }
+        for (const formula in formulas) {
+            const moleculeNames = formulas[formula].join(', ');
             const linkText = `${Molecules.format(formula)}: ${moleculeNames}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
