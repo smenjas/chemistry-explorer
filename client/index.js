@@ -191,20 +191,13 @@ class Search {
     }
 
     /**
-     * Create the HTML for the search results.
+     * Process a search query, and return the results.
      *
      * @param {string} search - The search query
-     * @returns {string} HTML: search results
+     * @returns {Object} The elements and molecules matching the query
      */
-    static renderResults(search) {
-        search = search.trim();
-
-        // Show a word cloud by default.
-        if (search.length < 1) {
-            return Molecules.renderWords();
-        }
-
-        console.time(`Search.renderResults("${search}")`);
+    static process(search) {
+        console.time(`Search.process("${search}")`);
         const elements = Elements.find(search);
         const symbol = Elements.findSymbol(elements[0]);
         let molecules = Search.findMolecules(search, symbol);
@@ -219,8 +212,31 @@ class Search {
             elements.splice(elements.length, 0, ...commonElements);
         }
 
+        console.timeEnd(`Search.process("${search}")`);
+        return {
+            elements: elements,
+            molecules: molecules,
+        };
+    }
+
+    /**
+     * Create the HTML for the search results.
+     *
+     * @param {string} search - The search query
+     * @returns {string} HTML: search results
+     */
+    static renderResults(search) {
+        search = search.trim();
+
+        // Show a word cloud by default.
+        if (search.length < 1) {
+            return Molecules.renderWords();
+        }
+
+        const { elements, molecules } = Search.process(search);
+        const formulas = Object.keys(molecules);
+
         if (elements.length === 0 && formulas.length === 0) {
-            console.timeEnd(`Search.renderResults("${search}")`);
             if (search.length < 3) {
                 return '<p>Try a different search.</p>';
             }
@@ -254,7 +270,6 @@ class Search {
         }
         html += '</ul>';
 
-        console.timeEnd(`Search.renderResults("${search}")`);
         return html;
     }
 
