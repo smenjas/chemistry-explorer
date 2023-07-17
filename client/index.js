@@ -229,6 +229,9 @@ class Search {
     static handleForm(event) {
         const search = event.target.value;
         document.getElementById('search-results').innerHTML = Search.renderResults(search);
+        const url = new URL(location);
+        url.searchParams.set('search', search);
+        history.replaceState({}, '', url);
     }
 }
 
