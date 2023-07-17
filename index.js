@@ -138,11 +138,8 @@ class Search {
         let formulas = {};
 
         if (search.length < 3) {
-            const symbols = [];
-            for (const protons of elements) {
-                symbols.push(elementsData.get(protons).symbol);
-            }
             // Show formulas that contain the element.
+            const symbols = Elements.convertProtons(elements);
             const foundFormulas = Molecules.findElements(...symbols);
             for (const formula of foundFormulas) {
                 formulas[formula] = moleculesData[formula];
@@ -415,6 +412,20 @@ class Elements {
         const a = Elements.findProtons(symbolA);
         const b = Elements.findProtons(symbolB);
         return a - b;
+    }
+
+    /**
+     * Convert an array of atomic numbers to element symbols.
+     *
+     * @param {Array<integer>} elements - Atomic numbers
+     * @returns {Array<string>} Element symbols
+     */
+    static convertProtons(elements) {
+        const symbols = [];
+        for (const protons of elements) {
+            symbols.push(elementsData.get(protons).symbol);
+        }
+        return symbols;
     }
 
     /**
