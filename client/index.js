@@ -213,8 +213,12 @@ class Search {
             molecules = Search.findFormulas(search, molecules, elements);
         }
 
-        const formulasCount = Object.keys(molecules).length;
-        if (elements.length === 0 && formulasCount === 0) {
+        const formulas = Object.keys(molecules);
+        if (elements.length === 0 && formulas.length === 1) {
+            Search.addFormulaElements(elements, formulas[0]);
+        }
+
+        if (elements.length === 0 && formulas.length === 0) {
             console.timeEnd(`Search.renderResults("${search}")`);
             if (search.length < 3) {
                 return '<p>Try a different search.</p>';
@@ -238,7 +242,7 @@ class Search {
             moleculesCount += molecules[formula].length;
         }
 
-        const formulaResults = `${formulasCount} Formula${(formulasCount === 1) ? '' : 's'}`;
+        const formulaResults = `${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}`;
         const moleculeResults = `${moleculesCount} Molecule${(moleculesCount === 1) ? '' : 's'}`;
         html += `<h2>${formulaResults}, ${moleculeResults}</h2>`;
         html += '<ul>';
