@@ -89,6 +89,23 @@ class Page {
  */
 class Search {
     /**
+     * Add atomic numbers from a molecular formula to an existing array.
+     * This modifies the first argument by reference, and returns undefined.
+     *
+     * @param {Array<integer>} elements - Atomic numbers
+     * @param {string} A molecular formula
+     */
+    static addFormulaElements(elements, formula) {
+        const symbols = Object.keys(Molecules.parse(formula));
+        for (const symbol of symbols) {
+            const protons = Elements.findProtons(symbol);
+            if (!elements.includes(protons)) {
+                elements.push(protons);
+            }
+        }
+    }
+
+    /**
      * Create the HTML for the search page.
      *
      * @param {string} search - The search query
@@ -159,13 +176,7 @@ class Search {
                 formulas[formula] = moleculesData[formula];
                 if (formula.toUpperCase() === upper) {
                     // Show elements when the formula matches exactly.
-                    const symbols = Object.keys(Molecules.parse(formula));
-                    for (const symbol of symbols) {
-                        const protons = Elements.findProtons(symbol);
-                        if (!elements.includes(protons)) {
-                            elements.push(protons);
-                        }
-                    }
+                    Search.addFormulaElements(elements, formula);
                 }
             }
             if (added) {
