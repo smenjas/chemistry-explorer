@@ -127,6 +127,39 @@ class Search {
     }
 
     /**
+     * Find molecular formulas that match the search query.
+     *
+     * @param {string} search - The search query
+     * @param {Object} molecules - Molecule names keyed by molecular formulas
+     * @param {Object} elements - Atomic numbers
+     * @returns {Object} Molecule names keyed by molecular formulas
+     */
+    static findFormulas(search, molecules, elements) {
+        const found = Molecules.findFormulas(search);
+
+        if (found.length === 0) {
+            return molecules;
+        }
+
+        const upper = search.toUpperCase();
+        for (const formula of found) {
+            molecules[formula] = moleculesData[formula];
+            // Show elements when the formula matches exactly.
+            if (formula.toUpperCase() === upper) {
+                Search.addFormulaElements(elements, formula);
+            }
+        }
+
+        const sortedFormulas = Molecules.sortByFirstElement(Object.keys(molecules));
+        const sortedMolecules = {};
+        for (const formula of sortedFormulas) {
+            sortedMolecules[formula] = molecules[formula];
+        }
+
+        return sortedMolecules;
+    }
+
+    /**
      * Create the HTML for the search page.
      *
      * @param {string} search - The search query
@@ -177,26 +210,7 @@ class Search {
         let formulas = Search.findMolecules(search, symbol);
 
         if (search.length > 1) {
-            // Search for molecules by formula.
-            let added = false;
-            const upper = search.toUpperCase();
-            const foundFormulas = Molecules.findFormulas(search);
-            for (const formula of foundFormulas) {
-                added = true;
-                formulas[formula] = moleculesData[formula];
-                if (formula.toUpperCase() === upper) {
-                    // Show elements when the formula matches exactly.
-                    Search.addFormulaElements(elements, formula);
-                }
-            }
-            if (added) {
-                const sorted = Molecules.sortByFirstElement(Object.keys(formulas));
-                let unsorted = formulas;
-                formulas = {};
-                for (const formula of sorted) {
-                    formulas[formula] = unsorted[formula];
-                }
-            }
+            formulas = Search.findFormulas(search, formulas, elements);
         }
 
         const formulasLength = Object.keys(formulas).length;
