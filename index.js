@@ -214,8 +214,9 @@ class Search {
         }
 
         const formulas = Object.keys(molecules);
-        if (elements.length === 0 && formulas.length === 1) {
-            Search.addFormulaElements(elements, formulas[0]);
+        if (elements.length === 0 && formulas.length > 0) {
+            const commonElements = Molecules.findCommonElements(formulas);
+            elements.splice(elements.length, 0, ...commonElements);
         }
 
         if (elements.length === 0 && formulas.length === 0) {
@@ -1754,6 +1755,46 @@ class Molecules {
             }
         }
         return atomic;
+    }
+
+    /**
+     * Find elements present in every given formula.
+     *
+     * @param {Array<string>} formulas - Molecular formulas
+     * @returns {Array<integer>} Atomic numbers
+     */
+    static findCommonElements(formulas) {
+        // Add every element present in the matched formulas.
+        const candidates = [];
+        for (const formula of formulas) {
+            Search.addFormulaElements(candidates, formula);
+        }
+        // Count how many formulas contain each element.
+        const elementCounts = {};
+        for (const formula of formulas) {
+            const components = Molecules.parse(formula);
+            for (const protons of candidates) {
+                const symbol = Elements.findSymbol(protons);
+                if (!(symbol in components)) {
+                    continue;
+                }
+                if (protons in elementCounts) {
+                    elementCounts[protons] += 1;
+                }
+                else {
+                    elementCounts[protons] = 1;
+                }
+            }
+        }
+        // Find the elements present in every formula.
+        const common = [];
+        for (const [protons, count] of Object.entries(elementCounts)) {
+            if (count === formulas.length) {
+                common.push(parseInt(protons));
+            }
+        }
+        common.sort((a, b) => a - b);
+        return common;
     }
 
     static #foundElements = {};
