@@ -207,14 +207,14 @@ class Search {
         console.time(`Search.renderResults("${search}")`);
         const elements = Elements.find(search);
         const symbol = Elements.findSymbol(elements[0]);
-        let formulas = Search.findMolecules(search, symbol);
+        let molecules = Search.findMolecules(search, symbol);
 
         if (search.length > 1) {
-            formulas = Search.findFormulas(search, formulas, elements);
+            molecules = Search.findFormulas(search, molecules, elements);
         }
 
-        const formulasLength = Object.keys(formulas).length;
-        if (elements.length === 0 && formulasLength === 0) {
+        const formulasCount = Object.keys(molecules).length;
+        if (elements.length === 0 && formulasCount === 0) {
             console.timeEnd(`Search.renderResults("${search}")`);
             if (search.length < 3) {
                 return '<p>Try a different search.</p>';
@@ -234,16 +234,16 @@ class Search {
         html += '</section>';
 
         let moleculesCount = 0;
-        for (const formula in formulas) {
-            moleculesCount += formulas[formula].length;
+        for (const formula in molecules) {
+            moleculesCount += molecules[formula].length;
         }
 
-        const formulaResults = `${formulasLength} Formula${(formulasLength === 1) ? '' : 's'}`;
+        const formulaResults = `${formulasCount} Formula${(formulasCount === 1) ? '' : 's'}`;
         const moleculeResults = `${moleculesCount} Molecule${(moleculesCount === 1) ? '' : 's'}`;
         html += `<h2>${formulaResults}, ${moleculeResults}</h2>`;
         html += '<ul>';
-        for (const formula in formulas) {
-            const moleculeNames = formulas[formula].join(', ');
+        for (const formula in molecules) {
+            const moleculeNames = molecules[formula].join(', ');
             const linkText = `${Molecules.format(formula)}: ${moleculeNames}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
