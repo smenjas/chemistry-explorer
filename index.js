@@ -128,6 +128,8 @@ class Search {
      * @returns {string} HTML: search results
      */
     static renderResults(search) {
+        search = search.trim();
+
         // Show a word cloud by default.
         if (search.length < 1) {
             return Molecules.renderWords();
