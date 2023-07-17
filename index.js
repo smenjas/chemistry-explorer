@@ -137,10 +137,10 @@ class Search {
         const elements = Elements.find(search);
         let formulas = {};
 
-        if (search.length < 3) {
+        if (search.length < 3 && elements[0]) {
             // Show formulas that contain the element.
-            const symbols = Elements.convertProtons(elements);
-            const foundFormulas = Molecules.findElements(...symbols);
+            const symbol = elementsData.get(elements[0]).symbol;
+            const foundFormulas = Molecules.findElement(symbol);
             for (const formula of foundFormulas) {
                 formulas[formula] = moleculesData[formula];
             }
@@ -1706,22 +1706,29 @@ class Molecules {
         return atomic;
     }
 
+    static #foundElements = {};
+
     /**
      * Find molecular formulas that contain a given element.
      *
-     * @param {...string} symbols - Element symbols
+     * @param {string} symbol - An element symbol
      * @returns {Array} Molecular formulas that contain the given symbol
      */
-    static findElements(...symbols) {
+    static findElement(symbol) {
+        if (!symbol) {
+            return [];
+        }
+        if (symbol in Molecules.#foundElements) {
+            return Molecules.#foundElements[symbol];
+        }
         const formulas = [];
         for (const formula in moleculesData) {
             const elements = Molecules.parse(formula);
-            for (const symbol of symbols) {
-                if (symbol in elements) {
-                    formulas.push(formula);
-                }
+            if (symbol in elements) {
+                formulas.push(formula);
             }
         }
+        Molecules.#foundElements[symbol] = formulas;
         return formulas;
     }
 
@@ -1920,7 +1927,7 @@ class Molecules {
      * @returns {Array<string>} A list of molecular formulas
      */
     static list(symbol = null) {
-        return symbol ? Molecules.findElements(symbol) : Object.keys(moleculesData);
+        return symbol ? Molecules.findElement(symbol) : Object.keys(moleculesData);
     }
 
     static #parsed = {};
