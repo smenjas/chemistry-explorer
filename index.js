@@ -95,7 +95,7 @@ class Search {
      * @returns {string} HTML: a search page
      */
     static render(search) {
-        document.title = 'Search Chemicals';
+        document.title = 'Chemistry Search';
         let html = '<main>';
         html += `<h1>${document.title}</h1>`;
         html += Search.renderForm(search);
