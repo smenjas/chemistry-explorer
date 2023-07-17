@@ -106,6 +106,27 @@ class Search {
     }
 
     /**
+     * Find molecules that match the search query.
+     *
+     * @param {string} search - The search query
+     * @param {string} [symbol=''] - An element symbol
+     * @returns {Object} Molecule names keyed by molecular formulas
+     */
+    static findMolecules(search, symbol = '') {
+        if (search.length > 2) {
+            return Molecules.findNames(search);
+        }
+
+        // Show formulas that contain the element.
+        const foundFormulas = Molecules.findElement(symbol);
+        const molecules = {};
+        for (const formula of foundFormulas) {
+            molecules[formula] = moleculesData[formula];
+        }
+        return molecules;
+    }
+
+    /**
      * Create the HTML for the search page.
      *
      * @param {string} search - The search query
@@ -152,19 +173,8 @@ class Search {
 
         console.time(`Search.renderResults("${search}")`);
         const elements = Elements.find(search);
-        let formulas = {};
-
-        if (search.length < 3 && elements[0]) {
-            // Show formulas that contain the element.
-            const symbol = elementsData.get(elements[0]).symbol;
-            const foundFormulas = Molecules.findElement(symbol);
-            for (const formula of foundFormulas) {
-                formulas[formula] = moleculesData[formula];
-            }
-        }
-        else {
-            formulas = Molecules.findNames(search);
-        }
+        const symbol = Elements.findSymbol(elements[0]);
+        let formulas = Search.findMolecules(search, symbol);
 
         if (search.length > 1) {
             // Search for molecules by formula.
@@ -476,7 +486,7 @@ class Elements {
      * Find the next atomic number in a given element's group.
      *
      * @param {integer} protons - An atomic number
-     * @returns {integer} - An atomic number, or zero
+     * @returns {integer} An atomic number, or zero
      */
     static findNextInGroup(protons) {
         protons = parseInt(protons);
@@ -499,7 +509,7 @@ class Elements {
      * Find the previous atomic number in a given element's group.
      *
      * @param {integer} protons - An atomic number
-     * @returns {integer} - An atomic number, or zero
+     * @returns {integer} An atomic number, or zero
      */
     static findPreviousInGroup(protons) {
         protons = parseInt(protons);
@@ -525,10 +535,21 @@ class Elements {
      * Find the atomic number for a given element symbol.
      *
      * @param {string} symbol - An element symbol
-     * @returns {integer} - An atomic number, or zero
+     * @returns {integer} An atomic number, or zero
      */
     static findProtons(symbol) {
         return Elements.symbols[symbol] ?? 0;
+    }
+
+    /**
+     * Find the element symbol for a given atomic number.
+     *
+     * @param {integer} symbol - An atomic number
+     * @returns {string} An element symbol, or the empty string
+     */
+    static findSymbol(protons) {
+        const element = elementsData.get(protons);
+        return element ? element.symbol : '';
     }
 
     /**
