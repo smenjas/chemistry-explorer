@@ -1567,11 +1567,13 @@ class Molecules {
             //[['UB2', 'UB4H16', 'U'], 1], // H in UB4H16, not in UB2
         ];
 
+        /*
         for (const [index, test] of tests.entries()) {
             // Turn on debugging output.
             test[0].push(true);
             tests[index] = test;
         }
+        */
 
         return Test.run(Molecules.compare, tests);
     }
