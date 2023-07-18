@@ -1906,6 +1906,20 @@ class Molecules {
         return formulas;
     }
 
+    /**
+     * Test the findFormulas method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findFormulasTest() {
+        const tests = [
+            [['w3'], ['Nd2W3O12']],
+            [['y3'], ['Y3Al5O12']],
+        ];
+
+        return Test.run(Molecules.findFormulas, tests);
+    }
+
     static #foundNames = {};
 
     /**
@@ -2564,6 +2578,7 @@ class Test {
             Molecules.compareTest,
             Molecules.convertFormulaTest,
             Molecules.findElementTest,
+            Molecules.findFormulasTest,
             Test.compareArraysTest,
         ];
 
