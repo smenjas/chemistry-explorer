@@ -3724,7 +3724,6 @@ const moleculesData = {
     FN3: ['Fluorine azide'],
     FClO4: ['Fluorine perchlorate'],
     F2: ['Difluorine'],
-    F2Kr: ['Krypton difluoride'],
     F4K2Ni: ['Potassium tetrafluoronickelate'],
     F6H2Si: ['Hexafluorosilicic acid'],
 
@@ -4369,6 +4368,7 @@ const moleculesData = {
     Br2O5: ['Dibromine pentoxide'],
 
     KrF: ['Krypton fluoride'],
+    KrF2: ['Krypton difluoride'],
 
     RbH: ['Rubidium hydride'],
     RbOH: ['Rubidium hydroxide'],
