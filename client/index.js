@@ -1968,6 +1968,20 @@ class Molecules {
     }
 
     /**
+     * Test the findNames method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findNamesTest() {
+        const tests = [
+            [['bifluoride'], {NaHF2: ['Sodium bifluoride'], KHF2: ['Potassium bifluoride']}],
+            [['triazan'], {H5N3: ['Triazane']}],
+        ];
+
+        return Test.run(Molecules.findNames, tests);
+    }
+
+    /**
      * Find duplicate molecule names in our database.
      *
      * @returns {object} Molecular formulas, keyed by molecule names
@@ -2504,6 +2518,7 @@ class Isotopes {
 class Test {
     /**
      * Compare two arrays, to see if they contain the same elements.
+     * @todo Compare nested arrays, and arrays of objects.
      *
      * @param {Array} a - An array
      * @param {Array} b - An array
@@ -2551,6 +2566,152 @@ class Test {
     }
 
     /**
+     * Compare two objects, to see if they contain the same properties.
+     *
+     * @param {Object} a - An object
+     * @param {Object} b - An object
+     * @returns {boolean} True if the objects contain the same properties
+     */
+    static compareObjects(a, b) {
+        if (!Test.isObject(a)) {
+            return false;
+        }
+        if (!Test.isObject(b)) {
+            return false;
+        }
+        if (Object.keys(a).length !== Object.keys(b).length) {
+            return false;
+        }
+        for (const p in a) {
+            if (!(p in b)) {
+                return false;
+            }
+            if (Array.isArray(a[p])) {
+                if (!Test.compareArrays(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (Test.isObject(a[p])) {
+                if (!Test.compareObjects(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (a[p] !== b[p]) {
+                return false;
+            }
+        }
+        for (const p in b) {
+            if (!(p in a)) {
+                return false;
+            }
+            if (Array.isArray(b[p])) {
+                if (!Test.compareArrays(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (Test.isObject(b[p])) {
+                if (!Test.compareObjects(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (a[p] !== b[p]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Test the compareObjects method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static compareObjectsTest() {
+        const tests = [
+            [ [ 0, {} ], false],
+            [ [ {}, 0 ], false],
+            [ [ {}, {} ], true],
+            [ [ {a: 1}, {a: 1} ], true],
+            [ [ {a: 1}, {a: 2} ], false],
+            [ [ {a: 1}, {b: 1} ], false],
+            [ [ {a: []}, {a: []} ], true],
+            [ [ {a: []}, {b: []} ], false],
+            [ [ {a: [1]}, {a: [1]} ], true],
+            [ [ {a: [1]}, {a: [2]} ], false],
+            [ [ {a: {}}, {a: {}} ], true],
+            [ [ {a: {}}, {b: {}} ], false],
+            [ [ {a: {x: 1}}, {a: {x: 1}} ], true],
+            [ [ {a: {x: 1}}, {a: {x: 2}} ], false],
+        ];
+
+        return Test.run(Test.compareObjects, tests);
+    }
+
+    /**
+     * Determine whether the input is an object.
+     *
+     * @param {null|undefined|boolean|number|bigint|string|Array|Map|Object|Set|Symbol|WeakMap|WeakSet} obj - Anything
+     * @returns {boolean} Whether the input is an object
+     */
+    static isObject(obj) {
+        // Handle undefined, booleans, numbers, NaN, bigints, strings, and symbols.
+        if (typeof obj !== 'object') {
+            return false;
+        }
+        // Handle null
+        if (!(obj instanceof Object)) {
+            return false;
+        }
+        if (Array.isArray(obj)) {
+            return false;
+        }
+        if (obj instanceof Map) {
+            return false;
+        }
+        if (obj instanceof Set) {
+            return false;
+        }
+        if (obj instanceof WeakMap) {
+            return false;
+        }
+        if (obj instanceof WeakSet) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Test the isObject method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static isObjectTest() {
+        const tests = [
+            [[ null ], false],
+            [[ undefined ], false],
+            [[ false ], false],
+            [[ true ], false],
+            [[ NaN ], false],
+            [[ 0 ], false],
+            [[ 0.1 ], false],
+            [[ 0n ], false],
+            [[ '' ], false],
+            [[ 'a' ], false],
+            [[ [] ], false],
+            [[ [1] ], false],
+            [[ {} ], true],
+            [[ {a: 1} ], true],
+            //[[ Symbol() ], false],
+            [[ new Map() ], false],
+            [[ new Set() ], false],
+            [[ new WeakMap() ], false],
+            [[ new WeakSet() ], false],
+        ];
+
+        return Test.run(Test.isObject, tests);
+    }
+
+    /**
      * Create a report for automated test results.
      *
      * @returns {string} HTML: a main block
@@ -2579,7 +2740,10 @@ class Test {
             Molecules.convertFormulaTest,
             Molecules.findElementTest,
             Molecules.findFormulasTest,
+            Molecules.findNamesTest,
             Test.compareArraysTest,
+            Test.compareObjectsTest,
+            Test.isObjectTest,
         ];
 
         let failures = 0;
@@ -2607,6 +2771,9 @@ class Test {
             let result;
             if (Array.isArray(expected)) {
                 result = Test.compareArrays(expected, actual);
+            }
+            else if (Test.isObject(expected)) {
+                result = Test.compareObjects(expected, actual);
             }
             else {
                 result = actual === expected;
