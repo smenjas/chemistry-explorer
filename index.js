@@ -103,6 +103,31 @@ class Search {
     }
 
     /**
+     * Count the number of unique words in a bunch of strings.
+     *
+     * @param {Array<string>} strings - A bunch of strings
+     * @returns {Object} Words counts keyed by words
+     */
+    static countWords(strings) {
+        console.time('Search.countWords()');
+        const words = {};
+        for (const string of strings) {
+            const tokens = string.split(/[-,() ]/);
+            for (let token of tokens) {
+                token = token.toLowerCase();
+                if (token in words) {
+                    words[token] += 1;
+                }
+                else {
+                    words[token] = 1;
+                }
+            }
+        }
+        console.timeEnd('Search.countWords()');
+        return words;
+    }
+
+    /**
      * Find molecules that match the search query.
      *
      * @param {string} search - The search query
@@ -2308,30 +2333,23 @@ class Molecules {
 
     /**
      * Create the HTML for a word cloud of molecule names.
+     *
+     * @returns {string} HTML: a paragraph block
      */
     static renderWords() {
-        const words = {};
+        console.time('Molecules.renderWords()');
+        const strings = [];
         for (const names of Object.values(moleculesData)) {
             for (const name of names) {
-                const tokens = name.replace(/\([IV,]+\)/i, '').split(/[-,() ]/);
-                for (let token of tokens) {
-                    token = token.toLowerCase();
-                    token = token.replace('′', '\'',);
-                    if (token.length < 3) {
-                        continue;
-                    }
-                    if (token in words) {
-                        words[token] += 1;
-                    }
-                    else {
-                        words[token] = 1;
-                    }
-                }
+                const string = name.replace(/\([IV,]+\)/i, '').replace('′', '\'',);
+                strings.push(string);
             }
         }
 
+        const words = Search.countWords(strings);
+
         for (const [word, count] of Object.entries(words)) {
-            if (count === 1) {
+            if (count === 1 || word.length < 3) {
                 delete words[word];
             }
         }
@@ -2353,6 +2371,7 @@ class Molecules {
         }
         html += '</p>';
 
+        console.timeEnd('Molecules.renderWords()');
         return html;
     }
 }
