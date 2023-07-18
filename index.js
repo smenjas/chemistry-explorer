@@ -57,9 +57,6 @@ class Page {
         else if (view === 'test') {
             html += Test.render();
         }
-        else if (view === 'words') {
-            html += Molecules.renderWords();
-        }
         else {
             html += Elements.render(protons);
         }
