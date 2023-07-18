@@ -1864,6 +1864,22 @@ class Molecules {
         return formulas;
     }
 
+    /**
+     * Test the findElement method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findElementTest() {
+        const tests = [
+            [['He'], ['HeLi', 'Na2He']],
+            [['Kr'], ['KrF', 'KrF2']],
+            [['Rn'], ['RnO3', 'RnF2']],
+            [['Fr'], ['FrOH', 'FrCl']],
+        ];
+
+        return Test.run(Molecules.findElement, tests);
+    }
+
     static #foundFormulas = {};
 
     /**
@@ -2473,6 +2489,54 @@ class Isotopes {
  */
 class Test {
     /**
+     * Compare two arrays, to see if they contain the same elements.
+     *
+     * @param {Array} a - An array
+     * @param {Array} b - An array
+     * @returns {boolean} True if the arrays contain the same elements
+     */
+    static compareArrays(a, b) {
+        if (!Array.isArray(a)) {
+            return false;
+        }
+        if (!Array.isArray(b)) {
+            return false;
+        }
+        if (a.length !== b.length) {
+            return false;
+        }
+        for (const e of a) {
+            if (!b.includes(e)) {
+                return false;
+            }
+        }
+        for (const e of b) {
+            if (!a.includes(e)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Test the compareArrays method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static compareArraysTest() {
+        const tests = [
+            [ [ 0, [] ], false],
+            [ [ [], 0 ], false],
+            [ [ [], [] ], true],
+            [ [ [1], [1] ], true],
+            [ [ [1], [2] ], false],
+            [ [ [1], [1, 2] ], false],
+        ];
+
+        return Test.run(Test.compareArrays, tests);
+    }
+
+    /**
      * Create a report for automated test results.
      *
      * @returns {string} HTML: a main block
@@ -2499,6 +2563,8 @@ class Test {
         const methods = [
             Molecules.compareTest,
             Molecules.convertFormulaTest,
+            Molecules.findElementTest,
+            Test.compareArraysTest,
         ];
 
         let failures = 0;
@@ -2523,7 +2589,13 @@ class Test {
             const args = test[0];
             const expected = test[1];
             const actual = method(...args);
-            const result = actual === expected;
+            let result;
+            if (Array.isArray(expected)) {
+                result = Test.compareArrays(expected, actual);
+            }
+            else {
+                result = actual === expected;
+            }
             console.assert(result, `${method.name}(${args.join(', ')}):`, actual, '!==', expected);
             if (!result) {
                 failed += 1;
