@@ -1567,23 +1567,13 @@ class Molecules {
             //[['UB2', 'UB4H16', 'U'], 1], // H in UB4H16, not in UB2
         ];
 
-        let failed = 0;
-        let passed = 0;
-        for (const test of tests) {
-            const args = test[0];
-            const expected = test[1];
-            const actual = Molecules.compare(...args, true);
-            console.assert(actual === expected, args[0], args[1], 'not sorted correctly.');
-            if (actual === expected) {
-                passed += 1;
-            }
-            else {
-                failed += 1;
-            }
+        for (const [index, test] of tests.entries()) {
+            // Turn on debugging output.
+            test[0].push(true);
+            tests[index] = test;
         }
-        console.log(`${failed} tests failed, ${passed} passed.`);
 
-        return failed;
+        return Test.run(Molecules.compare, tests);
     }
 
     /**
@@ -1782,23 +1772,7 @@ class Molecules {
             [['Cf[B6O8(OH)5]', true, 'Cf', 'B'], 'CfB6H5O13'],
         ];
 
-        let failed = 0;
-        let passed = 0;
-        for (const test of tests) {
-            const args = test[0];
-            const expected = test[1];
-            const actual = Molecules.convertFormula(...args);
-            console.assert(actual === expected, args, `${actual} !== ${expected}`, 'not converted correctly.');
-            if (actual === expected) {
-                passed += 1;
-            }
-            else {
-                failed += 1;
-            }
-        }
-        console.log(`${failed} tests failed, ${passed} passed.`);
-
-        return failed;
+        return Test.run(Molecules.convertFormula, tests);
     }
 
     /**
@@ -2502,7 +2476,7 @@ class Test {
      * @returns {string} HTML: a main block
      */
     static render() {
-        const failures = Test.run();
+        const failures = Test.runAll();
         const color = failures ? 'red' : 'green';
         document.title = 'Automated Tests';
         let html = '<main>';
@@ -2517,11 +2491,44 @@ class Test {
      *
      * @returns {integer} How many tests failed
      */
-    static run() {
+    static runAll() {
+        console.time('Test.runAll()');
+
+        const methods = [
+            Molecules.compareTest,
+            Molecules.convertFormulaTest,
+        ];
+
         let failures = 0;
-        failures += Molecules.compareTest();
-        failures += Molecules.convertFormulaTest();
+        for (const method of methods) {
+            failures += method();
+        }
+
+        console.timeEnd('Test.runAll()');
         return failures;
+    }
+
+    /**
+     * Run automated tests for a given function or method.
+     *
+     * @param {Array} tests - Inputs and the expected output
+     * @returns {integer} How many tests failed
+     */
+    static run(method, tests) {
+        console.time(method.name);
+        let failed = 0;
+        for (const test of tests) {
+            const args = test[0];
+            const expected = test[1];
+            const actual = method(...args);
+            const result = actual === expected;
+            console.assert(result, `${method.name}(${args.join(', ')}):`, actual, '!==', expected);
+            if (!result) {
+                failed += 1;
+            }
+        }
+        console.timeEnd(method.name);
+        return failed;
     }
 }
 
