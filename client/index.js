@@ -77,9 +77,9 @@ class Page {
             abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
         }
 
-        const searchForm = document.querySelector('input[name="search"]');
-        if (searchForm) {
-            searchForm.addEventListener('input', Search.handleForm);
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', Search.handleForm);
         }
     }
 }
@@ -89,10 +89,84 @@ class Page {
  */
 class Search {
     /**
+     * Add atomic numbers from a molecular formula to an existing array.
+     * This modifies the first argument by reference, and returns undefined.
+     *
+     * @param {Array<integer>} elements - Atomic numbers
+     * @param {string} A molecular formula
+     */
+    static addFormulaElements(elements, formula) {
+        const symbols = Object.keys(Molecules.parse(formula));
+        for (const symbol of symbols) {
+            const protons = Elements.findProtons(symbol);
+            if (!elements.includes(protons)) {
+                elements.push(protons);
+            }
+        }
+    }
+
+    /**
+     * Find molecules that match the search query.
+     *
+     * @param {string} search - The search query
+     * @param {string} [symbol=''] - An element symbol
+     * @returns {Object} Molecule names keyed by molecular formulas
+     */
+    static findMolecules(search, symbol = '') {
+        if (search.length > 2) {
+            return Molecules.findNames(search);
+        }
+
+        // Show formulas that contain the element.
+        const foundFormulas = Molecules.findElement(symbol);
+        const molecules = {};
+        for (const formula of foundFormulas) {
+            molecules[formula] = moleculesData[formula];
+        }
+        return molecules;
+    }
+
+    /**
+     * Find molecular formulas that match the search query.
+     *
+     * @param {string} search - The search query
+     * @param {Object} molecules - Molecule names keyed by molecular formulas
+     * @param {Object} elements - Atomic numbers
+     * @returns {Object} Molecule names keyed by molecular formulas
+     */
+    static findFormulas(search, molecules, elements) {
+        const found = Molecules.findFormulas(search);
+
+        if (found.length === 0) {
+            return molecules;
+        }
+
+        const upper = search.toUpperCase();
+        for (const formula of found) {
+            molecules[formula] = moleculesData[formula];
+            // Show elements when the formula matches exactly.
+            if (formula.toUpperCase() === upper) {
+                Search.addFormulaElements(elements, formula);
+            }
+        }
+
+        const sortedFormulas = Molecules.sortByFirstElement(Object.keys(molecules));
+        const sortedMolecules = {};
+        for (const formula of sortedFormulas) {
+            sortedMolecules[formula] = molecules[formula];
+        }
+
+        return sortedMolecules;
+    }
+
+    /**
      * Create the HTML for the search page.
+     *
+     * @param {string} search - The search query
+     * @returns {string} HTML: a search page
      */
     static render(search) {
-        document.title = 'Search Chemicals';
+        document.title = 'Chemistry Search';
         let html = '<main>';
         html += `<h1>${document.title}</h1>`;
         html += Search.renderForm(search);
@@ -104,10 +178,10 @@ class Search {
     }
 
     /**
-     * Create the HTML for the search page.
+     * Create the HTML for the search form.
      *
-     * @param {string} search - The search term(s)
-     * @returns {string} HTML: search results
+     * @param {string} search - The search query
+     * @returns {string} HTML: a form
      */
     static renderForm(search) {
         let html = '<form id="search">';
@@ -117,74 +191,58 @@ class Search {
     }
 
     /**
-     * Create the HTML for the search page.
+     * Process a search query, and return the results.
      *
-     * @param {string} search - The search term(s)
+     * @param {string} search - The search query
+     * @returns {Object} The elements and molecules matching the query
+     */
+    static process(search) {
+        console.time(`Search.process("${search}")`);
+        const elements = Elements.find(search);
+        const symbol = Elements.findSymbol(elements[0]);
+        let molecules = Search.findMolecules(search, symbol);
+
+        if (search.length > 1) {
+            molecules = Search.findFormulas(search, molecules, elements);
+        }
+
+        const formulas = Object.keys(molecules);
+        if (elements.length === 0 && formulas.length > 0) {
+            const commonElements = Molecules.findCommonElements(formulas);
+            elements.splice(elements.length, 0, ...commonElements);
+        }
+
+        console.timeEnd(`Search.process("${search}")`);
+        return {
+            elements: elements,
+            molecules: molecules,
+        };
+    }
+
+    /**
+     * Create the HTML for the search results.
+     *
+     * @param {string} search - The search query
      * @returns {string} HTML: search results
      */
     static renderResults(search) {
+        search = search.trim();
+
         // Show a word cloud by default.
         if (search.length < 1) {
             return Molecules.renderWords();
         }
 
-        const upper = search.toUpperCase();
-        const elements = [];
-        let formulas = [];
-        let moleculesCount = 0;
-
-        if (search.length < 3) {
-            const symbols = [];
-            // Search for elements by symbol.
-            for (const [protons, element] of elementsData) {
-                const symbol = element.symbol.toUpperCase();
-                if (upper === symbol) {
-                    elements.push(protons);
-                    symbols.push(element.symbol);
-                }
-            }
-            // Show formulas that contain the element.
-            formulas = Molecules.findElements(...symbols);
-            for (const formula of formulas) {
-                moleculesCount += moleculesData[formula].length;
-            }
-        }
-        else {
-            // Search for elements by name.
-            for (const [protons, element] of elementsData) {
-                const name = element.name.toUpperCase();
-                if (name.includes(upper)) {
-                    elements.push(protons);
-                }
-            }
-            // Search for molecules by name.
-            for (const formula in moleculesData) {
-                for (const name of moleculesData[formula]) {
-                    if (name.toUpperCase().includes(upper) && !formulas.includes(formula)) {
-                        formulas.push(formula);
-                        moleculesCount += moleculesData[formula].length;
-                    }
-                }
-            }
-        }
-
-        if (search.length > 1) {
-            let added = false;
-            // Search for molecules by formula.
-            for (const formula in moleculesData) {
-                if (formula.toUpperCase().includes(upper) && !formulas.includes(formula)) {
-                    formulas.push(formula);
-                    moleculesCount += moleculesData[formula].length;
-                    added = true;
-                }
-            }
-            if (added) {
-                formulas = Molecules.sortByFirstElement(formulas);
-            }
-        }
+        const { elements, molecules } = Search.process(search);
+        const formulas = Object.keys(molecules);
 
         if (elements.length === 0 && formulas.length === 0) {
-            return '<p>No matches found.</p>';
+            if (search.length < 3) {
+                return '<p>Try a different search.</p>';
+            }
+            else {
+                return '<p>No matches found.</p>';
+            }
         }
 
         let html = '';
@@ -196,25 +254,17 @@ class Search {
         }
         html += '</section>';
 
+        let moleculesCount = 0;
+        for (const formula in molecules) {
+            moleculesCount += molecules[formula].length;
+        }
+
         const formulaResults = `${formulas.length} Formula${(formulas.length === 1) ? '' : 's'}`;
         const moleculeResults = `${moleculesCount} Molecule${(moleculesCount === 1) ? '' : 's'}`;
         html += `<h2>${formulaResults}, ${moleculeResults}</h2>`;
         html += '<ul>';
-        for (const formula of formulas) {
-            let moleculeNames = '';
-            if (search.length < 3 || formula.toUpperCase().includes(upper)) {
-                moleculeNames = moleculesData[formula].join(', ');
-            }
-            else {
-                // Only show molecule names matching the search query.
-                const names = [];
-                for (const name of moleculesData[formula]) {
-                    if (name.toUpperCase().includes(upper)) {
-                        names.push(name);
-                    }
-                }
-                moleculeNames = names.join(', ');
-            }
+        for (const formula in molecules) {
+            const moleculeNames = molecules[formula].join(', ');
             const linkText = `${Molecules.format(formula)}: ${moleculeNames}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
@@ -223,9 +273,17 @@ class Search {
         return html;
     }
 
+    /**
+     * Handle input events in the search box.
+     *
+     * @param {Object} event - A browser event
+     */
     static handleForm(event) {
         const search = event.target.value;
         document.getElementById('search-results').innerHTML = Search.renderResults(search);
+        const url = new URL(location);
+        url.searchParams.set('search', search);
+        history.replaceState({}, '', url);
     }
 }
 
@@ -412,10 +470,57 @@ class Elements {
     }
 
     /**
+     * Convert an array of atomic numbers to element symbols.
+     *
+     * @param {Array<integer>} elements - Atomic numbers
+     * @returns {Array<string>} Element symbols
+     */
+    static convertProtons(elements) {
+        const symbols = [];
+        for (const protons of elements) {
+            symbols.push(elementsData.get(protons).symbol);
+        }
+        return symbols;
+    }
+
+    /**
+     * Find elements by symbol or by name.
+     * @todo Add tests.
+     *
+     * @param {string} search - The search query
+     * @returns {Array<integer>} Atomic numbers of matching elements
+     */
+    static find(search) {
+        const elements = [];
+        const upper = search.toUpperCase();
+
+        if (search.length < 3) {
+            // Search for elements by symbol.
+            for (const [protons, element] of elementsData) {
+                const symbol = element.symbol.toUpperCase();
+                if (upper === symbol) {
+                    elements.push(protons);
+                }
+            }
+            return elements;
+        }
+
+        // Search for elements by name.
+        for (const [protons, element] of elementsData) {
+            const name = element.name.toUpperCase();
+            if (name.includes(upper)) {
+                elements.push(protons);
+            }
+        }
+
+        return elements;
+    }
+
+    /**
      * Find the next atomic number in a given element's group.
      *
      * @param {integer} protons - An atomic number
-     * @returns {integer} - An atomic number, or zero
+     * @returns {integer} An atomic number, or zero
      */
     static findNextInGroup(protons) {
         protons = parseInt(protons);
@@ -438,7 +543,7 @@ class Elements {
      * Find the previous atomic number in a given element's group.
      *
      * @param {integer} protons - An atomic number
-     * @returns {integer} - An atomic number, or zero
+     * @returns {integer} An atomic number, or zero
      */
     static findPreviousInGroup(protons) {
         protons = parseInt(protons);
@@ -464,10 +569,21 @@ class Elements {
      * Find the atomic number for a given element symbol.
      *
      * @param {string} symbol - An element symbol
-     * @returns {integer} - An atomic number, or zero
+     * @returns {integer} An atomic number, or zero
      */
     static findProtons(symbol) {
         return Elements.symbols[symbol] ?? 0;
+    }
+
+    /**
+     * Find the element symbol for a given atomic number.
+     *
+     * @param {integer} symbol - An atomic number
+     * @returns {string} An element symbol, or the empty string
+     */
+    static findSymbol(protons) {
+        const element = elementsData.get(protons);
+        return element ? element.symbol : '';
     }
 
     /**
@@ -1657,28 +1773,101 @@ class Molecules {
     }
 
     /**
-     * Find molecular formulas that contain a given element.
+     * Find elements present in every given formula.
      *
-     * @param {...string} symbols - Element symbols
-     * @returns {Array} Molecular formulas that contain the given symbol
+     * @param {Array<string>} formulas - Molecular formulas
+     * @returns {Array<integer>} Atomic numbers
      */
-    static findElements(...symbols) {
-        const formulas = [];
-        for (const formula in moleculesData) {
-            const elements = Molecules.parse(formula);
-            for (const symbol of symbols) {
-                if (symbol in elements) {
-                    formulas.push(formula);
+    static findCommonElements(formulas) {
+        // Add every element present in the matched formulas.
+        const candidates = [];
+        for (const formula of formulas) {
+            Search.addFormulaElements(candidates, formula);
+        }
+        // Count how many formulas contain each element.
+        const elementCounts = {};
+        for (const formula of formulas) {
+            const components = Molecules.parse(formula);
+            for (const protons of candidates) {
+                const symbol = Elements.findSymbol(protons);
+                if (!(symbol in components)) {
+                    continue;
+                }
+                if (protons in elementCounts) {
+                    elementCounts[protons] += 1;
+                }
+                else {
+                    elementCounts[protons] = 1;
                 }
             }
         }
+        // Find the elements present in every formula.
+        const common = [];
+        for (const [protons, count] of Object.entries(elementCounts)) {
+            if (count === formulas.length) {
+                common.push(parseInt(protons));
+            }
+        }
+        common.sort((a, b) => a - b);
+        return common;
+    }
+
+    static #foundElements = {};
+
+    /**
+     * Find molecular formulas that contain a given element.
+     *
+     * @param {string} symbol - An element symbol
+     * @returns {Array} Molecular formulas that contain the given symbol
+     */
+    static findElement(symbol) {
+        if (!symbol) {
+            return [];
+        }
+        if (symbol in Molecules.#foundElements) {
+            return Molecules.#foundElements[symbol];
+        }
+        const formulas = [];
+        for (const formula in moleculesData) {
+            const elements = Molecules.parse(formula);
+            if (symbol in elements) {
+                formulas.push(formula);
+            }
+        }
+        Molecules.#foundElements[symbol] = formulas;
+        return formulas;
+    }
+
+    static #foundFormulas = {};
+
+    /**
+     * Find molecules by formula.
+     *
+     * @param {string} search - The search query
+     * @param {Array<string>} Molecular formulas that include the query
+     */
+    static findFormulas(search) {
+        if (search in Molecules.#foundFormulas) {
+            return Molecules.#foundFormulas[search];
+        }
+        const formulas = [];
+        const upper = search.toUpperCase();
+
+        for (const formula in moleculesData) {
+            const f = formula.toUpperCase();
+            if ((f === upper) || (f.includes(upper))) {
+                formulas.push(formula);
+            }
+        }
+
+        Molecules.#foundFormulas[search] = formulas;
         return formulas;
     }
 
     static #foundNames = {};
 
     /**
-     * Find molecular formulas by name.
+     * Find a molecular formula by its exact name, case sensitive.
      *
      * @param {string} name - A molecule name
      * @returns {Array} Molecular formulas that match the given name exactly
@@ -1695,6 +1884,30 @@ class Molecules {
             }
         }
         Molecules.#foundNames[name] = formulas;
+        return formulas;
+    }
+
+    /**
+     * Find molecular formulas by name.
+     *
+     * @param {string} search - The search query
+     * @returns {Object} Molecule names that include the query, keyed by formula
+     */
+    static findNames(search) {
+        const formulas = {};
+        const upper = search.toUpperCase();
+        for (const formula in moleculesData) {
+            for (const name of moleculesData[formula]) {
+                if (name.toUpperCase().includes(upper)) {
+                    if (formula in formulas) {
+                        formulas[formula].push(name);
+                    }
+                    else {
+                        formulas[formula] = [name];
+                    }
+                }
+            }
+        }
         return formulas;
     }
 
@@ -1820,7 +2033,7 @@ class Molecules {
      * @returns {Array<string>} A list of molecular formulas
      */
     static list(symbol = null) {
-        return symbol ? Molecules.findElements(symbol) : Object.keys(moleculesData);
+        return symbol ? Molecules.findElement(symbol) : Object.keys(moleculesData);
     }
 
     static #parsed = {};
