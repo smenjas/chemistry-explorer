@@ -109,7 +109,7 @@ class Search {
      * @returns {Object} Words counts keyed by words
      */
     static countWords(strings) {
-        console.time('Search.countWords()');
+        //console.time('Search.countWords()');
         const words = {};
         for (const string of strings) {
             const tokens = string.split(/[-,() ]/);
@@ -123,7 +123,7 @@ class Search {
                 }
             }
         }
-        console.timeEnd('Search.countWords()');
+        //console.timeEnd('Search.countWords()');
         return words;
     }
 
@@ -306,6 +306,34 @@ class Search {
         const url = new URL(location);
         url.searchParams.set('search', search);
         history.replaceState({}, '', url);
+    }
+
+    /**
+     * Create the HTML for a word cloud.
+     *
+     * @returns {string} HTML: a paragraph block
+     */
+    static renderWords(words) {
+        //console.time('Search.renderWords()');
+        const sortedWords = Object.keys(words).sort();
+        const counts = Object.values(words);
+        const countMax = Math.max(...counts);
+        const countMin = Math.min(...counts);
+        const countRange = countMax - countMin;
+        const sizeMax = 500;
+        const sizeMin = 85;
+        const sizeRange = sizeMax - sizeMin;
+
+        let html = '<p>';
+        for (const word of sortedWords) {
+            const position = (words[word] - countMin) / countRange;
+            const size = Math.ceil((position * sizeRange) + sizeMin);
+            html += `<a href="?search=${word}" style="font-size: ${size}%">${word}</a> `;
+        }
+        html += '</p>';
+
+        //console.timeEnd('Search.renderWords()');
+        return html;
     }
 }
 
@@ -2338,6 +2366,7 @@ class Molecules {
      */
     static renderWords() {
         console.time('Molecules.renderWords()');
+        //console.time('Molecules.renderWords() collecting');
         const strings = [];
         for (const names of Object.values(moleculesData)) {
             for (const name of names) {
@@ -2345,31 +2374,19 @@ class Molecules {
                 strings.push(string);
             }
         }
+        //console.timeEnd('Molecules.renderWords() collecting');
 
         const words = Search.countWords(strings);
 
+        //console.time('Molecules.renderWords() pruning');
         for (const [word, count] of Object.entries(words)) {
             if (count === 1 || word.length < 3) {
                 delete words[word];
             }
         }
+        //console.timeEnd('Molecules.renderWords() pruning');
 
-        const sortedWords = Object.keys(words).sort();
-        const counts = Object.values(words);
-        const countMax = Math.max(...counts);
-        const countMin = Math.min(...counts);
-        const countRange = countMax - countMin;
-        const sizeMax = 500;
-        const sizeMin = 85;
-        const sizeRange = sizeMax - sizeMin;
-
-        let html = '<p>';
-        for (const word of sortedWords) {
-            const position = (words[word] - countMin) / countRange;
-            const size = Math.ceil((position * sizeRange) + sizeMin);
-            html += `<a href="?search=${word}" style="font-size: ${size}%">${word}</a> `;
-        }
-        html += '</p>';
+        const html = Search.renderWords(words);
 
         console.timeEnd('Molecules.renderWords()');
         return html;
