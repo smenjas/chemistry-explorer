@@ -57,9 +57,6 @@ class Page {
         else if (view === 'test') {
             html += Test.render();
         }
-        else if (view === 'words') {
-            html += Molecules.renderWords();
-        }
         else {
             html += Elements.render(protons);
         }
@@ -103,6 +100,31 @@ class Search {
                 elements.push(protons);
             }
         }
+    }
+
+    /**
+     * Count the number of unique words in a bunch of strings.
+     *
+     * @param {Array<string>} strings - A bunch of strings
+     * @returns {Object} Words counts keyed by words
+     */
+    static countWords(strings) {
+        //console.time('Search.countWords()');
+        const words = {};
+        for (const string of strings) {
+            const tokens = string.split(/[-,() ]/);
+            for (let token of tokens) {
+                token = token.toLowerCase();
+                if (token in words) {
+                    words[token] += 1;
+                }
+                else {
+                    words[token] = 1;
+                }
+            }
+        }
+        //console.timeEnd('Search.countWords()');
+        return words;
     }
 
     /**
@@ -284,6 +306,34 @@ class Search {
         const url = new URL(location);
         url.searchParams.set('search', search);
         history.replaceState({}, '', url);
+    }
+
+    /**
+     * Create the HTML for a word cloud.
+     *
+     * @returns {string} HTML: a paragraph block
+     */
+    static renderWords(words) {
+        //console.time('Search.renderWords()');
+        const sortedWords = Object.keys(words).sort();
+        const counts = Object.values(words);
+        const countMax = Math.max(...counts);
+        const countMin = Math.min(...counts);
+        const countRange = countMax - countMin;
+        const sizeMax = 500;
+        const sizeMin = 85;
+        const sizeRange = sizeMax - sizeMin;
+
+        let html = '<p>';
+        for (const word of sortedWords) {
+            const position = (words[word] - countMin) / countRange;
+            const size = Math.ceil((position * sizeRange) + sizeMin);
+            html += `<a href="?search=${word}" style="font-size: ${size}%">${word}</a> `;
+        }
+        html += '</p>';
+
+        //console.timeEnd('Search.renderWords()');
+        return html;
     }
 }
 
@@ -2311,51 +2361,34 @@ class Molecules {
 
     /**
      * Create the HTML for a word cloud of molecule names.
+     *
+     * @returns {string} HTML: a paragraph block
      */
     static renderWords() {
-        const words = {};
+        console.time('Molecules.renderWords()');
+        //console.time('Molecules.renderWords() collecting');
+        const strings = [];
         for (const names of Object.values(moleculesData)) {
             for (const name of names) {
-                const tokens = name.replace(/\([IV,]+\)/i, '').split(/[-,() ]/);
-                for (let token of tokens) {
-                    token = token.toLowerCase();
-                    token = token.replace('′', '\'',);
-                    if (token.length < 3) {
-                        continue;
-                    }
-                    if (token in words) {
-                        words[token] += 1;
-                    }
-                    else {
-                        words[token] = 1;
-                    }
-                }
+                const string = name.replace(/\([IV,]+\)/i, '').replace('′', '\'',);
+                strings.push(string);
             }
         }
+        //console.timeEnd('Molecules.renderWords() collecting');
 
+        const words = Search.countWords(strings);
+
+        //console.time('Molecules.renderWords() pruning');
         for (const [word, count] of Object.entries(words)) {
-            if (count === 1) {
+            if (count === 1 || word.length < 3) {
                 delete words[word];
             }
         }
+        //console.timeEnd('Molecules.renderWords() pruning');
 
-        const sortedWords = Object.keys(words).sort();
-        const counts = Object.values(words);
-        const countMax = Math.max(...counts);
-        const countMin = Math.min(...counts);
-        const countRange = countMax - countMin;
-        const sizeMax = 500;
-        const sizeMin = 85;
-        const sizeRange = sizeMax - sizeMin;
+        const html = Search.renderWords(words);
 
-        let html = '<p>';
-        for (const word of sortedWords) {
-            const position = (words[word] - countMin) / countRange;
-            const size = Math.ceil((position * sizeRange) + sizeMin);
-            html += `<a href="?search=${word}" style="font-size: ${size}%">${word}</a> `;
-        }
-        html += '</p>';
-
+        console.timeEnd('Molecules.renderWords()');
         return html;
     }
 }
