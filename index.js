@@ -182,6 +182,20 @@ class Search {
     }
 
     /**
+     * Test the findFormulas method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findFormulasTest() {
+        const tests = [
+            [['w3', {}, []], {Nd2W3O12: ['Neodymium tungstate']}],
+            [['y3', {}, []], {Y3Al5O12: ['Yttrium aluminum garnet']}],
+        ];
+
+        return Test.run(Search.findFormulas, tests);
+    }
+
+    /**
      * Create the HTML for the search page.
      *
      * @param {string} search - The search query
@@ -2759,6 +2773,7 @@ class Test {
             Molecules.findElementTest,
             Molecules.findFormulasTest,
             Molecules.findNamesTest,
+            Search.findFormulasTest,
             Test.compareArraysTest,
             Test.compareObjectsTest,
             Test.isObjectTest,
