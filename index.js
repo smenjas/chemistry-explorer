@@ -567,6 +567,23 @@ class Elements {
     }
 
     /**
+     * Test the find method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findTest(){
+        const tests = [
+            [[''], []],
+            [['x'], []],
+            [['h'], [1]],
+            [['he'], [2]],
+            [['bor'], [5, 106]],
+        ];
+
+        return Test.run(Elements.find, tests);
+    }
+
+    /**
      * Find the next atomic number in a given element's group.
      *
      * @param {integer} protons - An atomic number
@@ -2736,6 +2753,7 @@ class Test {
         console.time('Test.runAll()');
 
         const methods = [
+            Elements.findTest,
             Molecules.compareTest,
             Molecules.convertFormulaTest,
             Molecules.findElementTest,
