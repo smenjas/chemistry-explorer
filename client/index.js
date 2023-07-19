@@ -149,6 +149,21 @@ class Search {
     }
 
     /**
+     * Test the findMolecules method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findMoleculesTest() {
+        const tests = [
+            [[''], {}],
+            [[' '], {}],
+            [['magic'], {HSbF6SO3: ['Magic acid']}],
+        ];
+
+        return Test.run(Search.findMolecules, tests);
+    }
+
+    /**
      * Find molecular formulas that match the search query.
      *
      * @param {string} search - The search query
@@ -2774,6 +2789,7 @@ class Test {
             Molecules.findFormulasTest,
             Molecules.findNamesTest,
             Search.findFormulasTest,
+            Search.findMoleculesTest,
             Test.compareArraysTest,
             Test.compareObjectsTest,
             Test.isObjectTest,
