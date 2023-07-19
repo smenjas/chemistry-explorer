@@ -254,8 +254,10 @@ class Search {
      * @param {string} search - The search query
      * @returns {Object} The elements and molecules matching the query
      */
-    static process(search) {
-        console.time(`Search.process("${search}")`);
+    static process(search, time = false) {
+        if (time) {
+            console.time(`Search.process("${search}")`);
+        }
         const elements = Elements.find(search);
         const symbol = Elements.findSymbol(elements[0]);
         let molecules = Search.findMolecules(search, symbol);
@@ -270,7 +272,9 @@ class Search {
             elements.splice(elements.length, 0, ...commonElements);
         }
 
-        console.timeEnd(`Search.process("${search}")`);
+        if (time) {
+            console.timeEnd(`Search.process("${search}")`);
+        }
         return {
             elements: elements,
             molecules: molecules,
@@ -308,7 +312,7 @@ class Search {
             return Molecules.renderWords();
         }
 
-        const { elements, molecules } = Search.process(search);
+        const { elements, molecules } = Search.process(search, true);
         const formulas = Object.keys(molecules);
 
         if (elements.length === 0 && formulas.length === 0) {
