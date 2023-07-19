@@ -172,6 +172,11 @@ class Search {
      * @returns {Object} Molecule names keyed by molecular formulas
      */
     static findFormulas(search, molecules, elements) {
+        search = search.trim();
+        if (search.length === 0) {
+            return molecules;
+        }
+
         const found = Molecules.findFormulas(search);
 
         if (found.length === 0) {
@@ -203,6 +208,8 @@ class Search {
      */
     static findFormulasTest() {
         const tests = [
+            [['', {}, []], {}],
+            [[' ', {}, []], {}],
             [['w3', {}, []], {Nd2W3O12: ['Neodymium tungstate']}],
             [['y3', {}, []], {Y3Al5O12: ['Yttrium aluminum garnet']}],
         ];
@@ -587,6 +594,11 @@ class Elements {
      * @returns {Array<integer>} Atomic numbers of matching elements
      */
     static find(search) {
+        search = search.trim();
+        if (search.length === 0) {
+            return [];
+        }
+
         const elements = [];
         const upper = search.toUpperCase();
 
@@ -620,6 +632,7 @@ class Elements {
     static findTest(){
         const tests = [
             [[''], []],
+            [[' '], []],
             [['x'], []],
             [['h'], [1]],
             [['he'], [2]],
@@ -1934,6 +1947,9 @@ class Molecules {
      */
     static findElementTest() {
         const tests = [
+            [[''], []],
+            [[' '], []],
+            [['X'], []],
             [['He'], ['HeLi', 'Na2He']],
             [['Kr'], ['KrF', 'KrF2']],
             [['Rn'], ['RnO3', 'RnF2']],
@@ -1952,6 +1968,10 @@ class Molecules {
      * @param {Array<string>} Molecular formulas that include the query
      */
     static findFormulas(search) {
+        search = search.trim();
+        if (search.length === 0) {
+            return [];
+        }
         if (search in Molecules.#foundFormulas) {
             return Molecules.#foundFormulas[search];
         }
@@ -1976,6 +1996,8 @@ class Molecules {
      */
     static findFormulasTest() {
         const tests = [
+            [[''], []],
+            [[' '], []],
             [['w3'], ['Nd2W3O12']],
             [['y3'], ['Y3Al5O12']],
         ];
@@ -2013,21 +2035,25 @@ class Molecules {
      * @returns {Object} Molecule names that include the query, keyed by formula
      */
     static findNames(search) {
-        const formulas = {};
+        search = search.trim();
+        if (search.length === 0) {
+            return {};
+        }
+        const molecules = {};
         const upper = search.toUpperCase();
         for (const formula in moleculesData) {
             for (const name of moleculesData[formula]) {
                 if (name.toUpperCase().includes(upper)) {
-                    if (formula in formulas) {
-                        formulas[formula].push(name);
+                    if (formula in molecules) {
+                        molecules[formula].push(name);
                     }
                     else {
-                        formulas[formula] = [name];
+                        molecules[formula] = [name];
                     }
                 }
             }
         }
-        return formulas;
+        return molecules;
     }
 
     /**
@@ -2037,6 +2063,8 @@ class Molecules {
      */
     static findNamesTest() {
         const tests = [
+            [[''], {}],
+            [[' '], {}],
             [['bifluoride'], {NaHF2: ['Sodium bifluoride'], KHF2: ['Potassium bifluoride']}],
             [['triazan'], {H5N3: ['Triazane']}],
         ];
