@@ -149,6 +149,21 @@ class Search {
     }
 
     /**
+     * Test the findMolecules method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findMoleculesTest() {
+        const tests = [
+            [[''], {}],
+            [[' '], {}],
+            [['magic'], {HSbF6SO3: ['Magic acid']}],
+        ];
+
+        return Test.run(Search.findMolecules, tests);
+    }
+
+    /**
      * Find molecular formulas that match the search query.
      *
      * @param {string} search - The search query
@@ -157,6 +172,11 @@ class Search {
      * @returns {Object} Molecule names keyed by molecular formulas
      */
     static findFormulas(search, molecules, elements) {
+        search = search.trim();
+        if (search.length === 0) {
+            return molecules;
+        }
+
         const found = Molecules.findFormulas(search);
 
         if (found.length === 0) {
@@ -179,6 +199,22 @@ class Search {
         }
 
         return sortedMolecules;
+    }
+
+    /**
+     * Test the findFormulas method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findFormulasTest() {
+        const tests = [
+            [['', {}, []], {}],
+            [[' ', {}, []], {}],
+            [['w3', {}, []], {Nd2W3O12: ['Neodymium tungstate']}],
+            [['y3', {}, []], {Y3Al5O12: ['Yttrium aluminum garnet']}],
+        ];
+
+        return Test.run(Search.findFormulas, tests);
     }
 
     /**
@@ -218,8 +254,10 @@ class Search {
      * @param {string} search - The search query
      * @returns {Object} The elements and molecules matching the query
      */
-    static process(search) {
-        console.time(`Search.process("${search}")`);
+    static process(search, time = false) {
+        if (time) {
+            console.time(`Search.process("${search}")`);
+        }
         const elements = Elements.find(search);
         const symbol = Elements.findSymbol(elements[0]);
         let molecules = Search.findMolecules(search, symbol);
@@ -234,11 +272,30 @@ class Search {
             elements.splice(elements.length, 0, ...commonElements);
         }
 
-        console.timeEnd(`Search.process("${search}")`);
+        if (time) {
+            console.timeEnd(`Search.process("${search}")`);
+        }
         return {
             elements: elements,
             molecules: molecules,
         };
+    }
+
+    /**
+     * Test the process method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static processTest() {
+        const tests = [
+            [[''], {elements: [], molecules: {}}],
+            [[' '], {elements: [], molecules: {}}],
+            [['he'], {elements: [2], molecules: {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}}],
+            [['w3'], {elements: [8, 60, 74], molecules: {Nd2W3O12: ['Neodymium tungstate']}}],
+            [['magic'], {elements: [1, 8, 9, 16, 51], molecules: {HSbF6SO3: ['Magic acid']}}],
+        ];
+
+        return Test.run(Search.process, tests);
     }
 
     /**
@@ -255,7 +312,7 @@ class Search {
             return Molecules.renderWords();
         }
 
-        const { elements, molecules } = Search.process(search);
+        const { elements, molecules } = Search.process(search, true);
         const formulas = Object.keys(molecules);
 
         if (elements.length === 0 && formulas.length === 0) {
@@ -541,6 +598,11 @@ class Elements {
      * @returns {Array<integer>} Atomic numbers of matching elements
      */
     static find(search) {
+        search = search.trim();
+        if (search.length === 0) {
+            return [];
+        }
+
         const elements = [];
         const upper = search.toUpperCase();
 
@@ -564,6 +626,24 @@ class Elements {
         }
 
         return elements;
+    }
+
+    /**
+     * Test the find method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findTest(){
+        const tests = [
+            [[''], []],
+            [[' '], []],
+            [['x'], []],
+            [['h'], [1]],
+            [['he'], [2]],
+            [['bor'], [5, 106]],
+        ];
+
+        return Test.run(Elements.find, tests);
     }
 
     /**
@@ -1567,23 +1647,15 @@ class Molecules {
             //[['UB2', 'UB4H16', 'U'], 1], // H in UB4H16, not in UB2
         ];
 
-        let failed = 0;
-        let passed = 0;
-        for (const test of tests) {
-            const args = test[0];
-            const expected = test[1];
-            const actual = Molecules.compare(...args, true);
-            console.assert(actual === expected, args[0], args[1], 'not sorted correctly.');
-            if (actual === expected) {
-                passed += 1;
-            }
-            else {
-                failed += 1;
-            }
+        /*
+        for (const [index, test] of tests.entries()) {
+            // Turn on debugging output.
+            test[0].push(true);
+            tests[index] = test;
         }
-        console.log(`${failed} tests failed, ${passed} passed.`);
+        */
 
-        return failed;
+        return Test.run(Molecules.compare, tests);
     }
 
     /**
@@ -1782,23 +1854,7 @@ class Molecules {
             [['Cf[B6O8(OH)5]', true, 'Cf', 'B'], 'CfB6H5O13'],
         ];
 
-        let failed = 0;
-        let passed = 0;
-        for (const test of tests) {
-            const args = test[0];
-            const expected = test[1];
-            const actual = Molecules.convertFormula(...args);
-            console.assert(actual === expected, args, `${actual} !== ${expected}`, 'not converted correctly.');
-            if (actual === expected) {
-                passed += 1;
-            }
-            else {
-                failed += 1;
-            }
-        }
-        console.log(`${failed} tests failed, ${passed} passed.`);
-
-        return failed;
+        return Test.run(Molecules.convertFormula, tests);
     }
 
     /**
@@ -1888,6 +1944,25 @@ class Molecules {
         return formulas;
     }
 
+    /**
+     * Test the findElement method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findElementTest() {
+        const tests = [
+            [[''], []],
+            [[' '], []],
+            [['X'], []],
+            [['He'], ['HeLi', 'Na2He']],
+            [['Kr'], ['KrF', 'KrF2']],
+            [['Rn'], ['RnO3', 'RnF2']],
+            [['Fr'], ['FrOH', 'FrCl']],
+        ];
+
+        return Test.run(Molecules.findElement, tests);
+    }
+
     static #foundFormulas = {};
 
     /**
@@ -1897,6 +1972,10 @@ class Molecules {
      * @param {Array<string>} Molecular formulas that include the query
      */
     static findFormulas(search) {
+        search = search.trim();
+        if (search.length === 0) {
+            return [];
+        }
         if (search in Molecules.#foundFormulas) {
             return Molecules.#foundFormulas[search];
         }
@@ -1912,6 +1991,22 @@ class Molecules {
 
         Molecules.#foundFormulas[search] = formulas;
         return formulas;
+    }
+
+    /**
+     * Test the findFormulas method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findFormulasTest() {
+        const tests = [
+            [[''], []],
+            [[' '], []],
+            [['w3'], ['Nd2W3O12']],
+            [['y3'], ['Y3Al5O12']],
+        ];
+
+        return Test.run(Molecules.findFormulas, tests);
     }
 
     static #foundNames = {};
@@ -1944,21 +2039,41 @@ class Molecules {
      * @returns {Object} Molecule names that include the query, keyed by formula
      */
     static findNames(search) {
-        const formulas = {};
+        search = search.trim();
+        if (search.length === 0) {
+            return {};
+        }
+        const molecules = {};
         const upper = search.toUpperCase();
         for (const formula in moleculesData) {
             for (const name of moleculesData[formula]) {
                 if (name.toUpperCase().includes(upper)) {
-                    if (formula in formulas) {
-                        formulas[formula].push(name);
+                    if (formula in molecules) {
+                        molecules[formula].push(name);
                     }
                     else {
-                        formulas[formula] = [name];
+                        molecules[formula] = [name];
                     }
                 }
             }
         }
-        return formulas;
+        return molecules;
+    }
+
+    /**
+     * Test the findNames method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static findNamesTest() {
+        const tests = [
+            [[''], {}],
+            [[' '], {}],
+            [['bifluoride'], {NaHF2: ['Sodium bifluoride'], KHF2: ['Potassium bifluoride']}],
+            [['triazan'], {H5N3: ['Triazane']}],
+        ];
+
+        return Test.run(Molecules.findNames, tests);
     }
 
     /**
@@ -2497,12 +2612,207 @@ class Isotopes {
  */
 class Test {
     /**
+     * Compare two arrays, to see if they contain the same elements.
+     * @todo Compare nested arrays, and arrays of objects.
+     *
+     * @param {Array} a - An array
+     * @param {Array} b - An array
+     * @returns {boolean} True if the arrays contain the same elements
+     */
+    static compareArrays(a, b) {
+        if (!Array.isArray(a)) {
+            return false;
+        }
+        if (!Array.isArray(b)) {
+            return false;
+        }
+        if (a.length !== b.length) {
+            return false;
+        }
+        for (const e of a) {
+            if (!b.includes(e)) {
+                return false;
+            }
+        }
+        for (const e of b) {
+            if (!a.includes(e)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Test the compareArrays method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static compareArraysTest() {
+        const tests = [
+            [ [ 0, [] ], false],
+            [ [ [], 0 ], false],
+            [ [ [], [] ], true],
+            [ [ [1], [1] ], true],
+            [ [ [1], [2] ], false],
+            [ [ [1], [1, 2] ], false],
+        ];
+
+        return Test.run(Test.compareArrays, tests);
+    }
+
+    /**
+     * Compare two objects, to see if they contain the same properties.
+     *
+     * @param {Object} a - An object
+     * @param {Object} b - An object
+     * @returns {boolean} True if the objects contain the same properties
+     */
+    static compareObjects(a, b) {
+        if (!Test.isObject(a)) {
+            return false;
+        }
+        if (!Test.isObject(b)) {
+            return false;
+        }
+        if (Object.keys(a).length !== Object.keys(b).length) {
+            return false;
+        }
+        for (const p in a) {
+            if (!(p in b)) {
+                return false;
+            }
+            if (Array.isArray(a[p])) {
+                if (!Test.compareArrays(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (Test.isObject(a[p])) {
+                if (!Test.compareObjects(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (a[p] !== b[p]) {
+                return false;
+            }
+        }
+        for (const p in b) {
+            if (!(p in a)) {
+                return false;
+            }
+            if (Array.isArray(b[p])) {
+                if (!Test.compareArrays(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (Test.isObject(b[p])) {
+                if (!Test.compareObjects(a[p], b[p])) {
+                    return false;
+                }
+            }
+            else if (a[p] !== b[p]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Test the compareObjects method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static compareObjectsTest() {
+        const tests = [
+            [ [ 0, {} ], false],
+            [ [ {}, 0 ], false],
+            [ [ {}, {} ], true],
+            [ [ {a: 1}, {a: 1} ], true],
+            [ [ {a: 1}, {a: 2} ], false],
+            [ [ {a: 1}, {b: 1} ], false],
+            [ [ {a: []}, {a: []} ], true],
+            [ [ {a: []}, {b: []} ], false],
+            [ [ {a: [1]}, {a: [1]} ], true],
+            [ [ {a: [1]}, {a: [2]} ], false],
+            [ [ {a: {}}, {a: {}} ], true],
+            [ [ {a: {}}, {b: {}} ], false],
+            [ [ {a: {x: 1}}, {a: {x: 1}} ], true],
+            [ [ {a: {x: 1}}, {a: {x: 2}} ], false],
+        ];
+
+        return Test.run(Test.compareObjects, tests);
+    }
+
+    /**
+     * Determine whether the input is an object.
+     *
+     * @param {null|undefined|boolean|number|bigint|string|Array|Map|Object|Set|Symbol|WeakMap|WeakSet} obj - Anything
+     * @returns {boolean} Whether the input is an object
+     */
+    static isObject(obj) {
+        // Handle undefined, booleans, numbers, NaN, bigints, strings, and symbols.
+        if (typeof obj !== 'object') {
+            return false;
+        }
+        // Handle null
+        if (!(obj instanceof Object)) {
+            return false;
+        }
+        if (Array.isArray(obj)) {
+            return false;
+        }
+        if (obj instanceof Map) {
+            return false;
+        }
+        if (obj instanceof Set) {
+            return false;
+        }
+        if (obj instanceof WeakMap) {
+            return false;
+        }
+        if (obj instanceof WeakSet) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Test the isObject method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static isObjectTest() {
+        const tests = [
+            [[ null ], false],
+            [[ undefined ], false],
+            [[ false ], false],
+            [[ true ], false],
+            [[ NaN ], false],
+            [[ 0 ], false],
+            [[ 0.1 ], false],
+            [[ 0n ], false],
+            [[ '' ], false],
+            [[ 'a' ], false],
+            [[ [] ], false],
+            [[ [1] ], false],
+            [[ {} ], true],
+            [[ {a: 1} ], true],
+            //[[ Symbol() ], false],
+            [[ new Map() ], false],
+            [[ new Set() ], false],
+            [[ new WeakMap() ], false],
+            [[ new WeakSet() ], false],
+        ];
+
+        return Test.run(Test.isObject, tests);
+    }
+
+    /**
      * Create a report for automated test results.
      *
      * @returns {string} HTML: a main block
      */
     static render() {
-        const failures = Test.run();
+        const failures = Test.runAll();
         const color = failures ? 'red' : 'green';
         document.title = 'Automated Tests';
         let html = '<main>';
@@ -2517,11 +2827,63 @@ class Test {
      *
      * @returns {integer} How many tests failed
      */
-    static run() {
+    static runAll() {
+        console.time('Test.runAll()');
+
+        const methods = [
+            Elements.findTest,
+            Molecules.compareTest,
+            Molecules.convertFormulaTest,
+            Molecules.findElementTest,
+            Molecules.findFormulasTest,
+            Molecules.findNamesTest,
+            Search.findFormulasTest,
+            Search.findMoleculesTest,
+            Search.processTest,
+            Test.compareArraysTest,
+            Test.compareObjectsTest,
+            Test.isObjectTest,
+        ];
+
         let failures = 0;
-        failures += Molecules.compareTest();
-        failures += Molecules.convertFormulaTest();
+        for (const method of methods) {
+            failures += method();
+        }
+
+        console.timeEnd('Test.runAll()');
         return failures;
+    }
+
+    /**
+     * Run automated tests for a given function or method.
+     *
+     * @param {Array} tests - Inputs and the expected output
+     * @returns {integer} How many tests failed
+     */
+    static run(method, tests) {
+        console.time(method.name);
+        let failed = 0;
+        for (const test of tests) {
+            const args = test[0];
+            const expected = test[1];
+            const actual = method(...args);
+            let result;
+            if (Array.isArray(expected)) {
+                result = Test.compareArrays(expected, actual);
+            }
+            else if (Test.isObject(expected)) {
+                result = Test.compareObjects(expected, actual);
+            }
+            else {
+                result = actual === expected;
+            }
+            console.assert(result, `${method.name}(${args.join(', ')}):`, actual, '!==', expected);
+            if (!result) {
+                failed += 1;
+            }
+        }
+        console.timeEnd(method.name);
+        return failed;
     }
 }
 
