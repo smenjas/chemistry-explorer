@@ -271,6 +271,23 @@ class Search {
     }
 
     /**
+     * Test the process method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static processTest() {
+        const tests = [
+            [[''], {elements: [], molecules: {}}],
+            [[' '], {elements: [], molecules: {}}],
+            [['he'], {elements: [2], molecules: {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}}],
+            [['w3'], {elements: [8, 60, 74], molecules: {Nd2W3O12: ['Neodymium tungstate']}}],
+            [['magic'], {elements: [1, 8, 9, 16, 51], molecules: {HSbF6SO3: ['Magic acid']}}],
+        ];
+
+        return Test.run(Search.process, tests);
+    }
+
+    /**
      * Create the HTML for the search results.
      *
      * @param {string} search - The search query
@@ -2790,6 +2807,7 @@ class Test {
             Molecules.findNamesTest,
             Search.findFormulasTest,
             Search.findMoleculesTest,
+            Search.processTest,
             Test.compareArraysTest,
             Test.compareObjectsTest,
             Test.isObjectTest,
