@@ -2864,8 +2864,7 @@ class Test {
         console.time(method.name);
         let failed = 0;
         for (const test of tests) {
-            const args = test[0];
-            const expected = test[1];
+            const [args, expected] = test;
             const actual = method(...args);
             let result;
             if (Array.isArray(expected)) {
@@ -2878,9 +2877,7 @@ class Test {
                 result = actual === expected;
             }
             console.assert(result, `${method.name}(`, ...args, '):', actual, '!==', expected);
-            if (!result) {
-                failed += 1;
-            }
+            failed += !result;
         }
         console.timeEnd(method.name);
         return failed;
