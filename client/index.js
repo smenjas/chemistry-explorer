@@ -2665,7 +2665,7 @@ class Test {
      *
      * @param {Object} a - An object
      * @param {Object} b - An object
-     * @returns {boolean} True if the objects contain the same properties
+     * @returns {boolean} True if the objects' contents are equal
      */
     static compareObjects(a, b) {
         if (!Test.isObject(a)) {
@@ -2695,24 +2695,6 @@ class Test {
                 return false;
             }
         }
-        for (const p in b) {
-            if (!(p in a)) {
-                return false;
-            }
-            if (Array.isArray(b[p])) {
-                if (!Test.compareArrays(a[p], b[p])) {
-                    return false;
-                }
-            }
-            else if (Test.isObject(b[p])) {
-                if (!Test.compareObjects(a[p], b[p])) {
-                    return false;
-                }
-            }
-            else if (a[p] !== b[p]) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -2726,7 +2708,11 @@ class Test {
             [ [ 0, {} ], false],
             [ [ {}, 0 ], false],
             [ [ {}, {} ], true],
+            [ [ {}, {a: 1} ], false],
+            [ [ {a: 1}, {} ], false],
             [ [ {a: 1}, {a: 1} ], true],
+            [ [ {a: 1}, {a: 1, b: 1} ], false],
+            [ [ {a: 1, b: 1}, {a: 1} ], false],
             [ [ {a: 1}, {a: 2} ], false],
             [ [ {a: 1}, {b: 1} ], false],
             [ [ {a: []}, {a: []} ], true],
@@ -2753,7 +2739,7 @@ class Test {
         if (typeof obj !== 'object') {
             return false;
         }
-        // Handle null
+        // Handle null.
         if (!(obj instanceof Object)) {
             return false;
         }
