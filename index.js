@@ -252,6 +252,7 @@ class Search {
      * Process a search query, and return the results.
      *
      * @param {string} search - The search query
+     * @param {string} [time=false] - Whether to log execution time
      * @returns {Object} The elements and molecules matching the query
      */
     static process(search, time = false) {
