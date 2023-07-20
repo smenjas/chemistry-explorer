@@ -2655,6 +2655,8 @@ class Test {
             [ [ [1], [1] ], true],
             [ [ [1], [2] ], false],
             [ [ [1], [1, 2] ], false],
+            [ [ [2, 1], [1, 2] ], true],
+            [ [ [1, 1, 2], [1, 2, 2] ], false],
         ];
 
         return Test.run(Test.compareArrays, tests);
