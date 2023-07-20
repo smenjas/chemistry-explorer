@@ -89,16 +89,14 @@ class Search {
      * Add atomic numbers from a molecular formula to an existing array.
      * This modifies the first argument by reference, and returns undefined.
      *
-     * @param {Array<integer>} elements - Atomic numbers
+     * @param {Set<integer>} elements - Atomic numbers
      * @param {string} A molecular formula
      */
     static addFormulaElements(elements, formula) {
         const symbols = Object.keys(Molecules.parse(formula));
         for (const symbol of symbols) {
             const protons = Elements.findProtons(symbol);
-            if (!elements.includes(protons)) {
-                elements.push(protons);
-            }
+            elements.add(protons);
         }
     }
 
@@ -168,7 +166,7 @@ class Search {
      *
      * @param {string} search - The search query
      * @param {Object} molecules - Molecule names keyed by molecular formulas
-     * @param {Object} elements - Atomic numbers
+     * @param {Set<integer>} elements - Atomic numbers
      * @returns {Object} Molecule names keyed by molecular formulas
      */
     static findFormulas(search, molecules, elements) {
@@ -260,7 +258,8 @@ class Search {
             console.time(`Search.process("${search}")`);
         }
         const elements = Elements.find(search);
-        const symbol = Elements.findSymbol(elements[0]);
+        const protons = elements.values().next().value;
+        const symbol = Elements.findSymbol(protons);
         let molecules = Search.findMolecules(search, symbol);
 
         if (search.length > 1) {
@@ -268,9 +267,11 @@ class Search {
         }
 
         const formulas = Object.keys(molecules);
-        if (elements.length === 0 && formulas.length > 0) {
+        if (elements.size === 0 && formulas.length > 0) {
             const commonElements = Molecules.findCommonElements(formulas);
-            elements.splice(elements.length, 0, ...commonElements);
+            for (const protons of commonElements) {
+                elements.add(protons);
+            }
         }
 
         if (time) {
@@ -289,11 +290,11 @@ class Search {
      */
     static processTest() {
         const tests = [
-            [[''], {elements: [], molecules: {}}],
-            [[' '], {elements: [], molecules: {}}],
-            [['he'], {elements: [2], molecules: {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}}],
-            [['w3'], {elements: [8, 60, 74], molecules: {Nd2W3O12: ['Neodymium tungstate']}}],
-            [['magic'], {elements: [1, 8, 9, 16, 51], molecules: {HSbF6SO3: ['Magic acid']}}],
+            [[''], {elements: new Set(), molecules: {}}],
+            [[' '], {elements: new Set(), molecules: {}}],
+            [['he'], {elements: new Set([2]), molecules: {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}}],
+            [['w3'], {elements: new Set([8, 60, 74]), molecules: {Nd2W3O12: ['Neodymium tungstate']}}],
+            [['magic'], {elements: new Set([1, 8, 9, 16, 51]), molecules: {HSbF6SO3: ['Magic acid']}}],
         ];
 
         return Test.run(Search.process, tests);
@@ -316,7 +317,7 @@ class Search {
         const { elements, molecules } = Search.process(search, true);
         const formulas = Object.keys(molecules);
 
-        if (elements.length === 0 && formulas.length === 0) {
+        if (elements.size === 0 && formulas.length === 0) {
             if (search.length < 3) {
                 return '<p>Try a different search.</p>';
             }
@@ -326,7 +327,7 @@ class Search {
         }
 
         let html = '';
-        const elementResults = `${elements.length} Element${(elements.length === 1) ? '' : 's'}`;
+        const elementResults = `${elements.size} Element${(elements.size === 1) ? '' : 's'}`;
         html += `<h2>${elementResults}</h2>`;
         html += '<section class="elements">';
         for (const protons of elements) {
@@ -596,15 +597,15 @@ class Elements {
      * @todo Add tests.
      *
      * @param {string} search - The search query
-     * @returns {Array<integer>} Atomic numbers of matching elements
+     * @returns {Set<integer>} Atomic numbers of matching elements
      */
     static find(search) {
         search = search.trim();
+        const elements = new Set();
         if (search.length === 0) {
-            return [];
+            return elements;
         }
 
-        const elements = [];
         const upper = search.toUpperCase();
 
         if (search.length < 3) {
@@ -612,7 +613,7 @@ class Elements {
             for (const [protons, element] of elementsData) {
                 const symbol = element.symbol.toUpperCase();
                 if (upper === symbol) {
-                    elements.push(protons);
+                    elements.add(protons);
                 }
             }
             return elements;
@@ -622,7 +623,7 @@ class Elements {
         for (const [protons, element] of elementsData) {
             const name = element.name.toUpperCase();
             if (name.includes(upper)) {
-                elements.push(protons);
+                elements.add(protons);
             }
         }
 
@@ -636,12 +637,12 @@ class Elements {
      */
     static findTest(){
         const tests = [
-            [[''], []],
-            [[' '], []],
-            [['x'], []],
-            [['h'], [1]],
-            [['he'], [2]],
-            [['bor'], [5, 106]],
+            [[''], new Set([])],
+            [[' '], new Set([])],
+            [['x'], new Set([])],
+            [['h'], new Set([1])],
+            [['he'], new Set([2])],
+            [['bor'], new Set([5, 106])],
         ];
 
         return Test.run(Elements.find, tests);
@@ -1887,7 +1888,7 @@ class Molecules {
      */
     static findCommonElements(formulas) {
         // Add every element present in the matched formulas.
-        const candidates = [];
+        const candidates = new Set();
         for (const formula of formulas) {
             Search.addFormulaElements(candidates, formula);
         }
@@ -2630,6 +2631,9 @@ class Test {
         if (Array.isArray(a)) {
             return Test.compareArrays(a, b);
         }
+        if (a instanceof Set) {
+            return Test.compareSets(a, b);
+        }
         if (Test.isObject(a)) {
             return Test.compareObjects(a, b);
         }
@@ -2674,6 +2678,9 @@ class Test {
             [ [ {a: 1}, {a: 1} ], true],
             [ [ {a: 1}, {b: 1} ], false],
             [ [ {a: 1}, {a: 2} ], false],
+            [ [new Set(), new Set()], true],
+            [ [new Set([]), new Set([])], true],
+            [ [new Set([1]), new Set([1])], true],
         ];
 
         return Test.run(Test.compare, tests);
@@ -2796,6 +2803,55 @@ class Test {
     }
 
     /**
+     * Compare two sets, to see if they contain the same elements.
+     *
+     * @param {Set} a - A set
+     * @param {Set} b - A set
+     * @returns {boolean} True if the sets are equal
+     */
+    static compareSets(a, b) {
+        if (!(a instanceof Set)) {
+            return false;
+        }
+        if (!(b instanceof Set)) {
+            return false;
+        }
+        if (a.size !== b.size) {
+            return false;
+        }
+        for (const e of a) {
+            if (!b.has(e)) {
+                return false;
+            }
+        }
+        for (const e of b) {
+            if (!a.has(e)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Test the compareSets method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static compareSetsTest() {
+        const tests = [
+            [ [ 0, new Set() ], false],
+            [ [ new Set(), 0 ], false],
+            [ [ new Set(), new Set() ], true],
+            [ [ new Set([]), new Set([]) ], true],
+            [ [ new Set([1]), new Set([1]) ], true],
+            [ [ new Set([1]), new Set([2]) ], false],
+            [ [ new Set([1]), new Set([1, 2]) ], false],
+        ];
+
+        return Test.run(Test.compareSets, tests);
+    }
+
+    /**
      * Determine whether the input is an object.
      *
      * @param {null|undefined|boolean|number|bigint|string|Array|Map|Object|Set|Symbol|WeakMap|WeakSet} obj - Anything
@@ -2896,6 +2952,7 @@ class Test {
             Test.compareTest,
             Test.compareArraysTest,
             Test.compareObjectsTest,
+            Test.compareSetsTest,
             Test.isObjectTest,
         ];
 
