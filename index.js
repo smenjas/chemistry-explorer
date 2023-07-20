@@ -2796,7 +2796,7 @@ class Test {
             [[ [1] ], false],
             [[ {} ], true],
             [[ {a: 1} ], true],
-            //[[ Symbol() ], false],
+            [[ Symbol() ], false],
             [[ new Map() ], false],
             [[ new Set() ], false],
             [[ new WeakMap() ], false],
@@ -2877,7 +2877,7 @@ class Test {
             else {
                 result = actual === expected;
             }
-            console.assert(result, `${method.name}(${args.join(', ')}):`, actual, '!==', expected);
+            console.assert(result, `${method.name}(`, ...args, '):', actual, '!==', expected);
             if (!result) {
                 failed += 1;
             }
