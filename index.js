@@ -2612,12 +2612,12 @@ class Isotopes {
  */
 class Test {
     /**
-     * Compare two arrays, to see if they contain the same elements.
+     * Compare two arrays.
      * @todo Compare nested arrays, and arrays of objects.
      *
      * @param {Array} a - An array
      * @param {Array} b - An array
-     * @returns {boolean} True if the arrays contain the same elements
+     * @returns {boolean} True if the arrays are equal
      */
     static compareArrays(a, b) {
         if (!Array.isArray(a)) {
@@ -2629,13 +2629,8 @@ class Test {
         if (a.length !== b.length) {
             return false;
         }
-        for (const e of a) {
-            if (!b.includes(e)) {
-                return false;
-            }
-        }
-        for (const e of b) {
-            if (!a.includes(e)) {
+        for (const key in a) {
+            if (a[key] !== b[key]) {
                 return false;
             }
         }
@@ -2655,7 +2650,7 @@ class Test {
             [ [ [1], [1] ], true],
             [ [ [1], [2] ], false],
             [ [ [1], [1, 2] ], false],
-            [ [ [2, 1], [1, 2] ], true],
+            [ [ [2, 1], [1, 2] ], false],
             [ [ [1, 1, 2], [1, 2, 2] ], false],
         ];
 
