@@ -2612,12 +2612,78 @@ class Isotopes {
  */
 class Test {
     /**
-     * Compare two arrays, to see if they contain the same elements.
-     * @todo Compare nested arrays, and arrays of objects.
+     * Compare two values.
+     * @todo Compare (weak) maps, (weak) sets, and typed arrays.
+     *
+     * @param {null|undefined|boolean|number|bigint|string|Array|Object} a - A value
+     * @param {null|undefined|boolean|number|bigint|string|Array|Object} b - A value
+     * @returns {boolean} True if the values are equal
+     */
+    static compare(a, b) {
+        if (a === b) {
+            return true;
+        }
+        if (typeof a !== typeof b) {
+            return false;
+        }
+        if (Array.isArray(a)) {
+            return Test.compareArrays(a, b);
+        }
+        if (Test.isObject(a)) {
+            return Test.compareObjects(a, b);
+        }
+        return false;
+    }
+
+    /**
+     * Test the compare method.
+     *
+     * @returns {integer} How many tests failed
+     */
+    static compareTest() {
+        const tests = [
+            [ [null, null], true],
+            [ [null, undefined], false],
+            [ [null, false], false],
+            [ [null, 0], false],
+            [ [null, ''], false],
+            [ [undefined, undefined], true],
+            [ [undefined, false], false],
+            [ [undefined, 0], false],
+            [ [undefined, ''], false],
+            [ [true, true], true],
+            [ [false, false], true],
+            [ [true, false], false],
+            [ [0, false], false],
+            [ [0, 0], true],
+            [ [0, 1], false],
+            [ [0.1, 0.1], true],
+            [ [0.1, 0.2], false],
+            [ [0n, 0n], true],
+            [ [0n, 1n], false],
+            [ ['', ''], true],
+            [ ['', 'x'], false],
+            [ ['x', 'x'], true],
+            [ ['x', 'X'], false],
+            [ [ [], [] ], true],
+            [ [ [], [1] ], false],
+            [ [ [1], [1] ], true],
+            [ [ {}, {} ], true],
+            [ [ {}, {a: 1} ], false],
+            [ [ {a: 1}, {a: 1} ], true],
+            [ [ {a: 1}, {b: 1} ], false],
+            [ [ {a: 1}, {a: 2} ], false],
+        ];
+
+        return Test.run(Test.compare, tests);
+    }
+
+    /**
+     * Compare two arrays.
      *
      * @param {Array} a - An array
      * @param {Array} b - An array
-     * @returns {boolean} True if the arrays contain the same elements
+     * @returns {boolean} True if the arrays are equal
      */
     static compareArrays(a, b) {
         if (!Array.isArray(a)) {
@@ -2629,13 +2695,8 @@ class Test {
         if (a.length !== b.length) {
             return false;
         }
-        for (const e of a) {
-            if (!b.includes(e)) {
-                return false;
-            }
-        }
-        for (const e of b) {
-            if (!a.includes(e)) {
+        for (const key in a) {
+            if (!Test.compare(a[key], b[key])) {
                 return false;
             }
         }
@@ -2655,6 +2716,21 @@ class Test {
             [ [ [1], [1] ], true],
             [ [ [1], [2] ], false],
             [ [ [1], [1, 2] ], false],
+            [ [ [2, 1], [1, 2] ], false],
+            [ [ [1, 1, 2], [1, 2, 2] ], false],
+            [ [ [[]], [[]] ], true],
+            [ [ [[1]], [[]] ], false],
+            [ [ [[1]], [[1]] ], true],
+            [ [ [[1]], [[2]] ], false],
+            [ [ [[1, 2]], [[1, 2]] ], true],
+            [ [ [[1, 2]], [[2, 1]] ], false],
+            [ [ [[1, 1]], [[1, 2]] ], false],
+            [ [ [{}], [{}] ], true],
+            [ [ [{}], [{a: 1}] ], false],
+            [ [ [{a: 1}], [{}] ], false],
+            [ [ [{a: 1}], [{a: 1}] ], true],
+            [ [ [{a: 1}], [{a: 2}] ], false],
+            [ [ [{a: 1}], [{b: 1}] ], false],
         ];
 
         return Test.run(Test.compareArrays, tests);
@@ -2665,7 +2741,7 @@ class Test {
      *
      * @param {Object} a - An object
      * @param {Object} b - An object
-     * @returns {boolean} True if the objects contain the same properties
+     * @returns {boolean} True if the objects' contents are equal
      */
     static compareObjects(a, b) {
         if (!Test.isObject(a)) {
@@ -2677,39 +2753,11 @@ class Test {
         if (Object.keys(a).length !== Object.keys(b).length) {
             return false;
         }
-        for (const p in a) {
-            if (!(p in b)) {
+        for (const key in a) {
+            if (!(key in b)) {
                 return false;
             }
-            if (Array.isArray(a[p])) {
-                if (!Test.compareArrays(a[p], b[p])) {
-                    return false;
-                }
-            }
-            else if (Test.isObject(a[p])) {
-                if (!Test.compareObjects(a[p], b[p])) {
-                    return false;
-                }
-            }
-            else if (a[p] !== b[p]) {
-                return false;
-            }
-        }
-        for (const p in b) {
-            if (!(p in a)) {
-                return false;
-            }
-            if (Array.isArray(b[p])) {
-                if (!Test.compareArrays(a[p], b[p])) {
-                    return false;
-                }
-            }
-            else if (Test.isObject(b[p])) {
-                if (!Test.compareObjects(a[p], b[p])) {
-                    return false;
-                }
-            }
-            else if (a[p] !== b[p]) {
+            if (!Test.compare(a[key], b[key])) {
                 return false;
             }
         }
@@ -2726,7 +2774,11 @@ class Test {
             [ [ 0, {} ], false],
             [ [ {}, 0 ], false],
             [ [ {}, {} ], true],
+            [ [ {}, {a: 1} ], false],
+            [ [ {a: 1}, {} ], false],
             [ [ {a: 1}, {a: 1} ], true],
+            [ [ {a: 1}, {a: 1, b: 1} ], false],
+            [ [ {a: 1, b: 1}, {a: 1} ], false],
             [ [ {a: 1}, {a: 2} ], false],
             [ [ {a: 1}, {b: 1} ], false],
             [ [ {a: []}, {a: []} ], true],
@@ -2753,7 +2805,7 @@ class Test {
         if (typeof obj !== 'object') {
             return false;
         }
-        // Handle null
+        // Handle null.
         if (!(obj instanceof Object)) {
             return false;
         }
@@ -2796,7 +2848,7 @@ class Test {
             [[ [1] ], false],
             [[ {} ], true],
             [[ {a: 1} ], true],
-            //[[ Symbol() ], false],
+            [[ Symbol() ], false],
             [[ new Map() ], false],
             [[ new Set() ], false],
             [[ new WeakMap() ], false],
@@ -2840,6 +2892,7 @@ class Test {
             Search.findFormulasTest,
             Search.findMoleculesTest,
             Search.processTest,
+            Test.compareTest,
             Test.compareArraysTest,
             Test.compareObjectsTest,
             Test.isObjectTest,
@@ -2864,23 +2917,11 @@ class Test {
         console.time(method.name);
         let failed = 0;
         for (const test of tests) {
-            const args = test[0];
-            const expected = test[1];
+            const [args, expected] = test;
             const actual = method(...args);
-            let result;
-            if (Array.isArray(expected)) {
-                result = Test.compareArrays(expected, actual);
-            }
-            else if (Test.isObject(expected)) {
-                result = Test.compareObjects(expected, actual);
-            }
-            else {
-                result = actual === expected;
-            }
-            console.assert(result, `${method.name}(${args.join(', ')}):`, actual, '!==', expected);
-            if (!result) {
-                failed += 1;
-            }
+            const result = Test.compare(expected, actual);
+            console.assert(result, `${method.name}(`, ...args, '):', actual, '!==', expected);
+            failed += !result;
         }
         console.timeEnd(method.name);
         return failed;
