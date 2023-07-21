@@ -1925,7 +1925,7 @@ class Molecules {
      * Find molecular formulas that contain a given element.
      *
      * @param {string} symbol - An element symbol
-     * @returns {Array} Molecular formulas that contain the given symbol
+     * @returns {Array<string>} Molecular formulas that contain the given symbol
      */
     static findElement(symbol) {
         if (!symbol) {
@@ -2016,7 +2016,7 @@ class Molecules {
      * Find a molecular formula by its exact name, case sensitive.
      *
      * @param {string} name - A molecule name
-     * @returns {Array} Molecular formulas that match the given name exactly
+     * @returns {Array<string>} Molecular formulas that match the given name exactly
      */
     static findName(name) {
         if (name in Molecules.#foundNames) {
