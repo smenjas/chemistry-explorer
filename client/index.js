@@ -155,6 +155,10 @@ class Search {
         const tests = [
             [[''], {}],
             [[' '], {}],
+            [['he'], {}],
+            [['', 'He'], {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}],
+            [['he', 'He'], {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}],
+            [['heliu', 'He'], {HeLi: ['Lithium helium']}],
             [['magic'], {HSbF6SO3: ['Magic acid']}],
         ];
 
@@ -642,6 +646,7 @@ class Elements {
             [['x'], new Set([])],
             [['h'], new Set([1])],
             [['he'], new Set([2])],
+            [['heli'], new Set([2])],
             [['bor'], new Set([5, 106])],
         ];
 
