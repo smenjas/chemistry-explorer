@@ -1884,7 +1884,7 @@ class Molecules {
      * Find elements present in every given formula.
      *
      * @param {Array<string>} formulas - Molecular formulas
-     * @returns {Array<integer>} Atomic numbers
+     * @returns {Set<integer>} Atomic numbers
      */
     static findCommonElements(formulas) {
         // Add every element present in the matched formulas.
@@ -1917,7 +1917,7 @@ class Molecules {
             }
         }
         common.sort((a, b) => a - b);
-        return common;
+        return new Set([...common]);
     }
 
     static #foundElements = {};
