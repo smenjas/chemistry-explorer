@@ -17,12 +17,24 @@ const server = http.createServer((request, response) => {
         console.log('HTTP', response.statusCode, request.url);
         break;
     case '/index.js':
-    case '/elementsData.js':
-    case '/isotopesData.js':
-    case '/moleculesData.js':
         response.statusCode = 200;
         response.setHeader('Content-Type', 'text/javascript');
         content = fs.readFileSync(`../client${path}`, 'utf8');
+        break;
+    case '/common.js':
+    case '/elements.js':
+    case '/elementsData.js':
+    case '/isotopes.js':
+    case '/isotopesData.js':
+    case '/link.js':
+    case '/molecules.js':
+    case '/moleculesData.js':
+    case '/page.js':
+    case '/search.js':
+    case '/test.js':
+        response.statusCode = 200;
+        response.setHeader('Content-Type', 'text/javascript');
+        content = fs.readFileSync(`.${path}`, 'utf8');
         break;
     case '/main.css':
         response.statusCode = 200;
