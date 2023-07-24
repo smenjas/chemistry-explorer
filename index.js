@@ -2622,8 +2622,8 @@ class Test {
      * Compare two values.
      * @todo Compare (weak) maps, (weak) sets, and typed arrays.
      *
-     * @param {null|undefined|boolean|number|bigint|string|Array|Object} a - A value
-     * @param {null|undefined|boolean|number|bigint|string|Array|Object} b - A value
+     * @param {null|undefined|boolean|number|bigint|string|Array|Object|Set} a - A value
+     * @param {null|undefined|boolean|number|bigint|string|Array|Object|Set} b - A value
      * @returns {boolean} True if the values are equal
      */
     static compare(a, b) {
