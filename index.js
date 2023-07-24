@@ -3,6 +3,23 @@ import isotopesData from './isotopesData.js';
 import moleculesData from './moleculesData.js';
 
 /**
+ * Add an element to an array property of the given object.
+ * Create the array if the key doesn't exist yet.
+ *
+ * @param {Object} obj - An object
+ * @param {string} key - A property name
+ * @param {...*} values - Values to add to the array
+ * @returns {integer} The array's length
+ */
+function pushTo(obj, key, ...values) {
+    if (!(key in obj)) {
+        obj[key] = [];
+    }
+    obj[key].push(...values);
+    return obj[key].length;
+}
+
+/**
  * Replace or add characters in a string.
  *
  * @param {integer} start - The index to start changing characters
@@ -2068,12 +2085,7 @@ class Molecules {
         for (const formula in moleculesData) {
             for (const name of moleculesData[formula]) {
                 if (name.toUpperCase().includes(upper)) {
-                    if (formula in molecules) {
-                        molecules[formula].push(name);
-                    }
-                    else {
-                        molecules[formula] = [name];
-                    }
+                    pushTo(molecules, formula, name);
                 }
             }
         }
@@ -2331,12 +2343,7 @@ class Molecules {
         for (const formula of formulas) {
             const components = Molecules.parse(formula);
             const element = Object.keys(components)[0];
-            if (element in byElement) {
-                byElement[element].push(formula);
-            }
-            else {
-                byElement[element] = [formula];
-            }
+            pushTo(byElement, element, formula);
         }
         for (const element in byElement) {
             const formulas = byElement[element];
@@ -2543,24 +2550,14 @@ class Isotopes {
         for (const [protons, isotopes] of isotopesData.primordial) {
             for (const isotope of isotopes) {
                 const neutrons = isotope - protons;
-                if (neutrons in all) {
-                    all[neutrons].push(protons);
-                }
-                else {
-                    all[neutrons] = [protons];
-                }
+                pushTo(all, neutrons, protons);
             }
         }
 
         for (const [protons, isotopes] of isotopesData.synthetic) {
             for (const isotope in isotopes) {
                 const neutrons = isotope - protons;
-                if (neutrons in all) {
-                    all[neutrons].push(protons);
-                }
-                else {
-                    all[neutrons] = [protons];
-                }
+                pushTo(all, neutrons, protons);
             }
         }
 
