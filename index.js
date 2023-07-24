@@ -3,6 +3,25 @@ import isotopesData from './isotopesData.js';
 import moleculesData from './moleculesData.js';
 
 /**
+ * Increment a number for a given key. Create the property if the key doesn't
+ * exist yet.
+ *
+ * @param {Object} obj - An object
+ * @param {string} key - A property name
+ * @param {integer} [count=1] - The number to add
+ * @returns {integer} The key's value
+ */
+function countKey(obj, key, count = 1) {
+    if (key in obj) {
+        obj[key] += count;
+    }
+    else {
+        obj[key] = count;
+    }
+    return obj[key];
+}
+
+/**
  * Add an element to an array property of the given object.
  * Create the array if the key doesn't exist yet.
  *
@@ -134,7 +153,7 @@ class Search {
      * Count the number of unique words in a bunch of strings.
      *
      * @param {Array<string>} strings - A bunch of strings
-     * @returns {Object} Words counts keyed by words
+     * @returns {Object} Word counts keyed by words
      */
     static countWords(strings) {
         //console.time('Search.countWords()');
@@ -143,12 +162,7 @@ class Search {
             const tokens = string.split(/[-,() ]/);
             for (let token of tokens) {
                 token = token.toLowerCase();
-                if (token in words) {
-                    words[token] += 1;
-                }
-                else {
-                    words[token] = 1;
-                }
+                countKey(words, token);
             }
         }
         //console.timeEnd('Search.countWords()');
@@ -1936,12 +1950,7 @@ class Molecules {
                 if (!(symbol in components)) {
                     continue;
                 }
-                if (protons in elementCounts) {
-                    elementCounts[protons] += 1;
-                }
-                else {
-                    elementCounts[protons] = 1;
-                }
+                countKey(elementCounts, protons);
             }
         }
         // Find the elements present in every formula.
@@ -2252,13 +2261,7 @@ class Molecules {
         for (const components of matches) {
             const element = components[1];
             const count = (components[2] === '') ? 1 : parseInt(components[2]);
-            if (Object.hasOwn(elements, element)) {
-                //console.log(formula, 'repeats', element);
-                elements[element] += count;
-            }
-            else {
-                elements[element] = count;
-            }
+            countKey(elements, element, count);
         }
         Molecules.#parsed[formula] = elements;
         return elements;
