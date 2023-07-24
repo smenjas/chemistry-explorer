@@ -2,9 +2,22 @@ import elementsData from './elementsData.js';
 import isotopesData from './isotopesData.js';
 import moleculesData from './moleculesData.js';
 
-String.prototype.toSpliced = function (start, deleteCount, ...items) {
-    return this.split('').toSpliced(start, deleteCount, ...items).join('');
-};
+/**
+ * Replace or add characters in a string.
+ *
+ * @param {integer} start - The index to start changing characters
+ * @param {integer} deleteCount - The number of characters to remove
+ * @param {...string} items - The characters to add
+ * @param {string} The modified string
+ */
+if (Object.hasOwn(String.prototype, 'toSpliced')) {
+    console.warn('String.prototype.toSpliced() already exists!');
+}
+else {
+    String.prototype.toSpliced = function (start, deleteCount, ...items) {
+        return this.split('').toSpliced(start, deleteCount, ...items).join('');
+    };
+}
 
 /**
  * Create a web page.
