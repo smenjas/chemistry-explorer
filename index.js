@@ -41,18 +41,14 @@ function pushTo(obj, key, ...values) {
 /**
  * Replace or add characters in a string.
  *
+ * @param {string} string - The string to change
  * @param {integer} start - The index to start changing characters
  * @param {integer} deleteCount - The number of characters to remove
  * @param {...string} items - The characters to add
  * @param {string} The modified string
  */
-if (Object.hasOwn(String.prototype, 'toSpliced')) {
-    console.warn('String.prototype.toSpliced() already exists!');
-}
-else {
-    String.prototype.toSpliced = function (start, deleteCount, ...items) {
-        return this.split('').toSpliced(start, deleteCount, ...items).join('');
-    };
+function spliceString(string, start, deleteCount, ...items) {
+    return string.split('').toSpliced(start, deleteCount, ...items).join('');
 }
 
 /**
@@ -1733,7 +1729,7 @@ class Molecules {
             const length = match[0].length;
             const parts = Molecules.parse(match[1]);
             const substr = Molecules.combine(parts, count);
-            formula = formula.toSpliced(index, length, substr);
+            formula = spliceString(formula, index, length, substr);
             offset += length - substr.length;
         }
 
