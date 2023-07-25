@@ -107,22 +107,8 @@ class Page {
         }
 
         document.body.insertAdjacentHTML('beforeend', html);
-        Page.addEventHandlers();
-    }
-
-    /**
-     * Add event handlers to the page.
-     */
-    static addEventHandlers() {
-        const abundanceScale = document.querySelector('form#abundance-scale');
-        if (abundanceScale) {
-            abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
-        }
-
-        const searchInput = document.querySelector('input[name="search"]');
-        if (searchInput) {
-            searchInput.addEventListener('input', Search.handleForm);
-        }
+        Elements.addEventHandlers();
+        Search.addEventHandlers();
     }
 }
 
@@ -130,6 +116,16 @@ class Page {
  * Search for elements and molecules.
  */
 class Search {
+    /**
+     * Add event handlers to the page.
+     */
+    static addEventHandlers() {
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', Search.handleForm);
+        }
+    }
+
     /**
      * Add atomic numbers from a molecular formula to an existing array.
      * This modifies the first argument by reference, and returns undefined.
@@ -485,6 +481,16 @@ class Link {
  * @property {Object} typeURLs - Wikipedia URLs for each element type
  */
 class Elements {
+    /**
+     * Add event handlers to the page.
+     */
+    static addEventHandlers() {
+        const abundanceScale = document.querySelector('form#abundance-scale');
+        if (abundanceScale) {
+            abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
+        }
+    }
+
     static groups = Elements.#getGroups();
 
     /**
@@ -1033,7 +1039,7 @@ class Elements {
     static handleAbundanceScale(event) {
         const log = (event.target.value === 'log');
         document.body.innerHTML = Elements.renderAbundance(log);
-        Page.addEventHandlers();
+        Elements.addEventHandlers();
         document.querySelector('#scale-linear').checked = !log;
         document.querySelector('#scale-log').checked = log;
     }
