@@ -63,9 +63,9 @@ class Page {
      */
     static render(params) {
         const formula = params.get('formula');
-        const group = params.get('group');
-        const period = params.get('period');
-        const protons = params.get('protons');
+        const group = parseInt(params.get('group'));
+        const period = parseInt(params.get('period'));
+        const protons = parseInt(params.get('protons'));
         const search = params.get('search');
         const view = params.get('view');
 
@@ -73,7 +73,7 @@ class Page {
             return Molecules.renderFormula(formula);
         }
 
-        if (group && Elements.groups.has(parseInt(group))) {
+        if (group && Elements.groups.has(group)) {
             document.title = `Group ${group}`;
             let html = '<main>';
             html += `<h1>${document.title}</h1>`;
@@ -83,7 +83,7 @@ class Page {
             return html;
         }
 
-        if (period && Elements.periods.has(parseInt(period))) {
+        if (period && Elements.periods.has(period)) {
             document.title = `Period ${period}`;
             let html = '<main>';
             html += `<h1>${document.title}</h1>`;
@@ -995,7 +995,6 @@ class Elements {
      * @returns {string} HTML: a main block
      */
     static render(protons = null) {
-        protons = parseInt(protons);
         const element = elementsData.get(protons);
         let html = '';
 
@@ -1393,7 +1392,6 @@ class Elements {
      * @returns {string} HTML: a nav block
      */
     static renderGroupNav(group) {
-        group = parseInt(group);
         if (group < 1 || group > 18) {
             return '';
         }
@@ -1423,7 +1421,6 @@ class Elements {
      * @returns {string} HTML: a table
      */
     static renderPeriod(period) {
-        period = parseInt(period);
         if (!Elements.periods.has(period)) {
             return '';
         }
@@ -1449,7 +1446,6 @@ class Elements {
      * @returns {string} HTML: a nav block
      */
     static renderPeriodNav(period) {
-        period = parseInt(period);
         if (period < 1 || period > 7) {
             return '';
         }
