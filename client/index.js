@@ -1400,13 +1400,13 @@ class Elements {
         html += '<span class="previous">';
         if (group > 1) {
             const prev = group - 1;
-            html += `<a href="?group=${group - 1}">&larr; Group ${prev}</a>`;
+            html += `<a href="?group=${prev}">&larr; Group ${prev}</a>`;
         }
         html += '</span> ';
         html += '<span class="next">';
         if (group < 18) {
             const next = group + 1;
-            html += `<a href="?group=${group + 1}">Group ${next} &rarr;</a>`;
+            html += `<a href="?group=${next}">Group ${next} &rarr;</a>`;
         }
         html += '</span>';
         html += '</nav>';
@@ -1454,13 +1454,13 @@ class Elements {
         html += '<span class="previous">';
         if (period > 1) {
             const prev = period - 1;
-            html += `<a href="?period=${period - 1}">&larr; Period ${prev}</a>`;
+            html += `<a href="?period=${prev}">&larr; Period ${prev}</a>`;
         }
         html += '</span> ';
         html += '<span class="next">';
         if (period < 7) {
             const next = period + 1;
-            html += `<a href="?period=${period + 1}">Period ${next} &rarr;</a>`;
+            html += `<a href="?period=${next}">Period ${next} &rarr;</a>`;
         }
         html += '</span>';
         html += '</nav>';
