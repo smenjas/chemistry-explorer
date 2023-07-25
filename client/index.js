@@ -57,55 +57,64 @@ function spliceString(string, start, deleteCount, ...items) {
 class Page {
     /**
      * Create HTML based on the URL.
+     *
+     * @param {Object} params - URLSearchParams representing the URL's query string
+     * @returns {string} HTML
      */
-    static render() {
-        const params = new URLSearchParams(window.location.search);
+    static render(params) {
         const formula = params.get('formula');
         const group = params.get('group');
         const period = params.get('period');
         const protons = params.get('protons');
         const search = params.get('search');
         const view = params.get('view');
-        let html = '';
 
         if (formula) {
-            html += Molecules.renderFormula(formula);
+            return Molecules.renderFormula(formula);
         }
-        else if (group && Elements.groups.has(parseInt(group))) {
+
+        if (group && Elements.groups.has(parseInt(group))) {
             document.title = `Group ${group}`;
-            html += '<main>';
+            let html = '<main>';
             html += `<h1>${document.title}</h1>`;
             html += Elements.renderGroupNav(group);
             html += Elements.renderGroup(group);
             html += '</main>';
+            return html;
         }
-        else if (period && Elements.periods.has(parseInt(period))) {
+
+        if (period && Elements.periods.has(parseInt(period))) {
             document.title = `Period ${period}`;
-            html += '<main>';
+            let html = '<main>';
             html += `<h1>${document.title}</h1>`;
             html += Elements.renderPeriodNav(period);
             html += Elements.renderPeriod(period);
             html += '</main>';
-        }
-        else if (params.has('search')) {
-            html += Search.render(search);
-        }
-        else if (view === 'abundance') {
-            html += Elements.renderAbundance();
-        }
-        else if (view === 'molecules') {
-            html += Molecules.render();
-        }
-        else if (view === 'isotopes') {
-            html += Isotopes.render();
-        }
-        else if (view === 'test') {
-            html += Test.render();
-        }
-        else {
-            html += Elements.render(protons);
+            return html;
         }
 
+        if (params.has('search')) {
+            return Search.render(search);
+        }
+
+        switch (view) {
+        case 'abundance':
+            return Elements.renderAbundance();
+        case 'molecules':
+            return Molecules.render();
+        case 'isotopes':
+            return Isotopes.render();
+        case 'test':
+            return Test.render();
+        }
+
+        // Show the periodic table by default.
+        return Elements.render(protons);
+    }
+
+    static display() {
+        const params = new URLSearchParams(window.location.search);
+        const html = Page.render(params);
         document.body.insertAdjacentHTML('beforeend', html);
         Elements.addEventHandlers();
         Search.addEventHandlers();
@@ -3001,4 +3010,4 @@ class Test {
     }
 }
 
-Page.render();
+Page.display();
