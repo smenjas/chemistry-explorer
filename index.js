@@ -484,7 +484,7 @@ class Link {
  *
  * @property {Map} groups - Element groups: columns on the periodic table
  * @property {Map} groupElements - Which elements belong to each group
- * @property {Object} groupURLs - Wikipedia URLs for each group
+ * @property {Map} groupURLs - Wikipedia URLs for each group
  * @property {Map} periods - Element periods: rows on the periodic table
  * @property {Object} symbols - Atomic numbers keyed by element symbols
  * @property {Object} typeURLs - Wikipedia URLs for each element type
@@ -552,26 +552,26 @@ class Elements {
         [18, [2, 10, 18, 36, 54, 86, 118]],
     ]);
 
-    static groupURLs = {
-        1: 'https://en.wikipedia.org/wiki/Group_1_element',
-        2: 'https://en.wikipedia.org/wiki/Alkaline_earth_metal',
-        3: 'https://en.wikipedia.org/wiki/Group_3_element',
-        4: 'https://en.wikipedia.org/wiki/Group_4_element',
-        5: 'https://en.wikipedia.org/wiki/Group_5_element',
-        6: 'https://en.wikipedia.org/wiki/Group_6_element',
-        7: 'https://en.wikipedia.org/wiki/Group_7_element',
-        8: 'https://en.wikipedia.org/wiki/Group_8_element',
-        9: 'https://en.wikipedia.org/wiki/Group_9_element',
-        10: 'https://en.wikipedia.org/wiki/Group_10_element',
-        11: 'https://en.wikipedia.org/wiki/Group_11_element',
-        12: 'https://en.wikipedia.org/wiki/Group_12_element',
-        13: 'https://en.wikipedia.org/wiki/Boron_group',
-        14: 'https://en.wikipedia.org/wiki/Carbon_group',
-        15: 'https://en.wikipedia.org/wiki/Pnictogen',
-        16: 'https://en.wikipedia.org/wiki/Chalcogen',
-        17: 'https://en.wikipedia.org/wiki/Halogen',
-        18: 'https://en.wikipedia.org/wiki/Noble_gas',
-    };
+    static groupURLs = new Map([
+        [1, 'https://en.wikipedia.org/wiki/Group_1_element'],
+        [2, 'https://en.wikipedia.org/wiki/Alkaline_earth_metal'],
+        [3, 'https://en.wikipedia.org/wiki/Group_3_element'],
+        [4, 'https://en.wikipedia.org/wiki/Group_4_element'],
+        [5, 'https://en.wikipedia.org/wiki/Group_5_element'],
+        [6, 'https://en.wikipedia.org/wiki/Group_6_element'],
+        [7, 'https://en.wikipedia.org/wiki/Group_7_element'],
+        [8, 'https://en.wikipedia.org/wiki/Group_8_element'],
+        [9, 'https://en.wikipedia.org/wiki/Group_9_element'],
+        [10, 'https://en.wikipedia.org/wiki/Group_10_element'],
+        [11, 'https://en.wikipedia.org/wiki/Group_11_element'],
+        [12, 'https://en.wikipedia.org/wiki/Group_12_element'],
+        [13, 'https://en.wikipedia.org/wiki/Boron_group'],
+        [14, 'https://en.wikipedia.org/wiki/Carbon_group'],
+        [15, 'https://en.wikipedia.org/wiki/Pnictogen'],
+        [16, 'https://en.wikipedia.org/wiki/Chalcogen'],
+        [17, 'https://en.wikipedia.org/wiki/Halogen'],
+        [18, 'https://en.wikipedia.org/wiki/Noble_gas'],
+    ]);
 
     static periods = Elements.#getPeriods();
 
@@ -968,7 +968,7 @@ class Elements {
         if (!group) {
             return 'None';
         }
-        const groupURL = Elements.groupURLs[group];
+        const groupURL = Elements.groupURLs.get(group);
         return Link.create(groupURL, group, true);
     }
 
