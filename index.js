@@ -483,7 +483,7 @@ class Link {
  * Show information about atomic elements.
  *
  * @property {Map} groups - Element groups: columns on the periodic table
- * @property {Object} groupElements - Which elements belong to each group
+ * @property {Map} groupElements - Which elements belong to each group
  * @property {Object} groupURLs - Wikipedia URLs for each group
  * @property {Map} periods - Element periods: rows on the periodic table
  * @property {Object} symbols - Atomic numbers keyed by element symbols
@@ -531,26 +531,26 @@ class Elements {
         return groups;
     }
 
-    static groupElements = {
-        1: [1, 3, 11, 19, 37, 55, 87],
-        2: [4, 12, 20, 38, 56, 88],
-        3: [21, 39, 71, 103],
-        4: [22, 40, 72, 104],
-        5: [23, 41, 73, 105],
-        6: [24, 42, 74, 106],
-        7: [25, 43, 75, 107],
-        8: [26, 44, 76, 108],
-        9: [27, 45, 77, 109],
-        10: [28, 46, 78, 110],
-        11: [29, 47, 79, 111],
-        12: [30, 48, 80, 112],
-        13: [5, 13, 31, 49, 81, 113],
-        14: [6, 14, 32, 50, 82, 114],
-        15: [7, 15, 33, 51, 83, 115],
-        16: [8, 16, 34, 52, 84, 116],
-        17: [9, 17, 35, 53, 85, 117],
-        18: [2, 10, 18, 36, 54, 86, 118],
-    };
+    static groupElements = new Map([
+        [1, [1, 3, 11, 19, 37, 55, 87]],
+        [2, [4, 12, 20, 38, 56, 88]],
+        [3, [21, 39, 71, 103]],
+        [4, [22, 40, 72, 104]],
+        [5, [23, 41, 73, 105]],
+        [6, [24, 42, 74, 106]],
+        [7, [25, 43, 75, 107]],
+        [8, [26, 44, 76, 108]],
+        [9, [27, 45, 77, 109]],
+        [10, [28, 46, 78, 110]],
+        [11, [29, 47, 79, 111]],
+        [12, [30, 48, 80, 112]],
+        [13, [5, 13, 31, 49, 81, 113]],
+        [14, [6, 14, 32, 50, 82, 114]],
+        [15, [7, 15, 33, 51, 83, 115]],
+        [16, [8, 16, 34, 52, 84, 116]],
+        [17, [9, 17, 35, 53, 85, 117]],
+        [18, [2, 10, 18, 36, 54, 86, 118]],
+    ]);
 
     static groupURLs = {
         1: 'https://en.wikipedia.org/wiki/Group_1_element',
@@ -1367,12 +1367,12 @@ class Elements {
      * @returns {string} HTML: a table
      */
     static renderGroup(group) {
-        if (!(group in Elements.groupElements)) {
+        if (!Elements.groupElements.has(group)) {
             return '';
         }
 
         let html = '<table class="elements group"><tbody>';
-        const elements = Elements.groupElements[group];
+        const elements = Elements.groupElements.get(group);
         for (const protons of elements) {
             const element = elementsData.get(protons);
             html += '<tr>';
