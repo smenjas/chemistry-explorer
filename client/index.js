@@ -483,8 +483,8 @@ class Link {
  * Show information about atomic elements.
  *
  * @property {Map} groups - Element groups: columns on the periodic table
- * @property {Object} groupElements - Which elements belong to each group
- * @property {Object} groupURLs - Wikipedia URLs for each group
+ * @property {Map} groupElements - Which elements belong to each group
+ * @property {Map} groupURLs - Wikipedia URLs for each group
  * @property {Map} periods - Element periods: rows on the periodic table
  * @property {Object} symbols - Atomic numbers keyed by element symbols
  * @property {Object} typeURLs - Wikipedia URLs for each element type
@@ -500,98 +500,82 @@ class Elements {
         }
     }
 
-    static groups = Elements.#getGroups();
+    // The key is the group number.
+    // The value is the former group designation.
+    static groups = new Map([
+        [1, 'IA'],
+        [2, 'IIA'],
+        [3, 'IIIB'],
+        [4, 'IVB'],
+        [5, 'VB'],
+        [6, 'VIB'],
+        [7, 'VIIB'],
+        [8, 'VIIIB'],
+        [9, 'VIIIB'],
+        [10, 'VIIIB'],
+        [11, 'IB'],
+        [12, 'IIB'],
+        [13, 'IIIA'],
+        [14, 'IVA'],
+        [15, 'VA'],
+        [16, 'VIA'],
+        [17, 'VIIA'],
+        [18, 'VIIIA'],
+    ]);
 
-    /**
-     * Get element groups.
-     * @private
-     */
-    static #getGroups() {
-        // The key is the group number.
-        // The value is the former group designation.
-        const groups = new Map();
-        groups.set(1, 'IA');
-        groups.set(2, 'IIA');
-        groups.set(3, 'IIIB');
-        groups.set(4, 'IVB');
-        groups.set(5, 'VB');
-        groups.set(6, 'VIB');
-        groups.set(7, 'VIIB');
-        groups.set(8, 'VIIIB');
-        groups.set(9, 'VIIIB');
-        groups.set(10, 'VIIIB');
-        groups.set(11, 'IB');
-        groups.set(12, 'IIB');
-        groups.set(13, 'IIIA');
-        groups.set(14, 'IVA');
-        groups.set(15, 'VA');
-        groups.set(16, 'VIA');
-        groups.set(17, 'VIIA');
-        groups.set(18, 'VIIIA');
-        return groups;
-    }
+    static groupElements = new Map([
+        [1, [1, 3, 11, 19, 37, 55, 87]],
+        [2, [4, 12, 20, 38, 56, 88]],
+        [3, [21, 39, 71, 103]],
+        [4, [22, 40, 72, 104]],
+        [5, [23, 41, 73, 105]],
+        [6, [24, 42, 74, 106]],
+        [7, [25, 43, 75, 107]],
+        [8, [26, 44, 76, 108]],
+        [9, [27, 45, 77, 109]],
+        [10, [28, 46, 78, 110]],
+        [11, [29, 47, 79, 111]],
+        [12, [30, 48, 80, 112]],
+        [13, [5, 13, 31, 49, 81, 113]],
+        [14, [6, 14, 32, 50, 82, 114]],
+        [15, [7, 15, 33, 51, 83, 115]],
+        [16, [8, 16, 34, 52, 84, 116]],
+        [17, [9, 17, 35, 53, 85, 117]],
+        [18, [2, 10, 18, 36, 54, 86, 118]],
+    ]);
 
-    static groupElements = {
-        1: [1, 3, 11, 19, 37, 55, 87],
-        2: [4, 12, 20, 38, 56, 88],
-        3: [21, 39, 71, 103],
-        4: [22, 40, 72, 104],
-        5: [23, 41, 73, 105],
-        6: [24, 42, 74, 106],
-        7: [25, 43, 75, 107],
-        8: [26, 44, 76, 108],
-        9: [27, 45, 77, 109],
-        10: [28, 46, 78, 110],
-        11: [29, 47, 79, 111],
-        12: [30, 48, 80, 112],
-        13: [5, 13, 31, 49, 81, 113],
-        14: [6, 14, 32, 50, 82, 114],
-        15: [7, 15, 33, 51, 83, 115],
-        16: [8, 16, 34, 52, 84, 116],
-        17: [9, 17, 35, 53, 85, 117],
-        18: [2, 10, 18, 36, 54, 86, 118],
-    };
+    static groupURLs = new Map([
+        [1, 'https://en.wikipedia.org/wiki/Group_1_element'],
+        [2, 'https://en.wikipedia.org/wiki/Alkaline_earth_metal'],
+        [3, 'https://en.wikipedia.org/wiki/Group_3_element'],
+        [4, 'https://en.wikipedia.org/wiki/Group_4_element'],
+        [5, 'https://en.wikipedia.org/wiki/Group_5_element'],
+        [6, 'https://en.wikipedia.org/wiki/Group_6_element'],
+        [7, 'https://en.wikipedia.org/wiki/Group_7_element'],
+        [8, 'https://en.wikipedia.org/wiki/Group_8_element'],
+        [9, 'https://en.wikipedia.org/wiki/Group_9_element'],
+        [10, 'https://en.wikipedia.org/wiki/Group_10_element'],
+        [11, 'https://en.wikipedia.org/wiki/Group_11_element'],
+        [12, 'https://en.wikipedia.org/wiki/Group_12_element'],
+        [13, 'https://en.wikipedia.org/wiki/Boron_group'],
+        [14, 'https://en.wikipedia.org/wiki/Carbon_group'],
+        [15, 'https://en.wikipedia.org/wiki/Pnictogen'],
+        [16, 'https://en.wikipedia.org/wiki/Chalcogen'],
+        [17, 'https://en.wikipedia.org/wiki/Halogen'],
+        [18, 'https://en.wikipedia.org/wiki/Noble_gas'],
+    ]);
 
-    static groupURLs = {
-        1: 'https://en.wikipedia.org/wiki/Group_1_element',
-        2: 'https://en.wikipedia.org/wiki/Alkaline_earth_metal',
-        3: 'https://en.wikipedia.org/wiki/Group_3_element',
-        4: 'https://en.wikipedia.org/wiki/Group_4_element',
-        5: 'https://en.wikipedia.org/wiki/Group_5_element',
-        6: 'https://en.wikipedia.org/wiki/Group_6_element',
-        7: 'https://en.wikipedia.org/wiki/Group_7_element',
-        8: 'https://en.wikipedia.org/wiki/Group_8_element',
-        9: 'https://en.wikipedia.org/wiki/Group_9_element',
-        10: 'https://en.wikipedia.org/wiki/Group_10_element',
-        11: 'https://en.wikipedia.org/wiki/Group_11_element',
-        12: 'https://en.wikipedia.org/wiki/Group_12_element',
-        13: 'https://en.wikipedia.org/wiki/Boron_group',
-        14: 'https://en.wikipedia.org/wiki/Carbon_group',
-        15: 'https://en.wikipedia.org/wiki/Pnictogen',
-        16: 'https://en.wikipedia.org/wiki/Chalcogen',
-        17: 'https://en.wikipedia.org/wiki/Halogen',
-        18: 'https://en.wikipedia.org/wiki/Noble_gas',
-    };
-
-    static periods = Elements.#getPeriods();
-
-    /**
-     * Get element periods.
-     * @private
-     */
-    static #getPeriods() {
-        const periods = new Map();
-        periods.set(1, { min: 1, max: 2 });
-        periods.set(2, { min: 3, max: 10 });
-        periods.set(3, { min: 11, max: 18 });
-        periods.set(4, { min: 19, max: 36 });
-        periods.set(5, { min: 37, max: 54 });
-        periods.set(6, { min: 55, max: 86 });
-        periods.set(7, { min: 87, max: 118 });
-        periods.set('lanthanides', { min: 57, max: 70 });
-        periods.set('actinides', { min: 89, max: 102 });
-        return periods;
-    }
+    static periods = new Map([
+        [1, { min: 1, max: 2 }],
+        [2, { min: 3, max: 10 }],
+        [3, { min: 11, max: 18 }],
+        [4, { min: 19, max: 36 }],
+        [5, { min: 37, max: 54 }],
+        [6, { min: 55, max: 86 }],
+        [7, { min: 87, max: 118 }],
+        ['lanthanides', { min: 57, max: 70 }],
+        ['actinides', { min: 89, max: 102 }],
+    ]);
 
     static symbols = Elements.#getSymbols();
 
@@ -968,7 +952,7 @@ class Elements {
         if (!group) {
             return 'None';
         }
-        const groupURL = Elements.groupURLs[group];
+        const groupURL = Elements.groupURLs.get(group);
         return Link.create(groupURL, group, true);
     }
 
@@ -1367,12 +1351,12 @@ class Elements {
      * @returns {string} HTML: a table
      */
     static renderGroup(group) {
-        if (!(group in Elements.groupElements)) {
+        if (!Elements.groupElements.has(group)) {
             return '';
         }
 
         let html = '<table class="elements group"><tbody>';
-        const elements = Elements.groupElements[group];
+        const elements = Elements.groupElements.get(group);
         for (const protons of elements) {
             const element = elementsData.get(protons);
             html += '<tr>';
@@ -1400,13 +1384,13 @@ class Elements {
         html += '<span class="previous">';
         if (group > 1) {
             const prev = group - 1;
-            html += `<a href="?group=${group - 1}">&larr; Group ${prev}</a>`;
+            html += `<a href="?group=${prev}">&larr; Group ${prev}</a>`;
         }
         html += '</span> ';
         html += '<span class="next">';
         if (group < 18) {
             const next = group + 1;
-            html += `<a href="?group=${group + 1}">Group ${next} &rarr;</a>`;
+            html += `<a href="?group=${next}">Group ${next} &rarr;</a>`;
         }
         html += '</span>';
         html += '</nav>';
@@ -1454,13 +1438,13 @@ class Elements {
         html += '<span class="previous">';
         if (period > 1) {
             const prev = period - 1;
-            html += `<a href="?period=${period - 1}">&larr; Period ${prev}</a>`;
+            html += `<a href="?period=${prev}">&larr; Period ${prev}</a>`;
         }
         html += '</span> ';
         html += '<span class="next">';
         if (period < 7) {
             const next = period + 1;
-            html += `<a href="?period=${period + 1}">Period ${next} &rarr;</a>`;
+            html += `<a href="?period=${next}">Period ${next} &rarr;</a>`;
         }
         html += '</span>';
         html += '</nav>';
