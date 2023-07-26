@@ -8,7 +8,7 @@
     "dev": "cd src && ../node_modules/nodemon/bin/nodemon.js .",
     "doc": "rm -r documentation; node_modules/jsdoc/jsdoc.js -c jsdoc.json",
     "lint": "node_modules/eslint/bin/eslint.js src/*.js client/*.js; scripts/check-spelling",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "time node test.js"
   },
   "repository": {
     "type": "git",
