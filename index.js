@@ -500,36 +500,28 @@ class Elements {
         }
     }
 
-    static groups = Elements.#getGroups();
-
-    /**
-     * Get element groups.
-     * @private
-     */
-    static #getGroups() {
-        // The key is the group number.
-        // The value is the former group designation.
-        const groups = new Map();
-        groups.set(1, 'IA');
-        groups.set(2, 'IIA');
-        groups.set(3, 'IIIB');
-        groups.set(4, 'IVB');
-        groups.set(5, 'VB');
-        groups.set(6, 'VIB');
-        groups.set(7, 'VIIB');
-        groups.set(8, 'VIIIB');
-        groups.set(9, 'VIIIB');
-        groups.set(10, 'VIIIB');
-        groups.set(11, 'IB');
-        groups.set(12, 'IIB');
-        groups.set(13, 'IIIA');
-        groups.set(14, 'IVA');
-        groups.set(15, 'VA');
-        groups.set(16, 'VIA');
-        groups.set(17, 'VIIA');
-        groups.set(18, 'VIIIA');
-        return groups;
-    }
+    // The key is the group number.
+    // The value is the former group designation.
+    static groups = new Map([
+        [1, 'IA'],
+        [2, 'IIA'],
+        [3, 'IIIB'],
+        [4, 'IVB'],
+        [5, 'VB'],
+        [6, 'VIB'],
+        [7, 'VIIB'],
+        [8, 'VIIIB'],
+        [9, 'VIIIB'],
+        [10, 'VIIIB'],
+        [11, 'IB'],
+        [12, 'IIB'],
+        [13, 'IIIA'],
+        [14, 'IVA'],
+        [15, 'VA'],
+        [16, 'VIA'],
+        [17, 'VIIA'],
+        [18, 'VIIIA'],
+    ]);
 
     static groupElements = new Map([
         [1, [1, 3, 11, 19, 37, 55, 87]],
