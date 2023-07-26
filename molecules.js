@@ -463,12 +463,7 @@ export default class Molecules {
         const atomic = new Map();
         for (const symbol in components) {
             const protons = Elements.findProtons(symbol);
-            if (protons in atomic) {
-                atomic.set(protons, atomic.get(protons) + components[symbol]);
-            }
-            else {
-                atomic.set(protons, components[symbol]);
-            }
+            common.countMapKey(atomic, protons, components[symbol]);
         }
         return atomic;
     }
