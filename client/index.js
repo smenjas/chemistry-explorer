@@ -57,72 +57,67 @@ function spliceString(string, start, deleteCount, ...items) {
 class Page {
     /**
      * Create HTML based on the URL.
+     *
+     * @param {Object} params - URLSearchParams representing the URL's query string
+     * @returns {string} HTML
      */
-    static render() {
-        const params = new URLSearchParams(window.location.search);
+    static render(params) {
         const formula = params.get('formula');
-        const group = params.get('group');
-        const period = params.get('period');
-        const protons = params.get('protons');
+        const group = parseInt(params.get('group'));
+        const period = parseInt(params.get('period'));
+        const protons = parseInt(params.get('protons'));
         const search = params.get('search');
         const view = params.get('view');
-        let html = '';
 
         if (formula) {
-            html += Molecules.renderFormula(formula);
+            return Molecules.renderFormula(formula);
         }
-        else if (group && Elements.groups.has(parseInt(group))) {
+
+        if (group && Elements.groups.has(group)) {
             document.title = `Group ${group}`;
-            html += '<main>';
+            let html = '<main>';
             html += `<h1>${document.title}</h1>`;
             html += Elements.renderGroupNav(group);
             html += Elements.renderGroup(group);
             html += '</main>';
+            return html;
         }
-        else if (period && Elements.periods.has(parseInt(period))) {
+
+        if (period && Elements.periods.has(period)) {
             document.title = `Period ${period}`;
-            html += '<main>';
+            let html = '<main>';
             html += `<h1>${document.title}</h1>`;
             html += Elements.renderPeriodNav(period);
             html += Elements.renderPeriod(period);
             html += '</main>';
-        }
-        else if (params.has('search')) {
-            html += Search.render(search);
-        }
-        else if (view === 'abundance') {
-            html += Elements.renderAbundance();
-        }
-        else if (view === 'molecules') {
-            html += Molecules.render();
-        }
-        else if (view === 'isotopes') {
-            html += Isotopes.render();
-        }
-        else if (view === 'test') {
-            html += Test.render();
-        }
-        else {
-            html += Elements.render(protons);
+            return html;
         }
 
-        document.body.insertAdjacentHTML('beforeend', html);
-        Page.addEventHandlers();
+        if (params.has('search')) {
+            return Search.render(search);
+        }
+
+        switch (view) {
+        case 'abundance':
+            return Elements.renderAbundance();
+        case 'molecules':
+            return Molecules.render();
+        case 'isotopes':
+            return Isotopes.render();
+        case 'test':
+            return Test.render();
+        }
+
+        // Show the periodic table by default.
+        return Elements.render(protons);
     }
 
-    /**
-     * Add event handlers to the page.
-     */
-    static addEventHandlers() {
-        const abundanceScale = document.querySelector('form#abundance-scale');
-        if (abundanceScale) {
-            abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
-        }
-
-        const searchInput = document.querySelector('input[name="search"]');
-        if (searchInput) {
-            searchInput.addEventListener('input', Search.handleForm);
-        }
+    static display() {
+        const params = new URLSearchParams(window.location.search);
+        const html = Page.render(params);
+        document.body.insertAdjacentHTML('beforeend', html);
+        Elements.addEventHandlers();
+        Search.addEventHandlers();
     }
 }
 
@@ -130,6 +125,16 @@ class Page {
  * Search for elements and molecules.
  */
 class Search {
+    /**
+     * Add event handlers to the page.
+     */
+    static addEventHandlers() {
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', Search.handleForm);
+        }
+    }
+
     /**
      * Add atomic numbers from a molecular formula to an existing array.
      * This modifies the first argument by reference, and returns undefined.
@@ -485,6 +490,16 @@ class Link {
  * @property {Object} typeURLs - Wikipedia URLs for each element type
  */
 class Elements {
+    /**
+     * Add event handlers to the page.
+     */
+    static addEventHandlers() {
+        const abundanceScale = document.querySelector('form#abundance-scale');
+        if (abundanceScale) {
+            abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
+        }
+    }
+
     static groups = Elements.#getGroups();
 
     /**
@@ -980,7 +995,6 @@ class Elements {
      * @returns {string} HTML: a main block
      */
     static render(protons = null) {
-        protons = parseInt(protons);
         const element = elementsData.get(protons);
         let html = '';
 
@@ -1033,7 +1047,7 @@ class Elements {
     static handleAbundanceScale(event) {
         const log = (event.target.value === 'log');
         document.body.innerHTML = Elements.renderAbundance(log);
-        Page.addEventHandlers();
+        Elements.addEventHandlers();
         document.querySelector('#scale-linear').checked = !log;
         document.querySelector('#scale-log').checked = log;
     }
@@ -1378,7 +1392,6 @@ class Elements {
      * @returns {string} HTML: a nav block
      */
     static renderGroupNav(group) {
-        group = parseInt(group);
         if (group < 1 || group > 18) {
             return '';
         }
@@ -1408,7 +1421,6 @@ class Elements {
      * @returns {string} HTML: a table
      */
     static renderPeriod(period) {
-        period = parseInt(period);
         if (!Elements.periods.has(period)) {
             return '';
         }
@@ -1434,7 +1446,6 @@ class Elements {
      * @returns {string} HTML: a nav block
      */
     static renderPeriodNav(period) {
-        period = parseInt(period);
         if (period < 1 || period > 7) {
             return '';
         }
@@ -2995,4 +3006,4 @@ class Test {
     }
 }
 
-Page.render();
+Page.display();
