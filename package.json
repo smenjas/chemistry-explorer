@@ -1,6 +1,6 @@
 {
   "name": "chemistry-explorer",
-  "version": "0.7.4",
+  "version": "0.8.0",
   "type": "module",
   "description": "A chemistry app built with vanilla JavaScript",
   "main": "index.js",
