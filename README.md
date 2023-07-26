@@ -40,5 +40,9 @@ Generate documentation with:
 ```sh
 npm run doc
 ```
+Run automated tests with:
+```sh
+npm run test
+```
 
 [Molecule](https://icons8.com/icon/C1tk3b2DIflx/molecule) icon by [Icons8](https://icons8.com)
