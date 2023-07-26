@@ -5,7 +5,7 @@
  * @param {Object} obj - An object
  * @param {string} key - A property name
  * @param {integer} [count=1] - The number to add
- * @returns {integer} The key's value
+ * @returns {integer} The property's value
  */
 export function countKey(obj, key, count = 1) {
     if (key in obj) {
@@ -15,6 +15,25 @@ export function countKey(obj, key, count = 1) {
         obj[key] = count;
     }
     return obj[key];
+}
+
+/**
+ * Increment a number for a given key. Create the property if the key doesn't
+ * exist yet.
+ *
+ * @param {Map} map - A map object
+ * @param {string} key - A property name
+ * @param {integer} [count=1] - The number to add
+ * @returns {integer} The property's value
+ */
+export function countMapKey(map, key, count = 1) {
+    if (key in map) {
+        map.set(key, map.get(key) + count);
+    }
+    else {
+        map.set(key, count);
+    }
+    return map.get(key);
 }
 
 /**
