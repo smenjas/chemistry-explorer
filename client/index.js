@@ -565,25 +565,17 @@ class Elements {
         [18, 'https://en.wikipedia.org/wiki/Noble_gas'],
     ]);
 
-    static periods = Elements.#getPeriods();
-
-    /**
-     * Get element periods.
-     * @private
-     */
-    static #getPeriods() {
-        const periods = new Map();
-        periods.set(1, { min: 1, max: 2 });
-        periods.set(2, { min: 3, max: 10 });
-        periods.set(3, { min: 11, max: 18 });
-        periods.set(4, { min: 19, max: 36 });
-        periods.set(5, { min: 37, max: 54 });
-        periods.set(6, { min: 55, max: 86 });
-        periods.set(7, { min: 87, max: 118 });
-        periods.set('lanthanides', { min: 57, max: 70 });
-        periods.set('actinides', { min: 89, max: 102 });
-        return periods;
-    }
+    static periods = new Map([
+        [1, { min: 1, max: 2 }],
+        [2, { min: 3, max: 10 }],
+        [3, { min: 11, max: 18 }],
+        [4, { min: 19, max: 36 }],
+        [5, { min: 37, max: 54 }],
+        [6, { min: 55, max: 86 }],
+        [7, { min: 87, max: 118 }],
+        ['lanthanides', { min: 57, max: 70 }],
+        ['actinides', { min: 89, max: 102 }],
+    ]);
 
     static symbols = Elements.#getSymbols();
 
