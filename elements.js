@@ -513,21 +513,15 @@ export default class Elements {
 
         if (element) {
             document.title = `${element.symbol}: ${element.name}`;
-            html += '<main>';
-            html += `<h1>${document.title}</h1>`;
             html += Elements.renderElementNav(protons);
             html += Elements.renderElement(protons);
-            html += '</main>';
         }
         else {
             document.title = 'Periodic Table of the Elements';
-            html += '<main>';
-            html += `<h1>${document.title}</h1>`;
             html += Elements.renderElements();
-            html += '</main>';
         }
 
-        return html;
+        return `<main><h1>${document.title}</h1>${html}</main>`;
     }
 
     /**
