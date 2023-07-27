@@ -66,7 +66,7 @@ export default class Molecules {
         const a = Molecules.#convertSymbols(aComponents);
         const b = Molecules.#convertSymbols(bComponents);
 
-        const result = Molecules.#compareElements(a, b, priority, true);
+        const result = Molecules.#compareElement(a, b, priority, true);
         if (result !== 0) {
             if (debug) {
                 const inequality = (result < 0) ? '<' : '>';
@@ -101,7 +101,7 @@ export default class Molecules {
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
             const symbol = elementsData.get(protons).symbol;
-            const result = Molecules.#compareElements(a, b, protons);
+            const result = Molecules.#compareElement(a, b, protons);
             if (result !== 0) {
                 if (debug) {
                     const inequality = (result < 0) ? '<' : '>';
@@ -142,7 +142,7 @@ export default class Molecules {
      *
      * @private
      */
-    static #compareElements(a, b, protons, priority = false) {
+    static #compareElement(a, b, protons, priority = false) {
         const inA = a.has(protons);
         const inB = b.has(protons);
         if (!inA && !inB) {
@@ -463,12 +463,7 @@ export default class Molecules {
         const atomic = new Map();
         for (const symbol in components) {
             const protons = Elements.findProtons(symbol);
-            if (protons in atomic) {
-                atomic.set(protons, atomic.get(protons) + components[symbol]);
-            }
-            else {
-                atomic.set(protons, components[symbol]);
-            }
+            common.countMapKey(atomic, protons, components[symbol]);
         }
         return atomic;
     }
@@ -838,7 +833,7 @@ export default class Molecules {
     }
 
     /**
-     * Order an objects properties according to atomic number, ascending.
+     * Order an object's properties according to atomic number, ascending.
      *
      * @param {object} elements - Element counts, keyed by element symbols
      * @returns {object} An object with keys in order of atomic number, ascending
