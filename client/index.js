@@ -27,13 +27,7 @@ function render(params) {
     }
 
     if (period && Elements.periods.has(period)) {
-        document.title = `Period ${period}`;
-        let html = '<main>';
-        html += `<h1>${document.title}</h1>`;
-        html += Elements.renderPeriodNav(period);
-        html += Elements.renderPeriod(period);
-        html += '</main>';
-        return html;
+        return Elements.renderPeriodPage(period);
     }
 
     if (params.has('search')) {

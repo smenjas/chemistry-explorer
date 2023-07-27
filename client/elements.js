@@ -992,4 +992,20 @@ export default class Elements {
 
         return html;
     }
+
+    /**
+     * Create HTML for an element period.
+     *
+     * @param {integer} period - A row in the periodic table
+     * @returns {string} HTML
+     */
+    static renderPeriodPage(period) {
+        document.title = `Period ${period}`;
+        let html = '<main>';
+        html += `<h1>${document.title}</h1>`;
+        html += Elements.renderPeriodNav(period);
+        html += Elements.renderPeriod(period);
+        html += '</main>';
+        return html;
+    }
 }
