@@ -924,6 +924,22 @@ export default class Elements {
     }
 
     /**
+     * Create HTML for an element group.
+     *
+     * @param {integer} group - A column in the periodic table
+     * @returns {string} HTML
+     */
+    static renderGroupPage(group) {
+        document.title = `Group ${group}`;
+        let html = '<main>';
+        html += `<h1>${document.title}</h1>`;
+        html += Elements.renderGroupNav(group);
+        html += Elements.renderGroup(group);
+        html += '</main>';
+        return html;
+    }
+
+    /**
      * Create HTML showing an entire period of elements.
      *
      * @param {integer} period - A row in the periodic table

@@ -23,13 +23,7 @@ function render(params) {
     }
 
     if (group && Elements.groups.has(group)) {
-        document.title = `Group ${group}`;
-        let html = '<main>';
-        html += `<h1>${document.title}</h1>`;
-        html += Elements.renderGroupNav(group);
-        html += Elements.renderGroup(group);
-        html += '</main>';
-        return html;
+        return Elements.renderGroupPage(group);
     }
 
     if (period && Elements.periods.has(period)) {
