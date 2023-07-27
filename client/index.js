@@ -22,24 +22,12 @@ function render(params) {
         return Molecules.renderFormula(formula);
     }
 
-    if (group && Elements.groups.has(group)) {
-        document.title = `Group ${group}`;
-        let html = '<main>';
-        html += `<h1>${document.title}</h1>`;
-        html += Elements.renderGroupNav(group);
-        html += Elements.renderGroup(group);
-        html += '</main>';
-        return html;
+    if (Elements.groups.has(group)) {
+        return Elements.renderGroupPage(group);
     }
 
-    if (period && Elements.periods.has(period)) {
-        document.title = `Period ${period}`;
-        let html = '<main>';
-        html += `<h1>${document.title}</h1>`;
-        html += Elements.renderPeriodNav(period);
-        html += Elements.renderPeriod(period);
-        html += '</main>';
-        return html;
+    if (Elements.periods.has(period)) {
+        return Elements.renderPeriodPage(period);
     }
 
     if (params.has('search')) {

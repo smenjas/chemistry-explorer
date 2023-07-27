@@ -513,21 +513,15 @@ export default class Elements {
 
         if (element) {
             document.title = `${element.symbol}: ${element.name}`;
-            html += '<main>';
-            html += `<h1>${document.title}</h1>`;
             html += Elements.renderElementNav(protons);
             html += Elements.renderElement(protons);
-            html += '</main>';
         }
         else {
             document.title = 'Periodic Table of the Elements';
-            html += '<main>';
-            html += `<h1>${document.title}</h1>`;
             html += Elements.renderElements();
-            html += '</main>';
         }
 
-        return html;
+        return `<main><h1>${document.title}</h1>${html}</main>`;
     }
 
     /**
@@ -924,6 +918,22 @@ export default class Elements {
     }
 
     /**
+     * Create HTML for an element group.
+     *
+     * @param {integer} group - A column in the periodic table
+     * @returns {string} HTML
+     */
+    static renderGroupPage(group) {
+        document.title = `Group ${group}`;
+        let html = '<main>';
+        html += `<h1>${document.title}</h1>`;
+        html += Elements.renderGroupNav(group);
+        html += Elements.renderGroup(group);
+        html += '</main>';
+        return html;
+    }
+
+    /**
      * Create HTML showing an entire period of elements.
      *
      * @param {integer} period - A row in the periodic table
@@ -974,6 +984,22 @@ export default class Elements {
         html += '</span>';
         html += '</nav>';
 
+        return html;
+    }
+
+    /**
+     * Create HTML for an element period.
+     *
+     * @param {integer} period - A row in the periodic table
+     * @returns {string} HTML
+     */
+    static renderPeriodPage(period) {
+        document.title = `Period ${period}`;
+        let html = '<main>';
+        html += `<h1>${document.title}</h1>`;
+        html += Elements.renderPeriodNav(period);
+        html += Elements.renderPeriod(period);
+        html += '</main>';
         return html;
     }
 }
