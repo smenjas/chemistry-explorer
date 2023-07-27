@@ -833,7 +833,7 @@ export default class Molecules {
     }
 
     /**
-     * Order an objects properties according to atomic number, ascending.
+     * Order an object's properties according to atomic number, ascending.
      *
      * @param {object} elements - Element counts, keyed by element symbols
      * @returns {object} An object with keys in order of atomic number, ascending
