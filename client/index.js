@@ -22,11 +22,11 @@ function render(params) {
         return Molecules.renderFormula(formula);
     }
 
-    if (group && Elements.groups.has(group)) {
+    if (Elements.groups.has(group)) {
         return Elements.renderGroupPage(group);
     }
 
-    if (period && Elements.periods.has(period)) {
+    if (Elements.periods.has(period)) {
         return Elements.renderPeriodPage(period);
     }
 
