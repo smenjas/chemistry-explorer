@@ -1,4 +1,5 @@
 import Element from './element.js';
+import ElementView from './view/element.js';
 import Isotope from './isotope.js';
 import Molecule from './molecule.js';
 import Search from './search.js';
@@ -23,11 +24,11 @@ function render(params) {
     }
 
     if (Element.groups.has(group)) {
-        return Element.renderGroupPage(group);
+        return ElementView.renderGroupPage(group);
     }
 
     if (Element.periods.has(period)) {
-        return Element.renderPeriodPage(period);
+        return ElementView.renderPeriodPage(period);
     }
 
     if (params.has('search')) {
@@ -36,7 +37,7 @@ function render(params) {
 
     switch (view) {
     case 'abundance':
-        return Element.renderAbundance();
+        return ElementView.renderAbundance();
     case 'molecules':
         return Molecule.render();
     case 'isotopes':
@@ -46,12 +47,12 @@ function render(params) {
     }
 
     // Show the periodic table by default.
-    return Element.render(protons);
+    return ElementView.render(protons);
 }
 
 const params = new URLSearchParams(window.location.search);
 const html = render(params);
 
 document.body.insertAdjacentHTML('beforeend', html);
-Element.addEventHandlers();
+ElementView.addEventHandlers();
 Search.addEventHandlers();

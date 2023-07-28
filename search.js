@@ -1,5 +1,6 @@
 import * as common from './common.js';
 import Element from './element.js';
+import ElementView from './view/element.js';
 import Molecule from './molecule.js';
 import moleculeData from './molecule-data.js';
 import Test from './test.js';
@@ -263,7 +264,7 @@ export default class Search {
         html += `<h2>${elementResults}</h2>`;
         html += '<section class="elements">';
         for (const protons of elements) {
-            html += Element.formatElement(protons, true);
+            html += ElementView.formatElement(protons, true);
         }
         html += '</section>';
 
