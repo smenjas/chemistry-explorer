@@ -1,4 +1,4 @@
-import Element from './element.js';
+import ElementTest from './test/element.js';
 import Molecule from './molecule.js';
 import Search from './search.js';
 
@@ -312,7 +312,7 @@ export default class Test {
         console.time('Test.runAll()');
 
         const methods = [
-            Element.findTest,
+            ElementTest.find,
             Molecule.compareTest,
             Molecule.convertFormulaTest,
             Molecule.findElementTest,
