@@ -1,3 +1,4 @@
+import * as common from './common.js';
 import elementsData from './elementsData.js';
 import isotopesData from './isotopesData.js';
 import Link from './link.js';
@@ -288,49 +289,6 @@ export default class Elements {
     }
 
     /**
-     * Fix floating point numbers that have been mangled.
-     *
-     * @param {number} number - A number, possibly a smidgen off
-     * @returns {number} The given number, possibly rounded
-     */
-    static fixFloat(number) {
-        let [integer, decimal, exponent] = number.toString().split(/[.e]/);
-        if (decimal === undefined) {
-            return number;
-        }
-
-        const zeros = decimal.indexOf('00000');
-        if (zeros !== -1) {
-            decimal = decimal.substring(0, zeros);
-        }
-
-        const nines = decimal.indexOf('99999');
-        if (nines === 0) {
-            integer = `${parseInt(integer) + 1}`;
-            decimal = '';
-        }
-        else if (nines !== -1) {
-            decimal = decimal.substring(0, nines);
-            const lastDigit = parseInt(decimal.at(-1)) + 1;
-            decimal = decimal.substring(0, decimal.length - 1) + lastDigit.toString();
-        }
-
-        if (zeros === -1 && nines === -1) {
-            return number;
-        }
-
-        let string = integer;
-        if (decimal.length > 0) {
-            string += `.${decimal}`;
-        }
-        if (exponent !== undefined) {
-            string += `e${exponent}`;
-        }
-        const f = parseFloat(string);
-        return f;
-    }
-
-    /**
      * Format a number representing an element's abundance.
      *
      * @param {number} abundance - The proportion of a substance in a sample
@@ -342,26 +300,26 @@ export default class Elements {
         }
 
         if (abundance < 1e-12) {
-            const ppq = Elements.fixFloat(abundance * 1e15);
+            const ppq = common.fixFloat(abundance * 1e15);
             return `<span title="${abundance}">${ppq}</span> <abbr title="parts per quadrillion">ppq</abbr>`;
         }
 
         if (abundance < 1e-9) {
-            const ppt = Elements.fixFloat(abundance * 1e12);
+            const ppt = common.fixFloat(abundance * 1e12);
             return `<span title="${abundance}">${ppt}</span> <abbr title="parts per trillion">ppt</abbr>`;
         }
 
         if (abundance < 1e-6) {
-            const ppb = Elements.fixFloat(abundance * 1e9);
+            const ppb = common.fixFloat(abundance * 1e9);
             return `<span title="${abundance}">${ppb}</span> <abbr title="parts per billion">ppb</abbr>`;
         }
 
         if (abundance < 1e-3) {
-            const ppm = Elements.fixFloat(abundance * 1e6);
+            const ppm = common.fixFloat(abundance * 1e6);
             return `<span title="${abundance}">${ppm}</span> <abbr title="parts per million">ppm</abbr>`;
         }
 
-        const percent = Elements.fixFloat(abundance * 100);
+        const percent = common.fixFloat(abundance * 100);
         return `<span title="${abundance}">${percent}%</span>`;
     }
 

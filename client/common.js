@@ -37,6 +37,49 @@ export function countMapKey(map, key, count = 1) {
 }
 
 /**
+ * Fix floating point numbers with approximation errors.
+ *
+ * @param {number} number - A number, possibly a smidgen off
+ * @returns {number} The given number, possibly rounded
+ */
+export function fixFloat(number) {
+    let [integer, decimal, exponent] = number.toString().split(/[.e]/);
+    if (decimal === undefined) {
+        return number;
+    }
+
+    const zeros = decimal.indexOf('00000');
+    if (zeros !== -1) {
+        decimal = decimal.substring(0, zeros);
+    }
+
+    const nines = decimal.indexOf('99999');
+    if (nines === 0) {
+        integer = `${parseInt(integer) + 1}`;
+        decimal = '';
+    }
+    else if (nines !== -1) {
+        decimal = decimal.substring(0, nines);
+        const lastDigit = parseInt(decimal.at(-1)) + 1;
+        decimal = decimal.substring(0, decimal.length - 1) + lastDigit.toString();
+    }
+
+    if (zeros === -1 && nines === -1) {
+        return number;
+    }
+
+    let string = integer;
+    if (decimal.length > 0) {
+        string += `.${decimal}`;
+    }
+    if (exponent !== undefined) {
+        string += `e${exponent}`;
+    }
+    const f = parseFloat(string);
+    return f;
+}
+
+/**
  * Add an element to an array property of the given object.
  * Create the array if the key doesn't exist yet.
  *
