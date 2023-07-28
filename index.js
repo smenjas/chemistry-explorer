@@ -3,7 +3,7 @@ import ElementView from './view/element.js';
 import IsotopeView from './view/isotope.js';
 import MoleculeView from './view/molecule.js';
 import SearchView from './view/search.js';
-import Test from './test.js';
+import TestView from './view/test.js';
 
 /**
  * Create HTML based on the URL.
@@ -43,7 +43,7 @@ function render(params) {
     case 'isotopes':
         return IsotopeView.render();
     case 'test':
-        return Test.render();
+        return TestView.render();
     }
 
     // Show the periodic table by default.
