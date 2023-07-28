@@ -1,15 +1,15 @@
 import * as common from './common.js';
-import Elements from './elements.js';
-import elementsData from './elements-data.js';
+import Element from './element.js';
+import elementData from './element-data.js';
 import Link from './link.js';
-import moleculesData from './molecules-data.js';
+import moleculeData from './molecule-data.js';
 import Search from './search.js';
 import Test from './test.js';
 
 /**
  * Show information about molecules.
  */
-export default class Molecules {
+export default class Molecule {
     /**
      * Combine element counts into a molecular formula.
      *
@@ -51,7 +51,7 @@ export default class Molecules {
         }
 
         // Allow the caller to identify a priority element to sort by.
-        let priority = Elements.findProtons(prioritySymbol);
+        let priority = Element.findProtons(prioritySymbol);
         if (priority === 0) {
             console.warn('Invalid priority element symbol:', prioritySymbol);
             prioritySymbol = 'H';
@@ -59,14 +59,14 @@ export default class Molecules {
         }
 
         // Parse formulas into constituent elements.
-        const aComponents = Molecules.parse(formulaA);
-        const bComponents = Molecules.parse(formulaB);
+        const aComponents = Molecule.parse(formulaA);
+        const bComponents = Molecule.parse(formulaB);
 
         // Build maps keyed by atomic numbers, not atomic symbols.
-        const a = Molecules.#convertSymbols(aComponents);
-        const b = Molecules.#convertSymbols(bComponents);
+        const a = Molecule.#convertSymbols(aComponents);
+        const b = Molecule.#convertSymbols(bComponents);
 
-        const result = Molecules.#compareElement(a, b, priority, true);
+        const result = Molecule.#compareElement(a, b, priority, true);
         if (result !== 0) {
             if (debug) {
                 const inequality = (result < 0) ? '<' : '>';
@@ -100,8 +100,8 @@ export default class Molecules {
 
         // Compare formulas by their elements' atomic numbers; lowest comes first.
         for (const protons of all) {
-            const symbol = elementsData.get(protons).symbol;
-            const result = Molecules.#compareElement(a, b, protons);
+            const symbol = elementData.get(protons).symbol;
+            const result = Molecule.#compareElement(a, b, protons);
             if (result !== 0) {
                 if (debug) {
                     const inequality = (result < 0) ? '<' : '>';
@@ -250,7 +250,7 @@ export default class Molecules {
         }
         */
 
-        return Test.run(Molecules.compare, tests);
+        return Test.run(Molecule.compare, tests);
     }
 
     /**
@@ -275,29 +275,29 @@ export default class Molecules {
             const count = (match[2] === '') ? 1 : parseInt(match[2]);
             const index = match.index - offset;
             const length = match[0].length;
-            const parts = Molecules.parse(match[1]);
-            const substr = Molecules.combine(parts, count);
+            const parts = Molecule.parse(match[1]);
+            const substr = Molecule.combine(parts, count);
             formula = common.spliceString(formula, index, length, substr);
             offset += length - substr.length;
         }
 
         // Recurse if there are more parentheses.
         if (formula.indexOf('(') !== -1) {
-            formula = Molecules.convertFormula(formula);
+            formula = Molecule.convertFormula(formula);
         }
 
-        let elements = Molecules.parse(formula);
+        let elements = Molecule.parse(formula);
 
         if (sort) {
-            elements = Molecules.sortElements(elements);
+            elements = Molecule.sortElements(elements);
         }
 
         if (priorities.length > 0) {
-            elements = Molecules.prioritizeElements(elements, ...priorities);
+            elements = Molecule.prioritizeElements(elements, ...priorities);
         }
 
         // Combine duplicate elements.
-        return Molecules.combine(elements);
+        return Molecule.combine(elements);
     }
 
     /**
@@ -449,7 +449,7 @@ export default class Molecules {
             [['Cf[B6O8(OH)5]', true, 'Cf', 'B'], 'CfB6H5O13'],
         ];
 
-        return Test.run(Molecules.convertFormula, tests);
+        return Test.run(Molecule.convertFormula, tests);
     }
 
     /**
@@ -462,7 +462,7 @@ export default class Molecules {
     static #convertSymbols(components) {
         const atomic = new Map();
         for (const symbol in components) {
-            const protons = Elements.findProtons(symbol);
+            const protons = Element.findProtons(symbol);
             common.countMapKey(atomic, protons, components[symbol]);
         }
         return atomic;
@@ -483,9 +483,9 @@ export default class Molecules {
         // Count how many formulas contain each element.
         const elementCounts = {};
         for (const formula of formulas) {
-            const components = Molecules.parse(formula);
+            const components = Molecule.parse(formula);
             for (const protons of candidates) {
-                const symbol = Elements.findSymbol(protons);
+                const symbol = Element.findSymbol(protons);
                 if (!(symbol in components)) {
                     continue;
                 }
@@ -515,17 +515,17 @@ export default class Molecules {
         if (!symbol) {
             return [];
         }
-        if (symbol in Molecules.#foundElements) {
-            return Molecules.#foundElements[symbol];
+        if (symbol in Molecule.#foundElements) {
+            return Molecule.#foundElements[symbol];
         }
         const formulas = [];
-        for (const formula in moleculesData) {
-            const elements = Molecules.parse(formula);
+        for (const formula in moleculeData) {
+            const elements = Molecule.parse(formula);
             if (symbol in elements) {
                 formulas.push(formula);
             }
         }
-        Molecules.#foundElements[symbol] = formulas;
+        Molecule.#foundElements[symbol] = formulas;
         return formulas;
     }
 
@@ -545,7 +545,7 @@ export default class Molecules {
             [['Fr'], ['FrOH', 'FrCl']],
         ];
 
-        return Test.run(Molecules.findElement, tests);
+        return Test.run(Molecule.findElement, tests);
     }
 
     static #foundFormulas = {};
@@ -561,20 +561,20 @@ export default class Molecules {
         if (search.length === 0) {
             return [];
         }
-        if (search in Molecules.#foundFormulas) {
-            return Molecules.#foundFormulas[search];
+        if (search in Molecule.#foundFormulas) {
+            return Molecule.#foundFormulas[search];
         }
         const formulas = [];
         const upper = search.toUpperCase();
 
-        for (const formula in moleculesData) {
+        for (const formula in moleculeData) {
             const f = formula.toUpperCase();
             if ((f === upper) || (f.includes(upper))) {
                 formulas.push(formula);
             }
         }
 
-        Molecules.#foundFormulas[search] = formulas;
+        Molecule.#foundFormulas[search] = formulas;
         return formulas;
     }
 
@@ -591,7 +591,7 @@ export default class Molecules {
             [['y3'], ['Y3Al5O12']],
         ];
 
-        return Test.run(Molecules.findFormulas, tests);
+        return Test.run(Molecule.findFormulas, tests);
     }
 
     static #foundNames = {};
@@ -603,17 +603,17 @@ export default class Molecules {
      * @returns {Array<string>} Molecular formulas that match the given name exactly
      */
     static findName(name) {
-        if (name in Molecules.#foundNames) {
-            return Molecules.#foundNames[name];
+        if (name in Molecule.#foundNames) {
+            return Molecule.#foundNames[name];
         }
         const formulas = [];
-        for (const formula in moleculesData) {
-            const names = moleculesData[formula];
+        for (const formula in moleculeData) {
+            const names = moleculeData[formula];
             if (names.includes(name)) {
                 formulas.push(formula);
             }
         }
-        Molecules.#foundNames[name] = formulas;
+        Molecule.#foundNames[name] = formulas;
         return formulas;
     }
 
@@ -630,8 +630,8 @@ export default class Molecules {
         }
         const molecules = {};
         const upper = search.toUpperCase();
-        for (const formula in moleculesData) {
-            for (const name of moleculesData[formula]) {
+        for (const formula in moleculeData) {
+            for (const name of moleculeData[formula]) {
                 if (name.toUpperCase().includes(upper)) {
                     common.pushTo(molecules, formula, name);
                 }
@@ -653,7 +653,7 @@ export default class Molecules {
             [['triazan'], {H5N3: ['Triazane']}],
         ];
 
-        return Test.run(Molecules.findNames, tests);
+        return Test.run(Molecule.findNames, tests);
     }
 
     /**
@@ -664,10 +664,10 @@ export default class Molecules {
     static findDuplicateNames() {
         console.time('findDuplicateNames');
         const dupes = {};
-        for (const formula in moleculesData) {
-            const names = moleculesData[formula];
+        for (const formula in moleculeData) {
+            const names = moleculeData[formula];
             for (const name of names) {
-                const formulas = Molecules.findName(name);
+                const formulas = Molecule.findName(name);
                 if (formulas.length < 2) {
                     continue;
                 }
@@ -693,8 +693,8 @@ export default class Molecules {
     static findDuplicateFormulas() {
         console.time('findDuplicateFormulas');
         const dupes = {};
-        for (const formula in moleculesData) {
-            const matches = Molecules.findEquivalentFormulas(formula);
+        for (const formula in moleculeData) {
+            const matches = Molecule.findEquivalentFormulas(formula);
             if (matches.length < 1) {
                 continue;
             }
@@ -719,11 +719,11 @@ export default class Molecules {
      */
     static findEquivalentFormulas(formula) {
         const formulas = [];
-        for (const f in moleculesData) {
+        for (const f in moleculeData) {
             if (formula === f) {
                 continue;
             }
-            const result = Molecules.compare(formula, f);
+            const result = Molecule.compare(formula, f);
             if (result === 0) {
                 formulas.push(f);
             }
@@ -778,7 +778,7 @@ export default class Molecules {
      * @returns {Array<string>} A list of molecular formulas
      */
     static list(symbol = null) {
-        return symbol ? Molecules.findElement(symbol) : Object.keys(moleculesData);
+        return symbol ? Molecule.findElement(symbol) : Object.keys(moleculeData);
     }
 
     static #parsed = {};
@@ -790,8 +790,8 @@ export default class Molecules {
      * @returns {object} Element counts, keyed by element symbols
      */
     static parse(formula) {
-        if (formula in Molecules.#parsed) {
-            return Molecules.#parsed[formula];
+        if (formula in Molecule.#parsed) {
+            return Molecule.#parsed[formula];
         }
         formula = formula.toString();
         const re = /([A-Z][a-z]?)(\d*)/g;
@@ -802,7 +802,7 @@ export default class Molecules {
             const count = (components[2] === '') ? 1 : parseInt(components[2]);
             common.countKey(elements, element, count);
         }
-        Molecules.#parsed[formula] = elements;
+        Molecule.#parsed[formula] = elements;
         return elements;
     }
 
@@ -841,7 +841,7 @@ export default class Molecules {
     static sortElements(elements) {
         // Accepts an object of element counts, keyed by element symbols.
         // Returns a copy of the object with the keys sorted.
-        const keys = Object.keys(elements).sort(Elements.compare);
+        const keys = Object.keys(elements).sort(Element.compare);
         const components = {};
         for (const element of keys) {
             components[element] = elements[element];
@@ -858,13 +858,13 @@ export default class Molecules {
      */
     static sort(formulas = [], priority = 'H') {
         if (formulas.length < 1) {
-            formulas = Object.keys(moleculesData);
+            formulas = Object.keys(moleculeData);
         }
-        const sorted = formulas.toSorted((a, b) => Molecules.compare(a, b, priority));
+        const sorted = formulas.toSorted((a, b) => Molecule.compare(a, b, priority));
 
         for (let i = 0; i < formulas.length; i++) {
             if (formulas[i] !== sorted[i]) {
-                Molecules.compare(formulas[i], sorted[i], priority, true);
+                Molecule.compare(formulas[i], sorted[i], priority, true);
                 break;
             }
         }
@@ -878,20 +878,20 @@ export default class Molecules {
      * @param {Array<string>} formulas - Molecular formulas to sort
      * @returns {Array<string>} Molecular formulas, sorted in ascending order
      */
-    static sortByFirstElement(formulas = Object.keys(moleculesData)) {
-        console.time('Molecules.sortByFirstElement()');
+    static sortByFirstElement(formulas = Object.keys(moleculeData)) {
+        console.time('Molecule.sortByFirstElement()');
         let sorted = [];
         const byElement = {};
         for (const formula of formulas) {
-            const components = Molecules.parse(formula);
+            const components = Molecule.parse(formula);
             const element = Object.keys(components)[0];
             common.pushTo(byElement, element, formula);
         }
         for (const element in byElement) {
             const formulas = byElement[element];
-            sorted = sorted.concat(Molecules.sort(formulas, element));
+            sorted = sorted.concat(Molecule.sort(formulas, element));
         }
-        console.timeEnd('Molecules.sortByFirstElement()');
+        console.timeEnd('Molecule.sortByFirstElement()');
         return sorted;
     }
 
@@ -902,11 +902,11 @@ export default class Molecules {
      * @returns {integer} The molecular weight of the formula
      */
     static weigh(formula) {
-        const elements = Molecules.parse(formula);
+        const elements = Molecule.parse(formula);
         let weight = 0;
         for (const symbol in elements) {
-            const protons = Elements.findProtons(symbol);
-            const element = elementsData.get(protons);
+            const protons = Element.findProtons(symbol);
+            const element = elementData.get(protons);
             weight += Math.round(element.weight) * elements[symbol];
         }
         return weight;
@@ -920,11 +920,11 @@ export default class Molecules {
     static render() {
         document.title = 'Molecules';
         let html = `<h1>${document.title}</h1>`;
-        html += Molecules.renderChart();
-        html += Molecules.renderList();
-        Molecules.sortByFirstElement();
-        //console.log(Molecules.findDuplicateNames());
-        //console.log(Molecules.findDuplicateFormulas());
+        html += Molecule.renderChart();
+        html += Molecule.renderList();
+        Molecule.sortByFirstElement();
+        //console.log(Molecule.findDuplicateNames());
+        //console.log(Molecule.findDuplicateFormulas());
         return html;
     }
 
@@ -937,11 +937,11 @@ export default class Molecules {
         console.time('molecules-chart');
         const counts = new Map();
         let max = 0;
-        for (const [protons, element] of elementsData) {
-            const formulas = Molecules.list(element.symbol);
+        for (const [protons, element] of elementData) {
+            const formulas = Molecule.list(element.symbol);
             let count = 0;
             for (const formula of formulas) {
-                const molecules = moleculesData[formula];
+                const molecules = moleculeData[formula];
                 count += molecules.length;
             }
             if (count > max) {
@@ -952,7 +952,7 @@ export default class Molecules {
 
         let html = '<section class="molecules-chart">';
         for (const [protons, count] of counts) {
-            const element = elementsData.get(protons);
+            const element = elementData.get(protons);
             const percent = ((count / max) * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             html += `<div class="${typeClass}" style="width: calc(${percent}% + var(--molecules-width-min))">`;
@@ -973,17 +973,17 @@ export default class Molecules {
      * @returns {string} HTML: headings and blocks
      */
     static renderFormula(formula) {
-        const pretty = Molecules.format(formula);
+        const pretty = Molecule.format(formula);
 
         document.title = formula;
 
         let html = `<h1>${pretty}</h1>`;
-        html += `<p>Molecular weight: ${Molecules.weigh(formula)}</p>`;
+        html += `<p>Molecular weight: ${Molecule.weigh(formula)}</p>`;
         html += '<h2>Links</h2>';
 
-        if (formula in moleculesData) {
+        if (formula in moleculeData) {
             html += '<ul>';
-            for (const chemical of moleculesData[formula]) {
+            for (const chemical of moleculeData[formula]) {
                 html += `<li>${Link.toWikipedia(chemical, `Wikipedia: ${chemical}`)}</li>`;
             }
             html += '</ul>';
@@ -993,18 +993,18 @@ export default class Molecules {
         }
 
         html += '<ul>';
-        html += `<li>${Link.create(Molecules.getWebBookURL(formula), 'NIST WebBook', true)}</li>`;
-        html += `<li>${Link.create(Molecules.getChemSpiderURL(formula), 'ChemSpider', true)}</li>`;
-        html += `<li>${Link.create(Molecules.getPubChemURL(formula), 'PubChem', true)}</li>`;
+        html += `<li>${Link.create(Molecule.getWebBookURL(formula), 'NIST WebBook', true)}</li>`;
+        html += `<li>${Link.create(Molecule.getChemSpiderURL(formula), 'ChemSpider', true)}</li>`;
+        html += `<li>${Link.create(Molecule.getPubChemURL(formula), 'PubChem', true)}</li>`;
         html += '</ul>';
 
-        const elements = Molecules.parse(formula);
+        const elements = Molecule.parse(formula);
 
         html += '<h2>Contains</h2>';
         html += '<section class="elements">';
         for (const symbol in elements) {
-            const protons = Elements.findProtons(symbol);
-            html += Elements.formatElement(protons, true);
+            const protons = Element.findProtons(symbol);
+            html += Element.formatElement(protons, true);
         }
         html += '</section>';
 
@@ -1018,14 +1018,14 @@ export default class Molecules {
      * @returns {string} HTML: a heading and a list
      */
     static renderList(symbol = null) {
-        const formulas = Molecules.list(symbol);
+        const formulas = Molecule.list(symbol);
         if (formulas.length < 1) {
             return '';
         }
 
         let moleculesCount = 0;
         for (const formula of formulas) {
-            const names = moleculesData[formula];
+            const names = moleculeData[formula];
             moleculesCount += names.length;
         }
 
@@ -1034,8 +1034,8 @@ export default class Molecules {
         let html = `<h3>${formulasTally}, ${moleculesTally}</h3>`;
         html += '<ul>';
         for (const formula of formulas) {
-            const names = moleculesData[formula];
-            const linkText = `${Molecules.format(formula)}: ${names.join(', ')}`;
+            const names = moleculeData[formula];
+            const linkText = `${Molecule.format(formula)}: ${names.join(', ')}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
         html += '</ul>';
@@ -1049,30 +1049,30 @@ export default class Molecules {
      * @returns {string} HTML: a paragraph block
      */
     static renderWords() {
-        console.time('Molecules.renderWords()');
-        //console.time('Molecules.renderWords() collecting');
+        console.time('Molecule.renderWords()');
+        //console.time('Molecule.renderWords() collecting');
         const strings = [];
-        for (const names of Object.values(moleculesData)) {
+        for (const names of Object.values(moleculeData)) {
             for (const name of names) {
                 const string = name.replace(/\([IV,]+\)/i, '').replace('′', '\'',);
                 strings.push(string);
             }
         }
-        //console.timeEnd('Molecules.renderWords() collecting');
+        //console.timeEnd('Molecule.renderWords() collecting');
 
         const words = Search.countWords(strings);
 
-        //console.time('Molecules.renderWords() pruning');
+        //console.time('Molecule.renderWords() pruning');
         for (const [word, count] of Object.entries(words)) {
             if (count === 1 || word.length < 3) {
                 delete words[word];
             }
         }
-        //console.timeEnd('Molecules.renderWords() pruning');
+        //console.timeEnd('Molecule.renderWords() pruning');
 
         const html = Search.renderWords(words);
 
-        console.timeEnd('Molecules.renderWords()');
+        console.timeEnd('Molecule.renderWords()');
         return html;
     }
 }

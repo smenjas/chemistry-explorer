@@ -18,13 +18,13 @@ const server = http.createServer((request, response) => {
         break;
     case '/index.js':
     case '/common.js':
-    case '/elements.js':
-    case '/elements-data.js':
-    case '/isotopes.js':
-    case '/isotopes-data.js':
+    case '/element.js':
+    case '/element-data.js':
+    case '/isotope.js':
+    case '/isotope-data.js':
     case '/link.js':
-    case '/molecules.js':
-    case '/molecules-data.js':
+    case '/molecule.js':
+    case '/molecule-data.js':
     case '/page.js':
     case '/search.js':
     case '/test.js':
