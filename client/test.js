@@ -3,7 +3,7 @@ import Molecule from './molecule.js';
 import Search from './search.js';
 
 /**
- * Run automated tests and report the results.
+ * Run automated tests.
  */
 export default class Test {
     /**
@@ -301,22 +301,6 @@ export default class Test {
         ];
 
         return Test.run(Test.isObject, tests);
-    }
-
-    /**
-     * Create a report for automated test results.
-     *
-     * @returns {string} HTML: a main block
-     */
-    static render() {
-        const failures = Test.runAll();
-        const color = failures ? 'red' : 'green';
-        document.title = 'Automated Tests';
-        let html = '<main>';
-        html += `<h1>${document.title}</h1>`;
-        html += `<p>Failures: <span style="color: ${color}">${failures}</span></p>`;
-        html += '</main>';
-        return html;
     }
 
     /**

@@ -32,6 +32,7 @@ const server = http.createServer((request, response) => {
     case '/search.js':
     case '/view/search.js':
     case '/test.js':
+    case '/view/test.js':
         response.statusCode = 200;
         response.setHeader('Content-Type', 'text/javascript');
         content = fs.readFileSync(`../client${path}`, 'utf8');
