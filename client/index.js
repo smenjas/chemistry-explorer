@@ -2,7 +2,7 @@ import Element from './element.js';
 import ElementView from './view/element.js';
 import IsotopeView from './view/isotope.js';
 import MoleculeView from './view/molecule.js';
-import Search from './search.js';
+import SearchView from './view/search.js';
 import Test from './test.js';
 
 /**
@@ -32,7 +32,7 @@ function render(params) {
     }
 
     if (params.has('search')) {
-        return Search.render(search);
+        return SearchView.render(search);
     }
 
     switch (view) {
@@ -55,4 +55,4 @@ const html = render(params);
 
 document.body.insertAdjacentHTML('beforeend', html);
 ElementView.addEventHandlers();
-Search.addEventHandlers();
+SearchView.addEventHandlers();

@@ -30,6 +30,7 @@ const server = http.createServer((request, response) => {
     case '/view/molecule.js':
     case '/page.js':
     case '/search.js':
+    case '/view/search.js':
     case '/test.js':
         response.statusCode = 200;
         response.setHeader('Content-Type', 'text/javascript');
