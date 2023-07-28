@@ -1,7 +1,7 @@
 import * as common from './common.js';
 import Elements from './elements.js';
 import Molecules from './molecules.js';
-import moleculesData from './moleculesData.js';
+import moleculesData from './molecules-data.js';
 import Test from './test.js';
 
 /**

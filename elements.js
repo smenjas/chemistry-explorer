@@ -1,6 +1,6 @@
 import * as common from './common.js';
-import elementsData from './elementsData.js';
-import isotopesData from './isotopesData.js';
+import elementsData from './elements-data.js';
+import isotopesData from './isotopes-data.js';
 import Link from './link.js';
 import Molecules from './molecules.js';
 import Test from './test.js';
