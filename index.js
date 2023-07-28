@@ -1,7 +1,7 @@
 import Element from './element.js';
 import ElementView from './view/element.js';
 import IsotopeView from './view/isotope.js';
-import Molecule from './molecule.js';
+import MoleculeView from './view/molecule.js';
 import Search from './search.js';
 import Test from './test.js';
 
@@ -20,7 +20,7 @@ function render(params) {
     const view = params.get('view');
 
     if (formula) {
-        return Molecule.renderFormula(formula);
+        return MoleculeView.renderFormula(formula);
     }
 
     if (Element.groups.has(group)) {
@@ -39,7 +39,7 @@ function render(params) {
     case 'abundance':
         return ElementView.renderAbundance();
     case 'molecules':
-        return Molecule.render();
+        return MoleculeView.render();
     case 'isotopes':
         return IsotopeView.render();
     case 'test':
