@@ -5,6 +5,7 @@ import Link from '../link.js';
 import moleculeData from '../molecule-data.js';
 import Molecule from '../molecule.js';
 import Search from '../search.js';
+import SearchView from '../view/search.js';
 
 /**
  * Show information about molecules.
@@ -178,7 +179,7 @@ export default class MoleculeView {
         }
         //console.timeEnd('MoleculeView.renderWords() pruning');
 
-        const html = Search.renderWords(words);
+        const html = SearchView.renderWords(words);
 
         console.timeEnd('MoleculeView.renderWords()');
         return html;
