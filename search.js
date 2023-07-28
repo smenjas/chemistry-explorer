@@ -1,7 +1,7 @@
 import * as common from './common.js';
-import Elements from './elements.js';
-import Molecules from './molecules.js';
-import moleculesData from './molecules-data.js';
+import Element from './element.js';
+import Molecule from './molecule.js';
+import moleculeData from './molecule-data.js';
 import Test from './test.js';
 
 /**
@@ -26,9 +26,9 @@ export default class Search {
      * @param {string} A molecular formula
      */
     static addFormulaElements(elements, formula) {
-        const symbols = Object.keys(Molecules.parse(formula));
+        const symbols = Object.keys(Molecule.parse(formula));
         for (const symbol of symbols) {
-            const protons = Elements.findProtons(symbol);
+            const protons = Element.findProtons(symbol);
             elements.add(protons);
         }
     }
@@ -62,14 +62,14 @@ export default class Search {
      */
     static findMolecules(search, symbol = '') {
         if (search.length > 2) {
-            return Molecules.findNames(search);
+            return Molecule.findNames(search);
         }
 
         // Show formulas that contain the element.
-        const foundFormulas = Molecules.findElement(symbol);
+        const foundFormulas = Molecule.findElement(symbol);
         const molecules = {};
         for (const formula of foundFormulas) {
-            molecules[formula] = moleculesData[formula];
+            molecules[formula] = moleculeData[formula];
         }
         return molecules;
     }
@@ -107,7 +107,7 @@ export default class Search {
             return molecules;
         }
 
-        const found = Molecules.findFormulas(search);
+        const found = Molecule.findFormulas(search);
 
         if (found.length === 0) {
             return molecules;
@@ -115,14 +115,14 @@ export default class Search {
 
         const upper = search.toUpperCase();
         for (const formula of found) {
-            molecules[formula] = moleculesData[formula];
+            molecules[formula] = moleculeData[formula];
             // Show elements when the formula matches exactly.
             if (formula.toUpperCase() === upper) {
                 Search.addFormulaElements(elements, formula);
             }
         }
 
-        const sortedFormulas = Molecules.sortByFirstElement(Object.keys(molecules));
+        const sortedFormulas = Molecule.sortByFirstElement(Object.keys(molecules));
         const sortedMolecules = {};
         for (const formula of sortedFormulas) {
             sortedMolecules[formula] = molecules[formula];
@@ -189,9 +189,9 @@ export default class Search {
         if (time) {
             console.time(`Search.process("${search}")`);
         }
-        const elements = Elements.find(search);
+        const elements = Element.find(search);
         const protons = elements.values().next().value;
-        const symbol = Elements.findSymbol(protons);
+        const symbol = Element.findSymbol(protons);
         let molecules = Search.findMolecules(search, symbol);
 
         if (search.length > 1) {
@@ -200,7 +200,7 @@ export default class Search {
 
         const formulas = Object.keys(molecules);
         if (elements.size === 0 && formulas.length > 0) {
-            const commonElements = Molecules.findCommonElements(formulas);
+            const commonElements = Molecule.findCommonElements(formulas);
             for (const protons of commonElements) {
                 elements.add(protons);
             }
@@ -243,7 +243,7 @@ export default class Search {
 
         // Show a word cloud by default.
         if (search.length < 1) {
-            return Molecules.renderWords();
+            return Molecule.renderWords();
         }
 
         const { elements, molecules } = Search.process(search, true);
@@ -263,7 +263,7 @@ export default class Search {
         html += `<h2>${elementResults}</h2>`;
         html += '<section class="elements">';
         for (const protons of elements) {
-            html += Elements.formatElement(protons, true);
+            html += Element.formatElement(protons, true);
         }
         html += '</section>';
 
@@ -278,7 +278,7 @@ export default class Search {
         html += '<ul>';
         for (const formula in molecules) {
             const moleculeNames = molecules[formula].join(', ');
-            const linkText = `${Molecules.format(formula)}: ${moleculeNames}`;
+            const linkText = `${Molecule.format(formula)}: ${moleculeNames}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
         html += '</ul>';

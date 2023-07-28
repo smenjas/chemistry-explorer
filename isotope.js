@@ -1,11 +1,11 @@
 import * as common from './common.js';
-import elementsData from './elements-data.js';
-import isotopesData from './isotopes-data.js';
+import elementData from './element-data.js';
+import isotopeData from './isotope-data.js';
 
 /**
  * Show information about atomic isotopes: elements whose neutron numbers vary.
  */
-export default class Isotopes {
+export default class Isotope {
     /**
      * Get all isotopes in our database: the most stable for each element.
      *
@@ -14,14 +14,14 @@ export default class Isotopes {
     static getAll() {
         const all = {};
 
-        for (const [protons, isotopes] of isotopesData.primordial) {
+        for (const [protons, isotopes] of isotopeData.primordial) {
             for (const isotope of isotopes) {
                 const neutrons = isotope - protons;
                 common.pushTo(all, neutrons, protons);
             }
         }
 
-        for (const [protons, isotopes] of isotopesData.synthetic) {
+        for (const [protons, isotopes] of isotopeData.synthetic) {
             for (const isotope in isotopes) {
                 const neutrons = isotope - protons;
                 common.pushTo(all, neutrons, protons);
@@ -37,7 +37,7 @@ export default class Isotopes {
      * @returns {string} HTML: a heading and a table
      */
     static render() {
-        const all = Isotopes.getAll();
+        const all = Isotope.getAll();
 
         document.title = 'Isotopes';
 
@@ -67,14 +67,14 @@ export default class Isotopes {
                 continue;
             }
 
-            for (const [protons, element] of elementsData) {
+            for (const [protons, element] of elementData) {
                 const elements = all[neutrons];
                 if (!(neutrons in all) || elements.indexOf(protons) === -1) {
                     const title = `\n\nNeutrons: ${neutrons}`;
                     html += `<td class="empty" title="${title}"></td>`;
                 }
                 else {
-                    const tdClass = (isotopesData.synthetic.has(protons)) ? 'synthetic' : 'primordial';
+                    const tdClass = (isotopeData.synthetic.has(protons)) ? 'synthetic' : 'primordial';
                     const nucleons = neutrons + protons;
                     const title = `${element.symbol}: ${element.name}\nProtons: ${protons}\nNeutrons: ${neutrons}\nNucleons: ${nucleons}`;
                     const link = `<a href="?protons=${protons}"><span class="link"></span></a>`;

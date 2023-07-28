@@ -1,8 +1,8 @@
 /**
  * Molecular formulas and their names.
- * @module {Object} moleculesData
+ * @module {Object} moleculeData
  */
-const moleculesData = {
+export default {
     HBO: ['Oxoborane'],
     HBF4: ['Fluoroboric acid'],
     HCN: ['Hydrogen cyanide'],
@@ -5392,5 +5392,3 @@ const moleculesData = {
     EsI3: ['Einsteinium(III) iodide'],
     Es2O3: ['Einsteinium(III) oxide'],
 };
-
-export default moleculesData;
