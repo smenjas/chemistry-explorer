@@ -1,6 +1,6 @@
 import Element from './element.js';
 import ElementView from './view/element.js';
-import Isotope from './isotope.js';
+import IsotopeView from './view/isotope.js';
 import Molecule from './molecule.js';
 import Search from './search.js';
 import Test from './test.js';
@@ -41,7 +41,7 @@ function render(params) {
     case 'molecules':
         return Molecule.render();
     case 'isotopes':
-        return Isotope.render();
+        return IsotopeView.render();
     case 'test':
         return Test.render();
     }
