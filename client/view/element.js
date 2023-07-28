@@ -3,7 +3,7 @@ import Element from '../element.js';
 import elementData from '../element-data.js';
 import isotopeData from '../isotope-data.js';
 import Link from '../link.js';
-import Molecule from '../molecule.js';
+import MoleculeView from '../view/molecule.js';
 
 /**
  * Show information about atomic elements.
@@ -470,7 +470,7 @@ export default class ElementView {
             pressures, or both.</p>`;
         }
 
-        html += Molecule.renderList(element.symbol);
+        html += MoleculeView.renderList(element.symbol);
         html += '</section>';
 
         return html;

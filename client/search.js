@@ -2,6 +2,7 @@ import * as common from './common.js';
 import Element from './element.js';
 import ElementView from './view/element.js';
 import Molecule from './molecule.js';
+import MoleculeView from './view/molecule.js';
 import moleculeData from './molecule-data.js';
 import Test from './test.js';
 
@@ -244,7 +245,7 @@ export default class Search {
 
         // Show a word cloud by default.
         if (search.length < 1) {
-            return Molecule.renderWords();
+            return MoleculeView.renderWords();
         }
 
         const { elements, molecules } = Search.process(search, true);
@@ -279,7 +280,7 @@ export default class Search {
         html += '<ul>';
         for (const formula in molecules) {
             const moleculeNames = molecules[formula].join(', ');
-            const linkText = `${Molecule.format(formula)}: ${moleculeNames}`;
+            const linkText = `${MoleculeView.format(formula)}: ${moleculeNames}`;
             html += `<li><a href="?formula=${formula}">${linkText}</a></li>`;
         }
         html += '</ul>';
