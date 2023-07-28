@@ -19,12 +19,12 @@ const server = http.createServer((request, response) => {
     case '/index.js':
     case '/common.js':
     case '/elements.js':
-    case '/elementsData.js':
+    case '/elements-data.js':
     case '/isotopes.js':
-    case '/isotopesData.js':
+    case '/isotopes-data.js':
     case '/link.js':
     case '/molecules.js':
-    case '/moleculesData.js':
+    case '/molecules-data.js':
     case '/page.js':
     case '/search.js':
     case '/test.js':

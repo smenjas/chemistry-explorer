@@ -1,8 +1,8 @@
 import * as common from './common.js';
 import Elements from './elements.js';
-import elementsData from './elementsData.js';
+import elementsData from './elements-data.js';
 import Link from './link.js';
-import moleculesData from './moleculesData.js';
+import moleculesData from './molecules-data.js';
 import Search from './search.js';
 import Test from './test.js';
 
