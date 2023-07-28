@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "cd src && ../node_modules/nodemon/bin/nodemon.js .",
     "doc": "rm -r documentation; node_modules/jsdoc/jsdoc.js -c jsdoc.json",
-    "lint": "node_modules/eslint/bin/eslint.js src/*.js client/*.js; scripts/check-spelling",
+    "lint": "node_modules/eslint/bin/eslint.js src/*.js client/*.js client/*/*.js; scripts/check-spelling",
     "test": "time node test.js"
   },
   "repository": {

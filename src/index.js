@@ -20,6 +20,7 @@ const server = http.createServer((request, response) => {
     case '/common.js':
     case '/element.js':
     case '/element-data.js':
+    case '/view/element.js':
     case '/isotope.js':
     case '/isotope-data.js':
     case '/link.js':

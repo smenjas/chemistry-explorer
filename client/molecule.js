@@ -1,6 +1,7 @@
 import * as common from './common.js';
 import Element from './element.js';
 import elementData from './element-data.js';
+import ElementView from './view/element.js';
 import Link from './link.js';
 import moleculeData from './molecule-data.js';
 import Search from './search.js';
@@ -1004,7 +1005,7 @@ export default class Molecule {
         html += '<section class="elements">';
         for (const symbol in elements) {
             const protons = Element.findProtons(symbol);
-            html += Element.formatElement(protons, true);
+            html += ElementView.formatElement(protons, true);
         }
         html += '</section>';
 
