@@ -1,6 +1,7 @@
 import ElementTest from './test/element.js';
 import MoleculeTest from './test/molecule.js';
 import SearchTest from './test/search.js';
+import TestTest from './test/test.js';
 
 /**
  * Run automated tests.
@@ -34,52 +35,6 @@ export default class Test {
     }
 
     /**
-     * Test the compare method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static compareTest() {
-        const tests = [
-            [[null, null], true],
-            [[null, undefined], false],
-            [[null, false], false],
-            [[null, 0], false],
-            [[null, ''], false],
-            [[undefined, undefined], true],
-            [[undefined, false], false],
-            [[undefined, 0], false],
-            [[undefined, ''], false],
-            [[true, true], true],
-            [[false, false], true],
-            [[true, false], false],
-            [[0, false], false],
-            [[0, 0], true],
-            [[0, 1], false],
-            [[0.1, 0.1], true],
-            [[0.1, 0.2], false],
-            [[0n, 0n], true],
-            [[0n, 1n], false],
-            [['', ''], true],
-            [['', 'x'], false],
-            [['x', 'x'], true],
-            [['x', 'X'], false],
-            [[ [], [] ], true],
-            [[ [], [1] ], false],
-            [[ [1], [1] ], true],
-            [[ {}, {} ], true],
-            [[ {}, {a: 1} ], false],
-            [[ {a: 1}, {a: 1} ], true],
-            [[ {a: 1}, {b: 1} ], false],
-            [[ {a: 1}, {a: 2} ], false],
-            [[new Set(), new Set()], true],
-            [[new Set([]), new Set([])], true],
-            [[new Set([1]), new Set([1])], true],
-        ];
-
-        return Test.run(Test.compare, tests);
-    }
-
-    /**
      * Compare two arrays.
      *
      * @param {Array} a - An array
@@ -102,39 +57,6 @@ export default class Test {
             }
         }
         return true;
-    }
-
-    /**
-     * Test the compareArrays method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static compareArraysTest() {
-        const tests = [
-            [[ 0, [] ], false],
-            [[ [], 0 ], false],
-            [[ [], [] ], true],
-            [[ [1], [1] ], true],
-            [[ [1], [2] ], false],
-            [[ [1], [1, 2] ], false],
-            [[ [2, 1], [1, 2] ], false],
-            [[ [1, 1, 2], [1, 2, 2] ], false],
-            [[ [[]], [[]] ], true],
-            [[ [[1]], [[]] ], false],
-            [[ [[1]], [[1]] ], true],
-            [[ [[1]], [[2]] ], false],
-            [[ [[1, 2]], [[1, 2]] ], true],
-            [[ [[1, 2]], [[2, 1]] ], false],
-            [[ [[1, 1]], [[1, 2]] ], false],
-            [[ [{}], [{}] ], true],
-            [[ [{}], [{a: 1}] ], false],
-            [[ [{a: 1}], [{}] ], false],
-            [[ [{a: 1}], [{a: 1}] ], true],
-            [[ [{a: 1}], [{a: 2}] ], false],
-            [[ [{a: 1}], [{b: 1}] ], false],
-        ];
-
-        return Test.run(Test.compareArrays, tests);
     }
 
     /**
@@ -166,36 +88,6 @@ export default class Test {
     }
 
     /**
-     * Test the compareObjects method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static compareObjectsTest() {
-        const tests = [
-            [[ 0, {} ], false],
-            [[ {}, 0 ], false],
-            [[ {}, {} ], true],
-            [[ {}, {a: 1} ], false],
-            [[ {a: 1}, {} ], false],
-            [[ {a: 1}, {a: 1} ], true],
-            [[ {a: 1}, {a: 1, b: 1} ], false],
-            [[ {a: 1, b: 1}, {a: 1} ], false],
-            [[ {a: 1}, {a: 2} ], false],
-            [[ {a: 1}, {b: 1} ], false],
-            [[ {a: []}, {a: []} ], true],
-            [[ {a: []}, {b: []} ], false],
-            [[ {a: [1]}, {a: [1]} ], true],
-            [[ {a: [1]}, {a: [2]} ], false],
-            [[ {a: {}}, {a: {}} ], true],
-            [[ {a: {}}, {b: {}} ], false],
-            [[ {a: {x: 1}}, {a: {x: 1}} ], true],
-            [[ {a: {x: 1}}, {a: {x: 2}} ], false],
-        ];
-
-        return Test.run(Test.compareObjects, tests);
-    }
-
-    /**
      * Compare two sets, to see if they contain the same elements.
      *
      * @param {Set} a - A set
@@ -218,25 +110,6 @@ export default class Test {
             }
         }
         return true;
-    }
-
-    /**
-     * Test the compareSets method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static compareSetsTest() {
-        const tests = [
-            [[ 0, new Set()], false],
-            [[ new Set(), 0], false],
-            [[ new Set(), new Set()], true],
-            [[ new Set([]), new Set([])], true],
-            [[ new Set([1]), new Set([1])], true],
-            [[ new Set([1]), new Set([2])], false],
-            [[ new Set([1]), new Set([1, 2])], false],
-        ];
-
-        return Test.run(Test.compareSets, tests);
     }
 
     /**
@@ -273,37 +146,6 @@ export default class Test {
     }
 
     /**
-     * Test the isObject method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static isObjectTest() {
-        const tests = [
-            [[ null ], false],
-            [[ undefined ], false],
-            [[ false ], false],
-            [[ true ], false],
-            [[ NaN ], false],
-            [[ 0 ], false],
-            [[ 0.1 ], false],
-            [[ 0n ], false],
-            [[ '' ], false],
-            [[ 'a' ], false],
-            [[ [] ], false],
-            [[ [1] ], false],
-            [[ {} ], true],
-            [[ {a: 1} ], true],
-            [[ Symbol() ], false],
-            [[ new Map() ], false],
-            [[ new Set() ], false],
-            [[ new WeakMap() ], false],
-            [[ new WeakSet() ], false],
-        ];
-
-        return Test.run(Test.isObject, tests);
-    }
-
-    /**
      * Run automated tests.
      *
      * @returns {integer} How many tests failed
@@ -321,11 +163,11 @@ export default class Test {
             SearchTest.findFormulas,
             SearchTest.findMolecules,
             SearchTest.process,
-            Test.compareTest,
-            Test.compareArraysTest,
-            Test.compareObjectsTest,
-            Test.compareSetsTest,
-            Test.isObjectTest,
+            TestTest.compare,
+            TestTest.compareArrays,
+            TestTest.compareObjects,
+            TestTest.compareSets,
+            TestTest.isObject,
         ];
 
         let failures = 0;
