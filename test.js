@@ -1,6 +1,6 @@
 import ElementTest from './test/element.js';
 import MoleculeTest from './test/molecule.js';
-import Search from './search.js';
+import SearchTest from './test/search.js';
 
 /**
  * Run automated tests.
@@ -318,9 +318,9 @@ export default class Test {
             MoleculeTest.findElement,
             MoleculeTest.findFormulas,
             MoleculeTest.findNames,
-            Search.findFormulasTest,
-            Search.findMoleculesTest,
-            Search.processTest,
+            SearchTest.findFormulas,
+            SearchTest.findMolecules,
+            SearchTest.process,
             Test.compareTest,
             Test.compareArraysTest,
             Test.compareObjectsTest,

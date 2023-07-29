@@ -2,7 +2,6 @@ import * as common from './common.js';
 import Element from './element.js';
 import Molecule from './molecule.js';
 import moleculeData from './molecule-data.js';
-import Test from './test.js';
 
 /**
  * Search for elements and molecules.
@@ -65,25 +64,6 @@ export default class Search {
     }
 
     /**
-     * Test the findMolecules method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static findMoleculesTest() {
-        const tests = [
-            [[''], {}],
-            [[' '], {}],
-            [['he'], {}],
-            [['', 'He'], {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}],
-            [['he', 'He'], {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}],
-            [['heliu', 'He'], {HeLi: ['Lithium helium']}],
-            [['magic'], {HSbF6SO3: ['Magic acid']}],
-        ];
-
-        return Test.run(Search.findMolecules, tests);
-    }
-
-    /**
      * Find molecular formulas that match the search query.
      *
      * @param {string} search - The search query
@@ -122,22 +102,6 @@ export default class Search {
     }
 
     /**
-     * Test the findFormulas method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static findFormulasTest() {
-        const tests = [
-            [['', {}, []], {}],
-            [[' ', {}, []], {}],
-            [['w3', {}, []], {Nd2W3O12: ['Neodymium tungstate']}],
-            [['y3', {}, []], {Y3Al5O12: ['Yttrium aluminum garnet']}],
-        ];
-
-        return Test.run(Search.findFormulas, tests);
-    }
-
-    /**
      * Process a search query, and return the results.
      *
      * @param {string} search - The search query
@@ -172,22 +136,5 @@ export default class Search {
             elements: elements,
             molecules: molecules,
         };
-    }
-
-    /**
-     * Test the process method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static processTest() {
-        const tests = [
-            [[''], {elements: new Set(), molecules: {}}],
-            [[' '], {elements: new Set(), molecules: {}}],
-            [['he'], {elements: new Set([2]), molecules: {HeLi: ['Lithium helium'], Na2He: ['Disodium helide']}}],
-            [['w3'], {elements: new Set([8, 60, 74]), molecules: {Nd2W3O12: ['Neodymium tungstate']}}],
-            [['magic'], {elements: new Set([1, 8, 9, 16, 51]), molecules: {HSbF6SO3: ['Magic acid']}}],
-        ];
-
-        return Test.run(Search.process, tests);
     }
 }
