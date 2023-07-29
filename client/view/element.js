@@ -1,333 +1,23 @@
-import elementsData from './elementsData.js';
-import isotopesData from './isotopesData.js';
-import Link from './link.js';
-import Molecules from './molecules.js';
-import Test from './test.js';
+import * as common from '../common.js';
+import Element from '../element.js';
+import elementData from '../element-data.js';
+import isotopeData from '../isotope-data.js';
+import IsotopeView from '../view/isotope.js';
+import Link from '../link.js';
+import MoleculeView from '../view/molecule.js';
 
 /**
  * Show information about atomic elements.
- *
- * @property {Map} groups - Element groups: columns on the periodic table
- * @property {Map} groupElements - Which elements belong to each group
- * @property {Map} groupURLs - Wikipedia URLs for each group
- * @property {Map} periods - Element periods: rows on the periodic table
- * @property {Object} symbols - Atomic numbers keyed by element symbols
- * @property {Object} typeURLs - Wikipedia URLs for each element type
  */
-export default class Elements {
+export default class ElementView {
     /**
      * Add event handlers to the page.
      */
     static addEventHandlers() {
         const abundanceScale = document.querySelector('form#abundance-scale');
         if (abundanceScale) {
-            abundanceScale.addEventListener('change', Elements.handleAbundanceScale);
+            abundanceScale.addEventListener('change', ElementView.handleAbundanceScale);
         }
-    }
-
-    // The key is the group number.
-    // The value is the former group designation.
-    static groups = new Map([
-        [1, 'IA'],
-        [2, 'IIA'],
-        [3, 'IIIB'],
-        [4, 'IVB'],
-        [5, 'VB'],
-        [6, 'VIB'],
-        [7, 'VIIB'],
-        [8, 'VIIIB'],
-        [9, 'VIIIB'],
-        [10, 'VIIIB'],
-        [11, 'IB'],
-        [12, 'IIB'],
-        [13, 'IIIA'],
-        [14, 'IVA'],
-        [15, 'VA'],
-        [16, 'VIA'],
-        [17, 'VIIA'],
-        [18, 'VIIIA'],
-    ]);
-
-    static groupElements = new Map([
-        [1, [1, 3, 11, 19, 37, 55, 87]],
-        [2, [4, 12, 20, 38, 56, 88]],
-        [3, [21, 39, 71, 103]],
-        [4, [22, 40, 72, 104]],
-        [5, [23, 41, 73, 105]],
-        [6, [24, 42, 74, 106]],
-        [7, [25, 43, 75, 107]],
-        [8, [26, 44, 76, 108]],
-        [9, [27, 45, 77, 109]],
-        [10, [28, 46, 78, 110]],
-        [11, [29, 47, 79, 111]],
-        [12, [30, 48, 80, 112]],
-        [13, [5, 13, 31, 49, 81, 113]],
-        [14, [6, 14, 32, 50, 82, 114]],
-        [15, [7, 15, 33, 51, 83, 115]],
-        [16, [8, 16, 34, 52, 84, 116]],
-        [17, [9, 17, 35, 53, 85, 117]],
-        [18, [2, 10, 18, 36, 54, 86, 118]],
-    ]);
-
-    static groupURLs = new Map([
-        [1, 'https://en.wikipedia.org/wiki/Group_1_element'],
-        [2, 'https://en.wikipedia.org/wiki/Alkaline_earth_metal'],
-        [3, 'https://en.wikipedia.org/wiki/Group_3_element'],
-        [4, 'https://en.wikipedia.org/wiki/Group_4_element'],
-        [5, 'https://en.wikipedia.org/wiki/Group_5_element'],
-        [6, 'https://en.wikipedia.org/wiki/Group_6_element'],
-        [7, 'https://en.wikipedia.org/wiki/Group_7_element'],
-        [8, 'https://en.wikipedia.org/wiki/Group_8_element'],
-        [9, 'https://en.wikipedia.org/wiki/Group_9_element'],
-        [10, 'https://en.wikipedia.org/wiki/Group_10_element'],
-        [11, 'https://en.wikipedia.org/wiki/Group_11_element'],
-        [12, 'https://en.wikipedia.org/wiki/Group_12_element'],
-        [13, 'https://en.wikipedia.org/wiki/Boron_group'],
-        [14, 'https://en.wikipedia.org/wiki/Carbon_group'],
-        [15, 'https://en.wikipedia.org/wiki/Pnictogen'],
-        [16, 'https://en.wikipedia.org/wiki/Chalcogen'],
-        [17, 'https://en.wikipedia.org/wiki/Halogen'],
-        [18, 'https://en.wikipedia.org/wiki/Noble_gas'],
-    ]);
-
-    static periods = new Map([
-        [1, { min: 1, max: 2 }],
-        [2, { min: 3, max: 10 }],
-        [3, { min: 11, max: 18 }],
-        [4, { min: 19, max: 36 }],
-        [5, { min: 37, max: 54 }],
-        [6, { min: 55, max: 86 }],
-        [7, { min: 87, max: 118 }],
-        ['lanthanides', { min: 57, max: 70 }],
-        ['actinides', { min: 89, max: 102 }],
-    ]);
-
-    static symbols = Elements.#getSymbols();
-
-    /**
-     * Get element symbols.
-     * @private
-     */
-    static #getSymbols() {
-        const symbols = {};
-        for (const [protons, element] of elementsData) {
-            symbols[element.symbol] = protons;
-        }
-        return symbols;
-    }
-
-    static typeURLs = {
-        'Actinide': 'https://en.wikipedia.org/wiki/Actinide',
-        'Alkali Metal': 'https://en.wikipedia.org/wiki/Alkali_metal',
-        'Alkaline Earth Metal': 'https://en.wikipedia.org/wiki/Alkaline_earth_metal',
-        'Halogen Nonmetal': 'https://en.wikipedia.org/wiki/Halogen',
-        'Lanthanide': 'https://en.wikipedia.org/wiki/Lanthanide',
-        'Metalloid': 'https://en.wikipedia.org/wiki/Metalloid',
-        'Noble Gas': 'https://en.wikipedia.org/wiki/Noble_gas',
-        'Other Nonmetal': 'https://en.wikipedia.org/wiki/Nonmetal#Unclassified_nonmetal',
-        'Post Transition Metal': 'https://en.wikipedia.org/wiki/Post_transition_metal',
-        'Transition Metal': 'https://en.wikipedia.org/wiki/Transition_metal',
-    };
-
-    /**
-     * Compare two element symbols.
-     *
-     * @param {string} symbolA - An element symbol
-     * @param {string} symbolB - An element symbol
-     *
-     * @returns {integer} A number indicating how the given elements should be sorted:
-     * - negative if symbolA should come before symbolB
-     * - positive if symbolA should come after symbolB
-     * - zero if the elements are equivalent
-     */
-    static compare(symbolA, symbolB) {
-        const a = Elements.findProtons(symbolA);
-        const b = Elements.findProtons(symbolB);
-        return a - b;
-    }
-
-    /**
-     * Convert an array of atomic numbers to element symbols.
-     *
-     * @param {Array<integer>} elements - Atomic numbers
-     * @returns {Array<string>} Element symbols
-     */
-    static convertProtons(elements) {
-        const symbols = [];
-        for (const protons of elements) {
-            symbols.push(elementsData.get(protons).symbol);
-        }
-        return symbols;
-    }
-
-    /**
-     * Find elements by symbol or by name.
-     * @todo Add tests.
-     *
-     * @param {string} search - The search query
-     * @returns {Set<integer>} Atomic numbers of matching elements
-     */
-    static find(search) {
-        search = search.trim();
-        const elements = new Set();
-        if (search.length === 0) {
-            return elements;
-        }
-
-        const upper = search.toUpperCase();
-
-        if (search.length < 3) {
-            // Search for elements by symbol.
-            for (const [protons, element] of elementsData) {
-                const symbol = element.symbol.toUpperCase();
-                if (upper === symbol) {
-                    elements.add(protons);
-                }
-            }
-            return elements;
-        }
-
-        // Search for elements by name.
-        for (const [protons, element] of elementsData) {
-            const name = element.name.toUpperCase();
-            if (name.includes(upper)) {
-                elements.add(protons);
-            }
-        }
-
-        return elements;
-    }
-
-    /**
-     * Test the find method.
-     *
-     * @returns {integer} How many tests failed
-     */
-    static findTest(){
-        const tests = [
-            [[''], new Set([])],
-            [[' '], new Set([])],
-            [['x'], new Set([])],
-            [['h'], new Set([1])],
-            [['he'], new Set([2])],
-            [['heli'], new Set([2])],
-            [['bor'], new Set([5, 106])],
-        ];
-
-        return Test.run(Elements.find, tests);
-    }
-
-    /**
-     * Find the next atomic number in a given element's group.
-     *
-     * @param {integer} protons - An atomic number
-     * @returns {integer} An atomic number, or zero
-     */
-    static findNextInGroup(protons) {
-        protons = parseInt(protons);
-        if (protons === 1) {
-            return 3;
-        }
-        if (protons < 13) {
-            return protons + 8;
-        }
-        if (protons < 39) {
-            return protons + 18;
-        }
-        if (protons < 119) {
-            return protons + 32;
-        }
-        return 0;
-    }
-
-    /**
-     * Find the previous atomic number in a given element's group.
-     *
-     * @param {integer} protons - An atomic number
-     * @returns {integer} An atomic number, or zero
-     */
-    static findPreviousInGroup(protons) {
-        protons = parseInt(protons);
-        if (protons === 3) {
-            return 1;
-        }
-        if (protons > 70) {
-            return protons - 32;
-        }
-        if (protons > 30 && protons < 57) {
-            return protons - 18;
-        }
-        if (protons > 20) {
-            return 0;
-        }
-        if (protons > 9) {
-            return protons - 8;
-        }
-        return 0;
-    }
-
-    /**
-     * Find the atomic number for a given element symbol.
-     *
-     * @param {string} symbol - An element symbol
-     * @returns {integer} An atomic number, or zero
-     */
-    static findProtons(symbol) {
-        return Elements.symbols[symbol] ?? 0;
-    }
-
-    /**
-     * Find the element symbol for a given atomic number.
-     *
-     * @param {integer} symbol - An atomic number
-     * @returns {string} An element symbol, or the empty string
-     */
-    static findSymbol(protons) {
-        const element = elementsData.get(protons);
-        return element ? element.symbol : '';
-    }
-
-    /**
-     * Fix floating point numbers that have been mangled.
-     *
-     * @param {number} number - A number, possibly a smidgen off
-     * @returns {number} The given number, possibly rounded
-     */
-    static fixFloat(number) {
-        let [integer, decimal, exponent] = number.toString().split(/[.e]/);
-        if (decimal === undefined) {
-            return number;
-        }
-
-        const zeros = decimal.indexOf('00000');
-        if (zeros !== -1) {
-            decimal = decimal.substring(0, zeros);
-        }
-
-        const nines = decimal.indexOf('99999');
-        if (nines === 0) {
-            integer = `${parseInt(integer) + 1}`;
-            decimal = '';
-        }
-        else if (nines !== -1) {
-            decimal = decimal.substring(0, nines);
-            const lastDigit = parseInt(decimal.at(-1)) + 1;
-            decimal = decimal.substring(0, decimal.length - 1) + lastDigit.toString();
-        }
-
-        if (zeros === -1 && nines === -1) {
-            return number;
-        }
-
-        let string = integer;
-        if (decimal.length > 0) {
-            string += `.${decimal}`;
-        }
-        if (exponent !== undefined) {
-            string += `e${exponent}`;
-        }
-        const f = parseFloat(string);
-        return f;
     }
 
     /**
@@ -342,26 +32,26 @@ export default class Elements {
         }
 
         if (abundance < 1e-12) {
-            const ppq = Elements.fixFloat(abundance * 1e15);
+            const ppq = common.fixFloat(abundance * 1e15);
             return `<span title="${abundance}">${ppq}</span> <abbr title="parts per quadrillion">ppq</abbr>`;
         }
 
         if (abundance < 1e-9) {
-            const ppt = Elements.fixFloat(abundance * 1e12);
+            const ppt = common.fixFloat(abundance * 1e12);
             return `<span title="${abundance}">${ppt}</span> <abbr title="parts per trillion">ppt</abbr>`;
         }
 
         if (abundance < 1e-6) {
-            const ppb = Elements.fixFloat(abundance * 1e9);
+            const ppb = common.fixFloat(abundance * 1e9);
             return `<span title="${abundance}">${ppb}</span> <abbr title="parts per billion">ppb</abbr>`;
         }
 
         if (abundance < 1e-3) {
-            const ppm = Elements.fixFloat(abundance * 1e6);
+            const ppm = common.fixFloat(abundance * 1e6);
             return `<span title="${abundance}">${ppm}</span> <abbr title="parts per million">ppm</abbr>`;
         }
 
-        const percent = Elements.fixFloat(abundance * 100);
+        const percent = common.fixFloat(abundance * 100);
         return `<span title="${abundance}">${percent}%</span>`;
     }
 
@@ -395,12 +85,12 @@ export default class Elements {
      * @returns {string} HTML: inline text
      */
     static formatElement(protons, link = false) {
-        const element = elementsData.get(protons);
+        const element = elementData.get(protons);
 
         let html = `<span class="atomic">${protons}<br></span>`;
         html += `<span class="symbol">${element.symbol}</span>`;
         html += `<span class="name"><br>${element.name}</span>`;
-        html += `<span class="weight"><br>${Elements.formatWeight(element.weight)}</span>`;
+        html += `<span class="weight"><br>${ElementView.formatWeight(element.weight)}</span>`;
 
         if (link) {
             html = `<a href="?protons=${protons}">${html}<span class="link"></span></a>`;
@@ -411,22 +101,6 @@ export default class Elements {
         html = `<article class="${typeClass} element" title="${title}">${html}</article>`;
 
         return html;
-    }
-
-    /**
-     * Format isotope data for display.
-     * @see https://en.wikipedia.org/wiki/Mass_number
-     *
-     * @param {integer} protons - An atomic number
-     * @param {number} mass - The number of neutrons and protons
-     * @returns {string} Plain text
-     */
-    static formatIsotope(protons, mass) {
-        const element = elementsData.get(protons);
-        if (!element) {
-            return '';
-        }
-        return `${element.symbol}-${mass}`;
     }
 
     /**
@@ -477,7 +151,7 @@ export default class Elements {
         if (!group) {
             return 'None';
         }
-        const groupURL = Elements.groupURLs.get(group);
+        const groupURL = Element.groupURLs.get(group);
         return Link.create(groupURL, group, true);
     }
 
@@ -504,7 +178,7 @@ export default class Elements {
      * @returns {string} HTML: a main block
      */
     static render(protons = null) {
-        const element = elementsData.get(protons);
+        const element = elementData.get(protons);
         let html = '';
 
         if (protons && !element) {
@@ -513,33 +187,15 @@ export default class Elements {
 
         if (element) {
             document.title = `${element.symbol}: ${element.name}`;
-            html += Elements.renderElementNav(protons);
-            html += Elements.renderElement(protons);
+            html += ElementView.renderElementNav(protons);
+            html += ElementView.renderElement(protons);
         }
         else {
             document.title = 'Periodic Table of the Elements';
-            html += Elements.renderElements();
+            html += ElementView.renderElements();
         }
 
         return `<main><h1>${document.title}</h1>${html}</main>`;
-    }
-
-    /**
-     * Calculate the width of a bar, for a bar chart.
-     *
-     * @param {number} value - A number that is less than or equal to the max
-     * @param {number} max - The maximum value in the dataset
-     * @param {boolean} [log=true] - Whether to use a logarithmic scale
-     * @returns {number} A fraction of the max value
-     */
-    static calculateBarWidth(value, max, log = true) {
-        if (value === 0) {
-            return 0;
-        }
-        if (!log) {
-            return value / max;
-        }
-        return 1 / (Math.log(value) / Math.log(max));
     }
 
     /**
@@ -549,8 +205,8 @@ export default class Elements {
      */
     static handleAbundanceScale(event) {
         const log = (event.target.value === 'log');
-        document.body.innerHTML = Elements.renderAbundance(log);
-        Elements.addEventHandlers();
+        document.body.innerHTML = ElementView.renderAbundance(log);
+        ElementView.addEventHandlers();
         document.querySelector('#scale-linear').checked = !log;
         document.querySelector('#scale-log').checked = log;
     }
@@ -565,7 +221,7 @@ export default class Elements {
         console.time('abundance-chart');
         let max = 0;
         let min = 1;
-        for (const element of elementsData.values()) {
+        for (const element of elementData.values()) {
             const abundance = element.crust;
             if (abundance > max) {
                 max = abundance;
@@ -585,15 +241,15 @@ export default class Elements {
         html += '<label for="scale-log">logarithmic</label>';
         html += '</form>';
         html += '<section class="abundance-chart">';
-        for (const [protons, element] of elementsData) {
+        for (const [protons, element] of elementData) {
             const abundance = element.crust;
-            const width = Elements.calculateBarWidth(abundance, max, log);
+            const width = Element.calculateBarWidth(abundance, max, log);
             const percent = (width * 100).toFixed(1);
             const typeClass = element.type.toLowerCase().replaceAll(' ', '-');
             const minWidth = (abundance === 0) ? 'var(--abundance-width-none)' : 'var(--abundance-width-min)';
             html += `<div class="${typeClass}" style="width: calc(${percent}% + ${minWidth})">`;
             html += `<a href="?protons=${protons}" title="${element.name}">`;
-            html += `${element.symbol}: ${Elements.formatAbundance(abundance)}`;
+            html += `${element.symbol}: ${ElementView.formatAbundance(abundance)}`;
             html += '<span class="link"></span></a></div>';
         }
         html += '</section>';
@@ -625,7 +281,7 @@ export default class Elements {
         html += '<table class="all elements"><thead><tr>';
         html += '<th class="empty"></th>';
 
-        for (const [group, oldgroup] of Elements.groups) {
+        for (const [group, oldgroup] of Element.groups) {
             const title = `Group ${group} (formerly ${oldgroup})`;
             const link = `<a href="?group=${group}">${group}<br>${oldgroup}<span class="link"></span></a>`;
             html += `<th class="group group-${group}" title="${title}">${link}</th>`;
@@ -634,7 +290,7 @@ export default class Elements {
         html += '<th class="empty"></th>';
         html += '</tr></thead><tbody>';
 
-        for (const [period, bounds] of Elements.periods) {
+        for (const [period, bounds] of Element.periods) {
             const min = bounds['min'];
             const max = bounds['max'];
             let cells = '';
@@ -652,20 +308,20 @@ export default class Elements {
                     // Skip gaps in periods 2 & 3.
                     cells += '<td class="empty" colspan="10"></td>';
                 }
-                else if (period === 6 && protons === Elements.periods.get('lanthanides').min) {
+                else if (period === 6 && protons === Element.periods.get('lanthanides').min) {
                     // Skip the lanthanides.
-                    protons = Elements.periods.get('lanthanides').max + 1;
+                    protons = Element.periods.get('lanthanides').max + 1;
                 }
-                else if (period === 7 && protons === Elements.periods.get('actinides').min) {
+                else if (period === 7 && protons === Element.periods.get('actinides').min) {
                     // Skip the actinides.
-                    protons = Elements.periods.get('actinides').max + 1;
+                    protons = Element.periods.get('actinides').max + 1;
                 }
 
-                cells += `<td>${Elements.formatElement(protons, true)}</td>`;
+                cells += `<td>${ElementView.formatElement(protons, true)}</td>`;
                 protons++;
             }
 
-            html += Elements.renderPeriodRow(cells, period);
+            html += ElementView.renderPeriodRow(cells, period);
 
             if (period === 7) {
                 break;
@@ -676,7 +332,7 @@ export default class Elements {
 
         html += '<table class="all rare-earth elements"><tbody>';
 
-        for (const [category, bounds] of Elements.periods) {
+        for (const [category, bounds] of Element.periods) {
             if (category !== 'lanthanides' && category !== 'actinides') {
                 continue;
             }
@@ -686,18 +342,18 @@ export default class Elements {
             let cells = '';
 
             for (let protons = min; protons <= max;) {
-                cells += `<td>${Elements.formatElement(protons, true)}</td>`;
+                cells += `<td>${ElementView.formatElement(protons, true)}</td>`;
                 protons++;
             }
 
             const period = (category === 'lanthanides') ? 6 : 7;
-            html += Elements.renderPeriodRow(cells, period);
+            html += ElementView.renderPeriodRow(cells, period);
         }
 
         html += '</tbody></table>';
         html += '</section>';
 
-        html += Elements.renderElementsNav();
+        html += ElementView.renderElementsNav();
 
         return html;
     }
@@ -725,10 +381,10 @@ export default class Elements {
      * @returns {string} HTML: section blocks
      */
     static renderElement(protons) {
-        const element = elementsData.get(protons);
+        const element = elementData.get(protons);
 
         let html = '<section class="element">';
-        html += Elements.formatElement(protons, false);
+        html += ElementView.formatElement(protons, false);
 
         const crustLink = Link.toWikipedia('Abundances_of_the_elements_(data_page)', 'Abundance');
 
@@ -738,14 +394,14 @@ export default class Elements {
         html += `<li>${Link.toWikipedia('Chemical_symbol', 'Symbol')}: ${element.symbol}</li>`;
         html += `<li>${Link.toWikipedia('Atomic_number', 'Atomic Number')}: ${protons}</li>`;
         html += `<li>${Link.toWikipedia('Standard_atomic_weight', 'Weight')}: ${element.weight}</li>`;
-        html += `<li>${Link.toWikipedia('Density', 'Density')}: ${Elements.formatDensity(element.density)}</li>`;
-        html += `<li>${Elements.linkBlock()}: ${Elements.linkBlock(element.block)}</li>`;
-        html += `<li>${Link.toWikipedia('Group_(periodic_table)', 'Group')}: ${Elements.linkGroup(element.group)}</li>`;
-        html += `<li>${Elements.linkPeriod()}: ${Elements.linkPeriod(element.period)}</li>`;
-        html += `<li>${Link.toWikipedia('Melting_point', 'Melting Point')}: ${Elements.formatCelsius(element.melts)}</li>`;
-        html += `<li>${Link.toWikipedia('Boiling_point', 'Boiling Point')}: ${Elements.formatCelsius(element.boils)}</li>`;
-        html += `<li>${crustLink}: ${Elements.formatAbundance(element.crust)}</li>`;
-        html += `<li>Type: ${Link.create(Elements.typeURLs[element.type], element.type, true)}</li>`;
+        html += `<li>${Link.toWikipedia('Density', 'Density')}: ${ElementView.formatDensity(element.density)}</li>`;
+        html += `<li>${ElementView.linkBlock()}: ${ElementView.linkBlock(element.block)}</li>`;
+        html += `<li>${Link.toWikipedia('Group_(periodic_table)', 'Group')}: ${ElementView.linkGroup(element.group)}</li>`;
+        html += `<li>${ElementView.linkPeriod()}: ${ElementView.linkPeriod(element.period)}</li>`;
+        html += `<li>${Link.toWikipedia('Melting_point', 'Melting Point')}: ${ElementView.formatCelsius(element.melts)}</li>`;
+        html += `<li>${Link.toWikipedia('Boiling_point', 'Boiling Point')}: ${ElementView.formatCelsius(element.boils)}</li>`;
+        html += `<li>${crustLink}: ${ElementView.formatAbundance(element.crust)}</li>`;
+        html += `<li>Type: ${Link.create(Element.typeURLs[element.type], element.type, true)}</li>`;
         html += '</ul>';
 
         html += '<ul>';
@@ -760,21 +416,21 @@ export default class Elements {
         const isotopesPath = `Isotopes of ${element.name.toLowerCase()}`;
         html += `<p>${Link.toWikipedia(isotopesPath, `Wikipedia: ${isotopesPath}`)}</p>`;
 
-        if (isotopesData.primordial.has(protons)) {
-            const isotopes = isotopesData.primordial.get(protons);
+        if (isotopeData.primordial.has(protons)) {
+            const isotopes = isotopeData.primordial.get(protons);
             html += '<ul>';
             for (const mass of isotopes) {
-                const isotopeName = Elements.formatIsotope(protons, mass);
+                const isotopeName = IsotopeView.formatIsotope(protons, mass);
                 const isotopeLink = Link.toWikipedia(`${element.name}-${mass}`, `${isotopeName}`);
                 html += `<li>${isotopeLink}</li>`;
             }
             html += '</ul>';
         }
-        else if (isotopesData.synthetic.has(protons)) {
-            const isotopes = isotopesData.synthetic.get(protons);
+        else if (isotopeData.synthetic.has(protons)) {
+            const isotopes = isotopeData.synthetic.get(protons);
             const mass = Object.keys(isotopes)[0];
-            const time = Elements.formatScientificNotation(isotopes[mass]);
-            const isotopeName = Elements.formatIsotope(protons, mass);
+            const time = ElementView.formatScientificNotation(isotopes[mass]);
+            const isotopeName = IsotopeView.formatIsotope(protons, mass);
             const syntheticElement = Link.toWikipedia('Synthetic_element', 'synthetic element');
             html += `<p>${element.name} is a ${syntheticElement}. Its longest
             lived isotope, ${isotopeName}, has a half-life of ${time}.</p>`;
@@ -799,7 +455,7 @@ export default class Elements {
             pressures, or both.</p>`;
         }
 
-        html += Molecules.renderList(element.symbol);
+        html += MoleculeView.renderList(element.symbol);
         html += '</section>';
 
         return html;
@@ -813,14 +469,14 @@ export default class Elements {
      */
     static renderElementNav(protons) {
         protons = parseInt(protons);
-        const prev = elementsData.get(protons - 1);
-        const next = elementsData.get(protons + 1);
+        const prev = elementData.get(protons - 1);
+        const next = elementData.get(protons + 1);
 
-        const up = Elements.findPreviousInGroup(protons);
-        const down = Elements.findNextInGroup(protons);
+        const up = Element.findPreviousInGroup(protons);
+        const down = Element.findNextInGroup(protons);
 
-        const groupPrev = elementsData.get(up);
-        const groupNext = elementsData.get(down);
+        const groupPrev = elementData.get(up);
+        const groupNext = elementData.get(down);
 
         let html = '<nav>';
         html += '<span class="previous">';
@@ -856,10 +512,10 @@ export default class Elements {
      * @returns {string} HTML: inline content
      */
     static renderElementHighlights(element) {
-        let html = `Density: ${Elements.formatDensity(element.density, true)}`;
-        html += `<br>Melting Point: ${Elements.formatCelsius(element.melts)}`;
-        html += `<br>Boiling Point: ${Elements.formatCelsius(element.boils)}`;
-        html += `<br>Abundance: ${Elements.formatAbundance(element.crust)}`;
+        let html = `Density: ${ElementView.formatDensity(element.density, true)}`;
+        html += `<br>Melting Point: ${ElementView.formatCelsius(element.melts)}`;
+        html += `<br>Boiling Point: ${ElementView.formatCelsius(element.boils)}`;
+        html += `<br>Abundance: ${ElementView.formatAbundance(element.crust)}`;
         return html;
     }
 
@@ -870,17 +526,17 @@ export default class Elements {
      * @returns {string} HTML: a table
      */
     static renderGroup(group) {
-        if (!Elements.groupElements.has(group)) {
+        if (!Element.groupElements.has(group)) {
             return '';
         }
 
         let html = '<table class="elements group"><tbody>';
-        const elements = Elements.groupElements.get(group);
+        const elements = Element.groupElements.get(group);
         for (const protons of elements) {
-            const element = elementsData.get(protons);
+            const element = elementData.get(protons);
             html += '<tr>';
-            html += `<td>${Elements.formatElement(protons, true)}</td>`;
-            html += `<td class="element-data">${Elements.renderElementHighlights(element)}</td>`;
+            html += `<td>${ElementView.formatElement(protons, true)}</td>`;
+            html += `<td class="element-data">${ElementView.renderElementHighlights(element)}</td>`;
             html += '</tr>';
         }
         html += '</tbody></table>';
@@ -927,8 +583,8 @@ export default class Elements {
         document.title = `Group ${group}`;
         let html = '<main>';
         html += `<h1>${document.title}</h1>`;
-        html += Elements.renderGroupNav(group);
-        html += Elements.renderGroup(group);
+        html += ElementView.renderGroupNav(group);
+        html += ElementView.renderGroup(group);
         html += '</main>';
         return html;
     }
@@ -940,17 +596,17 @@ export default class Elements {
      * @returns {string} HTML: a table
      */
     static renderPeriod(period) {
-        if (!Elements.periods.has(period)) {
+        if (!Element.periods.has(period)) {
             return '';
         }
 
         let html = '<table class="elements period"><tbody>';
-        const { min, max } = Elements.periods.get(period);
+        const { min, max } = Element.periods.get(period);
         for (let protons = min; protons <= max; protons++) {
-            const element = elementsData.get(protons);
+            const element = elementData.get(protons);
             html += '<tr>';
-            html += `<td>${Elements.formatElement(protons, true)}</td>`;
-            html += `<td class="element-data">${Elements.renderElementHighlights(element)}</td>`;
+            html += `<td>${ElementView.formatElement(protons, true)}</td>`;
+            html += `<td class="element-data">${ElementView.renderElementHighlights(element)}</td>`;
             html += '</tr>';
         }
         html += '</tbody></table>';
@@ -997,8 +653,8 @@ export default class Elements {
         document.title = `Period ${period}`;
         let html = '<main>';
         html += `<h1>${document.title}</h1>`;
-        html += Elements.renderPeriodNav(period);
-        html += Elements.renderPeriod(period);
+        html += ElementView.renderPeriodNav(period);
+        html += ElementView.renderPeriod(period);
         html += '</main>';
         return html;
     }

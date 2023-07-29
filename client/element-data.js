@@ -1,8 +1,8 @@
 /**
  * Data about the atomic elements.
- * @module {Map} elementsData
+ * @module {Map} elementData
  */
-const elementsData = new Map([
+export default new Map([
     [1,   { symbol: 'H',  name: 'Hydrogen',      weight:   1.00794, period: 1, group:  1,   block: 's', density:  0.071, melts: -259.3,  boils: -252.9,  crust: 1.40e-3,  type: 'Other Nonmetal' }],
     [2,   { symbol: 'He', name: 'Helium',        weight:   4.0026,  period: 1, group: 18,   block: 's', density:  0.126, melts: null,    boils: -268.9,  crust:    8e-9,  type: 'Noble Gas' }],
     [3,   { symbol: 'Li', name: 'Lithium',       weight:   6.939,   period: 2, group:  1,   block: 's', density:  0.53,  melts:  180.6,  boils: 1342,    crust:  2.0e-5,  type: 'Alkali Metal' }],
@@ -122,5 +122,3 @@ const elementsData = new Map([
     [117, { symbol: 'Ts', name: 'Tennessine',    weight: 294,       period: 7, group: 17,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Post Transition Metal' }],
     [118, { symbol: 'Og', name: 'Oganesson',     weight: 294,       period: 7, group: 18,   block: 'p', density: null,   melts: null,    boils: null,    crust:    0,     type: 'Noble Gas' }],
 ]);
-
-export default elementsData;

@@ -1,9 +1,9 @@
 /**
  * Data about the most stable isotopes for each atomic element.
- * @module {Object} isotopesData
+ * @module {Object} isotopeData
  * @see https://en.wikipedia.org/wiki/List_of_elements_by_stability_of_isotopes
  */
-const isotopesData = {
+export default {
     primordial: new Map([
         [1, [1, 2]],
         [2, [4, 3]],
@@ -128,5 +128,3 @@ const isotopesData = {
         [118, {294: '690 μs'}],
     ])
 };
-
-export default isotopesData;

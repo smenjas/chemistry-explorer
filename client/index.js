@@ -1,8 +1,9 @@
-import Elements from './elements.js';
-import Isotopes from './isotopes.js';
-import Molecules from './molecules.js';
-import Search from './search.js';
-import Test from './test.js';
+import Element from './element.js';
+import ElementView from './view/element.js';
+import IsotopeView from './view/isotope.js';
+import MoleculeView from './view/molecule.js';
+import SearchView from './view/search.js';
+import TestView from './view/test.js';
 
 /**
  * Create HTML based on the URL.
@@ -19,39 +20,39 @@ function render(params) {
     const view = params.get('view');
 
     if (formula) {
-        return Molecules.renderFormula(formula);
+        return MoleculeView.renderFormula(formula);
     }
 
-    if (Elements.groups.has(group)) {
-        return Elements.renderGroupPage(group);
+    if (Element.groups.has(group)) {
+        return ElementView.renderGroupPage(group);
     }
 
-    if (Elements.periods.has(period)) {
-        return Elements.renderPeriodPage(period);
+    if (Element.periods.has(period)) {
+        return ElementView.renderPeriodPage(period);
     }
 
     if (params.has('search')) {
-        return Search.render(search);
+        return SearchView.render(search);
     }
 
     switch (view) {
     case 'abundance':
-        return Elements.renderAbundance();
+        return ElementView.renderAbundance();
     case 'molecules':
-        return Molecules.render();
+        return MoleculeView.render();
     case 'isotopes':
-        return Isotopes.render();
+        return IsotopeView.render();
     case 'test':
-        return Test.render();
+        return TestView.render();
     }
 
     // Show the periodic table by default.
-    return Elements.render(protons);
+    return ElementView.render(protons);
 }
 
 const params = new URLSearchParams(window.location.search);
 const html = render(params);
 
 document.body.insertAdjacentHTML('beforeend', html);
-Elements.addEventHandlers();
-Search.addEventHandlers();
+ElementView.addEventHandlers();
+SearchView.addEventHandlers();
