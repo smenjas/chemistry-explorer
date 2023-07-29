@@ -4250,6 +4250,7 @@ export default {
     Cu3C2H2O8: ['Basic copper carbonate'],
     Cu3H4O8S2: ['Chevreul\'s salt'],
     Cu3B2O6: ['Copper(II) borate'],
+    Cu3P: ['Copper(I) phosphide'],
     Cu4O3: ['Paramelaconite'],
     Cu5Si: ['Copper silicide'],
 
@@ -5195,6 +5196,7 @@ export default {
     PbTe: ['Lead telluride'],
     PbI2: ['Lead(II) iodide'],
     Pb2: ['Diplumbyne'],
+    Pb2SO5: ['Lanarkite'],
     Pb3N2: ['Lead(II) nitride'],
     Pb3O4: ['Lead(II,IV) oxide'],
     Pb4FeSb6S14: ['Jamesonite'],
