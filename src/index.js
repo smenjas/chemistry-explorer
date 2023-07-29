@@ -32,6 +32,7 @@ const server = http.createServer((request, response) => {
     case '/view/molecule.js':
     case '/page.js':
     case '/search.js':
+    case '/test/search.js':
     case '/view/search.js':
     case '/test.js':
     case '/view/test.js':
