@@ -7,6 +7,22 @@ import Isotope from '../isotope.js';
  */
 export default class IsotopeView {
     /**
+     * Format isotope data for display.
+     * @see https://en.wikipedia.org/wiki/Mass_number
+     *
+     * @param {integer} protons - An atomic number
+     * @param {number} mass - The number of neutrons and protons
+     * @returns {string} Plain text
+     */
+    static formatIsotope(protons, mass) {
+        const element = elementData.get(protons);
+        if (!element) {
+            return '';
+        }
+        return `${element.symbol}-${mass}`;
+    }
+
+    /**
      * Create a chart of the most stable isotopes for each element.
      *
      * @returns {string} HTML: a heading and a table
