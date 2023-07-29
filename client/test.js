@@ -1,5 +1,5 @@
 import ElementTest from './test/element.js';
-import Molecule from './molecule.js';
+import MoleculeTest from './test/molecule.js';
 import Search from './search.js';
 
 /**
@@ -313,11 +313,11 @@ export default class Test {
 
         const methods = [
             ElementTest.find,
-            Molecule.compareTest,
-            Molecule.convertFormulaTest,
-            Molecule.findElementTest,
-            Molecule.findFormulasTest,
-            Molecule.findNamesTest,
+            MoleculeTest.compare,
+            MoleculeTest.convertFormula,
+            MoleculeTest.findElement,
+            MoleculeTest.findFormulas,
+            MoleculeTest.findNames,
             Search.findFormulasTest,
             Search.findMoleculesTest,
             Search.processTest,
