@@ -2,6 +2,7 @@ import * as common from '../common.js';
 import Element from '../element.js';
 import elementData from '../element-data.js';
 import isotopeData from '../isotope-data.js';
+import IsotopeView from '../view/isotope.js';
 import Link from '../link.js';
 import MoleculeView from '../view/molecule.js';
 
@@ -100,22 +101,6 @@ export default class ElementView {
         html = `<article class="${typeClass} element" title="${title}">${html}</article>`;
 
         return html;
-    }
-
-    /**
-     * Format isotope data for display.
-     * @see https://en.wikipedia.org/wiki/Mass_number
-     *
-     * @param {integer} protons - An atomic number
-     * @param {number} mass - The number of neutrons and protons
-     * @returns {string} Plain text
-     */
-    static formatIsotope(protons, mass) {
-        const element = elementData.get(protons);
-        if (!element) {
-            return '';
-        }
-        return `${element.symbol}-${mass}`;
     }
 
     /**
@@ -435,7 +420,7 @@ export default class ElementView {
             const isotopes = isotopeData.primordial.get(protons);
             html += '<ul>';
             for (const mass of isotopes) {
-                const isotopeName = ElementView.formatIsotope(protons, mass);
+                const isotopeName = IsotopeView.formatIsotope(protons, mass);
                 const isotopeLink = Link.toWikipedia(`${element.name}-${mass}`, `${isotopeName}`);
                 html += `<li>${isotopeLink}</li>`;
             }
@@ -445,7 +430,7 @@ export default class ElementView {
             const isotopes = isotopeData.synthetic.get(protons);
             const mass = Object.keys(isotopes)[0];
             const time = ElementView.formatScientificNotation(isotopes[mass]);
-            const isotopeName = ElementView.formatIsotope(protons, mass);
+            const isotopeName = IsotopeView.formatIsotope(protons, mass);
             const syntheticElement = Link.toWikipedia('Synthetic_element', 'synthetic element');
             html += `<p>${element.name} is a ${syntheticElement}. Its longest
             lived isotope, ${isotopeName}, has a half-life of ${time}.</p>`;
