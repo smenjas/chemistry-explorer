@@ -11,16 +11,6 @@ import elementData from './element-data.js';
  * @property {Object} typeURLs - Wikipedia URLs for each element type
  */
 export default class Element {
-    /**
-     * Add event handlers to the page.
-     */
-    static addEventHandlers() {
-        const abundanceScale = document.querySelector('form#abundance-scale');
-        if (abundanceScale) {
-            abundanceScale.addEventListener('change', Element.handleAbundanceScale);
-        }
-    }
-
     // The key is the group number.
     // The value is the former group designation.
     static groups = new Map([
