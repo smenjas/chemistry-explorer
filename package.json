@@ -5,7 +5,7 @@
   "description": "A chemistry app built with vanilla JavaScript",
   "main": "index.js",
   "scripts": {
-    "dev": "cd src && ../node_modules/nodemon/bin/nodemon.js .",
+    "dev": "node_modules/nodemon/bin/nodemon.js src/index.js",
     "doc": "rm -r documentation; node_modules/jsdoc/jsdoc.js -c jsdoc.json",
     "lint": "node_modules/eslint/bin/eslint.js src/*.js client/*.js client/*/*.js; scripts/check-spelling",
     "test": "time node test.js"
