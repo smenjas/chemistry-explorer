@@ -1361,6 +1361,7 @@ export default {
     C10H14N2O6: ['N1-Methylpseudouridine', 'Methyluridine'],
     C10H14N2O8P1: ['Thymidine monophosphate'],
     C10H14FN3O4: ['PSI-6130'],
+    C10H14N4O11P2: ['Inosine diphosphate'],
     C10H14N5O4P: ['Besifovir'],
     C10H14N5O6P: ['Deoxyadenosine monophosphate'],
     C10H14N5O7P: ['Adenosine monophosphate', 'Deoxyguanosine monophosphate'],
