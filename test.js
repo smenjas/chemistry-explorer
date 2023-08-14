@@ -19,6 +19,9 @@ export default class Test {
         if (a === b) {
             return true;
         }
+        if (Number.isNaN(a) && Number.isNaN(b)) {
+            return true;
+        }
         if (typeof a !== typeof b) {
             return false;
         }
