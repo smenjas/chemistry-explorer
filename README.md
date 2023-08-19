@@ -5,8 +5,10 @@ learn web development fundamentals, using the simplest technology stack: HTML,
 CSS, & JS.
 
 ## Exercise Constraints
-- No libraries, frameworks, templates, or preprocessors outside Node.js
+- No server-side processing required
+- No libraries, frameworks, templates, or preprocessors
 - Limited dev tools:
+  - [Node.js](https://nodejs.org/)
   - [ESLint](https://www.npmjs.com/package/eslint)
   - [JSDoc](https://www.npmjs.com/package/jsdoc)
   - [nodemon](https://www.npmjs.com/package/nodemon)
