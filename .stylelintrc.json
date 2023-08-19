@@ -1,1 +1,4 @@
-{ "extends": ["stylelint-config-standard"] }
+{
+  "cache": true,
+  "extends": ["stylelint-config-standard"]
+}
