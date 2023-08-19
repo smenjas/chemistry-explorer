@@ -14,14 +14,47 @@ a {
     color: #005;
 }
 
+th a,
+article a {
+    color: inherit;
+    text-decoration: none;
+}
+
+nav a {
+    padding: 0 1rem;
+}
+
+.abundance-chart a,
+.molecules-chart a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/*
+Make the whole element clickable in the periodic table.
+https://stackoverflow.com/a/3494108/12841859
+*/
+a span.link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+a span.link:hover {
+    outline: 5px outset black;
+}
+
 a:visited {
     color: #505;
 }
 
-th a,
 th a:visited,
-article a,
-article a:visited {
+article a:visited,
+.abundance-chart a:visited,
+.molecules-chart a:visited {
     color: inherit;
     text-decoration: none;
 }
@@ -40,10 +73,6 @@ nav {
     font-size: 1.5rem;
     margin: 1rem;
     text-align: center;
-}
-
-nav a {
-    padding: 0 1rem;
 }
 
 nav span {
@@ -98,13 +127,13 @@ section.elements {
     flex-flow: row wrap;
 }
 
-section.elements article {
-    border: 1px solid black;
+.group article,
+.period article {
+    min-width: 5.3rem;
 }
 
-.group article,
-.period article,
 section.elements article {
+    border: 1px solid black;
     min-width: 5.3rem;
 }
 
@@ -219,14 +248,6 @@ td.empty {
     width: calc(100vw - 5rem);
 }
 
-.abundance-chart a,
-.abundance-chart a:visited,
-.molecules-chart a,
-.molecules-chart a:visited {
-    color: inherit;
-    text-decoration: none;
-}
-
 .abundance-chart a span.link:hover,
 .molecules-chart a span.link:hover {
     outline-width: 2px;
@@ -234,6 +255,14 @@ td.empty {
 
 #abundance-scale {
     text-align: center;
+}
+
+.abundance-chart div,
+.molecules-chart div,
+section.elements article,
+.elements th,
+.elements td {
+    position: relative;
 }
 
 table.isotopes {
@@ -244,6 +273,7 @@ table.isotopes {
 table.isotopes th,
 table.isotopes td {
     padding: 0;
+    position: relative;
 }
 
 table.isotopes td {
@@ -305,33 +335,6 @@ table.isotopes td a span.link:hover {
 
 table.isotopes td.synthetic a span.link:hover {
     outline-color: gold;
-}
-
-/*
-Make the whole element clickable in the periodic table.
-https://stackoverflow.com/a/3494108/12841859
-*/
-.abundance-chart div,
-.molecules-chart div,
-section.elements article,
-table.isotopes th,
-table.isotopes td,
-.elements th,
-.elements td {
-    position: relative;
-}
-
-a span.link {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-a span.link:hover {
-    outline: 5px outset black;
 }
 
 @media only screen and (width <= 390px) {
