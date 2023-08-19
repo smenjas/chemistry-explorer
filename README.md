@@ -10,6 +10,7 @@ CSS, & JS.
   - [ESLint](https://www.npmjs.com/package/eslint)
   - [JSDoc](https://www.npmjs.com/package/jsdoc)
   - [nodemon](https://www.npmjs.com/package/nodemon)
+  - [Stylelint](https://stylelint.io/)
 
 ## Goals
 - [x] Show the periodic table of the elements
