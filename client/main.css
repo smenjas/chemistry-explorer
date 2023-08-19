@@ -335,7 +335,7 @@ a span.link:hover {
     outline: 5px outset black;
 }
 
-@media only screen and (max-width: 390px) {
+@media only screen and (width <= 390px) {
     nav {
         font-size: 0.75rem;
     }
@@ -366,7 +366,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 391px) {
+@media only screen and (width >= 391px) {
     nav {
         font-size: 0.8rem;
     }
@@ -397,7 +397,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 522px) {
+@media only screen and (width >= 522px) {
     nav {
         font-size: 1.1rem;
         margin: 0.3rem;
@@ -428,7 +428,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (width >= 768px) {
     nav {
         font-size: 1.2rem;
     }
@@ -460,7 +460,7 @@ a span.link:hover {
 }
 
 /* Element detail default */
-@media only screen and (min-width: 820px) {
+@media only screen and (width >= 820px) {
     nav {
         font-size: 1.5rem;
         margin: 1rem;
@@ -491,7 +491,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 1125px) {
+@media only screen and (width >= 1125px) {
     ol, ul {
         padding: 0 0 0 1rem;
         margin: 0 0 1rem 1.5rem;
@@ -512,7 +512,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (max-width: 525px) {
+@media only screen and (width <= 525px) {
     th {
         font-size: 0.6rem;
     }
@@ -536,7 +536,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 526px) {
+@media only screen and (width >= 526px) {
     th {
         font-size: 0.5rem;
     }
@@ -560,7 +560,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 560px) {
+@media only screen and (width >= 560px) {
     th {
         font-size: 0.6rem;
     }
@@ -574,7 +574,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (width >= 600px) {
     th {
         font-size: 0.65rem;
     }
@@ -589,7 +589,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (width >= 640px) {
     th {
         font-size: 0.7rem;
     }
@@ -599,7 +599,7 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 680px) {
+@media only screen and (width >= 680px) {
     th,
     .all article .atomic {
         font-size: 0.8rem;
@@ -610,40 +610,40 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (width >= 700px) {
     th,
     .all article .atomic {
         font-size: 0.9rem;
     }
 }
 
-@media only screen and (min-width: 740) {
+@media only screen and (width >= 740) {
     th,
     .all article .atomic {
         font-size: 1.0rem;
     }
 }
 
-@media only screen and (min-width: 880px) {
+@media only screen and (width >= 880px) {
     .all article .name {
         display: inline;
         font-size: 0.5rem;
     }
 }
 
-@media only screen and (min-width: 950px) {
+@media only screen and (width >= 950px) {
     .all article .name {
         font-size: 0.55rem;
     }
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (width >= 1024px) {
     .all article .name {
         font-size: 0.6rem;
     }
 }
 
-@media only screen and (min-width: 1180px) {
+@media only screen and (width >= 1180px) {
     .all article .name,
     .all article .weight {
         display: inline;
@@ -651,26 +651,26 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 1250px) {
+@media only screen and (width >= 1250px) {
     .all article {
         padding: 0.2rem;
     }
 }
 
-@media only screen and (min-width: 1330px) {
+@media only screen and (width >= 1330px) {
     .all article .name,
     .all article .weight {
         font-size: 0.75rem;
     }
 }
 
-@media only screen and (min-width: 1630px) {
+@media only screen and (width >= 1630px) {
     .all article {
         min-width: 5.0rem;
     }
 }
 
-@media only screen and (min-width: 1700px) {
+@media only screen and (width >= 1700px) {
     .all article {
         min-width: 5.3rem;
     }
@@ -682,7 +682,7 @@ a span.link:hover {
 }
 
 /* 4K Support */
-@media only screen and (min-width: 3800px) {
+@media only screen and (width >= 3800px) {
     :root {
         --abundance-width-none: 7rem;
         --abundance-width-min: 14rem;
