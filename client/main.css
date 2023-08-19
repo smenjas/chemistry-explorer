@@ -95,8 +95,7 @@ td article {
 
 section.elements {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
 }
 
 section.elements article {
