@@ -9,17 +9,52 @@ body {
     background: white;
     color: black;
 }
+
 a {
     color: #005;
 }
+
+th a,
+article a {
+    color: inherit;
+    text-decoration: none;
+}
+
+nav a {
+    padding: 0 1rem;
+}
+
+.abundance-chart a,
+.molecules-chart a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/*
+Make the whole element clickable in the periodic table.
+https://stackoverflow.com/a/3494108/12841859
+*/
+a span.link {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+a span.link:hover {
+    outline: 5px outset black;
+}
+
 a:visited {
     color: #505;
 }
 
-th a,
 th a:visited,
-article a,
-article a:visited {
+article a:visited,
+.abundance-chart a:visited,
+.molecules-chart a:visited {
     color: inherit;
     text-decoration: none;
 }
@@ -39,9 +74,7 @@ nav {
     margin: 1rem;
     text-align: center;
 }
-nav a {
-    padding: 0 1rem;
-}
+
 nav span {
     display: inline-block;
     min-width: 15.5rem;
@@ -51,6 +84,7 @@ nav span {
 nav .next {
     text-align: left;
 }
+
 nav .previous {
     text-align: right;
 }
@@ -69,10 +103,12 @@ table {
     border-collapse: collapse;
     margin: auto;
 }
+
 th {
     border: none;
     padding: 0.2rem;
 }
+
 td {
     border: 1px solid black;
 }
@@ -85,18 +121,19 @@ td article {
 .elements article {
     padding: 0.2rem;
 }
+
 section.elements {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-section.elements article {
-    border: 1px solid black;
+    flex-flow: row wrap;
 }
 
 .group article,
-.period article,
+.period article {
+    min-width: 5.3rem;
+}
+
 section.elements article {
+    border: 1px solid black;
     min-width: 5.3rem;
 }
 
@@ -106,6 +143,7 @@ section.element {
     justify-content: center;
     gap: 0.375rem;
 }
+
 section.element article {
     display: inline-block;
     font-size: 4rem;
@@ -113,6 +151,7 @@ section.element article {
     padding: 2rem;
     min-width: 22rem;
 }
+
 section.element aside {
     font-size: 1.5rem;
 }
@@ -122,10 +161,12 @@ article .atomic {
     text-align: right;
     display: block;
 }
+
 article .symbol {
     font-size: 150%;
     font-weight: bold;
 }
+
 article .name,
 article .weight {
     font-size: 80%;
@@ -135,6 +176,7 @@ td.element-data {
     border: none;
     padding-left: 1rem;
 }
+
 td.empty {
     border: none;
 }
@@ -143,38 +185,47 @@ td.empty {
     background: lightpink;
     color: black;
 }
+
 .noble-gas {
     background: orange;
     color: black;
 }
+
 .alkali-metal {
     background: darkseagreen;
     color: black;
 }
+
 .alkaline-earth-metal {
     background: gold;
     color: black;
 }
+
 .metalloid {
     background: forestgreen;
     color: white;
 }
+
 .halogen-nonmetal {
     background: saddlebrown;
     color: white;
 }
+
 .transition-metal {
     background: rebeccapurple;
     color: white;
 }
+
 .post-transition-metal {
     background: lightskyblue;
     color: black;
 }
+
 .lanthanide {
     background: #b00;
     color: white;
 }
+
 .actinide {
     background: royalblue;
     color: white;
@@ -188,375 +239,413 @@ td.empty {
 .molecules-chart {
     margin-bottom: 1rem;
 }
+
 .abundance-chart {
     width: calc(100vw - 9rem);
 }
+
 .molecules-chart {
     width: calc(100vw - 5rem);
 }
-.abundance-chart a,
-.abundance-chart a:visited,
-.molecules-chart a,
-.molecules-chart a:visited {
-    color: inherit;
-    text-decoration: none;
-}
+
 .abundance-chart a span.link:hover,
 .molecules-chart a span.link:hover {
     outline-width: 2px;
 }
+
 #abundance-scale {
     text-align: center;
+}
+
+.abundance-chart div,
+.molecules-chart div,
+section.elements article,
+.elements th,
+.elements td {
+    position: relative;
 }
 
 table.isotopes {
     height: 81vh;
     width: 96vw;
 }
+
 table.isotopes th,
 table.isotopes td {
     padding: 0;
+    position: relative;
 }
+
 table.isotopes td {
     height: calc((81vh - 12rem) / 178);
     width: calc((96vw - 6rem) / 118);
 }
+
 table.isotopes th {
     font-size: 1.2rem;
 }
+
 table.isotopes th.x-axis {
     padding-top: 0.5rem;
 }
+
 table.isotopes th.x-axis.max {
     text-align: right;
 }
+
 table.isotopes th.x-axis.min {
     text-align: left;
 }
+
 table.isotopes th.y-axis.label {
     transform: rotate(180deg);
     writing-mode: vertical-rl;
 }
+
 table.isotopes th.y-axis.max,
 table.isotopes th.y-axis.min {
     padding-right: 0.5rem;
     text-align: right;
 }
+
 table.isotopes th.y-axis.max {
     vertical-align: top;
 }
+
 table.isotopes th.y-axis.min {
     vertical-align: bottom;
 }
+
 table.isotopes tr:hover td.empty {
     background-color: #808080;
 }
+
 table.isotopes td.primordial {
     background-color: limegreen;
 }
+
 table.isotopes td.synthetic {
     background-color: gold;
 }
+
 table.isotopes td a span.link:hover {
     border: 1px solid black;
     outline: 0.75rem solid limegreen;
 }
+
 table.isotopes td.synthetic a span.link:hover {
     outline-color: gold;
 }
 
-/*
-Make the whole element clickable in the periodic table.
-https://stackoverflow.com/a/3494108/12841859
-*/
-.abundance-chart div,
-.molecules-chart div,
-section.elements article,
-table.isotopes th,
-table.isotopes td,
-.elements th,
-.elements td {
-    position: relative;
-}
-a span.link {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-a span.link:hover {
-    outline: 5px outset black;
-}
-
-@media only screen and (max-width: 390px) {
+@media only screen and (width <= 390px) {
     nav {
         font-size: 0.75rem;
     }
+
     nav span {
         min-width: 7.7rem;
         padding: 0.125rem 0;
     }
+
     ol, ul {
         padding: 0 0 0 0.75rem;
         margin: 0 0 0.75rem 0.75rem;
     }
+
     section.element {
         gap: 0.05rem;
     }
+
     section.element article {
         font-size: 1.6rem;
         border: 5px outset black;
         padding: 0.5rem 1rem;
         min-width: 7.5rem;
     }
+
     section.element aside {
         font-size: 0.6rem;
     }
 }
 
-@media only screen and (min-width: 391px) {
+@media only screen and (width >= 391px) {
     nav {
         font-size: 0.8rem;
     }
+
     nav span {
         min-width: 9.3rem;
         padding: 0.125rem 0;
     }
+
     ol, ul {
         padding: 0 0 0 0.75rem;
         margin: 0 0 0.75rem 0.75rem;
     }
+
     section.element {
         gap: 0.05rem;
     }
+
     section.element article {
         font-size: 1.8rem;
         border: 6px outset black;
         padding: 0.5rem 1rem;
         min-width: 9rem;
     }
+
     section.element aside {
         font-size: 0.6rem;
     }
 }
 
-@media only screen and (min-width: 522px) {
+@media only screen and (width >= 522px) {
     nav {
         font-size: 1.1rem;
         margin: 0.3rem;
     }
+
     nav span {
         min-width: 12.4rem;
     }
+
     ol, ul {
         padding: 0 0 0 0.8rem;
         margin: 0 0 0.8rem 0.8rem;
     }
+
     section.element {
         gap: 0.25rem;
     }
+
     section.element article {
         font-size: 2.5rem;
         border: 8px outset black;
         padding: 1rem 2rem;
         min-width: 11rem;
     }
+
     section.element aside {
         font-size: 1rem;
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (width >= 768px) {
     nav {
         font-size: 1.2rem;
     }
+
     nav span {
         min-width: 13.4rem;
         padding: 0.25rem 0;
     }
+
     ol, ul {
         padding: 0 0 0 0.9rem;
         margin: 0 0 0.9rem 0.9rem;
     }
+
     section.element {
         gap: 0.3rem;
     }
+
     section.element article {
         font-size: 3rem;
         border: 9px outset black;
         padding: 2rem;
         min-width: 16rem;
     }
+
     section.element aside {
         font-size: 1.25rem;
     }
 }
 
 /* Element detail default */
-@media only screen and (min-width: 820px) {
+@media only screen and (width >= 820px) {
     nav {
         font-size: 1.5rem;
         margin: 1rem;
     }
+
     nav span {
         min-width: 16.2rem;
     }
+
     ol, ul {
         padding: 0 0 0 1rem;
         margin: 0 0 1rem 1rem;
     }
+
     section.element {
         gap: 0.375rem;
     }
+
     section.element article {
         font-size: 4rem;
         border: 10px outset black;
         padding: 2rem;
         min-width: 22rem;
     }
+
     section.element aside {
         font-size: 1.5rem;
     }
 }
 
-@media only screen and (min-width: 1125px) {
+@media only screen and (width >= 1125px) {
     ol, ul {
         padding: 0 0 0 1rem;
         margin: 0 0 1rem 1.5rem;
     }
+
     section.element {
         gap: 0.5rem;
     }
+
     section.element article {
         font-size: 5rem;
         padding: 2rem 4rem;
         min-width: 27rem;
     }
+
     section.element aside {
         font-size: 2rem;
     }
 }
 
-@media only screen and (max-width: 525px) {
+@media only screen and (width <= 525px) {
     th {
         font-size: 0.6rem;
     }
+
     .all article {
         min-width: auto;
         padding: 0.05rem;
     }
+
     .all article .atomic {
         display: none;
     }
+
     .all article .symbol {
         font-size: 1.0rem;
     }
+
     .all article .name,
     .all article .weight {
         display: none;
     }
 }
 
-@media only screen and (min-width: 526px) {
+@media only screen and (width >= 526px) {
     th {
         font-size: 0.5rem;
     }
+
     .all article {
         min-width: auto;
         padding: 0.1rem;
     }
+
     .all article .atomic {
         display: none;
     }
+
     .all article .symbol {
         font-size: 1.1rem;
     }
+
     .all article .name,
     .all article .weight {
         display: none;
     }
 }
 
-@media only screen and (min-width: 560px) {
+@media only screen and (width >= 560px) {
     th {
         font-size: 0.6rem;
     }
+
     .all article {
         min-width: auto;
     }
+
     .all article .symbol {
         font-size: 1.2rem;
     }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (width >= 600px) {
     th {
         font-size: 0.65rem;
     }
+
     .all article .atomic {
         font-size: 0.75rem;
         display: block;
     }
+
     .all article .symbol {
         font-size: 1.3rem;
     }
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (width >= 640px) {
     th {
         font-size: 0.7rem;
     }
+
     .all article .symbol {
         font-size: 1.4rem;
     }
 }
 
-@media only screen and (min-width: 680px) {
+@media only screen and (width >= 680px) {
     th,
     .all article .atomic {
         font-size: 0.8rem;
     }
+
     .all article .symbol {
         font-size: 1.5rem;
     }
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (width >= 700px) {
     th,
     .all article .atomic {
         font-size: 0.9rem;
     }
 }
 
-@media only screen and (min-width: 740) {
+@media only screen and (width >= 740) {
     th,
     .all article .atomic {
         font-size: 1.0rem;
     }
 }
 
-@media only screen and (min-width: 880px) {
+@media only screen and (width >= 880px) {
     .all article .name {
         display: inline;
         font-size: 0.5rem;
     }
 }
 
-@media only screen and (min-width: 950px) {
+@media only screen and (width >= 950px) {
     .all article .name {
         font-size: 0.55rem;
     }
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (width >= 1024px) {
     .all article .name {
         font-size: 0.6rem;
     }
 }
 
-@media only screen and (min-width: 1180px) {
+@media only screen and (width >= 1180px) {
     .all article .name,
     .all article .weight {
         display: inline;
@@ -564,29 +653,30 @@ a span.link:hover {
     }
 }
 
-@media only screen and (min-width: 1250px) {
+@media only screen and (width >= 1250px) {
     .all article {
         padding: 0.2rem;
     }
 }
 
-@media only screen and (min-width: 1330px) {
+@media only screen and (width >= 1330px) {
     .all article .name,
     .all article .weight {
         font-size: 0.75rem;
     }
 }
 
-@media only screen and (min-width: 1630px) {
+@media only screen and (width >= 1630px) {
     .all article {
         min-width: 5.0rem;
     }
 }
 
-@media only screen and (min-width: 1700px) {
+@media only screen and (width >= 1700px) {
     .all article {
         min-width: 5.3rem;
     }
+
     .all article .name,
     .all article .weight {
         font-size: 0.8rem;
@@ -594,56 +684,68 @@ a span.link:hover {
 }
 
 /* 4K Support */
-@media only screen and (min-width: 3800px) {
+@media only screen and (width >= 3800px) {
     :root {
         --abundance-width-none: 7rem;
         --abundance-width-min: 14rem;
         --molecules-width-min: 7.3rem;
     }
+
     body {
         font-size: 250%;
     }
+
     /* Periodic table */
     .all article {
         min-width: 10.6rem;
         padding: 0.4rem;
     }
+
     th,
     .all article .atomic {
         font-size: 2.0rem;
     }
+
     .all article .name,
     .all article .weight {
         font-size: 1.6rem;
     }
+
     .all article .symbol {
         font-size: 3.0rem;
     }
+
     /* Charts */
     table.isotopes th {
         font-size: 2.4rem;
     }
+
     /* Element details */
     nav {
         font-size: 3.0rem;
         margin: 2rem;
     }
+
     nav span {
         min-width: 32.4rem;
     }
+
     ol, ul {
         padding: 0 0 0 2rem;
         margin: 0 0 2rem 2rem;
     }
+
     section.element {
         gap: 0.75rem;
     }
+
     section.element article {
         font-size: 8rem;
         border: 20px outset black;
         padding: 4rem;
         min-width: 44rem;
     }
+
     section.element aside {
         font-size: 3.0rem;
     }
@@ -654,12 +756,15 @@ a span.link:hover {
         background: black;
         color: white;
     }
+
     a {
         color: #aaf;
     }
+
     a:visited {
         color: #faf;
     }
+
     .group article,
     .period article,
     section.element article,
@@ -667,12 +772,15 @@ a span.link:hover {
     td {
         border-color: white;
     }
+
     a span.link:hover {
         outline-color: white;
     }
+
     table.isotopes td.primordial {
         border-color: limegreen;
     }
+
     table.isotopes td.synthetic {
         border-color: gold;
     }
