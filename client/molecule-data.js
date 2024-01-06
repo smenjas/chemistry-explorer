@@ -983,7 +983,7 @@ export default {
     C7H6N4O2: ['Tirapazamine'],
     C7H6O: ['Tropone'],
     C7H6O2: ['Benzoic acid', 'Salicylaldehyde', 'Tropolone'],
-    C7H6O3: ['Hydroxybenzoic acid', 'Sesamol'],
+    C7H6O3: ['Hydroxybenzoic acid', 'Salicylic acid', 'Sesamol'],
     C7H6O4: ['Patulin'],
     C7H6O5: ['Gallic acid'],
     C7H7BO3: ['4-Formylphenylboronic acid'],
