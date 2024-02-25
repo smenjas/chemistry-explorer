@@ -649,6 +649,7 @@ export default {
     C4H9P: ['Phospholane'],
     C4H9SnCl3: ['Butyltin trichloride'],
     C4H10: ['Butane', 'Isobutane'],
+    C4H10FO2P: ['Sarin'],
     C4H10BF3O: ['Boron trifluoride etherate'],
     C4H10NO5P: ['Fosmidomycin'],
     C4H10N2: ['Diazinane', 'Piperazine'],
@@ -1504,6 +1505,7 @@ export default {
     C11H22O2: ['Undecylic acid'],
     C11H24: ['Undecane'],
 
+    C12H4Cl4O2: ['TCDD'],
     C12H5Cl5: ['Pentachlorobiphenyl'],
     C12H6Cl4O2S: ['Bithionol'],
     C12H7Cl3O2: ['Triclosan'],
@@ -3427,6 +3429,7 @@ export default {
     C45H57NO14: ['Cabazitaxel'],
     C45H57N3O9: ['Beauvericin'],
     C45H69N11O12S: ['Carbetocin'],
+    C45H73NO15: ['Solanine'],
     C45H74BNO15: ['Boromycin'],
     C45H74O: ['Solanesol'],
     C45H74O11: ['Oligomycin'],
