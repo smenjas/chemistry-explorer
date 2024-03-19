@@ -2201,7 +2201,7 @@ export default {
     C18H28O2: ['Stearidonic acid'],
     C18H29NO3: ['Butamirate'],
     C18H29N3O5S: ['Lenapenem'],
-    C18H30: ['Estrane'],
+    C18H30: ['Dodecylbenzene', 'Estrane'],
     C18H30O2: ['Calendic acid', 'Eleostearic acid', 'Linolenic acid', 'Pinolenic acid'],
     C18H30O2Ir2: ['Cyclooctadiene iridium methoxide dimer'],
     C18H30NaO3S: ['Sodium dodecylbenzenesulfonate'],
