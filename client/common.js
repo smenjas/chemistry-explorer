@@ -103,7 +103,7 @@ export function pushTo(obj, key, ...values) {
  * @param {integer} start - The index to start changing characters
  * @param {integer} deleteCount - The number of characters to remove
  * @param {...string} items - The characters to add
- * @param {string} The modified string
+ * @returns {string} The modified string
  */
 export function spliceString(string, start, deleteCount, ...items) {
     return string.split('').toSpliced(start, deleteCount, ...items).join('');
