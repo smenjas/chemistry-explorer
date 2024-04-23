@@ -35,8 +35,8 @@ export default class Molecule {
      *
      * @returns {integer} how the formulas should be sorted, with regard to the
      * given element:
-     * - -1 if a comes before b
-     * - 1 if a comes after b
+     * - -1 if formulaA comes before formulaB
+     * - 1 if formulaA comes after formulaB
      * - 0 if the formulas are equivalent
      */
     static compare(formulaA, formulaB, prioritySymbol = 'H', debug = false) {
