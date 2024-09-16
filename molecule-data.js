@@ -319,6 +319,7 @@ export default {
     C2HO6Na3: ['Sodium sesquicarbonate'],
     C2HBrClF3: ['Halothane'],
     C2HF5: ['Pentafluoroethane'],
+    C2HCl3: ['Trichloroethylene'],
     C2H2: ['Acetylene'],
     C2H2O4Be: ['Beryllium formate'],
     C2H2B2N2: ['Carborazine'],
