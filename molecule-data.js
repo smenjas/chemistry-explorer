@@ -1854,6 +1854,7 @@ export default {
     C15H14O7: ['Gallocatechol'],
     C15H15N: ['Centanafadine'],
     C15H15NO2: ['Diphenylalanine'],
+    C15H15NO2S: ['Armodafinil', 'Esmodafinil'],
     C15H16N2O4: ['Apaziquone'],
     C15H16N2O6S2: ['Ticarcillin'],
     C15H16O2: ['Bisphenol A'],
