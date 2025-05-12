@@ -922,7 +922,7 @@ export default {
     C6H12O4: ['Acetone peroxide', 'Mevalonic acid', 'Pantoic acid'],
     C6H12Br2O4: ['Mitobronitol'],
     C6H12O5: ['Fucose', 'Rhamnose'],
-    C6H12O6: ['Fructose', 'Galactose', 'Glucose', 'Inositol', 'Mannose'],
+    C6H12O6: ['Fructose', 'Galactose', 'Glucose', 'Inositol', 'Mannose', 'Psicose'],
     C6H12O7: ['Gluconic acid'],
     C6H12S: ['Thiepane'],
     C6H13BO2: ['Pinacolborane'],
