@@ -1,12 +1,11 @@
 import fs from 'fs';
 import http from 'http';
-import url from 'url';
 
 const hostname = '127.0.0.1';
 const port = 3001;
 
 const server = http.createServer((request, response) => {
-    const path = url.parse(request.url).pathname;
+    const path = request.url.split('?')[0];
     let content = '';
 
     switch (path) {
