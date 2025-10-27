@@ -1005,7 +1005,7 @@ export default {
     C7H8ClN3O4S2: ['Hydrochlorothiazide'],
     C7H8N4O2: ['Paraxanthine', 'Theobromine', 'Theophylline'],
     C7H8O: ['Benzyl alcohol', 'Cresol'],
-    C7H8O2: ['Methylcatechol', 'Methoxyphenol', 'Orcinol'],
+    C7H8O2: ['Guaiacol', 'Mequinol', 'Methylcatechol', 'Methoxyphenol', 'Orcinol'],
     C7H8O3: ['Ethyl maltol'],
     C7H9N: ['Lutidine'],
     C7H9NO6S: ['Pomaglumetad'],
