@@ -424,7 +424,6 @@ export default {
     C2BeO4: ['Beryllium oxalate'],
     C2Cl3N: ['Trichloroacetonitrile'],
     C2N2O2Pt: ['Platinum fulminate'],
-    C2N2O2Hg: ['Mercury(II) fulminate'],
     C2N2Mg: ['Magnesium cyanide'],
     C2N2S2Hg: ['Mercury(II) thiocyanate'],
     C2N14: ['1-Diazidocarbamoyl-5-azidotetrazole'],
@@ -5190,7 +5189,7 @@ export default {
 
     HgH: ['Mercury(I) hydride'],
     HgH2O2: ['Mercury(II) hydroxide'],
-    HgC2N2O2: ['Mercury fulminate'],
+    HgC2N2O2: ['Mercury(II) fulminate'],
     HgN2O6: ['Mercuric nitrate'],
     HgN6: ['Mercuric azide'],
     HgO: ['Mercury(II) oxide'],
