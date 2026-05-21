@@ -423,7 +423,6 @@ export default {
     C2H12B10: ['Ortho-carborane'],
     C2BeO4: ['Beryllium oxalate'],
     C2Cl3N: ['Trichloroacetonitrile'],
-    C2N2O2Pt: ['Platinum fulminate'],
     C2N2Mg: ['Magnesium cyanide'],
     C2N2S2Hg: ['Mercury(II) thiocyanate'],
     C2N14: ['1-Diazidocarbamoyl-5-azidotetrazole'],
@@ -5144,6 +5143,7 @@ export default {
     Ir2S3: ['Iridium(III) sulfide'],
 
     PtCl2N2H6: ['Cisplatin', 'Transplatin'],
+    PtC2N2O2: ['Platinum fulminate'],
     PtO2: ['Adams\' catalyst'],
     PtF2: ['Platinum(II) fluoride'],
     PtF4: ['Platinum tetrafluoride'],
