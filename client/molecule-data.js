@@ -5314,7 +5314,11 @@ export default {
     RnF2: ['Radon difluoride'],
 
     FrOH: ['Francium hydroxide'],
+    FrClO4: ['Francium perchlorate'],
+    FrF: ['Francium fluoride'],
     FrCl: ['Francium chloride'],
+    FrBr: ['Francium bromide'],
+    FrI: ['Francium iodide'],
 
     RaCO3: ['Radium carbonate'],
     RaN2O6: ['Radium nitrate'],
