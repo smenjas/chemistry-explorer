@@ -4447,6 +4447,7 @@ export default {
     RbAg4I5: ['Rubidium silver iodide'],
     RbI: ['Rubidium iodide'],
     Rb2CO3: ['Rubidium carbonate'],
+    Rb2O: ['Rubidium oxide'],
     Rb2O2: ['Rubidium peroxide'],
     Rb2Te: ['Rubidium telluride'],
 
