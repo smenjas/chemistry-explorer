@@ -3840,6 +3840,7 @@ export default {
     Na2NO7S: ['Disodium nitrosodisulfonate'],
     Na2N2O2: ['Sodium hyponitrite'],
     Na2N2O3: ['Angeli\'s salt'],
+    Na2O: ['Sodium oxide'],
     Na2ZnO2: ['Sodium zincate'],
     Na2PFO3: ['Sodium monofluorophosphate'],
     Na2SiO3: ['Sodium metasilicate'],
