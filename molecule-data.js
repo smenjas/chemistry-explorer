@@ -408,6 +408,7 @@ export default {
     C2H6OS: ['Dimethyl sulfoxide'],
     C2H6Cl3KOPt: ['Zeise\'s salt'],
     C2H6O2S: ['Ethylene glycol', 'Methylsulfonylmethane'],
+    C2H6ClO3P: ['Ethephon'],
     C2H6O4S: ['Dimethyl sulfate'],
     C2H6S: ['Dimethyl sulfide'],
     C2H6AuClS: ['Chloro(dimethyl sulfide)gold(I)'],
