@@ -524,7 +524,7 @@ export default {
     C3H8NO5P: ['Glyphosate'],
     C3H8N2: ['Acetone hydrazone', 'Imidazolidine', 'Pyrazolidine'],
     C3H8N2O3: ['Bis(hydroxymethyl)urea'],
-    C3H8O: ['Methoxyethane', 'Propanol'],
+    C3H8O: ['Isopropyl alcohol', 'Methoxyethane', 'Propanol'],
     C3H8OS2: ['Dimercaprol'],
     C3H8O2: ['Propylene glycol', 'Trimethylene glycol'],
     C3H8O3: ['Glycerol'],
