@@ -959,7 +959,7 @@ export default {
     C6H12O7: ['Gluconic acid'],
     C6H12S: ['Thiepane'],
     C6H13BO2: ['Pinacolborane'],
-    C6H13N: ['Azepane'],
+    C6H13N: ['Azepane', 'Cyclohexylamine'],
     C6H13NO2: ['Leucine', 'Isoleucine', 'Norleucine', 'Β-Leucine'],
     C6H13NO2S: ['Ethionine'],
     C6H13NO4: ['Perosamine'],
