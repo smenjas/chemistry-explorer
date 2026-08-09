@@ -1999,6 +1999,7 @@ export default {
     C16H13N3O3: ['Mebendazole'],
     C16H14F3N3O2S: ['Lansoprazole', 'Dexlansoprazole'],
     C16H14F3N5O: ['Voriconazole'],
+    C16H14O2: ['Benzyl cinnamate'],
     C16H14O3: ['Ketoprofen'],
     C16H14O5: ['Sakuranetin'],
     C16H14O6: ['Haematoxylin', 'Hesperetin', 'Homoeriodictyol', 'Sterubin'],
