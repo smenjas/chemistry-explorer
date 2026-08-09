@@ -1978,6 +1978,7 @@ export default {
     C15H28O7P2: ['Farnesyl pyrophosphate'],
     C15H30O2: ['Pentadecylic acid'],
     C15H32: ['Pentadecane'],
+    C15H34BrN: ['Laurtrimonium bromide'],
 
     C16H6O6: ['BPDA'],
     C16H7Na3O10S3: ['Pyranine'],
@@ -2163,6 +2164,7 @@ export default {
     C17H34O2: ['Margaric acid'],
     C17H35N: ['Solenopsin'],
     C17H36: ['Heptadecane'],
+    C17H38BrN: ['Tetradonium bromide'],
 
     C18H9NNa2O8S2: ['Quinoline yellow WS'],
     C18H10N2O4: ['3,8-Dimethyl-2,7-dihydrobenzo[1,2,3-cd:4,5,6-c′d′]diindole-4,5,9,10-tetrone'],
