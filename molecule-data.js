@@ -560,6 +560,7 @@ export default {
     C4H2Na2O4: ['Sodium fumarate'],
     C4H2K2O4: ['Potassium fumarate'],
     C4H2O4Ca: ['Calcium fumarate'],
+    C4H3NO2: ['Maleimide'],
     C4H3FN2O2: ['Fluorouracil'],
     C4H3BrN2O2: ['5-Bromouracil'],
     C4H3F7O: ['Sevoflurane'],
