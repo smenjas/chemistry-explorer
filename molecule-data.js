@@ -3764,6 +3764,7 @@ export default {
     NH4Cl: ['Ammonium chloride'],
     NH4Br: ['Ammonium bromide'],
     NH4I: ['Ammonium iodide'],
+    NH5F2: ['Ammonium bifluoride'],
     NH5S: ['Ammonium hydrosulfide'],
     NH6O4P: ['Ammonium dihydrogen phosphate'],
     NH6O4As: ['Ammonium dihydrogen arsenate'],
