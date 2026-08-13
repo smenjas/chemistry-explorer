@@ -1266,6 +1266,7 @@ export default {
     C9H15N2O15P3: ['Uridine triphosphate'],
     C9H15N3O10P2: ['Deoxycytidine diphosphate'],
     C9H15N3O11P2: ['Cytidine diphosphate'],
+    C9H15N5O: ['Minoxidil'],
     C9H15N5O3: ['Tetrahydrobiopterin'],
     C9H16: ['Cyclononene'],
     C9H16ClN3O2: ['Lomustine'],
