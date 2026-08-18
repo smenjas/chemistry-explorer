@@ -1628,6 +1628,7 @@ export default {
     C12H18O: ['Propofol'],
     C12H18O2: ['2,5-Dimethoxy-p-cymene', '4-Hexylresorcinol'],
     C12H18O3: ['Vibralactone D', 'Vibralactone K'],
+    C12H18O11: ['Ascorbyl glucoside'],
     C12H18O12CaMg2: ['Calcium magnesium acetate'],
     C12H18Ni: ['trans,trans,trans-(1,5,9-Cyclododecatriene)nickel(0)'],
     C12H19NO20S3: ['Heparin'],
