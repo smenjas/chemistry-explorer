@@ -1748,6 +1748,7 @@ export default {
     C13H20O: ['Damascone', 'Ionone'],
     C13H21NO3: ['Salbutamol'],
     C13H21NO4: ['Meteloidine'],
+    C13H21NO15S: ['Chondroitin sulfate'],
     C13H21N3S2: ['Vedaclidine'],
     C13H21N5O2: ['Tezampanel'],
     C13H22N4O3S: ['Ranitidine'],
