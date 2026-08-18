@@ -2783,6 +2783,7 @@ export default {
     C23H36N2O2: ['Finasteride'],
     C23H36O2: ['Cardanolide', 'Luteone'],
     C23H36O7: ['Pravastatin'],
+    C23H37NO5S: ['Leukotriene E4'],
     C23H38N7O17P3S: ['Acetyl-CoA'],
     C23H38O: ['Teprenone'],
     C23H38O4: ['2-Arachidonoylglycerol'],
