@@ -2868,6 +2868,7 @@ export default {
     C24H38N7O19P3S: ['Malonyl-CoA'],
     C24H38O4: ['Diethylhexyl phthalate', 'Dioctyl terephthalate'],
     C24H39NO7: ['Gigactonine', 'Vinervine'],
+    C24H40B2CaO24: ['Calcium fructoborate'],
     C24H40N7O17P3S: ['Propionyl-CoA'],
     C24H40O3: ['Lithocholic acid'],
     C24H40O4: ['Chenodeoxycholic acid', 'Deoxycholic acid'],
