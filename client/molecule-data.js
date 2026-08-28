@@ -1005,6 +1005,7 @@ export default {
     C6F6: ['Hexafluorobenzene'],
 
     C7H3ClF6N2O4S2: ['Comins\' reagent'],
+    C7H4Cl3NO3: ['Triclopyr'],
     C7H5NO: ['Anthranil', 'Benzisoxazole', 'Benzoxazole'],
     C7H5NO3S: ['Saccharin'],
     C7H5Cl2NO4S: ['Halazone'],
