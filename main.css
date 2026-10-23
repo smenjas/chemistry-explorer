@@ -619,7 +619,7 @@ table.isotopes td.synthetic a span.link:hover {
     }
 }
 
-@media only screen and (width >= 740) {
+@media only screen and (width >= 740px) {
     th,
     .all article .atomic {
         font-size: 1.0rem;
